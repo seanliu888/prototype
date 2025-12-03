@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>优惠码详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .info-row {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            width: 150px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        .info-value {
+            flex: 1;
+            color: #2c3e50;
+        }
+        .coupon-code-display {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+        }
+        .stat-box .number {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .stat-box .label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .progress-large {
+            height: 30px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            padding-bottom: 30px;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 25px;
+            bottom: -10px;
+            width: 2px;
+            background: #e9ecef;
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid;
+        }
+        .timeline-icon.locked {
+            background: #fff;
+            border-color: #f39c12;
+        }
+        .timeline-icon.deducted {
+            background: #fff;
+            border-color: #27ae60;
+        }
+        .timeline-icon.released {
+            background: #fff;
+            border-color: #95a5a6;
+        }
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+        }
+        .copy-btn {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .copy-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link active" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1><i class="bi bi-ticket-detailed me-2"></i>优惠码详情</h1>
+                        <small class="text-muted">券码ID: #20001</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2" onclick="window.location.href='coupon-list.html'">
+                            <i class="bi bi-arrow-left me-1"></i>返回列表
+                        </button>
+                        <button class="btn btn-primary" onclick="copyToClipboard()">
+                            <i class="bi bi-clipboard me-1"></i>复制券码
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- 基本信息 -->
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>基本信息</h5>
+                            <div class="info-row">
+                                <div class="info-label">券码</div>
+                                <div class="info-value">
+                                    <span class="coupon-code-display" id="couponCode">NXMJ-8K3H-PQ7W-2MXZ</span>
+                                    <button class="btn btn-sm btn-outline-primary ms-2 copy-btn" onclick="copyToClipboard()">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">券码ID</div>
+                                <div class="info-value"><strong>#20001</strong></div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">券码状态</div>
+                                <div class="info-value">
+                                    <span class="badge bg-success" style="font-size: 14px;">
+                                        <i class="bi bi-circle-fill"></i> 可用
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">生成时间</div>
+                                <div class="info-value">
+                                    <i class="bi bi-calendar-check text-primary"></i>
+                                    2025-11-21 12:30:45
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">最后更新</div>
+                                <div class="info-value">
+                                    <i class="bi bi-clock text-warning"></i>
+                                    2025-11-24 15:20:30
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 关联信息 -->
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-link-45deg me-2"></i>关联信息</h5>
+                            <div class="info-row">
+                                <div class="info-label">所属模板</div>
+                                <div class="info-value">
+                                    <a href="template-detail.html" class="text-decoration-none">
+                                        <strong>新人满减券</strong>
+                                    </a>
+                                    <br>
+                                    <small class="text-muted">模板ID: #10001</small>
+                                    <br>
+                                    <span class="badge bg-success mt-1">现金券</span>
+                                    <span class="badge bg-danger mt-1">¥30</span>
+                                    <span class="badge bg-info mt-1">满¥100可用</span>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">所属批次</div>
+                                <div class="info-value">
+                                    <a href="batch-detail.html" class="text-decoration-none">
+                                        <strong>BATCH-20251121123045</strong>
+                                    </a>
+                                    <br>
+                                    <small class="text-muted">生成时间: 2025-11-21 12:30:45</small>
+                                    <br>
+                                    <small class="text-muted">操作人: 张三 (UID: 1001)</small>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">模板有效期</div>
+                                <div class="info-value">
+                                    <i class="bi bi-calendar-range text-success"></i>
+                                    2025-11-01 00:00:00 至 2025-12-31 23:59:59
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 使用历史 -->
+                        <div class="content-card">
+                            <h5 class="mb-3">
+                                <i class="bi bi-clock-history me-2"></i>使用历史
+                                <span class="badge bg-secondary">最近10条</span>
+                            </h5>
+                            
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-icon deducted"></div>
+                                    <div class="timeline-content">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong class="text-success">
+                                                    <i class="bi bi-check-circle-fill"></i> 核销成功
+                                                </strong>
+                                            </div>
+                                            <small class="text-muted">2025-11-24 15:20:30</small>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <small class="text-muted">订单号:</small>
+                                                <div><strong>ORD-202511241520301234</strong></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="text-muted">用户ID:</small>
+                                                <div><strong>USER-8765</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-icon locked"></div>
+                                    <div class="timeline-content">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong class="text-warning">
+                                                    <i class="bi bi-lock-fill"></i> 预占锁定
+                                                </strong>
+                                            </div>
+                                            <small class="text-muted">2025-11-24 15:18:25</small>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <small class="text-muted">订单号:</small>
+                                                <div><strong>ORD-202511241520301234</strong></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="text-muted">用户ID:</small>
+                                                <div><strong>USER-8765</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-icon deducted"></div>
+                                    <div class="timeline-content">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong class="text-success">
+                                                    <i class="bi bi-check-circle-fill"></i> 核销成功
+                                                </strong>
+                                            </div>
+                                            <small class="text-muted">2025-11-24 10:35:18</small>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <small class="text-muted">订单号:</small>
+                                                <div><strong>ORD-202511241035180987</strong></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="text-muted">用户ID:</small>
+                                                <div><strong>USER-5432</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-icon released"></div>
+                                    <div class="timeline-content">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong class="text-secondary">
+                                                    <i class="bi bi-unlock-fill"></i> 锁定释放
+                                                </strong>
+                                            </div>
+                                            <small class="text-muted">2025-11-23 18:45:22</small>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <small class="text-muted">订单号:</small>
+                                                <div><strong>ORD-202511231830220456</strong></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="text-muted">释放原因:</small>
+                                                <div><strong>订单超时取消</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-icon locked"></div>
+                                    <div class="timeline-content">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong class="text-warning">
+                                                    <i class="bi bi-lock-fill"></i> 预占锁定
+                                                </strong>
+                                            </div>
+                                            <small class="text-muted">2025-11-23 18:30:22</small>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <small class="text-muted">订单号:</small>
+                                                <div><strong>ORD-202511231830220456</strong></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="text-muted">用户ID:</small>
+                                                <div><strong>USER-3210</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <a href="usage-log.html" class="btn btn-outline-primary">
+                                    <i class="bi bi-list-ul me-1"></i>查看完整记录
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧统计 -->
+                    <div class="col-md-4">
+                        <!-- 使用统计 -->
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-bar-chart me-2"></i>使用统计</h5>
+                            <div class="stat-box mb-3">
+                                <div class="label">最大使用次数</div>
+                                <div class="number text-primary">1,000</div>
+                            </div>
+                            <div class="stat-box mb-3">
+                                <div class="label">已使用次数</div>
+                                <div class="number text-success">658</div>
+                            </div>
+                            <div class="stat-box mb-3">
+                                <div class="label">当前锁定次数</div>
+                                <div class="number text-warning">23</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="label">剩余可用次数</div>
+                                <div class="number text-info">319</div>
+                            </div>
+                        </div>
+
+                        <!-- 使用进度 -->
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-speedometer2 me-2"></i>使用进度</h5>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>已使用</span>
+                                    <strong class="text-success">65.8%</strong>
+                                </div>
+                                <div class="progress progress-large">
+                                    <div class="progress-bar bg-success" role="progressbar" 
+                                         style="width: 65.8%" aria-valuenow="658" aria-valuemin="0" aria-valuemax="1000">
+                                        658 / 1000
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>锁定中</span>
+                                    <strong class="text-warning">2.3%</strong>
+                                </div>
+                                <div class="progress progress-large">
+                                    <div class="progress-bar bg-warning" role="progressbar" 
+                                         style="width: 2.3%" aria-valuenow="23" aria-valuemin="0" aria-valuemax="1000">
+                                        23
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>剩余</span>
+                                    <strong class="text-info">31.9%</strong>
+                                </div>
+                                <div class="progress progress-large">
+                                    <div class="progress-bar bg-info" role="progressbar" 
+                                         style="width: 31.9%" aria-valuenow="319" aria-valuemin="0" aria-valuemax="1000">
+                                        319
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 操作按钮 -->
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-gear me-2"></i>操作</h5>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" onclick="window.location.href='template-detail.html'">
+                                    <i class="bi bi-file-earmark-text me-2"></i>查看模板详情
+                                </button>
+                                <button class="btn btn-info" onclick="window.location.href='batch-detail.html'">
+                                    <i class="bi bi-collection me-2"></i>查看批次详情
+                                </button>
+                                <button class="btn btn-success" onclick="window.location.href='usage-log.html'">
+                                    <i class="bi bi-clock-history me-2"></i>完整使用记录
+                                </button>
+                                <button class="btn btn-primary" onclick="copyToClipboard()">
+                                    <i class="bi bi-clipboard me-2"></i>复制券码
+                                </button>
+                                <button class="btn btn-warning" onclick="disableCoupon()">
+                                    <i class="bi bi-ban me-2"></i>禁用券码
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="deleteCoupon()">
+                                    <i class="bi bi-trash me-2"></i>删除券码
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 提示信息 -->
+                        <div class="alert alert-info">
+                            <i class="bi bi-lightbulb"></i>
+                            <strong>使用说明：</strong>
+                            <ul class="mb-0 mt-2" style="font-size: 13px;">
+                                <li>此券码支持多次使用</li>
+                                <li>每次使用前会先预占锁定</li>
+                                <li>订单取消后会自动释放</li>
+                                <li>核销后次数不可恢复</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 复制券码到剪贴板
+        function copyToClipboard() {
+            const couponCode = document.getElementById('couponCode').textContent;
+            
+            // 创建临时输入框
+            const tempInput = document.createElement('input');
+            tempInput.value = couponCode;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('券码已复制到剪贴板: ' + couponCode);
+            } catch (err) {
+                alert('复制失败，请手动复制');
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        // 禁用券码
+        function disableCoupon() {
+            if (confirm('确定要禁用此券码吗？\n\n禁用后该券码将无法使用，但已锁定的订单不受影响。')) {
+                alert('券码已禁用！（这是一个静态演示）');
+                // 实际应用中调用 API
+                // fetch('/api/coupon/disable/20001', { method: 'POST' })
+            }
+        }
+
+        // 删除券码
+        function deleteCoupon() {
+            if (confirm('确定要删除此券码吗？\n\n⚠️ 警告：删除操作不可恢复！\n建议使用禁用功能代替删除。')) {
+                if (confirm('再次确认：真的要删除吗？')) {
+                    alert('券码已删除！（这是一个静态演示）');
+                    window.location.href = 'coupon-list.html';
+                }
+            }
+        }
+
+        // 页面加载时的动画效果
+        window.onload = function() {
+            console.log('优惠码详情页加载完成');
+            // 可以添加一些统计图表或动画效果
+        };
+    </script>
+</body>
+</html>
+
+
+

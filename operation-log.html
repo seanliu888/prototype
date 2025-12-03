@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>操作日志</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .operation-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .log-content {
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+        }
+        .timeline-indicator {
+            width: 3px;
+            height: 30px;
+            background: #e9ecef;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link active" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <h1><i class="bi bi-journal-text me-2"></i>操作日志</h1>
+                    <small class="text-muted">记录管理员的所有操作行为，用于审计和问题追踪</small>
+                </div>
+
+                <div class="content-card">
+                    <!-- 筛选区 -->
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">操作类型</label>
+                                <select class="form-select">
+                                    <option value="">全部类型</option>
+                                    <option value="CREATE_TEMPLATE">创建模板</option>
+                                    <option value="UPDATE_TEMPLATE">编辑模板</option>
+                                    <option value="DELETE_TEMPLATE">删除模板</option>
+                                    <option value="GENERATE_COUPON">生成券码</option>
+                                    <option value="DISABLE_BATCH">禁用批次</option>
+                                    <option value="EXPORT_DATA">导出数据</option>
+                                    <option value="LOGIN">登录系统</option>
+                                    <option value="LOGOUT">退出系统</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">操作人</label>
+                                <select class="form-select">
+                                    <option value="">全部操作人</option>
+                                    <option value="zhangsan">张三</option>
+                                    <option value="lisi">李四</option>
+                                    <option value="wangwu">王五</option>
+                                    <option value="zhaoliu">赵六</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">操作结果</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="SUCCESS">成功</option>
+                                    <option value="FAILED">失败</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">开始时间</label>
+                                <input type="datetime-local" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">结束时间</label>
+                                <input type="datetime-local" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary flex-grow-1">
+                                        <i class="bi bi-search me-1"></i>查询
+                                    </button>
+                                    <button class="btn btn-outline-secondary" onclick="exportLogs()" title="导出日志">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 统计卡片 -->
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <div class="text-center p-3 bg-primary bg-opacity-10 rounded">
+                                <i class="bi bi-journal-text text-primary fs-4"></i>
+                                <div class="mt-2"><strong class="fs-5">3,542</strong></div>
+                                <div class="text-muted small">今日操作总数</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center p-3 bg-success bg-opacity-10 rounded">
+                                <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                                <div class="mt-2"><strong class="fs-5">3,489</strong></div>
+                                <div class="text-muted small">成功操作数</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center p-3 bg-danger bg-opacity-10 rounded">
+                                <i class="bi bi-x-circle-fill text-danger fs-4"></i>
+                                <div class="mt-2"><strong class="fs-5">53</strong></div>
+                                <div class="text-muted small">失败操作数</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center p-3 bg-info bg-opacity-10 rounded">
+                                <i class="bi bi-people-fill text-info fs-4"></i>
+                                <div class="mt-2"><strong class="fs-5">12</strong></div>
+                                <div class="text-muted small">活跃用户数</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="60">日志ID</th>
+                                    <th width="140">操作时间</th>
+                                    <th width="100">操作人</th>
+                                    <th width="130">操作类型</th>
+                                    <th>操作内容</th>
+                                    <th width="120">操作对象</th>
+                                    <th width="100">IP地址</th>
+                                    <th width="80">结果</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#50125</td>
+                                    <td>
+                                        <strong>2025-11-21 14:35:28</strong><br>
+                                        <small class="text-muted">2分钟前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>张三</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-success text-white">
+                                            <i class="bi bi-qr-code"></i> 生成券码
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            为模板"新人满减券"(#10001)生成500个券码，每码可用1000次
+                                        </div>
+                                        <small class="text-muted">批次编号: BATCH-20251121123045</small>
+                                    </td>
+                                    <td>
+                                        <a href="batch-detail.html" class="text-decoration-none">
+                                            <small>批次 #1001</small>
+                                        </a>
+                                    </td>
+                                    <td><code>192.168.1.100</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50124</td>
+                                    <td>
+                                        <strong>2025-11-21 14:20:15</strong><br>
+                                        <small class="text-muted">17分钟前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>李四</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-primary text-white">
+                                            <i class="bi bi-plus-circle"></i> 创建模板
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            创建优惠券模板"新人专享折扣券"，类型:折扣券，力度:0.8折
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="template-detail.html" class="text-decoration-none">
+                                            <small>模板 #10008</small>
+                                        </a>
+                                    </td>
+                                    <td><code>192.168.1.105</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50123</td>
+                                    <td>
+                                        <strong>2025-11-21 13:55:42</strong><br>
+                                        <small class="text-muted">42分钟前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>王五</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-warning text-white">
+                                            <i class="bi bi-pencil"></i> 编辑模板
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            修改模板"周年庆优惠券"(#10003)的有效期至2025-12-31
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="template-detail.html" class="text-decoration-none">
+                                            <small>模板 #10003</small>
+                                        </a>
+                                    </td>
+                                    <td><code>192.168.1.88</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50122</td>
+                                    <td>
+                                        <strong>2025-11-21 13:30:18</strong><br>
+                                        <small class="text-muted">1小时前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>张三</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-info text-white">
+                                            <i class="bi bi-download"></i> 导出数据
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            导出批次 BATCH-20251120163022 的券码数据，共200条
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="batch-detail.html" class="text-decoration-none">
+                                            <small>批次 #1004</small>
+                                        </a>
+                                    </td>
+                                    <td><code>192.168.1.100</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50121</td>
+                                    <td>
+                                        <strong>2025-11-21 12:45:33</strong><br>
+                                        <small class="text-muted">1小时前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>赵六</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-danger text-white">
+                                            <i class="bi bi-pause-circle"></i> 禁用批次
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            禁用批次 BATCH-20251115093012，原因：活动已结束
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="batch-detail.html" class="text-decoration-none">
+                                            <small>批次 #0985</small>
+                                        </a>
+                                    </td>
+                                    <td><code>192.168.1.120</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50120</td>
+                                    <td>
+                                        <strong>2025-11-21 11:30:25</strong><br>
+                                        <small class="text-muted">3小时前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>李四</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-success text-white">
+                                            <i class="bi bi-qr-code"></i> 生成券码
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            为模板"限时抢购券"(#10004)生成800个券码，每码可用800次
+                                        </div>
+                                        <small class="text-muted">批次编号: BATCH-20251121100830</small>
+                                    </td>
+                                    <td>
+                                        <a href="batch-detail.html" class="text-decoration-none">
+                                            <small>批次 #1003</small>
+                                        </a>
+                                    </td>
+                                    <td><code>192.168.1.105</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr class="table-danger">
+                                    <td>#50119</td>
+                                    <td>
+                                        <strong>2025-11-21 10:15:42</strong><br>
+                                        <small class="text-muted">4小时前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>张三</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-success text-white">
+                                            <i class="bi bi-qr-code"></i> 生成券码
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content text-danger">
+                                            尝试为模板"过期模板"(#10002)生成券码失败
+                                        </div>
+                                        <small class="text-danger">
+                                            <i class="bi bi-exclamation-triangle"></i>
+                                            错误：模板已过期，无法生成券码
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <small>模板 #10002</small>
+                                    </td>
+                                    <td><code>192.168.1.100</code></td>
+                                    <td><span class="badge bg-danger">失败</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50118</td>
+                                    <td>
+                                        <strong>2025-11-21 09:20:18</strong><br>
+                                        <small class="text-muted">5小时前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>王五</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-secondary text-white">
+                                            <i class="bi bi-box-arrow-in-right"></i> 登录系统
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            管理员登录系统
+                                        </div>
+                                    </td>
+                                    <td>-</td>
+                                    <td><code>192.168.1.88</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50117</td>
+                                    <td>
+                                        <strong>2025-11-21 09:00:05</strong><br>
+                                        <small class="text-muted">5小时前</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>张三</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-secondary text-white">
+                                            <i class="bi bi-box-arrow-in-right"></i> 登录系统
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            管理员登录系统
+                                        </div>
+                                    </td>
+                                    <td>-</td>
+                                    <td><code>192.168.1.100</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#50116</td>
+                                    <td>
+                                        <strong>2025-11-20 18:30:45</strong><br>
+                                        <small class="text-muted">昨天</small>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-person-circle text-primary me-1"></i>
+                                        <strong>李四</strong>
+                                    </td>
+                                    <td>
+                                        <span class="operation-badge bg-secondary text-white">
+                                            <i class="bi bi-box-arrow-right"></i> 退出系统
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="log-content">
+                                            管理员退出系统
+                                        </div>
+                                    </td>
+                                    <td>-</td>
+                                    <td><code>192.168.1.105</code></td>
+                                    <td><span class="badge bg-success">成功</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">
+                            显示第 1 到 10 条记录，共 256,842 条
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">上一页</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                <li class="page-item"><a class="page-link" href="#">25685</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">下一页</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- 说明卡片 -->
+                <div class="content-card mt-4">
+                    <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>操作日志说明</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>记录范围</h6>
+                            <ul class="mb-3">
+                                <li><strong>模板管理：</strong>创建、编辑、删除优惠券模板</li>
+                                <li><strong>券码管理：</strong>生成券码、禁用批次、导出数据</li>
+                                <li><strong>系统操作：</strong>登录、退出系统</li>
+                                <li><strong>其他操作：</strong>查询、导出报表等</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>日志用途</h6>
+                            <ul class="mb-3">
+                                <li><strong>审计追溯：</strong>查询谁在什么时间做了什么操作</li>
+                                <li><strong>问题排查：</strong>定位异常操作和错误原因</li>
+                                <li><strong>合规要求：</strong>满足数据安全和审计要求</li>
+                                <li><strong>行为分析：</strong>分析管理员操作习惯和系统使用情况</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-lightbulb me-2"></i>
+                        <strong>提示：</strong>
+                        操作日志默认保留180天，重要日志可永久保留。建议定期导出日志用于长期存档。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function exportLogs() {
+            alert('导出操作日志\n\n将导出筛选条件下的所有日志记录为CSV文件\n\n这是一个静态演示页面。');
+        }
+    </script>
+</body>
+</html>
+
+
+

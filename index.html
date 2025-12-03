@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>优惠券管理系统 - 后台管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .quick-action {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid #e9ecef;
+        }
+        .quick-action:hover {
+            border-color: #3498db;
+            box-shadow: 0 4px 12px rgba(52,152,219,0.2);
+        }
+        .quick-action i {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <h1><i class="bi bi-house-door me-2"></i>首页概览</h1>
+                    <small class="text-muted">欢迎使用优惠券管理系统</small>
+                </div>
+
+                <!-- 统计卡片 -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">优惠券模板</div>
+                                    <div class="stat-number text-primary">25</div>
+                                    <small class="text-success"><i class="bi bi-arrow-up"></i> 3 本周新增</small>
+                                </div>
+                                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">已生成券码</div>
+                                    <div class="stat-number text-success">12,580</div>
+                                    <small class="text-muted">可用: 8,245</small>
+                                </div>
+                                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                                    <i class="bi bi-ticket-detailed"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">已核销次数</div>
+                                    <div class="stat-number text-warning">3,842</div>
+                                    <small class="text-muted">今日: 156</small>
+                                </div>
+                                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                                    <i class="bi bi-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">锁定中</div>
+                                    <div class="stat-number text-danger">493</div>
+                                    <small class="text-muted">待核销/释放</small>
+                                </div>
+                                <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+                                    <i class="bi bi-lock-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 快捷操作 -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="page-header">
+                            <h5 class="mb-0">快捷操作</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href="template-create.html" class="text-decoration-none">
+                            <div class="quick-action">
+                                <i class="bi bi-plus-circle-fill"></i>
+                                <h6 class="mt-2 mb-0">创建优惠券模板</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="coupon-generate.html" class="text-decoration-none">
+                            <div class="quick-action">
+                                <i class="bi bi-qr-code"></i>
+                                <h6 class="mt-2 mb-0">生成优惠码</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="coupon-list.html" class="text-decoration-none">
+                            <div class="quick-action">
+                                <i class="bi bi-search"></i>
+                                <h6 class="mt-2 mb-0">查询优惠码</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="usage-log.html" class="text-decoration-none">
+                            <div class="quick-action">
+                                <i class="bi bi-list-check"></i>
+                                <h6 class="mt-2 mb-0">查看使用记录</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="chrome-test.html" class="text-decoration-none">
+                            <div class="quick-action">
+                                <i class="bi bi-browser-chrome"></i>
+                                <h6 class="mt-2 mb-0">Chrome 兼容性测试</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 最近活动 -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="page-header">
+                            <h5 class="mb-0">最近活动</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="stat-card">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>时间</th>
+                                        <th>操作</th>
+                                        <th>描述</th>
+                                        <th>操作人</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2025-11-21 14:35</td>
+                                        <td><span class="badge bg-success">生成券码</span></td>
+                                        <td>为"双十一满减券"生成了500个券码</td>
+                                        <td>张三</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-11-21 13:20</td>
+                                        <td><span class="badge bg-primary">创建模板</span></td>
+                                        <td>创建了"新人专享折扣券"模板</td>
+                                        <td>李四</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-11-21 11:15</td>
+                                        <td><span class="badge bg-warning">修改模板</span></td>
+                                        <td>修改了"周年庆优惠券"的有效期</td>
+                                        <td>王五</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-11-21 09:45</td>
+                                        <td><span class="badge bg-success">生成券码</span></td>
+                                        <td>为"限时抢购券"生成了1000个券码</td>
+                                        <td>张三</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-11-20 16:30</td>
+                                        <td><span class="badge bg-primary">创建模板</span></td>
+                                        <td>创建了"会员专属券"模板</td>
+                                        <td>李四</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

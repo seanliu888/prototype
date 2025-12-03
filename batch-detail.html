@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>批次详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .info-row {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            width: 150px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        .info-value {
+            flex: 1;
+            color: #2c3e50;
+        }
+        .batch-no {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        .stat-box .number {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .stat-box .label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .chart-mini {
+            height: 200px;
+            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link active" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1><i class="bi bi-layers me-2"></i>批次详情</h1>
+                        <small class="text-muted">批次ID: #1001</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2" onclick="window.location.href='batch-list.html'">
+                            <i class="bi bi-arrow-left me-1"></i>返回列表
+                        </button>
+                        <button class="btn btn-success" onclick="exportBatch()">
+                            <i class="bi bi-download me-1"></i>导出数据
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- 批次基本信息 -->
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-info-circle me-2"></i>批次基本信息</h5>
+                            <div class="info-row">
+                                <div class="info-label">批次编号</div>
+                                <div class="info-value">
+                                    <span class="batch-no">BATCH-20251121123045</span>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">关联模板</div>
+                                <div class="info-value">
+                                    <a href="template-detail.html" class="text-decoration-none">
+                                        <strong>新人满减券</strong> (#10001)
+                                    </a><br>
+                                    <span class="badge bg-success mt-1">现金券</span>
+                                    <span class="text-danger ms-2"><strong>¥30</strong></span>
+                                    <small class="text-muted ms-2">满¥100可用</small>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">生成数量</div>
+                                <div class="info-value">
+                                    <strong class="text-primary" style="font-size: 20px;">500</strong> 个券码
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">每码可用次数</div>
+                                <div class="info-value">
+                                    <strong style="font-size: 18px;">1,000</strong> 次/码
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">总可用次数</div>
+                                <div class="info-value">
+                                    <strong class="text-info" style="font-size: 20px;">500,000</strong> 次
+                                    <br><small class="text-muted">= 生成数量 × 每码可用次数</small>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">生成时间</div>
+                                <div class="info-value">
+                                    <i class="bi bi-calendar-check text-success"></i>
+                                    <strong>2025-11-21 12:30:45</strong>
+                                    <br><small class="text-muted">1天前</small>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">操作人</div>
+                                <div class="info-value">
+                                    <i class="bi bi-person-circle text-primary"></i>
+                                    <strong>张三</strong> (ID: 1001)
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">批次备注</div>
+                                <div class="info-value">
+                                    双十一活动第一批发放
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">批次状态</div>
+                                <div class="info-value">
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-circle-fill"></i> 活跃
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 券码列表预览 -->
+                        <div class="content-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0"><i class="bi bi-ticket-detailed me-2"></i>批次券码列表（前5条）</h5>
+                                <button class="btn btn-sm btn-primary" onclick="window.location.href='batch-coupons.html'">
+                                    查看全部券码 <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>券码</th>
+                                            <th>使用进度</th>
+                                            <th>状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>NXMJ-8K3H-PQ7W-2MXZ</code></td>
+                                            <td>
+                                                <div class="progress" style="height: 15px; width: 150px;">
+                                                    <div class="progress-bar bg-success" style="width: 65.8%">658/1000</div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-success">可用</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>NXMJ-5T9N-XR4L-8HGF</code></td>
+                                            <td>
+                                                <div class="progress" style="height: 15px; width: 150px;">
+                                                    <div class="progress-bar bg-danger" style="width: 100%">1000/1000</div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-danger">已用尽</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>NXMJ-6W9P-LH5X-2TKN</code></td>
+                                            <td>
+                                                <div class="progress" style="height: 15px; width: 150px;">
+                                                    <div class="progress-bar bg-warning" style="width: 92.3%">923/1000</div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-warning">即将用尽</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>NXMJ-7R4M-QK9P-5JXH</code></td>
+                                            <td>
+                                                <div class="progress" style="height: 15px; width: 150px;">
+                                                    <div class="progress-bar" style="width: 45.2%">452/1000</div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-success">可用</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>NXMJ-3T8L-WN6C-9VFR</code></td>
+                                            <td>
+                                                <div class="progress" style="height: 15px; width: 150px;">
+                                                    <div class="progress-bar bg-info" style="width: 12.5%">125/1000</div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-success">可用</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center text-muted mt-2">
+                                <small>显示前5条记录，共500条 · <a href="batch-coupons.html">查看全部</a></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 统计数据 -->
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-bar-chart me-2"></i>使用统计</h5>
+                            <div class="stat-box mb-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                <div class="label" style="color: rgba(255,255,255,0.9);">总可用次数</div>
+                                <div class="number">500,000</div>
+                            </div>
+                            <div class="stat-box mb-3" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                                <div class="label" style="color: rgba(255,255,255,0.9);">已核销次数</div>
+                                <div class="number">328,542</div>
+                                <small style="color: rgba(255,255,255,0.8);">使用率: 65.7%</small>
+                            </div>
+                            <div class="stat-box mb-3" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">
+                                <div class="label" style="color: rgba(255,255,255,0.9);">锁定次数</div>
+                                <div class="number">11,628</div>
+                                <small style="color: rgba(255,255,255,0.8);">待核销/释放</small>
+                            </div>
+                            <div class="stat-box" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); color: white;">
+                                <div class="label" style="color: rgba(255,255,255,0.9);">剩余可用</div>
+                                <div class="number">159,830</div>
+                                <small style="color: rgba(255,255,255,0.8);">可用率: 32.0%</small>
+                            </div>
+                        </div>
+
+                        <!-- 券码状态分布 -->
+                        <div class="content-card">
+                            <h6 class="mb-3"><i class="bi bi-pie-chart me-2"></i>券码状态分布</h6>
+                            <div class="chart-mini mb-3">
+                                <div class="text-center">
+                                    <i class="bi bi-pie-chart" style="font-size: 36px; opacity: 0.3;"></i>
+                                    <p class="mt-2 mb-0"><small>饼图占位符</small></p>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <div class="badge bg-success mb-1" style="width: 100%; padding: 8px;">可用</div>
+                                    <div><strong>326</strong></div>
+                                    <div class="text-muted small">65.2%</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="badge bg-danger mb-1" style="width: 100%; padding: 8px;">已用尽</div>
+                                    <div><strong>158</strong></div>
+                                    <div class="text-muted small">31.6%</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="badge bg-secondary mb-1" style="width: 100%; padding: 8px;">已过期</div>
+                                    <div><strong>16</strong></div>
+                                    <div class="text-muted small">3.2%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 快捷操作 -->
+                        <div class="content-card">
+                            <h6 class="mb-3"><i class="bi bi-gear me-2"></i>操作</h6>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" onclick="window.location.href='batch-coupons.html'">
+                                    <i class="bi bi-ticket-detailed me-2"></i>查看全部券码
+                                </button>
+                                <button class="btn btn-info" onclick="window.location.href='template-detail.html'">
+                                    <i class="bi bi-file-earmark-text me-2"></i>查看关联模板
+                                </button>
+                                <button class="btn btn-secondary" onclick="window.location.href='usage-log.html'">
+                                    <i class="bi bi-clock-history me-2"></i>查看使用记录
+                                </button>
+                                <button class="btn btn-success" onclick="exportBatch()">
+                                    <i class="bi bi-download me-2"></i>导出批次数据
+                                </button>
+                                <button class="btn btn-warning" onclick="disableBatch()">
+                                    <i class="bi bi-pause-circle me-2"></i>禁用批次
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="deleteBatch()">
+                                    <i class="bi bi-trash me-2"></i>删除批次
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function exportBatch() {
+            alert('导出批次数据\n\n包括批次信息和所有券码的使用情况\n\n这是一个静态演示页面。');
+        }
+
+        function disableBatch() {
+            if (confirm('确定要禁用此批次吗？\n\n禁用后该批次的所有券码将无法使用。')) {
+                alert('批次已禁用（这是一个静态演示）');
+            }
+        }
+
+        function deleteBatch() {
+            if (confirm('确定要删除此批次吗？\n\n⚠️ 警告：删除操作不可恢复！\n删除批次不会删除已生成的券码，但会失去批次统计信息。')) {
+                if (confirm('再次确认：真的要删除此批次吗？')) {
+                    alert('批次已删除（这是一个静态演示）');
+                    window.location.href = 'batch-list.html';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+

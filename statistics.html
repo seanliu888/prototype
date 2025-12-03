@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>数据统计</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .stat-card-lg {
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card-lg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+        .stat-number-lg {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .stat-label-lg {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+        .ranking-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        .ranking-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+        .ranking-1 .ranking-number {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+        }
+        .ranking-2 .ranking-number {
+            background: linear-gradient(135deg, #C0C0C0 0%, #808080 100%);
+            color: white;
+        }
+        .ranking-3 .ranking-number {
+            background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+            color: white;
+        }
+        .ranking-number-default {
+            background: #dee2e6;
+            color: #495057;
+        }
+        .filter-tabs {
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        .filter-tabs .nav-link {
+            color: #7f8c8d;
+            border: none;
+            padding: 12px 20px;
+            margin-right: 10px;
+            position: relative;
+        }
+        .filter-tabs .nav-link.active {
+            color: #3498db;
+            font-weight: 600;
+        }
+        .filter-tabs .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link active" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-bar-chart-fill me-2"></i>数据统计分析</h1>
+                        <small class="text-muted">优惠券使用情况和效果分析</small>
+                    </div>
+                    <div>
+                        <select class="form-select" style="width: auto;">
+                            <option>今日</option>
+                            <option>最近7天</option>
+                            <option selected>最近30天</option>
+                            <option>本月</option>
+                            <option>自定义时间</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 核心指标 -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-card-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <div class="stat-label-lg">总核销次数</div>
+                            <div class="stat-number-lg">3,842</div>
+                            <div>
+                                <i class="bi bi-arrow-up"></i> 较上期增长 <strong>18.5%</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card-lg" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                            <div class="stat-label-lg">核销金额</div>
+                            <div class="stat-number-lg">¥125K</div>
+                            <div>
+                                <i class="bi bi-arrow-up"></i> 较上期增长 <strong>22.3%</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card-lg" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                            <div class="stat-label-lg">使用率</div>
+                            <div class="stat-number-lg">30.5%</div>
+                            <div>
+                                <i class="bi bi-arrow-down"></i> 较上期下降 <strong>2.1%</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card-lg" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
+                            <div class="stat-label-lg">核销转化率</div>
+                            <div class="stat-number-lg">87.5%</div>
+                            <div>
+                                <i class="bi bi-arrow-up"></i> 较上期增长 <strong>3.2%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 趋势图表 -->
+                <div class="content-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>使用趋势</h5>
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">核销次数</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">核销金额</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">使用率</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="chart-placeholder">
+                        <div class="text-center">
+                            <i class="bi bi-graph-up" style="font-size: 48px; opacity: 0.3;"></i>
+                            <p class="mt-2">趋势图表占位符<br><small>实际使用时可集成 ECharts、Chart.js 等图表库</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- 模板排行 -->
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-trophy me-2"></i>模板使用排行</h5>
+                            
+                            <div class="ranking-item ranking-1">
+                                <div class="ranking-number">1</div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>新人满减券</strong>
+                                        <span class="text-primary"><strong>1,524次</strong></span>
+                                    </div>
+                                    <div class="progress mt-2" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ranking-item ranking-2">
+                                <div class="ranking-number">2</div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>限时抢购券</strong>
+                                        <span class="text-primary"><strong>982次</strong></span>
+                                    </div>
+                                    <div class="progress mt-2" style="height: 8px;">
+                                        <div class="progress-bar bg-secondary" style="width: 64.4%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ranking-item ranking-3">
+                                <div class="ranking-number">3</div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>会员专属券</strong>
+                                        <span class="text-primary"><strong>756次</strong></span>
+                                    </div>
+                                    <div class="progress mt-2" style="height: 8px;">
+                                        <div class="progress-bar" style="width: 49.6%; background: #CD7F32;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ranking-item">
+                                <div class="ranking-number ranking-number-default">4</div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>周年庆专享券</strong>
+                                        <span class="text-primary"><strong>432次</strong></span>
+                                    </div>
+                                    <div class="progress mt-2" style="height: 8px;">
+                                        <div class="progress-bar bg-info" style="width: 28.3%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ranking-item">
+                                <div class="ranking-number ranking-number-default">5</div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>双十一狂欢券</strong>
+                                        <span class="text-primary"><strong>148次</strong></span>
+                                    </div>
+                                    <div class="progress mt-2" style="height: 8px;">
+                                        <div class="progress-bar bg-success" style="width: 9.7%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 状态分布 -->
+                    <div class="col-md-6">
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-pie-chart me-2"></i>券码状态分布</h5>
+                            <div class="chart-placeholder" style="height: 250px;">
+                                <div class="text-center">
+                                    <i class="bi bi-pie-chart" style="font-size: 48px; opacity: 0.3;"></i>
+                                    <p class="mt-2">饼图占位符<br><small>显示可用/已用尽/已过期券码占比</small></p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-4 text-center">
+                                    <div class="badge bg-success mb-2" style="width: 100%; padding: 10px;">可用</div>
+                                    <div><strong class="fs-5">8,245</strong></div>
+                                    <div class="text-muted small">65.5%</div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="badge bg-danger mb-2" style="width: 100%; padding: 10px;">已用尽</div>
+                                    <div><strong class="fs-5">3,842</strong></div>
+                                    <div class="text-muted small">30.5%</div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="badge bg-secondary mb-2" style="width: 100%; padding: 10px;">已过期</div>
+                                    <div><strong class="fs-5">493</strong></div>
+                                    <div class="text-muted small">4.0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 详细数据表 -->
+                <div class="content-card">
+                    <h5 class="mb-3"><i class="bi bi-table me-2"></i>模板效果详细数据</h5>
+                    
+                    <ul class="nav filter-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">全部模板</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">现金券</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">折扣券</a>
+                        </li>
+                    </ul>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>模板名称</th>
+                                    <th>类型</th>
+                                    <th>生成券码数</th>
+                                    <th>总可用次数</th>
+                                    <th>已核销次数</th>
+                                    <th>锁定次数</th>
+                                    <th>使用率</th>
+                                    <th>核销金额</th>
+                                    <th>核销转化率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>新人满减券</strong></td>
+                                    <td><span class="badge bg-success">现金券</span></td>
+                                    <td>1,000</td>
+                                    <td>1,000,000</td>
+                                    <td><strong class="text-success">658,425</strong></td>
+                                    <td><strong class="text-warning">23,128</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 80px;">
+                                            <div class="progress-bar" style="width: 65.8%">65.8%</div>
+                                        </div>
+                                    </td>
+                                    <td><strong>¥45,280</strong></td>
+                                    <td><strong class="text-success">89.2%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>限时抢购券</strong></td>
+                                    <td><span class="badge bg-info">折扣券</span></td>
+                                    <td>800</td>
+                                    <td>640,000</td>
+                                    <td><strong class="text-success">456,234</strong></td>
+                                    <td><strong class="text-warning">15,892</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 80px;">
+                                            <div class="progress-bar bg-warning" style="width: 71.3%">71.3%</div>
+                                        </div>
+                                    </td>
+                                    <td><strong>¥38,920</strong></td>
+                                    <td><strong class="text-success">92.5%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>会员专属券</strong></td>
+                                    <td><span class="badge bg-success">现金券</span></td>
+                                    <td>500</td>
+                                    <td>500,000</td>
+                                    <td><strong class="text-success">156,890</strong></td>
+                                    <td><strong class="text-warning">8,456</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 80px;">
+                                            <div class="progress-bar bg-info" style="width: 31.4%">31.4%</div>
+                                        </div>
+                                    </td>
+                                    <td><strong>¥25,670</strong></td>
+                                    <td><strong class="text-success">85.8%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>周年庆专享券</strong></td>
+                                    <td><span class="badge bg-success">现金券</span></td>
+                                    <td>300</td>
+                                    <td>150,000</td>
+                                    <td><strong class="text-success">125,456</strong></td>
+                                    <td><strong class="text-warning">3,234</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 80px;">
+                                            <div class="progress-bar bg-success" style="width: 83.6%">83.6%</div>
+                                        </div>
+                                    </td>
+                                    <td><strong>¥12,450</strong></td>
+                                    <td><strong class="text-success">94.3%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>双十一狂欢券</strong></td>
+                                    <td><span class="badge bg-info">折扣券</span></td>
+                                    <td>200</td>
+                                    <td>200,000</td>
+                                    <td><strong class="text-success">200,000</strong></td>
+                                    <td><strong class="text-warning">0</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 80px;">
+                                            <div class="progress-bar bg-danger" style="width: 100%">100%</div>
+                                        </div>
+                                    </td>
+                                    <td><strong>¥18,960</strong></td>
+                                    <td><strong class="text-success">88.7%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 用户行为分析 -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h6 class="mb-3"><i class="bi bi-clock me-2"></i>核销时段分布</h6>
+                            <div class="chart-placeholder" style="height: 200px;">
+                                <div class="text-center">
+                                    <i class="bi bi-bar-chart" style="font-size: 36px; opacity: 0.3;"></i>
+                                    <p class="mt-2 mb-0"><small>柱状图占位符</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h6 class="mb-3"><i class="bi bi-people me-2"></i>用户类型分布</h6>
+                            <div class="chart-placeholder" style="height: 200px;">
+                                <div class="text-center">
+                                    <i class="bi bi-pie-chart-fill" style="font-size: 36px; opacity: 0.3;"></i>
+                                    <p class="mt-2 mb-0"><small>饼图占位符</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h6 class="mb-3"><i class="bi bi-cart me-2"></i>订单金额分布</h6>
+                            <div class="chart-placeholder" style="height: 200px;">
+                                <div class="text-center">
+                                    <i class="bi bi-graph-up-arrow" style="font-size: 36px; opacity: 0.3;"></i>
+                                    <p class="mt-2 mb-0"><small>区间分布图占位符</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

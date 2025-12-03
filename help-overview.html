@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>系统概述 - 使用说明</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <link rel="stylesheet" href="help-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link active" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <!-- 面包屑导航 -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="help.html">使用说明</a></li>
+                        <li class="breadcrumb-item active">系统概述</li>
+                    </ol>
+                </nav>
+
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1><i class="bi bi-house-fill me-2"></i>系统概述</h1>
+                            <small class="text-muted">了解优惠券管理系统的核心功能</small>
+                        </div>
+                        <a href="help.html" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>返回目录
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="help-text">
+                        <p>优惠券管理系统是一个功能完善的营销工具，帮助您高效管理优惠券的全生命周期。从创建模板、生成券码到自动化营销活动，一站式解决您的优惠券运营需求。</p>
+                        
+                        <div class="section-title mt-4">
+                            <i class="bi bi-grid-fill"></i>
+                            核心功能
+                        </div>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <h6>模板管理</h6>
+                                <p>灵活配置优惠券类型、金额、使用条件</p>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-qr-code"></i>
+                                <h6>券码生成</h6>
+                                <p>按需批量生成唯一优惠券码</p>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-megaphone-fill"></i>
+                                <h6>营销活动</h6>
+                                <p>配置自动化发券规则</p>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                <h6>数据分析</h6>
+                                <p>全面的使用统计和报表</p>
+                            </div>
+                        </div>
+
+                        <div class="section-title mt-4">
+                            <i class="bi bi-diagram-3-fill"></i>
+                            系统架构
+                        </div>
+                        <p>系统采用模块化设计，主要包含以下核心模块：</p>
+                        <ul>
+                            <li><strong>模板配置模块</strong>：管理优惠券模板，定义优惠规则</li>
+                            <li><strong>发券管理模块</strong>：包括优惠码管理、批次管理和营销活动</li>
+                            <li><strong>数据分析模块</strong>：使用记录、数据统计和操作日志</li>
+                        </ul>
+
+                        <div class="tip-box">
+                            <div class="tip-title"><i class="bi bi-lightbulb"></i>核心概念</div>
+                            <div class="tip-content">
+                                <strong>模板</strong>定义优惠券的规则，<strong>优惠码</strong>是根据模板按需生成的具体券码。一个模板可以关联多个营销活动，系统会在用户触发条件时自动生成并发放优惠码。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 下一篇导航 -->
+                <div class="d-flex justify-content-between">
+                    <div></div>
+                    <a href="help-quick-start.html" class="btn btn-primary">
+                        下一篇：快速入门 <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

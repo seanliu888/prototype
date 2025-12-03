@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>生成优惠码</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e9ecef;
+            z-index: 0;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            color: #95a5a6;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .step.active .step-circle {
+            background: #3498db;
+            color: white;
+        }
+        .step.completed .step-circle {
+            background: #27ae60;
+            color: white;
+        }
+        .step-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .step.active .step-label {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .template-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .result-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .coupon-code-item {
+            background: white;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e9ecef;
+        }
+        .required-mark {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link active" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <h1><i class="bi bi-qr-code me-2"></i>生成优惠码</h1>
+                    <small class="text-muted">为优惠券模板批量生成可分发的券码</small>
+                </div>
+
+                <div class="content-card">
+                    <!-- 步骤指示器 -->
+                    <div class="step-indicator">
+                        <div class="step active" id="step1">
+                            <div class="step-circle">1</div>
+                            <div class="step-label">选择模板</div>
+                        </div>
+                        <div class="step" id="step2">
+                            <div class="step-circle">2</div>
+                            <div class="step-label">配置参数</div>
+                        </div>
+                        <div class="step" id="step3">
+                            <div class="step-circle">3</div>
+                            <div class="step-label">生成结果</div>
+                        </div>
+                    </div>
+
+                    <!-- 第一步：选择模板 -->
+                    <div id="stepContent1">
+                        <h5 class="mb-3">选择优惠券模板</h5>
+                        <div class="info-box">
+                            <i class="bi bi-info-circle me-2"></i>
+                            请选择一个已创建的优惠券模板，系统将根据该模板的规则生成券码
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">优惠券模板<span class="required-mark">*</span></label>
+                            <select class="form-select" id="templateSelect" onchange="showTemplateInfo()">
+                                <option value="">请选择模板</option>
+                                <option value="10001">新人满减券 - ¥30券（满¥100可用）</option>
+                                <option value="10003">周年庆专享券 - ¥50券（满¥300可用）</option>
+                                <option value="10004">限时抢购券 - 7.5折（满¥150可用）</option>
+                                <option value="10005">会员专属券 - ¥20券（满¥80可用）</option>
+                            </select>
+                        </div>
+
+                        <div id="templateInfoBox" style="display:none;">
+                            <div class="template-info">
+                                <h6 class="mb-3"><i class="bi bi-file-earmark-text me-2"></i>模板详情</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>模板名称：</strong><span id="infoName">-</span></p>
+                                        <p class="mb-2"><strong>优惠类型：</strong><span id="infoType">-</span></p>
+                                        <p class="mb-2"><strong>优惠力度：</strong><span id="infoValue">-</span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong>使用门槛：</strong><span id="infoThreshold">-</span></p>
+                                        <p class="mb-2"><strong>有效期：</strong><span id="infoValidity">-</span></p>
+                                        <p class="mb-2"><strong>适用范围：</strong><span id="infoScope">-</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <button class="btn btn-secondary me-2" onclick="window.location.href='template-list.html'">
+                                <i class="bi bi-x-circle me-1"></i>取消
+                            </button>
+                            <button class="btn btn-primary" onclick="nextStep(2)">
+                                下一步<i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 第二步：配置参数 -->
+                    <div id="stepContent2" style="display:none;">
+                        <h5 class="mb-3">配置生成参数</h5>
+                        <div class="info-box">
+                            <i class="bi bi-info-circle me-2"></i>
+                            设置需要生成的券码数量和每个券码的使用限制
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">生成数量<span class="required-mark">*</span></label>
+                                <input type="number" class="form-control" id="generateCount" 
+                                       placeholder="例如: 100" min="1" value="10">
+                                <small class="text-muted">需要生成多少个优惠码</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">每码可用次数<span class="required-mark">*</span></label>
+                                <input type="number" class="form-control" id="maxUsagePerCode" 
+                                       placeholder="例如: 1000" min="1" value="1000">
+                                <small class="text-muted">单个券码最多可被使用多少次</small>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <strong>注意：</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>券码一旦生成无法撤回，请谨慎设置生成数量</li>
+                                <li>每个券码可被多个用户使用，直到达到使用次数上限</li>
+                                <li>建议根据活动规模合理设置生成数量和使用次数</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button class="btn btn-secondary" onclick="prevStep(1)">
+                                <i class="bi bi-arrow-left me-1"></i>上一步
+                            </button>
+                            <button class="btn btn-success" onclick="generateCoupons()">
+                                <i class="bi bi-lightning-fill me-1"></i>开始生成
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 第三步：生成结果 -->
+                    <div id="stepContent3" style="display:none;">
+                        <h5 class="mb-3">生成完成</h5>
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle me-2"></i>
+                            <strong>成功！</strong> 已生成 <span id="resultCount">0</span> 个优惠码
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label mb-0">生成的优惠码列表</label>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary me-2" onclick="copyAllCodes()">
+                                        <i class="bi bi-clipboard me-1"></i>复制全部
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="exportCodes()">
+                                        <i class="bi bi-download me-1"></i>导出CSV
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="result-box" id="codesResultBox">
+                                <!-- 生成的券码将显示在这里 -->
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <i class="bi bi-lightbulb me-2"></i>
+                            <strong>下一步操作建议：</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>导出券码列表，通过短信、邮件等方式分发给用户</li>
+                                <li>将券码显示在APP或网站的活动页面供用户领取</li>
+                                <li>在优惠码管理页面查看券码的使用情况</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <button class="btn btn-secondary me-2" onclick="resetForm()">
+                                继续生成
+                            </button>
+                            <button class="btn btn-primary" onclick="window.location.href='coupon-list.html'">
+                                查看券码列表
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const templates = {
+            '10001': {
+                name: '新人满减券',
+                type: '现金券',
+                value: '¥30',
+                threshold: '满¥100可用',
+                validity: '2025-11-01 至 2025-12-31',
+                scope: '全场通用'
+            },
+            '10003': {
+                name: '周年庆专享券',
+                type: '现金券',
+                value: '¥50',
+                threshold: '满¥300可用',
+                validity: '2025-12-01 至 2025-12-15',
+                scope: '全场通用'
+            },
+            '10004': {
+                name: '限时抢购券',
+                type: '折扣券',
+                value: '7.5折',
+                threshold: '满¥150可用',
+                validity: '2025-11-20 至 2025-11-25',
+                scope: '指定商品'
+            },
+            '10005': {
+                name: '会员专属券',
+                type: '现金券',
+                value: '¥20',
+                threshold: '满¥80可用',
+                validity: '2025-11-15 至 2025-12-31',
+                scope: '全场通用'
+            }
+        };
+
+        function showTemplateInfo() {
+            const templateId = document.getElementById('templateSelect').value;
+            const infoBox = document.getElementById('templateInfoBox');
+            
+            if (templateId && templates[templateId]) {
+                const template = templates[templateId];
+                document.getElementById('infoName').textContent = template.name;
+                document.getElementById('infoType').innerHTML = `<span class="badge bg-success">${template.type}</span>`;
+                document.getElementById('infoValue').innerHTML = `<strong class="text-danger">${template.value}</strong>`;
+                document.getElementById('infoThreshold').textContent = template.threshold;
+                document.getElementById('infoValidity').textContent = template.validity;
+                document.getElementById('infoScope').innerHTML = `<span class="badge bg-info">${template.scope}</span>`;
+                infoBox.style.display = 'block';
+            } else {
+                infoBox.style.display = 'none';
+            }
+        }
+
+        function nextStep(step) {
+            if (step === 2) {
+                const templateId = document.getElementById('templateSelect').value;
+                if (!templateId) {
+                    alert('请先选择优惠券模板！');
+                    return;
+                }
+            }
+            
+            // 更新步骤指示器
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById('step' + i).classList.remove('active', 'completed');
+                document.getElementById('stepContent' + i).style.display = 'none';
+            }
+            
+            for (let i = 1; i < step; i++) {
+                document.getElementById('step' + i).classList.add('completed');
+            }
+            
+            document.getElementById('step' + step).classList.add('active');
+            document.getElementById('stepContent' + step).style.display = 'block';
+        }
+
+        function prevStep(step) {
+            nextStep(step);
+        }
+
+        function generateCoupons() {
+            const count = parseInt(document.getElementById('generateCount').value);
+            const maxUsage = parseInt(document.getElementById('maxUsagePerCode').value);
+            
+            if (!count || count < 1) {
+                alert('请输入有效的生成数量！');
+                return;
+            }
+            
+            if (!maxUsage || maxUsage < 1) {
+                alert('请输入有效的使用次数！');
+                return;
+            }
+            
+            // 模拟生成券码
+            const codes = [];
+            for (let i = 0; i < count; i++) {
+                codes.push(generateRandomCode());
+            }
+            
+            // 显示结果
+            document.getElementById('resultCount').textContent = count;
+            const resultBox = document.getElementById('codesResultBox');
+            resultBox.innerHTML = codes.map(code => 
+                `<div class="coupon-code-item">
+                    <span>${code}</span>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="copyCode('${code}')">
+                        <i class="bi bi-clipboard"></i>
+                    </button>
+                </div>`
+            ).join('');
+            
+            // 存储到全局变量供导出使用
+            window.generatedCodes = codes;
+            
+            nextStep(3);
+        }
+
+        function generateRandomCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 16; i++) {
+                if (i > 0 && i % 4 === 0) code += '-';
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert('券码已复制到剪贴板：' + code);
+            });
+        }
+
+        function copyAllCodes() {
+            if (window.generatedCodes) {
+                const allCodes = window.generatedCodes.join('\n');
+                navigator.clipboard.writeText(allCodes).then(() => {
+                    alert('所有券码已复制到剪贴板！');
+                });
+            }
+        }
+
+        function exportCodes() {
+            if (window.generatedCodes) {
+                const csv = '券码,状态,最大使用次数,已使用次数\n' + 
+                    window.generatedCodes.map(code => 
+                        `${code},AVAILABLE,${document.getElementById('maxUsagePerCode').value},0`
+                    ).join('\n');
+                
+                const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = '优惠码_' + new Date().getTime() + '.csv';
+                link.click();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('templateSelect').value = '';
+            document.getElementById('generateCount').value = '10';
+            document.getElementById('maxUsagePerCode').value = '1000';
+            showTemplateInfo();
+            nextStep(1);
+        }
+    </script>
+</body>
+</html>
+

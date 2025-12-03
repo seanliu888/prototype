@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>常见问题 - 使用说明</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <link rel="stylesheet" href="help-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link active" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <!-- 面包屑导航 -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="help.html">使用说明</a></li>
+                        <li class="breadcrumb-item active">常见问题</li>
+                    </ol>
+                </nav>
+
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1><i class="bi bi-question-circle-fill me-2"></i>常见问题</h1>
+                            <small class="text-muted">快速解答您的疑问</small>
+                        </div>
+                        <a href="help.html" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>返回目录
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="accordion" id="faqAccordion">
+                        <!-- 问题1 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    营销活动创建后为什么没有自动发券？
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    请检查以下几点：
+                                    <ol class="mt-2">
+                                        <li>活动状态是否为「进行中」，新创建的活动需要手动启用</li>
+                                        <li>当前时间是否在活动时间范围内</li>
+                                        <li>活动总发放量是否已达到上限</li>
+                                        <li>用户是否真的触发了设定的条件</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 问题2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    如何修改正在进行中的营销活动？
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    建议先暂停活动，完成修改后再重新启用。这样可以确保修改期间不会出现数据不一致的情况。某些字段（如触发条件类型）可能在活动已发放过券后无法修改。
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 问题3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    优惠券模板和优惠码有什么区别？
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <strong>模板</strong>定义了优惠券的规则（如优惠类型、金额、使用条件），是一个"模具"。<br><br>
+                                    <strong>优惠码</strong>是根据模板生成的具体券码，每个码都是唯一的，用户使用时输入优惠码进行核销。<br><br>
+                                    一个模板可以关联多个营销活动，系统会按需自动生成优惠码。
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 问题4 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    邀请活动中，双方奖励可以设置不同的优惠券吗？
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    可以。当选择「双方都奖励」时，系统会让您分别为邀请人和被邀请人选择不同的优惠券模板。例如邀请人获得50元券，被邀请人获得30元新人券。
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 问题5 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    删除营销活动后，已发放的优惠券会失效吗？
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    不会。删除活动只是停止后续的自动发券，已经发放到用户账户的优惠券不受影响，用户仍可以正常使用。
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 问题6 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    用户领取的优惠券有效期是怎么计算的？
+                                </button>
+                            </h2>
+                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    有效期取决于模板配置：
+                                    <ul class="mt-2">
+                                        <li><strong>设置了固定有效天数</strong>：自领取之日起 N 天内可使用</li>
+                                        <li><strong>未设置固定有效天数</strong>：截止时间为模板有效期或营销活动结束时间中的较晚者</li>
+                                    </ul>
+                                    <div class="alert alert-info mt-2 mb-0">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        特殊情况：当领取时间距最迟结束时间不足1天时，系统会自动将有效期设置为当前时间 + 1天，确保用户至少有1天的使用时间。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 问题7 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    如何限制用户重复参与活动？
+                                </button>
+                            </h2>
+                            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    在创建活动时，可以勾选「限制每人获得次数」选项，设置每个用户最多可以获得优惠券的次数。例如设置为1，则每个用户只能通过该活动获得1张优惠券。
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 问题8 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                                    <i class="bi bi-patch-question-fill text-primary me-2"></i>
+                                    什么是多语言字典功能？
+                                </button>
+                            </h2>
+                            <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    系统支持多语言显示。在填写活动名称或描述时，可以点击输入框左侧的 <i class="bi bi-book"></i> 按钮选择预设的多语言字典项。系统会根据用户的语言偏好自动显示对应语言的文案，无需为每种语言单独创建活动。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 联系支持 -->
+                <div class="content-card text-center">
+                    <i class="bi bi-headset" style="font-size: 40px; color: #3498db;"></i>
+                    <h5 class="mt-3">还有其他问题？</h5>
+                    <p class="text-muted mb-3">如果您在使用过程中遇到任何问题，请联系技术支持团队</p>
+                    <button class="btn btn-primary">
+                        <i class="bi bi-envelope me-2"></i>联系我们
+                    </button>
+                </div>
+
+                <!-- 上一篇导航 -->
+                <div class="d-flex justify-content-between">
+                    <a href="help-marketing-activity.html" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>上一篇：创建营销活动
+                    </a>
+                    <a href="help.html" class="btn btn-primary">
+                        返回目录 <i class="bi bi-house ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

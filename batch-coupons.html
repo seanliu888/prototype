@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>批次券码列表</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .batch-info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .batch-info-card .info-item {
+            padding: 8px 0;
+        }
+        .batch-info-card .info-label {
+            opacity: 0.9;
+            font-size: 13px;
+        }
+        .batch-info-card .info-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .coupon-code {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 13px;
+            color: #2c3e50;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .coupon-code:hover {
+            background: #e9ecef;
+        }
+        .stat-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        .progress-info {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+        .table-actions .btn {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .pagination-info {
+            background: #e9ecef;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .quick-stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        .quick-stat-box .number {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+        .quick-stat-box .label {
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link active" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <!-- 页头 -->
+                <div class="page-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1><i class="bi bi-collection me-2"></i>批次券码列表</h1>
+                        <small class="text-muted">查看批次下的所有优惠码</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2" onclick="window.location.href='batch-detail.html'">
+                            <i class="bi bi-arrow-left me-1"></i>返回批次详情
+                        </button>
+                        <button class="btn btn-success me-2" onclick="exportCoupons()">
+                            <i class="bi bi-download me-1"></i>导出券码
+                        </button>
+                        <button class="btn btn-primary" onclick="batchOperation()">
+                            <i class="bi bi-gear me-1"></i>批量操作
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 批次信息卡片 -->
+                <div class="batch-info-card">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="info-item">
+                                <div class="info-label">批次编号</div>
+                                <div class="info-value">BATCH-20251121123045</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-item">
+                                <div class="info-label">关联模板</div>
+                                <div class="info-value">新人满减券 (#10001)</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="info-item">
+                                <div class="info-label">券码总数</div>
+                                <div class="info-value">500 个</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="info-item">
+                                <div class="info-label">生成时间</div>
+                                <div class="info-value">2025-11-21 12:30</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="info-item">
+                                <div class="info-label">批次状态</div>
+                                <div class="info-value">
+                                    <i class="bi bi-circle-fill"></i> 活跃
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 快速统计 -->
+                <div class="quick-stats">
+                    <div class="quick-stat-box">
+                        <div class="label">总券码数</div>
+                        <div class="number text-primary">500</div>
+                    </div>
+                    <div class="quick-stat-box">
+                        <div class="label">可用券码</div>
+                        <div class="number text-success">326</div>
+                        <small class="text-muted">65.2%</small>
+                    </div>
+                    <div class="quick-stat-box">
+                        <div class="label">已用尽</div>
+                        <div class="number text-danger">158</div>
+                        <small class="text-muted">31.6%</small>
+                    </div>
+                    <div class="quick-stat-box">
+                        <div class="label">已过期</div>
+                        <div class="number text-secondary">16</div>
+                        <small class="text-muted">3.2%</small>
+                    </div>
+                </div>
+
+                <!-- 主内容 -->
+                <div class="content-card">
+                    <!-- 筛选区 -->
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">券码搜索</label>
+                                <input type="text" class="form-control" placeholder="输入券码关键字" id="searchCode">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">券码状态</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">全部状态</option>
+                                    <option value="AVAILABLE">可用</option>
+                                    <option value="FULLY_USED">已用尽</option>
+                                    <option value="EXPIRED">已过期</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">使用率筛选</label>
+                                <select class="form-select" id="usageFilter">
+                                    <option value="">全部</option>
+                                    <option value="high">高使用率 (>80%)</option>
+                                    <option value="medium">中等 (50%-80%)</option>
+                                    <option value="low">低使用率 (<50%)</option>
+                                    <option value="unused">未使用</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">排序方式</label>
+                                <select class="form-select" id="sortBy">
+                                    <option value="id">ID顺序</option>
+                                    <option value="usage_desc">使用率↓</option>
+                                    <option value="usage_asc">使用率↑</option>
+                                    <option value="remaining_desc">剩余次数↓</option>
+                                    <option value="remaining_asc">剩余次数↑</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary flex-fill" onclick="applyFilter()">
+                                        <i class="bi bi-search me-1"></i>查询
+                                    </button>
+                                    <button class="btn btn-outline-secondary" onclick="resetFilter()">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 批量操作栏 -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="selectAll()">
+                                <i class="bi bi-check-square"></i> 全选
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary me-2" onclick="selectNone()">
+                                <i class="bi bi-square"></i> 取消
+                            </button>
+                            <button class="btn btn-sm btn-outline-info me-2" onclick="selectReverse()">
+                                <i class="bi bi-arrow-left-right"></i> 反选
+                            </button>
+                            <span class="text-muted ms-2">
+                                已选择 <strong id="selectedCount">0</strong> 个券码
+                            </span>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-success" onclick="exportSelected()" disabled id="btnExport">
+                                <i class="bi bi-download me-1"></i>导出选中
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="batchDisable()" disabled id="btnDisable">
+                                <i class="bi bi-ban me-1"></i>禁用选中
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="40">
+                                        <input type="checkbox" class="form-check-input" id="checkAll" onchange="toggleAll()">
+                                    </th>
+                                    <th>券码ID</th>
+                                    <th>券码</th>
+                                    <th>最大次数</th>
+                                    <th>已使用</th>
+                                    <th>锁定中</th>
+                                    <th>剩余</th>
+                                    <th>使用进度</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="couponTableBody">
+                                <!-- 示例数据 -->
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input coupon-check" value="20001"></td>
+                                    <td>#20001</td>
+                                    <td>
+                                        <span class="coupon-code" onclick="copyCoupon('NXMJ-8K3H-PQ7W-2MXZ')" title="点击复制">
+                                            NXMJ-8K3H-PQ7W-2MXZ
+                                        </span>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><span class="stat-badge bg-success text-white">658</span></td>
+                                    <td><span class="stat-badge bg-warning text-dark">23</span></td>
+                                    <td><span class="stat-badge bg-info text-white">319</span></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 150px;">
+                                            <div class="progress-bar bg-success" role="progressbar" 
+                                                 style="width: 65.8%" aria-valuenow="658" aria-valuemin="0" aria-valuemax="1000">
+                                                65.8%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info">658/1000 已使用</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'" title="查看详情">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="copyCoupon('NXMJ-8K3H-PQ7W-2MXZ')" title="复制券码">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input coupon-check" value="20002"></td>
+                                    <td>#20002</td>
+                                    <td>
+                                        <span class="coupon-code" onclick="copyCoupon('NXMJ-5T9N-XR4L-8HGF')" title="点击复制">
+                                            NXMJ-5T9N-XR4L-8HGF
+                                        </span>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><span class="stat-badge bg-danger text-white">1000</span></td>
+                                    <td><span class="stat-badge bg-secondary text-white">0</span></td>
+                                    <td><span class="stat-badge bg-secondary text-white">0</span></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 150px;">
+                                            <div class="progress-bar bg-danger" role="progressbar" 
+                                                 style="width: 100%" aria-valuenow="1000" aria-valuemin="0" aria-valuemax="1000">
+                                                100%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info text-danger">已用尽</div>
+                                    </td>
+                                    <td><span class="badge bg-danger">已用尽</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'" title="查看详情">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="copyCoupon('NXMJ-5T9N-XR4L-8HGF')" title="复制券码">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input coupon-check" value="20003"></td>
+                                    <td>#20003</td>
+                                    <td>
+                                        <span class="coupon-code" onclick="copyCoupon('NXMJ-6W9P-LH5X-2TKN')" title="点击复制">
+                                            NXMJ-6W9P-LH5X-2TKN
+                                        </span>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><span class="stat-badge bg-warning text-dark">923</span></td>
+                                    <td><span class="stat-badge bg-warning text-dark">15</span></td>
+                                    <td><span class="stat-badge bg-info text-white">62</span></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 150px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" 
+                                                 style="width: 92.3%" aria-valuenow="923" aria-valuemin="0" aria-valuemax="1000">
+                                                92.3%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info text-warning">即将用尽</div>
+                                    </td>
+                                    <td><span class="badge bg-warning">即将用尽</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'" title="查看详情">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="copyCoupon('NXMJ-6W9P-LH5X-2TKN')" title="复制券码">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input coupon-check" value="20004"></td>
+                                    <td>#20004</td>
+                                    <td>
+                                        <span class="coupon-code" onclick="copyCoupon('NXMJ-7R4M-QK9P-5JXH')" title="点击复制">
+                                            NXMJ-7R4M-QK9P-5JXH
+                                        </span>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><span class="stat-badge bg-primary text-white">452</span></td>
+                                    <td><span class="stat-badge bg-warning text-dark">8</span></td>
+                                    <td><span class="stat-badge bg-info text-white">540</span></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 150px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" 
+                                                 style="width: 45.2%" aria-valuenow="452" aria-valuemin="0" aria-valuemax="1000">
+                                                45.2%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info">452/1000 已使用</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'" title="查看详情">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="copyCoupon('NXMJ-7R4M-QK9P-5JXH')" title="复制券码">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input coupon-check" value="20005"></td>
+                                    <td>#20005</td>
+                                    <td>
+                                        <span class="coupon-code" onclick="copyCoupon('NXMJ-3T8L-WN6C-9VFR')" title="点击复制">
+                                            NXMJ-3T8L-WN6C-9VFR
+                                        </span>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><span class="stat-badge bg-info text-white">125</span></td>
+                                    <td><span class="stat-badge bg-warning text-dark">2</span></td>
+                                    <td><span class="stat-badge bg-info text-white">873</span></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 150px;">
+                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                 style="width: 12.5%" aria-valuenow="125" aria-valuemin="0" aria-valuemax="1000">
+                                                12.5%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info">125/1000 已使用</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'" title="查看详情">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="copyCoupon('NXMJ-3T8L-WN6C-9VFR')" title="复制券码">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input coupon-check" value="20006"></td>
+                                    <td>#20006</td>
+                                    <td>
+                                        <span class="coupon-code" onclick="copyCoupon('NXMJ-9P2K-VX7N-4LRM')" title="点击复制">
+                                            NXMJ-9P2K-VX7N-4LRM
+                                        </span>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><span class="stat-badge bg-secondary text-white">0</span></td>
+                                    <td><span class="stat-badge bg-secondary text-white">0</span></td>
+                                    <td><span class="stat-badge bg-success text-white">1000</span></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 150px;">
+                                            <div class="progress-bar bg-secondary" role="progressbar" 
+                                                 style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1000">
+                                                未使用
+                                            </div>
+                                        </div>
+                                        <div class="progress-info text-muted">未使用</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'" title="查看详情">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="copyCoupon('NXMJ-9P2K-VX7N-4LRM')" title="复制券码">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="pagination-info">
+                            <span class="text-muted">显示</span>
+                            <strong>1-10</strong>
+                            <span class="text-muted">/ 共</span>
+                            <strong>500</strong>
+                            <span class="text-muted">条</span>
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                                <li class="page-item"><a class="page-link" href="#">50</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div>
+                            <select class="form-select form-select-sm" style="width: 100px;" onchange="changePageSize(this.value)">
+                                <option value="10" selected>10条/页</option>
+                                <option value="20">20条/页</option>
+                                <option value="50">50条/页</option>
+                                <option value="100">100条/页</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 全选/取消全选
+        function toggleAll() {
+            const checkAll = document.getElementById('checkAll');
+            const checkboxes = document.querySelectorAll('.coupon-check');
+            checkboxes.forEach(cb => cb.checked = checkAll.checked);
+            updateSelectedCount();
+        }
+
+        // 全选
+        function selectAll() {
+            document.querySelectorAll('.coupon-check').forEach(cb => cb.checked = true);
+            document.getElementById('checkAll').checked = true;
+            updateSelectedCount();
+        }
+
+        // 取消全选
+        function selectNone() {
+            document.querySelectorAll('.coupon-check').forEach(cb => cb.checked = false);
+            document.getElementById('checkAll').checked = false;
+            updateSelectedCount();
+        }
+
+        // 反选
+        function selectReverse() {
+            document.querySelectorAll('.coupon-check').forEach(cb => cb.checked = !cb.checked);
+            updateSelectedCount();
+        }
+
+        // 更新选中数量
+        function updateSelectedCount() {
+            const count = document.querySelectorAll('.coupon-check:checked').length;
+            document.getElementById('selectedCount').textContent = count;
+            
+            // 启用/禁用批量操作按钮
+            const hasSelection = count > 0;
+            document.getElementById('btnExport').disabled = !hasSelection;
+            document.getElementById('btnDisable').disabled = !hasSelection;
+        }
+
+        // 监听所有券码复选框
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.coupon-check').forEach(cb => {
+                cb.addEventListener('change', updateSelectedCount);
+            });
+        });
+
+        // 复制券码
+        function copyCoupon(code) {
+            const tempInput = document.createElement('input');
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                document.execCommand('copy');
+                // 显示提示
+                const el = event.target;
+                const originalText = el.textContent;
+                el.textContent = '已复制!';
+                el.style.background = '#d4edda';
+                setTimeout(() => {
+                    el.textContent = originalText;
+                    el.style.background = '';
+                }, 1000);
+            } catch (err) {
+                alert('复制失败，请手动复制');
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        // 导出券码
+        function exportCoupons() {
+            alert('导出全部券码\n\n导出格式：Excel / CSV\n包含所有券码及使用情况\n\n这是一个静态演示页面。');
+        }
+
+        // 导出选中
+        function exportSelected() {
+            const count = document.querySelectorAll('.coupon-check:checked').length;
+            alert(`导出选中的 ${count} 个券码\n\n导出格式：Excel / CSV\n\n这是一个静态演示页面。`);
+        }
+
+        // 批量禁用
+        function batchDisable() {
+            const count = document.querySelectorAll('.coupon-check:checked').length;
+            if (confirm(`确定要禁用选中的 ${count} 个券码吗？\n\n禁用后这些券码将无法使用。`)) {
+                alert(`已禁用 ${count} 个券码（这是一个静态演示）`);
+                selectNone();
+            }
+        }
+
+        // 批量操作
+        function batchOperation() {
+            const count = document.querySelectorAll('.coupon-check:checked').length;
+            if (count === 0) {
+                alert('请先选择要操作的券码');
+                return;
+            }
+            alert(`批量操作功能\n\n已选择 ${count} 个券码\n可执行：导出、禁用、删除等操作\n\n这是一个静态演示页面。`);
+        }
+
+        // 应用筛选
+        function applyFilter() {
+            const searchCode = document.getElementById('searchCode').value;
+            const status = document.getElementById('statusFilter').value;
+            const usage = document.getElementById('usageFilter').value;
+            const sort = document.getElementById('sortBy').value;
+            
+            console.log('筛选条件:', { searchCode, status, usage, sort });
+            alert('正在应用筛选条件...\n\n这是一个静态演示页面。实际使用时会调用API重新加载数据。');
+        }
+
+        // 重置筛选
+        function resetFilter() {
+            document.getElementById('searchCode').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('usageFilter').value = '';
+            document.getElementById('sortBy').value = 'id';
+            alert('筛选条件已重置');
+        }
+
+        // 切换每页数量
+        function changePageSize(size) {
+            console.log('切换每页显示数量:', size);
+            alert(`切换为每页显示 ${size} 条记录\n\n这是一个静态演示页面。`);
+        }
+    </script>
+</body>
+</html>
+
+
+

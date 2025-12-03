@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>创建营销活动 - 使用说明</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <link rel="stylesheet" href="help-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link active" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <!-- 面包屑导航 -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="help.html">使用说明</a></li>
+                        <li class="breadcrumb-item active">创建营销活动</li>
+                    </ol>
+                </nav>
+
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1><i class="bi bi-megaphone-fill me-2"></i>创建并开启营销活动</h1>
+                            <small class="text-muted">配置自动发券规则，实现精准营销</small>
+                        </div>
+                        <a href="help.html" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>返回目录
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="help-text">
+                        <p>营销活动可以实现自动化发券，当用户满足特定条件时（如注册、下单、邀请好友等），系统将自动为其发放优惠券。以下是创建营销活动的详细步骤：</p>
+                    </div>
+                </div>
+
+                <!-- 步骤1 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">1</div>
+                        <div>
+                            <h4 class="mb-1">进入营销活动页面</h4>
+                            <p class="text-muted mb-0">在左侧导航栏点击「发券管理」→「营销活动」，进入活动列表页面，然后点击右上角的「创建活动」按钮。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">营销活动管理</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div style="font-size: 18px; font-weight: 600; color: #2c3e50;">
+                                    <i class="bi bi-megaphone text-primary me-2"></i>营销活动管理
+                                </div>
+                                <div class="mock-button primary" style="cursor: pointer;">
+                                    <i class="bi bi-plus-circle me-1"></i>创建活动
+                                </div>
+                            </div>
+                            <div class="mock-card">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>邀请好友得优惠券</strong>
+                                        <span class="mock-badge success ms-2">进行中</span>
+                                    </div>
+                                    <small class="text-muted">2025-11-01 至 2025-12-31</small>
+                                </div>
+                            </div>
+                            <div class="mock-card" style="opacity: 0.6;">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>双十一特惠活动</strong>
+                                        <span class="mock-badge" style="background:#e2e3e5;color:#383d41;">已停止</span>
+                                    </div>
+                                    <small class="text-muted">2025-11-01 至 2025-11-15</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤2 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">2</div>
+                        <div>
+                            <h4 class="mb-1">填写基本信息</h4>
+                            <p class="text-muted mb-0">输入活动名称和描述。系统支持多语言字典，点击输入框左侧的图书按钮可选择预设的多语言文案。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">创建营销活动 - 基本信息</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-info-circle-fill"></i>基本信息
+                                </div>
+                                <div class="mock-input-label">活动名称 <span style="color:#e74c3c;">*</span></div>
+                                <div class="d-flex gap-2 mb-3">
+                                    <div style="width: 40px; height: 38px; background: #f8f9fa; border: 1px solid #ced4da; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-book text-secondary"></i>
+                                    </div>
+                                    <div class="mock-input flex-grow-1">邀请好友送优惠券活动</div>
+                                </div>
+                                <div class="mock-input-label">活动描述</div>
+                                <div class="d-flex gap-2">
+                                    <div style="width: 40px; height: 80px; background: #f8f9fa; border: 1px solid #ced4da; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-book text-secondary"></i>
+                                    </div>
+                                    <div class="mock-input flex-grow-1" style="height: 80px;">邀请好友注册成功，双方均可获得优惠券奖励</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <div class="tip-title"><i class="bi bi-translate"></i>多语言支持</div>
+                        <div class="tip-content">
+                            点击输入框左侧的 <i class="bi bi-book"></i> 按钮，可从字典中选择预设的多语言文案，系统会根据用户语言偏好自动显示对应语言。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤3 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">3</div>
+                        <div>
+                            <h4 class="mb-1">设置触发条件</h4>
+                            <p class="text-muted mb-0">选择触发自动发券的条件。系统支持多种触发场景，包括用户行为触发和邀请活动触发。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">创建营销活动 - 触发条件</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-lightning-charge-fill"></i>触发条件
+                                </div>
+                                <div class="mock-input-label">触发条件 <span style="color:#e74c3c;">*</span></div>
+                                <div class="mock-select mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>邀请好友注册成功</span>
+                                        <i class="bi bi-chevron-down text-muted"></i>
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-light rounded" style="font-size: 13px;">
+                                    <strong>可选触发条件：</strong>
+                                    <div class="row mt-2">
+                                        <div class="col-6">
+                                            <div class="mb-1">· 用户注册</div>
+                                            <div class="mb-1">· 用户首次下单</div>
+                                            <div class="mb-1">· 单笔订单满指定金额</div>
+                                            <div>· 用户生日</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="mb-1">· 邀请好友注册成功</div>
+                                            <div class="mb-1">· 邀请好友完成首单</div>
+                                            <div>· 邀请好友消费满额</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤4 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">4</div>
+                        <div>
+                            <h4 class="mb-1">配置奖励设置</h4>
+                            <p class="text-muted mb-0">选择奖励对象（邀请活动可选择奖励邀请人、被邀请人或双方），然后关联要发放的优惠券模板。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">创建营销活动 - 奖励设置</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-gift-fill"></i>奖励设置
+                                </div>
+                                
+                                <div class="mock-input-label mb-2">奖励对象 <span style="color:#e74c3c;">*</span></div>
+                                <div class="row mb-3">
+                                    <div class="col-4">
+                                        <div class="mock-card text-center" style="border-color: #dee2e6;">
+                                            <i class="bi bi-person"></i>
+                                            <div style="font-size: 13px;">仅奖励邀请人</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="mock-card text-center" style="border-color: #dee2e6;">
+                                            <i class="bi bi-person-plus"></i>
+                                            <div style="font-size: 13px;">仅奖励被邀请人</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="mock-card text-center" style="border-color: #3498db; background: #e3f2fd;">
+                                            <i class="bi bi-people-fill text-primary"></i>
+                                            <div style="font-size: 13px; color: #1976d2;"><strong>双方都奖励</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">邀请人奖励模板</div>
+                                        <div class="mock-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px;">
+                                            <div style="font-size: 14px; font-weight: 600;"><i class="bi bi-gift me-1"></i>邀请好友专享券</div>
+                                            <div style="font-size: 12px; opacity: 0.9;">满¥200减¥50</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">被邀请人奖励模板</div>
+                                        <div class="mock-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 12px;">
+                                            <div style="font-size: 14px; font-weight: 600;"><i class="bi bi-gift me-1"></i>新人满减券</div>
+                                            <div style="font-size: 12px; opacity: 0.9;">满¥100减¥30</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip-box" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); border-left-color: #9c27b0;">
+                        <div class="tip-title"><i class="bi bi-clock-history"></i>优惠券有效期说明</div>
+                        <div class="tip-content">
+                            用户领取优惠券后的有效使用时间取决于模板配置：
+                            <ul class="mb-0 mt-2">
+                                <li><strong>设置了「固定有效天数」</strong>：用户领取后，自领取之日起 N 天内可使用<br>
+                                    <span class="text-muted" style="font-size: 13px;">例如：设置7天，用户12月1日领取，则12月8日前可使用</span>
+                                </li>
+                                <li><strong>未设置固定有效天数</strong>：有效期截止时间为模板有效期或营销活动结束时间中的<strong>较晚者</strong><br>
+                                    <span class="text-muted" style="font-size: 13px;">例如：模板有效期至12月31日，活动结束时间为12月15日，则优惠券12月31日失效</span><br>
+                                    <span class="text-muted" style="font-size: 13px;"><i class="bi bi-info-circle me-1"></i>特殊情况：当领取时间距最迟结束时间不足1天时，系统会自动将有效期设置为当前时间 + 1天，确保用户至少有1天的使用时间</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤5 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">5</div>
+                        <div>
+                            <h4 class="mb-1">设置限制条件</h4>
+                            <p class="text-muted mb-0">根据需要配置限制条件，控制活动成本。可以限制每人最多获得次数和活动总发放量。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">创建营销活动 - 限制条件</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-shield-check"></i>限制条件
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" checked disabled>
+                                        <label class="form-check-label" style="font-size: 14px;">
+                                            <strong>限制每人获得次数</strong>
+                                        </label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2 mt-2 ms-4">
+                                        <span style="font-size: 13px;">每人最多获得</span>
+                                        <div class="mock-input" style="width: 80px; margin: 0; text-align: center;">5</div>
+                                        <span style="font-size: 13px;">次</span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" checked disabled>
+                                        <label class="form-check-label" style="font-size: 14px;">
+                                            <strong>限制活动总发放量</strong>
+                                        </label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2 mt-2 ms-4">
+                                        <span style="font-size: 13px;">活动总发放上限</span>
+                                        <div class="mock-input" style="width: 100px; margin: 0; text-align: center;">10,000</div>
+                                        <span style="font-size: 13px;">张</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤6 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">6</div>
+                        <div>
+                            <h4 class="mb-1">设置活动时间并提交</h4>
+                            <p class="text-muted mb-0">设置活动的开始和结束时间，确认配置无误后点击「创建活动」按钮提交。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">创建营销活动 - 活动时间</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-calendar-event"></i>活动时间
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">开始时间 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="mock-input">2025-12-01 00:00</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">结束时间 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="mock-input">2025-12-31 23:59</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                    <div class="mock-button secondary">
+                                        <i class="bi bi-x-circle me-1"></i>取消
+                                    </div>
+                                    <div class="mock-button primary">
+                                        <i class="bi bi-check-circle me-1"></i>创建活动
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤7 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">7</div>
+                        <div>
+                            <h4 class="mb-1">启用活动</h4>
+                            <p class="text-muted mb-0">活动创建后默认处于「已停止」状态。回到活动列表，点击操作菜单中的「启用活动」即可开启自动发券。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">营销活动列表 - 启用活动</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong><i class="bi bi-people-fill text-primary me-2"></i>邀请好友送优惠券活动</strong>
+                                        <span class="mock-badge success ms-2">进行中</span>
+                                    </div>
+                                    <div class="dropdown">
+                                        <div class="mock-button secondary" style="padding: 6px 12px;">
+                                            操作 <i class="bi bi-chevron-down ms-1"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2" style="font-size: 13px; color: #666;">
+                                    <span class="me-3"><i class="bi bi-tag me-1"></i>邀请好友注册</span>
+                                    <span class="me-3"><i class="bi bi-calendar me-1"></i>2025-12-01 至 2025-12-31</span>
+                                    <span><i class="bi bi-bar-chart me-1"></i>已发放: 0 / 10,000</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 p-3 bg-light rounded" style="font-size: 13px;">
+                                <strong>操作菜单选项：</strong>
+                                <div class="mt-2 d-flex gap-3 flex-wrap">
+                                    <span><i class="bi bi-eye text-primary me-1"></i>查看详情</span>
+                                    <span><i class="bi bi-pencil text-warning me-1"></i>编辑</span>
+                                    <span><i class="bi bi-pause-circle text-secondary me-1"></i>暂停活动</span>
+                                    <span><i class="bi bi-play-circle text-success me-1"></i>启用活动</span>
+                                    <span><i class="bi bi-copy text-info me-1"></i>复制活动</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip-box success">
+                        <div class="tip-title"><i class="bi bi-check-circle"></i>完成！</div>
+                        <div class="tip-content">
+                            活动启用后，系统将自动监听触发条件。当用户满足条件时，优惠券会自动发放到用户账户。您可以在活动详情页面查看发放记录和统计数据。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动管理操作 -->
+                <div class="content-card">
+                    <div class="section-title">
+                        <i class="bi bi-gear-fill"></i>
+                        活动管理操作
+                    </div>
+                    <div class="help-text">
+                        <p>活动创建后，您可以进行以下管理操作：</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>查看详情</strong>：查看活动配置和发放统计</li>
+                                    <li><strong>编辑活动</strong>：修改活动配置（建议先暂停再编辑）</li>
+                                    <li><strong>暂停/启用</strong>：随时控制活动状态</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>复制活动</strong>：基于现有活动快速创建新活动</li>
+                                    <li><strong>删除活动</strong>：删除不需要的活动（已发放的券不受影响）</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 上下篇导航 -->
+                <div class="d-flex justify-content-between">
+                    <a href="help-coupon.html" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>上一篇：生成与管理优惠码
+                    </a>
+                    <a href="help-faq.html" class="btn btn-primary">
+                        下一篇：常见问题 <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

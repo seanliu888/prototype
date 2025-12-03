@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>创建营销活动</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .form-section-title i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        .help-text {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .required-mark {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
+        .template-selector {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .template-selector:hover {
+            border-color: #3498db;
+            background-color: #f8f9fa;
+        }
+        .template-selector.selected {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        .template-selector input[type="radio"] {
+            margin-right: 10px;
+        }
+        .template-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .template-detail {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .preview-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        .preview-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        .preview-item {
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .preview-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .reward-option {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .reward-option:hover {
+            border-color: #3498db;
+        }
+        .reward-option.selected {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        .dict-item {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .dict-item:hover {
+            border-color: #3498db;
+            background-color: #f8f9fa;
+        }
+        .dict-item.selected {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        .dict-item .dict-key {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            color: #6c757d;
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .dict-item .dict-preview {
+            margin-top: 8px;
+            font-size: 13px;
+        }
+        .dict-item .dict-preview .lang-tag {
+            display: inline-block;
+            width: 24px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            font-size: 10px;
+            border-radius: 3px;
+            margin-right: 5px;
+            color: white;
+            font-weight: 600;
+        }
+        .dict-item .dict-preview .lang-zh { background: #e74c3c; }
+        .dict-item .dict-preview .lang-en { background: #3498db; }
+        .dict-item .dict-preview .lang-ja { background: #e67e22; }
+        .dict-item .dict-preview .lang-es { background: #27ae60; }
+        .input-group .btn-outline-secondary {
+            border-color: #ced4da;
+        }
+        .input-group .btn-outline-secondary:hover {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+        .dict-type-item {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .dict-type-item:hover {
+            border-color: #3498db;
+            background-color: #f8f9fa;
+        }
+        .dict-type-item .dict-type-key {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            color: #3498db;
+        }
+        .dict-type-item .dict-type-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .dict-type-item .dict-type-count {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link active" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <h1><i class="bi bi-plus-circle me-2"></i>创建营销活动</h1>
+                    <small class="text-muted">配置自动发券规则，提升用户活跃度</small>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="content-card">
+                            <form id="activityForm">
+                                <!-- 基本信息 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-info-circle-fill"></i>
+                                        基本信息
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">
+                                                活动名称<span class="required-mark">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <button class="btn btn-outline-secondary" type="button" 
+                                                        onclick="openDictModal('activityName', 'marketing_activity_name')"
+                                                        title="选择字典项">
+                                                    <i class="bi bi-book"></i>
+                                                </button>
+                                                <input type="text" class="form-control" id="activityName" 
+                                                       placeholder="点击左侧按钮选择字典项，可在后方添加备注" required>
+                                            </div>
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i> 
+                                                格式：<code>{{dict:类型:键值}}</code> + 备注，后端自动替换为对应语言
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">活动描述</label>
+                                            <div class="input-group">
+                                                <button class="btn btn-outline-secondary" type="button" 
+                                                        onclick="openDictModal('activityDesc', 'marketing_activity_desc')"
+                                                        title="选择字典项">
+                                                    <i class="bi bi-book"></i>
+                                                </button>
+                                                <textarea class="form-control" id="activityDesc" rows="3" 
+                                                          placeholder="点击左侧按钮选择字典项，可在后方添加备注"></textarea>
+                                            </div>
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i> 
+                                                选填，支持多语言字典占位符
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 触发条件 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-lightning-charge-fill"></i>
+                                        触发条件
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">
+                                                触发条件<span class="required-mark">*</span>
+                                            </label>
+                                            <select class="form-select" id="triggerCondition" required onchange="handleTriggerChange()">
+                                                <option value="">请选择触发自动发券的条件</option>
+                                                <optgroup label="用户行为">
+                                                    <option value="USER_REGISTER">用户注册</option>
+                                                    <option value="FIRST_ORDER">用户首次下单</option>
+                                                    <option value="ORDER_AMOUNT">单笔订单满指定金额</option>
+                                                    <option value="BIRTHDAY">用户生日</option>
+                                                </optgroup>
+                                                <optgroup label="邀请活动">
+                                                    <option value="INVITE_REGISTER">邀请好友注册成功</option>
+                                                    <option value="INVITE_FIRST_ORDER">邀请好友完成首单</option>
+                                                    <option value="INVITE_ORDER_AMOUNT">邀请好友消费满额</option>
+                                                </optgroup>
+                                            </select>
+                                            <div class="help-text">选择触发自动发券的条件</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3" id="amountConditionSection" style="display:none;">
+                                            <label class="form-label">订单金额要求<span class="required-mark">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">¥</span>
+                                                <input type="number" class="form-control" id="requiredAmount" 
+                                                       placeholder="例如: 100" step="0.01" min="0.01" onchange="updatePreview()">
+                                            </div>
+                                            <div class="help-text">达到此金额后触发发券</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 奖励设置 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-gift-fill"></i>
+                                        奖励设置
+                                    </div>
+                                    <div class="row">
+                                        <!-- 仅在邀请类活动中显示奖励对象选择 -->
+                                        <div class="col-md-12 mb-3" id="rewardTargetSection" style="display:none;">
+                                            <label class="form-label">
+                                                奖励对象<span class="required-mark">*</span>
+                                            </label>
+                                            <div id="rewardTargetOptions">
+                                                <div class="reward-option" onclick="selectRewardTarget('INVITER')">
+                                                    <input type="radio" name="rewardTarget" value="INVITER" id="targetInviter">
+                                                    <label for="targetInviter" style="cursor: pointer;">
+                                                        <strong>仅奖励邀请人</strong>
+                                                        <div class="help-text">只给发起邀请的用户发券</div>
+                                                    </label>
+                                                </div>
+                                                <div class="reward-option" onclick="selectRewardTarget('INVITEE')">
+                                                    <input type="radio" name="rewardTarget" value="INVITEE" id="targetInvitee">
+                                                    <label for="targetInvitee" style="cursor: pointer;">
+                                                        <strong>仅奖励被邀请人</strong>
+                                                        <div class="help-text">只给被邀请的新用户发券</div>
+                                                    </label>
+                                                </div>
+                                                <div class="reward-option" onclick="selectRewardTarget('BOTH')">
+                                                    <input type="radio" name="rewardTarget" value="BOTH" id="targetBoth">
+                                                    <label for="targetBoth" style="cursor: pointer;">
+                                                        <strong>双方都奖励</strong>
+                                                        <div class="help-text">邀请人和被邀请人都发券（可选择不同模板）</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3" id="templateSelectSection" style="display:none;">
+                                            <label class="form-label">
+                                                选择优惠券模板<span class="required-mark">*</span>
+                                            </label>
+                                            <div class="help-text mb-2">
+                                                <i class="bi bi-info-circle"></i> 符合触发条件的用户将自动获得此模板的优惠券
+                                            </div>
+                                            <button type="button" class="btn btn-outline-primary btn-sm mb-3" 
+                                                    onclick="openTemplateModal()">
+                                                <i class="bi bi-search"></i> 选择模板
+                                            </button>
+                                            <div id="selectedTemplate" class="alert alert-secondary">
+                                                <i class="bi bi-info-circle"></i> 请选择一个优惠券模板
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3" id="dualTemplateSection" style="display:none;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">邀请人奖励模板<span class="required-mark">*</span></label>
+                                                    <button type="button" class="btn btn-outline-primary btn-sm mb-2 w-100" 
+                                                            onclick="openTemplateModal('inviter')">
+                                                        <i class="bi bi-search"></i> 选择邀请人模板
+                                                    </button>
+                                                    <div id="inviterTemplate" class="alert alert-secondary">
+                                                        <i class="bi bi-info-circle"></i> 未选择
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">被邀请人奖励模板<span class="required-mark">*</span></label>
+                                                    <button type="button" class="btn btn-outline-primary btn-sm mb-2 w-100" 
+                                                            onclick="openTemplateModal('invitee')">
+                                                        <i class="bi bi-search"></i> 选择被邀请人模板
+                                                    </button>
+                                                    <div id="inviteeTemplate" class="alert alert-secondary">
+                                                        <i class="bi bi-info-circle"></i> 未选择
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3" id="couponQuantitySection" style="display:none;">
+                                            <label class="form-label">
+                                                每次发放数量<span class="required-mark">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="couponQuantity" 
+                                                       placeholder="例如: 1" min="1" value="1" onchange="updatePreview()">
+                                                <span class="input-group-text">张</span>
+                                            </div>
+                                            <div class="help-text">触发一次条件发放的优惠券数量</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 限制条件 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-shield-check"></i>
+                                        限制条件
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="enableUserLimit" 
+                                                       onchange="toggleUserLimit()">
+                                                <label class="form-check-label" for="enableUserLimit">
+                                                    <strong>限制每人获得次数</strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3" id="userLimitSection" style="display:none;">
+                                            <label class="form-label">每人最多获得<span class="required-mark">*</span></label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="userLimit" 
+                                                       placeholder="例如: 5" min="1">
+                                                <span class="input-group-text">次</span>
+                                            </div>
+                                            <div class="help-text">例如：每人最多邀请5个好友获得奖励</div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="enableTotalLimit" 
+                                                       onchange="toggleTotalLimit()">
+                                                <label class="form-check-label" for="enableTotalLimit">
+                                                    <strong>限制活动总发放量</strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3" id="totalLimitSection" style="display:none;">
+                                            <label class="form-label">活动总发放上限<span class="required-mark">*</span></label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="totalLimit" 
+                                                       placeholder="例如: 10000" min="1">
+                                                <span class="input-group-text">张</span>
+                                            </div>
+                                            <div class="help-text">达到上限后活动自动停止发券</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 活动时间 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-calendar-event"></i>
+                                        活动时间
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                开始时间<span class="required-mark">*</span>
+                                            </label>
+                                            <input type="datetime-local" class="form-control" id="startTime" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                结束时间<span class="required-mark">*</span>
+                                            </label>
+                                            <input type="datetime-local" class="form-control" id="endTime" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i>
+                                                活动仅在设置的时间范围内有效，超出时间范围将不再自动发券
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 提交按钮 -->
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" 
+                                            onclick="window.location.href='marketing-activity-list.html'">
+                                        <i class="bi bi-x-circle me-1"></i>取消
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="submitForm()">
+                                        <i class="bi bi-check-circle me-1"></i>创建活动
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 预览区 -->
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-eye me-2"></i>活动预览</h5>
+                            <div class="preview-card">
+                                <div class="preview-title">活动配置概览</div>
+                                <div class="preview-item" id="previewType">
+                                    <strong>触发条件</strong>
+                                    <span id="previewTypeText">--</span>
+                                </div>
+                                <div class="preview-item" id="previewTarget">
+                                    <strong>奖励对象</strong>
+                                    <span id="previewTargetText">--</span>
+                                </div>
+                                <div class="preview-item" id="previewReward">
+                                    <strong>奖励内容</strong>
+                                    <span id="previewRewardText">--</span>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <i class="bi bi-lightbulb"></i>
+                                <strong>提示：</strong>
+                                <ul class="mb-0 mt-2" style="font-size: 13px;">
+                                    <li>活动创建后可随时启用/停用</li>
+                                    <li>满足条件时系统将自动发放优惠券</li>
+                                    <li>建议合理设置限制条件控制成本</li>
+                                    <li>可在活动列表中查看发放统计</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 字典选择Modal -->
+    <div class="modal fade" id="dictModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-book me-2"></i>选择字典项</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 步骤1：选择字典类型 -->
+                    <div id="dictTypeSection">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <span class="badge bg-primary me-2">1</span>选择字典类型
+                            </label>
+                            <input type="text" class="form-control" id="dictTypeSearchInput" 
+                                   placeholder="搜索字典类型..." onkeyup="filterDictTypes(this.value)">
+                        </div>
+                        <div id="dictTypeList" style="max-height: 300px; overflow-y: auto;">
+                            <!-- 字典类型列表 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤2：选择字典项 -->
+                    <div id="dictItemSection" style="display: none;">
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="backToDictType()">
+                                <i class="bi bi-arrow-left"></i> 返回选择类型
+                            </button>
+                            <span class="ms-2 text-muted">当前类型：</span>
+                            <span class="badge bg-primary" id="currentDictType">-</span>
+                            <span class="badge bg-secondary ms-1" id="currentDictTypeName">-</span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <span class="badge bg-primary me-2">2</span>选择字典项
+                            </label>
+                            <input type="text" class="form-control" id="dictSearchInput" 
+                                   placeholder="搜索字典项..." onkeyup="filterDictItems(this.value)">
+                        </div>
+                        <div id="dictList" class="dict-list" style="max-height: 250px; overflow-y: auto;">
+                            <!-- 字典项列表 -->
+                        </div>
+                        
+                        <!-- 覆盖值设置区域 -->
+                        <div id="dictOverrideSection" class="mt-3 p-3 bg-light rounded" style="display: none;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label mb-0 fw-bold">
+                                    <i class="bi bi-pencil-square text-primary me-1"></i>覆盖值（可选）
+                                </label>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="copyFromDict()">
+                                    <i class="bi bi-clipboard"></i> 复制字典值
+                                </button>
+                            </div>
+                            <input type="text" class="form-control" id="dictOverrideValue" 
+                                   placeholder="留空则使用字典原值，填写则覆盖字典值">
+                            <div class="form-text">
+                                <i class="bi bi-info-circle"></i> 
+                                填写后将使用此值替代字典中的翻译
+                            </div>
+                            <div class="mt-2 small">
+                                <span class="text-muted">字典原值：</span>
+                                <span id="dictOriginalValue" class="text-primary">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmDictSelection()" id="confirmDictBtn" disabled>确认选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模板选择Modal -->
+    <div class="modal fade" id="templateModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">选择优惠券模板</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="搜索模板名称..." 
+                               onkeyup="filterTemplates(this.value)">
+                    </div>
+                    <div id="templateList">
+                        <!-- 模板列表 -->
+                        <div class="template-selector" onclick="selectTemplate(10001)">
+                            <div class="template-info">
+                                <div>
+                                    <input type="radio" name="templateRadio" value="10001">
+                                    <strong>新人满减券 - ¥30</strong>
+                                    <div class="template-detail">
+                                        满¥100可用 | 有效期: 2025-11-01 至 2025-12-31 | 状态: 启用中
+                                    </div>
+                                </div>
+                                <span class="badge bg-primary">现金券</span>
+                            </div>
+                        </div>
+                        <div class="template-selector" onclick="selectTemplate(10002)">
+                            <div class="template-info">
+                                <div>
+                                    <input type="radio" name="templateRadio" value="10002">
+                                    <strong>邀请好友专享券 - ¥50</strong>
+                                    <div class="template-detail">
+                                        满¥200可用 | 自领取之日起7天内有效 | 状态: 启用中
+                                    </div>
+                                </div>
+                                <span class="badge bg-primary">现金券</span>
+                            </div>
+                        </div>
+                        <div class="template-selector" onclick="selectTemplate(10003)">
+                            <div class="template-info">
+                                <div>
+                                    <input type="radio" name="templateRadio" value="10003">
+                                    <strong>全场通用折扣券 - 8折</strong>
+                                    <div class="template-detail">
+                                        无门槛 | 有效期: 2025-11-15 至 2025-12-15 | 状态: 启用中
+                                    </div>
+                                </div>
+                                <span class="badge bg-success">折扣券</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmTemplateSelection()">确认选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentTemplateTarget = 'single'; // 'single', 'inviter', 'invitee'
+        let selectedTemplateId = null;
+        let selectedInviterTemplateId = null;
+        let selectedInviteeTemplateId = null;
+
+        // 字典相关变量
+        let currentDictTarget = null; // 当前要填充的输入框ID
+        let currentDictType = null;   // 当前字典类型
+        let selectedDictKey = null;   // 选中的字典键值
+
+        // 字典类型元数据
+        const dictTypes = {
+            'marketing_activity_name': { name: '营销活动名称', description: '用于营销活动的标题' },
+            'marketing_activity_desc': { name: '营销活动描述', description: '用于营销活动的详细说明' },
+            'coupon_template_name': { name: '优惠券模板名称', description: '用于优惠券模板的名称' },
+            'coupon_template_remark': { name: '优惠券备注说明', description: '用于优惠券的使用说明' },
+            'common_action': { name: '通用操作文案', description: '按钮、链接等操作性文案' },
+            'common_message': { name: '通用提示信息', description: '成功、失败等提示信息' }
+        };
+
+        // 模拟字典数据（实际应从后端API获取）
+        const dictData = {
+            'marketing_activity_name': [
+                { 
+                    key: 'new_user_register', 
+                    translations: { zh: '新人注册活动', en: 'New User Registration', ja: '新規登録キャンペーン', es: 'Registro de Nuevo Usuario' }
+                },
+                { 
+                    key: 'invite_friend', 
+                    translations: { zh: '邀请好友活动', en: 'Invite Friends Campaign', ja: '友達紹介キャンペーン', es: 'Campaña de Invitar Amigos' }
+                },
+                { 
+                    key: 'first_order_reward', 
+                    translations: { zh: '首单奖励活动', en: 'First Order Reward', ja: '初回注文特典', es: 'Recompensa de Primer Pedido' }
+                },
+                { 
+                    key: 'birthday_gift', 
+                    translations: { zh: '生日礼遇活动', en: 'Birthday Gift Campaign', ja: 'お誕生日特典', es: 'Campaña de Regalo de Cumpleaños' }
+                },
+                { 
+                    key: 'order_amount_reward', 
+                    translations: { zh: '满额奖励活动', en: 'Spend & Earn Campaign', ja: '購入金額特典', es: 'Campaña de Gasto y Ganancia' }
+                }
+            ],
+            'marketing_activity_desc': [
+                { 
+                    key: 'new_user_register_desc', 
+                    translations: { zh: '新用户注册成功即可获得优惠券奖励', en: 'Get coupon rewards upon successful registration', ja: '新規登録完了でクーポンをプレゼント', es: 'Obtenga recompensas de cupones al registrarse' }
+                },
+                { 
+                    key: 'invite_friend_desc', 
+                    translations: { zh: '邀请好友注册成功，双方均可获得优惠券', en: 'Invite friends to register, both get coupons', ja: '友達を招待して両方にクーポンをプレゼント', es: 'Invita amigos a registrarse, ambos obtienen cupones' }
+                },
+                { 
+                    key: 'first_order_desc', 
+                    translations: { zh: '完成首单即可获得优惠券奖励', en: 'Get coupon rewards after first order', ja: '初回注文完了でクーポンをプレゼント', es: 'Obtenga cupones después del primer pedido' }
+                },
+                { 
+                    key: 'birthday_desc', 
+                    translations: { zh: '生日当天自动发放专属优惠券', en: 'Exclusive coupons on your birthday', ja: 'お誕生日に特別クーポンを自動配布', es: 'Cupones exclusivos en tu cumpleaños' }
+                }
+            ],
+            'coupon_template_name': [
+                { key: 'new_user_discount', translations: { zh: '新人满减券', en: 'New User Discount', ja: '新規会員割引券', es: 'Descuento Nuevos Usuarios' } },
+                { key: 'invite_friend_coupon', translations: { zh: '邀请好友专享券', en: 'Invite Friend Coupon', ja: '友達紹介クーポン', es: 'Cupón Invitar Amigos' } },
+                { key: 'birthday_gift_coupon', translations: { zh: '生日礼遇券', en: 'Birthday Gift Coupon', ja: 'お誕生日クーポン', es: 'Cupón Cumpleaños' } },
+                { key: 'first_order_discount', translations: { zh: '首单优惠券', en: 'First Order Discount', ja: '初回注文割引券', es: 'Descuento Primer Pedido' } },
+                { key: 'member_exclusive', translations: { zh: '会员专属券', en: 'Member Exclusive', ja: '会員限定クーポン', es: 'Cupón Exclusivo Miembros' } }
+            ],
+            'coupon_template_remark': [
+                { key: 'new_user_only', translations: { zh: '仅限新注册用户使用，每人限领1张', en: 'For new users only, limit 1 per person', ja: '新規登録ユーザー限定', es: 'Solo nuevos usuarios' } },
+                { key: 'first_order_only', translations: { zh: '仅限首单使用，与其他优惠不可叠加', en: 'First order only, cannot combine', ja: '初回注文のみ有効', es: 'Solo primer pedido' } },
+                { key: 'all_products', translations: { zh: '全场通用，部分特价商品除外', en: 'Valid for all products', ja: '全商品対象', es: 'Válido para todos' } }
+            ],
+            'common_action': [
+                { key: 'btn_submit', translations: { zh: '提交', en: 'Submit', ja: '送信', es: 'Enviar' } },
+                { key: 'btn_cancel', translations: { zh: '取消', en: 'Cancel', ja: 'キャンセル', es: 'Cancelar' } },
+                { key: 'btn_confirm', translations: { zh: '确认', en: 'Confirm', ja: '確認', es: 'Confirmar' } }
+            ],
+            'common_message': [
+                { key: 'msg_success', translations: { zh: '操作成功', en: 'Operation successful', ja: '操作成功', es: 'Operación exitosa' } },
+                { key: 'msg_failed', translations: { zh: '操作失败', en: 'Operation failed', ja: '操作失敗', es: 'Operación fallida' } }
+            ]
+        };
+
+        // 打开字典选择弹窗
+        function openDictModal(targetId, suggestedDictType = null) {
+            currentDictTarget = targetId;
+            currentDictType = null;
+            selectedDictKey = null;
+            
+            // 重置界面
+            document.getElementById('dictTypeSection').style.display = 'block';
+            document.getElementById('dictItemSection').style.display = 'none';
+            document.getElementById('dictTypeSearchInput').value = '';
+            document.getElementById('confirmDictBtn').disabled = true;
+            
+            // 渲染字典类型列表
+            renderDictTypeList('', suggestedDictType);
+            
+            const modal = new bootstrap.Modal(document.getElementById('dictModal'));
+            modal.show();
+        }
+
+        // 渲染字典类型列表
+        function renderDictTypeList(filter = '', suggestedType = null) {
+            const listContainer = document.getElementById('dictTypeList');
+            let html = '';
+            
+            // 按推荐排序
+            const sortedTypes = Object.entries(dictTypes).sort((a, b) => {
+                if (a[0] === suggestedType) return -1;
+                if (b[0] === suggestedType) return 1;
+                return 0;
+            });
+            
+            sortedTypes.forEach(([key, meta]) => {
+                const searchText = (key + ' ' + meta.name + ' ' + meta.description).toLowerCase();
+                if (filter && !searchText.includes(filter.toLowerCase())) {
+                    return;
+                }
+                
+                const itemCount = (dictData[key] || []).length;
+                const isRecommended = key === suggestedType;
+                
+                html += `
+                    <div class="dict-type-item" onclick="selectDictType('${key}')">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="dict-type-name">${meta.name}</span>
+                                ${isRecommended ? '<span class="badge bg-success ms-2">推荐</span>' : ''}
+                            </div>
+                            <span class="dict-type-count">${itemCount} 项</span>
+                        </div>
+                        <div class="dict-type-key mt-1">${key}</div>
+                        <div class="text-muted small mt-1">${meta.description}</div>
+                    </div>
+                `;
+            });
+            
+            if (!html) {
+                html = '<div class="text-center text-muted py-4">没有找到匹配的字典类型</div>';
+            }
+            
+            listContainer.innerHTML = html;
+        }
+
+        // 选择字典类型
+        function selectDictType(dictType) {
+            currentDictType = dictType;
+            selectedDictKey = null;
+            
+            // 切换到字典项选择界面
+            document.getElementById('dictTypeSection').style.display = 'none';
+            document.getElementById('dictItemSection').style.display = 'block';
+            document.getElementById('currentDictType').textContent = dictType;
+            document.getElementById('currentDictTypeName').textContent = dictTypes[dictType]?.name || '';
+            document.getElementById('dictSearchInput').value = '';
+            document.getElementById('confirmDictBtn').disabled = true;
+            
+            // 重置覆盖区域
+            document.getElementById('dictOverrideSection').style.display = 'none';
+            document.getElementById('dictOverrideValue').value = '';
+            document.getElementById('dictOriginalValue').textContent = '-';
+            
+            renderDictList(dictType);
+        }
+
+        // 返回字典类型选择
+        function backToDictType() {
+            document.getElementById('dictTypeSection').style.display = 'block';
+            document.getElementById('dictItemSection').style.display = 'none';
+            document.getElementById('confirmDictBtn').disabled = true;
+            currentDictType = null;
+            selectedDictKey = null;
+        }
+
+        // 过滤字典类型
+        function filterDictTypes(keyword) {
+            renderDictTypeList(keyword);
+        }
+
+        // 渲染字典列表
+        function renderDictList(dictType, filter = '') {
+            const listContainer = document.getElementById('dictList');
+            const items = dictData[dictType] || [];
+            
+            let html = '';
+            items.forEach(item => {
+                // 过滤
+                const searchText = (item.key + ' ' + Object.values(item.translations).join(' ')).toLowerCase();
+                if (filter && !searchText.includes(filter.toLowerCase())) {
+                    return;
+                }
+                
+                html += `
+                    <div class="dict-item" onclick="selectDictItem('${item.key}')" data-key="${item.key}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <input type="radio" name="dictRadio" value="${item.key}" class="me-2">
+                                <strong>${item.translations.zh}</strong>
+                            </div>
+                            <span class="dict-key">${item.key}</span>
+                        </div>
+                        <div class="dict-preview">
+                            <div><span class="lang-tag lang-zh">中</span>${item.translations.zh}</div>
+                            <div><span class="lang-tag lang-en">En</span>${item.translations.en}</div>
+                            <div><span class="lang-tag lang-ja">日</span>${item.translations.ja}</div>
+                            <div><span class="lang-tag lang-es">Es</span>${item.translations.es}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (!html) {
+                html = '<div class="text-center text-muted py-4">没有找到匹配的字典项</div>';
+            }
+            
+            listContainer.innerHTML = html;
+        }
+
+        // 选择字典项
+        function selectDictItem(key) {
+            // 移除所有选中样式
+            document.querySelectorAll('.dict-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 选中当前项
+            const selectedItem = document.querySelector(`.dict-item[data-key="${key}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+                selectedItem.querySelector('input[type="radio"]').checked = true;
+            }
+            
+            selectedDictKey = key;
+            
+            // 启用确认按钮
+            document.getElementById('confirmDictBtn').disabled = false;
+            
+            // 显示覆盖值设置区域
+            const overrideSection = document.getElementById('dictOverrideSection');
+            const overrideInput = document.getElementById('dictOverrideValue');
+            const originalValueSpan = document.getElementById('dictOriginalValue');
+            
+            overrideSection.style.display = 'block';
+            overrideInput.value = ''; // 清空覆盖值
+            
+            // 显示字典原值
+            const dictItems = dictData[currentDictType] || [];
+            const item = dictItems.find(i => i.key === key);
+            if (item) {
+                originalValueSpan.textContent = item.translations.zh;
+            }
+        }
+        
+        // 复制字典值到覆盖输入框
+        function copyFromDict() {
+            const originalValue = document.getElementById('dictOriginalValue').textContent;
+            if (originalValue && originalValue !== '-') {
+                document.getElementById('dictOverrideValue').value = originalValue;
+                document.getElementById('dictOverrideValue').focus();
+            }
+        }
+
+        // 确认字典选择
+        function confirmDictSelection() {
+            if (!selectedDictKey) {
+                alert('请选择一个字典项');
+                return;
+            }
+            
+            const dictItems = dictData[currentDictType] || [];
+            const selectedItem = dictItems.find(item => item.key === selectedDictKey);
+            const overrideValue = document.getElementById('dictOverrideValue').value.trim();
+            
+            if (selectedItem) {
+                // 构建占位符，如果有覆盖值则使用 | 分隔
+                let placeholder;
+                let displayText;
+                
+                if (overrideValue) {
+                    // 有覆盖值：{{dict:type:key|覆盖值}}
+                    placeholder = `{{dict:${currentDictType}:${selectedDictKey}|${overrideValue}}}`;
+                    displayText = overrideValue;
+                } else {
+                    // 无覆盖值：{{dict:type:key}}
+                    placeholder = `{{dict:${currentDictType}:${selectedDictKey}}}`;
+                    displayText = selectedItem.translations.zh;
+                }
+                
+                const targetInput = document.getElementById(currentDictTarget);
+                
+                // 检查是否已有占位符，如果有则替换，否则添加到开头
+                let currentValue = targetInput.value;
+                const placeholderRegex = /^\{\{dict:[^}]+\}\}\s*/;
+                
+                if (placeholderRegex.test(currentValue)) {
+                    // 替换现有占位符
+                    currentValue = currentValue.replace(placeholderRegex, '');
+                }
+                
+                // 添加新占位符和显示文本
+                targetInput.value = `${placeholder} ${displayText}${currentValue ? ' ' + currentValue.trim() : ''}`;
+            }
+            
+            // 重置覆盖区域
+            document.getElementById('dictOverrideSection').style.display = 'none';
+            document.getElementById('dictOverrideValue').value = '';
+            
+            bootstrap.Modal.getInstance(document.getElementById('dictModal')).hide();
+            updatePreview();
+        }
+
+        // 过滤字典项
+        function filterDictItems(keyword) {
+            renderDictList(currentDictType, keyword);
+        }
+
+        // 触发条件变化处理
+        function handleTriggerChange() {
+            const condition = document.getElementById('triggerCondition').value;
+            const amountSection = document.getElementById('amountConditionSection');
+            const amountInput = document.getElementById('requiredAmount');
+            const rewardTargetSection = document.getElementById('rewardTargetSection');
+            const singleTemplateSection = document.getElementById('templateSelectSection');
+            const dualTemplateSection = document.getElementById('dualTemplateSection');
+            const quantitySection = document.getElementById('couponQuantitySection');
+            
+            // 显示/隐藏金额配置
+            if (condition === 'ORDER_AMOUNT' || condition === 'INVITE_ORDER_AMOUNT') {
+                amountSection.style.display = 'block';
+                amountInput.required = true;
+            } else {
+                amountSection.style.display = 'none';
+                amountInput.required = false;
+            }
+            
+            // 判断是否为邀请类活动
+            const isInviteActivity = condition === 'INVITE_REGISTER' || 
+                                     condition === 'INVITE_FIRST_ORDER' || 
+                                     condition === 'INVITE_ORDER_AMOUNT';
+            
+            // 清除之前的选择
+            document.querySelectorAll('input[name="rewardTarget"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.querySelectorAll('.reward-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            if (isInviteActivity) {
+                // 邀请类活动：显示奖励对象选择
+                rewardTargetSection.style.display = 'block';
+                singleTemplateSection.style.display = 'none';
+                dualTemplateSection.style.display = 'none';
+                quantitySection.style.display = 'none';
+            } else if (condition) {
+                // 非邀请类活动：直接显示单一模板选择，无需选择奖励对象
+                rewardTargetSection.style.display = 'none';
+                singleTemplateSection.style.display = 'block';
+                dualTemplateSection.style.display = 'none';
+                quantitySection.style.display = 'block';
+            } else {
+                // 未选择触发条件：隐藏所有
+                rewardTargetSection.style.display = 'none';
+                singleTemplateSection.style.display = 'none';
+                dualTemplateSection.style.display = 'none';
+                quantitySection.style.display = 'none';
+            }
+            
+            updatePreview();
+        }
+
+        // 选择奖励对象
+        function selectRewardTarget(target) {
+            // 移除所有选中样式
+            document.querySelectorAll('.reward-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // 选中当前项
+            const radio = document.querySelector(`input[value="${target}"]`);
+            radio.checked = true;
+            radio.closest('.reward-option').classList.add('selected');
+            
+            // 显示对应的模板选择区域
+            const singleSection = document.getElementById('templateSelectSection');
+            const dualSection = document.getElementById('dualTemplateSection');
+            const quantitySection = document.getElementById('couponQuantitySection');
+            
+            if (target === 'BOTH') {
+                singleSection.style.display = 'none';
+                dualSection.style.display = 'block';
+                quantitySection.style.display = 'block';
+            } else {
+                singleSection.style.display = 'block';
+                dualSection.style.display = 'none';
+                quantitySection.style.display = 'block';
+            }
+            
+            updatePreview();
+        }
+
+        // 打开模板选择弹窗
+        function openTemplateModal(target = 'single') {
+            currentTemplateTarget = target;
+            const modal = new bootstrap.Modal(document.getElementById('templateModal'));
+            modal.show();
+        }
+
+        // 选择模板
+        function selectTemplate(templateId) {
+            // 移除所有选中样式
+            document.querySelectorAll('.template-selector').forEach(sel => {
+                sel.classList.remove('selected');
+            });
+            
+            // 选中当前模板
+            event.currentTarget.classList.add('selected');
+            const radio = event.currentTarget.querySelector('input[type="radio"]');
+            radio.checked = true;
+            
+            selectedTemplateId = templateId;
+        }
+
+        // 确认模板选择
+        function confirmTemplateSelection() {
+            if (!selectedTemplateId) {
+                alert('请选择一个模板');
+                return;
+            }
+            
+            const templateName = document.querySelector(`input[value="${selectedTemplateId}"]`)
+                .parentElement.querySelector('strong').textContent;
+            
+            if (currentTemplateTarget === 'single') {
+                document.getElementById('selectedTemplate').innerHTML = 
+                    `<i class="bi bi-check-circle text-success"></i> 已选择: ${templateName}`;
+            } else if (currentTemplateTarget === 'inviter') {
+                selectedInviterTemplateId = selectedTemplateId;
+                document.getElementById('inviterTemplate').innerHTML = 
+                    `<i class="bi bi-check-circle text-success"></i> ${templateName}`;
+            } else if (currentTemplateTarget === 'invitee') {
+                selectedInviteeTemplateId = selectedTemplateId;
+                document.getElementById('inviteeTemplate').innerHTML = 
+                    `<i class="bi bi-check-circle text-success"></i> ${templateName}`;
+            }
+            
+            bootstrap.Modal.getInstance(document.getElementById('templateModal')).hide();
+            updatePreview();
+        }
+
+        // 切换用户限制
+        function toggleUserLimit() {
+            const enabled = document.getElementById('enableUserLimit').checked;
+            const section = document.getElementById('userLimitSection');
+            const input = document.getElementById('userLimit');
+            
+            section.style.display = enabled ? 'block' : 'none';
+            input.required = enabled;
+        }
+
+        // 切换总量限制
+        function toggleTotalLimit() {
+            const enabled = document.getElementById('enableTotalLimit').checked;
+            const section = document.getElementById('totalLimitSection');
+            const input = document.getElementById('totalLimit');
+            
+            section.style.display = enabled ? 'block' : 'none';
+            input.required = enabled;
+        }
+
+        // 更新预览
+        function updatePreview() {
+            const triggerCondition = document.getElementById('triggerCondition').value;
+            const rewardTarget = document.querySelector('input[name="rewardTarget"]:checked');
+            const quantity = document.getElementById('couponQuantity').value;
+            const requiredAmount = document.getElementById('requiredAmount').value;
+            
+            // 判断是否为邀请类活动
+            const isInviteActivity = triggerCondition === 'INVITE_REGISTER' || 
+                                     triggerCondition === 'INVITE_FIRST_ORDER' || 
+                                     triggerCondition === 'INVITE_ORDER_AMOUNT';
+            
+            // 触发条件
+            const conditionMap = {
+                'USER_REGISTER': '用户注册',
+                'FIRST_ORDER': '用户首次下单',
+                'ORDER_AMOUNT': '单笔订单满指定金额',
+                'BIRTHDAY': '用户生日',
+                'INVITE_REGISTER': '邀请好友注册成功',
+                'INVITE_FIRST_ORDER': '邀请好友完成首单',
+                'INVITE_ORDER_AMOUNT': '邀请好友消费满额'
+            };
+            
+            let conditionText = '--';
+            if (triggerCondition) {
+                conditionText = conditionMap[triggerCondition];
+                if ((triggerCondition === 'ORDER_AMOUNT' || triggerCondition === 'INVITE_ORDER_AMOUNT') && requiredAmount) {
+                    conditionText += ` (满¥${requiredAmount})`;
+                }
+            }
+            document.getElementById('previewTypeText').textContent = conditionText;
+            
+            // 奖励对象（仅邀请类活动显示）
+            const targetMap = {
+                'INVITER': '仅奖励邀请人',
+                'INVITEE': '仅奖励被邀请人',
+                'BOTH': '双方都奖励'
+            };
+            
+            const previewTargetDiv = document.getElementById('previewTarget');
+            if (isInviteActivity) {
+                previewTargetDiv.style.display = 'block';
+                document.getElementById('previewTargetText').textContent = 
+                    rewardTarget ? targetMap[rewardTarget.value] : '--';
+            } else if (triggerCondition) {
+                // 非邀请类活动，显示触发用户本人
+                previewTargetDiv.style.display = 'block';
+                document.getElementById('previewTargetText').textContent = '触发条件的用户';
+            } else {
+                previewTargetDiv.style.display = 'block';
+                document.getElementById('previewTargetText').textContent = '--';
+            }
+            
+            // 奖励内容
+            let rewardText = '--';
+            if (isInviteActivity && rewardTarget) {
+                // 邀请类活动
+                if (rewardTarget.value === 'BOTH') {
+                    if (selectedInviterTemplateId && selectedInviteeTemplateId) {
+                        rewardText = `邀请人和被邀请人各得${quantity || 1}张优惠券`;
+                    }
+                } else {
+                    if (selectedTemplateId) {
+                        rewardText = `每次发放${quantity || 1}张优惠券`;
+                    }
+                }
+            } else if (!isInviteActivity && triggerCondition) {
+                // 非邀请类活动
+                if (selectedTemplateId) {
+                    rewardText = `每次发放${quantity || 1}张优惠券`;
+                }
+            }
+            document.getElementById('previewRewardText').textContent = rewardText;
+        }
+
+        // 搜索模板
+        function filterTemplates(keyword) {
+            const templates = document.querySelectorAll('.template-selector');
+            templates.forEach(template => {
+                const text = template.textContent.toLowerCase();
+                if (text.includes(keyword.toLowerCase())) {
+                    template.style.display = 'block';
+                } else {
+                    template.style.display = 'none';
+                }
+            });
+        }
+
+        // 提交表单
+        function submitForm() {
+            const form = document.getElementById('activityForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // 验证触发条件
+            const triggerCondition = document.getElementById('triggerCondition').value;
+            if (!triggerCondition) {
+                alert('请选择触发条件！');
+                return;
+            }
+
+            // 验证金额要求
+            if (triggerCondition === 'ORDER_AMOUNT' || triggerCondition === 'INVITE_ORDER_AMOUNT') {
+                const amount = document.getElementById('requiredAmount').value;
+                if (!amount || parseFloat(amount) <= 0) {
+                    alert('请输入有效的订单金额要求！');
+                    return;
+                }
+            }
+
+            // 判断是否为邀请类活动
+            const isInviteActivity = triggerCondition === 'INVITE_REGISTER' || 
+                                     triggerCondition === 'INVITE_FIRST_ORDER' || 
+                                     triggerCondition === 'INVITE_ORDER_AMOUNT';
+
+            if (isInviteActivity) {
+                // 邀请类活动：验证必须选择奖励对象
+                const rewardTarget = document.querySelector('input[name="rewardTarget"]:checked');
+                if (!rewardTarget) {
+                    alert('请选择奖励对象！');
+                    return;
+                }
+
+                // 验证必须选择模板
+                if (rewardTarget.value === 'BOTH') {
+                    if (!selectedInviterTemplateId || !selectedInviteeTemplateId) {
+                        alert('请为邀请人和被邀请人分别选择优惠券模板！');
+                        return;
+                    }
+                } else {
+                    if (!selectedTemplateId) {
+                        alert('请选择优惠券模板！');
+                        return;
+                    }
+                }
+            } else {
+                // 非邀请类活动：只需验证选择了模板
+                if (!selectedTemplateId) {
+                    alert('请选择优惠券模板！');
+                    return;
+                }
+            }
+
+            // 验证时间
+            const startTime = new Date(document.getElementById('startTime').value);
+            const endTime = new Date(document.getElementById('endTime').value);
+            if (endTime <= startTime) {
+                alert('结束时间必须晚于开始时间！');
+                return;
+            }
+
+            // 模拟提交
+            alert('营销活动创建成功！\n\n系统将在满足条件时自动发放优惠券。\n\n这是静态演示页面，实际使用时会调用后端API。');
+            window.location.href = 'marketing-activity-list.html';
+        }
+
+        // 页面加载时设置默认时间
+        window.onload = function() {
+            const now = new Date();
+            const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+            const nextMonth = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+            
+            document.getElementById('startTime').value = formatDateTime(tomorrow);
+            document.getElementById('endTime').value = formatDateTime(nextMonth);
+        };
+
+        function formatDateTime(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+    </script>
+</body>
+</html>
+

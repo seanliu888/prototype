@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>Chrome 浏览器兼容性测试</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .test-header h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        .test-section h3 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        .test-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-item i {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .test-pass {
+            color: #27ae60;
+        }
+        .test-warning {
+            color: #f39c12;
+        }
+        .gradient-box {
+            height: 100px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .shadow-box {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .custom-input {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+        }
+        .browser-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .info-card {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        .info-card strong {
+            color: #3498db;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .scrollbar-test {
+            height: 150px;
+            overflow-y: auto;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .btn-test {
+            transition: all 0.3s ease;
+        }
+        .btn-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="bi bi-browser-chrome text-primary"></i> Chrome 浏览器兼容性测试</h1>
+            <p class="text-muted">此页面用于测试 Chrome 浏览器的各项兼容性特性</p>
+        </div>
+
+        <!-- 浏览器信息 -->
+        <div class="test-section">
+            <h3><i class="bi bi-info-circle"></i> 浏览器信息检测</h3>
+            <div class="browser-info" id="browserInfo">
+                <!-- JavaScript 动态填充 -->
+            </div>
+        </div>
+
+        <!-- CSS 特性测试 -->
+        <div class="test-section">
+            <h3><i class="bi bi-palette"></i> CSS 特性测试</h3>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label"><strong>1. 渐变效果 (Gradient)</strong></label>
+                    <div class="gradient-box">
+                        CSS 渐变正常显示
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><strong>2. 阴影效果 (Box Shadow)</strong></label>
+                    <div class="shadow-box">
+                        CSS 阴影正常显示
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表单测试 -->
+        <div class="test-section">
+            <h3><i class="bi bi-card-text"></i> 表单控件测试</h3>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label"><strong>3. 文本输入框</strong></label>
+                    <input type="text" class="custom-input" placeholder="测试输入，检查自动填充背景色">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><strong>4. 数字输入框</strong></label>
+                    <input type="number" class="custom-input" placeholder="测试数字输入，检查上下箭头">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><strong>5. 日期选择器</strong></label>
+                    <input type="datetime-local" class="custom-input">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><strong>6. 下拉选择框</strong></label>
+                    <select class="custom-input">
+                        <option>选项 1</option>
+                        <option>选项 2</option>
+                        <option>选项 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 滚动条测试 -->
+        <div class="test-section">
+            <h3><i class="bi bi-arrows-expand"></i> 自定义滚动条测试</h3>
+            <label class="form-label"><strong>7. 滚动条美化</strong>（向下滚动查看自定义滚动条）</label>
+            <div class="scrollbar-test">
+                <p>测试内容 - 行 1</p>
+                <p>测试内容 - 行 2</p>
+                <p>测试内容 - 行 3</p>
+                <p>测试内容 - 行 4</p>
+                <p>测试内容 - 行 5</p>
+                <p>测试内容 - 行 6</p>
+                <p>测试内容 - 行 7</p>
+                <p>测试内容 - 行 8</p>
+                <p>测试内容 - 行 9</p>
+                <p>测试内容 - 行 10</p>
+                <p>测试内容 - 行 11</p>
+                <p>测试内容 - 行 12</p>
+            </div>
+        </div>
+
+        <!-- 动画测试 -->
+        <div class="test-section">
+            <h3><i class="bi bi-lightning"></i> 过渡动画测试</h3>
+            <label class="form-label"><strong>8. Hover 动画效果</strong>（鼠标移到按钮上查看效果）</label>
+            <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-primary btn-test">
+                    <i class="bi bi-check-circle"></i> 按钮 1
+                </button>
+                <button class="btn btn-success btn-test">
+                    <i class="bi bi-star-fill"></i> 按钮 2
+                </button>
+                <button class="btn btn-warning btn-test">
+                    <i class="bi bi-heart-fill"></i> 按钮 3
+                </button>
+                <button class="btn btn-danger btn-test">
+                    <i class="bi bi-trash-fill"></i> 按钮 4
+                </button>
+            </div>
+        </div>
+
+        <!-- Flexbox 测试 -->
+        <div class="test-section">
+            <h3><i class="bi bi-grid-3x3"></i> Flexbox 布局测试</h3>
+            <label class="form-label"><strong>9. Flex 布局</strong></label>
+            <div class="d-flex justify-content-between align-items-center p-3 bg-white rounded">
+                <div class="badge bg-primary">项目 1</div>
+                <div class="badge bg-success">项目 2</div>
+                <div class="badge bg-warning">项目 3</div>
+                <div class="badge bg-danger">项目 4</div>
+                <div class="badge bg-info">项目 5</div>
+            </div>
+        </div>
+
+        <!-- 图标测试 -->
+        <div class="test-section">
+            <h3><i class="bi bi-emoji-smile"></i> Bootstrap Icons 测试</h3>
+            <label class="form-label"><strong>10. 图标显示</strong></label>
+            <div class="d-flex gap-3 mt-3" style="font-size: 32px;">
+                <i class="bi bi-check-circle-fill text-success"></i>
+                <i class="bi bi-x-circle-fill text-danger"></i>
+                <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+                <i class="bi bi-info-circle-fill text-info"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-heart-fill text-danger"></i>
+            </div>
+        </div>
+
+        <!-- 测试结果 -->
+        <div class="test-section">
+            <h3><i class="bi bi-clipboard-check"></i> 测试结果</h3>
+            <div id="testResults">
+                <!-- JavaScript 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 返回按钮 -->
+        <div class="text-center mt-4">
+            <a href="index.html" class="btn btn-lg btn-primary">
+                <i class="bi bi-arrow-left"></i> 返回主页
+            </a>
+            <button class="btn btn-lg btn-success" onclick="runTests()">
+                <i class="bi bi-arrow-clockwise"></i> 重新测试
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 获取浏览器信息
+        function getBrowserInfo() {
+            const ua = navigator.userAgent;
+            const info = {
+                userAgent: ua,
+                browser: getBrowserName(ua),
+                version: getBrowserVersion(ua),
+                platform: navigator.platform,
+                language: navigator.language,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine,
+                screenWidth: screen.width,
+                screenHeight: screen.height,
+                viewportWidth: window.innerWidth,
+                viewportHeight: window.innerHeight
+            };
+            return info;
+        }
+
+        function getBrowserName(ua) {
+            if (ua.indexOf('Chrome') > -1 && ua.indexOf('Edg') === -1) return 'Chrome';
+            if (ua.indexOf('Edg') > -1) return 'Edge';
+            if (ua.indexOf('Firefox') > -1) return 'Firefox';
+            if (ua.indexOf('Safari') > -1 && ua.indexOf('Chrome') === -1) return 'Safari';
+            return '未知浏览器';
+        }
+
+        function getBrowserVersion(ua) {
+            const match = ua.match(/(Chrome|Firefox|Safari|Edg)\/(\d+)/);
+            return match ? match[2] : '未知';
+        }
+
+        // 显示浏览器信息
+        function displayBrowserInfo() {
+            const info = getBrowserInfo();
+            const container = document.getElementById('browserInfo');
+            
+            container.innerHTML = `
+                <div class="info-card">
+                    <strong>浏览器</strong>
+                    <span>${info.browser}</span>
+                </div>
+                <div class="info-card">
+                    <strong>版本</strong>
+                    <span>${info.version}</span>
+                </div>
+                <div class="info-card">
+                    <strong>平台</strong>
+                    <span>${info.platform}</span>
+                </div>
+                <div class="info-card">
+                    <strong>语言</strong>
+                    <span>${info.language}</span>
+                </div>
+                <div class="info-card">
+                    <strong>Cookie</strong>
+                    <span>${info.cookieEnabled ? '✅ 已启用' : '❌ 未启用'}</span>
+                </div>
+                <div class="info-card">
+                    <strong>网络状态</strong>
+                    <span>${info.onLine ? '✅ 在线' : '❌ 离线'}</span>
+                </div>
+                <div class="info-card">
+                    <strong>屏幕分辨率</strong>
+                    <span>${info.screenWidth} × ${info.screenHeight}</span>
+                </div>
+                <div class="info-card">
+                    <strong>视口大小</strong>
+                    <span>${info.viewportWidth} × ${info.viewportHeight}</span>
+                </div>
+            `;
+        }
+
+        // 运行测试
+        function runTests() {
+            const info = getBrowserInfo();
+            const results = [];
+            
+            // 检测 Chrome
+            if (info.browser === 'Chrome') {
+                const version = parseInt(info.version);
+                if (version >= 90) {
+                    results.push({
+                        icon: 'check-circle-fill',
+                        color: 'test-pass',
+                        text: `✅ 正在使用 Chrome ${info.version}，版本符合要求 (90+)`
+                    });
+                } else {
+                    results.push({
+                        icon: 'exclamation-triangle-fill',
+                        color: 'test-warning',
+                        text: `⚠️ Chrome 版本较低 (${info.version})，建议升级到 90+`
+                    });
+                }
+            } else {
+                results.push({
+                    icon: 'info-circle-fill',
+                    color: 'test-warning',
+                    text: `ℹ️ 当前使用 ${info.browser}，推荐使用 Chrome 浏览器获得最佳体验`
+                });
+            }
+
+            // 检测 CSS 支持
+            const cssTests = [
+                { name: 'Flexbox', prop: 'flex', value: '1' },
+                { name: 'Grid', prop: 'grid', value: 'auto' },
+                { name: 'Transform', prop: 'transform', value: 'rotate(0deg)' },
+                { name: 'Transition', prop: 'transition', value: 'all 0.3s' }
+            ];
+
+            cssTests.forEach(test => {
+                const el = document.createElement('div');
+                el.style[test.prop] = test.value;
+                if (el.style[test.prop]) {
+                    results.push({
+                        icon: 'check-circle-fill',
+                        color: 'test-pass',
+                        text: `✅ ${test.name} 支持正常`
+                    });
+                }
+            });
+
+            // Cookie 测试
+            if (info.cookieEnabled) {
+                results.push({
+                    icon: 'check-circle-fill',
+                    color: 'test-pass',
+                    text: '✅ Cookie 功能正常'
+                });
+            }
+
+            // 显示结果
+            const container = document.getElementById('testResults');
+            container.innerHTML = results.map(result => `
+                <div class="test-item">
+                    <i class="bi bi-${result.icon} ${result.color}"></i>
+                    <span>${result.text}</span>
+                </div>
+            `).join('');
+        }
+
+        // 页面加载时运行测试
+        window.onload = function() {
+            displayBrowserInfo();
+            runTests();
+        };
+    </script>
+</body>
+</html>
+
+
+

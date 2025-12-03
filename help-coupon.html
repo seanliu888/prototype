@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>生成与管理优惠码 - 使用说明</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <link rel="stylesheet" href="help-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link active" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <!-- 面包屑导航 -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="help.html">使用说明</a></li>
+                        <li class="breadcrumb-item active">生成与管理优惠码</li>
+                    </ol>
+                </nav>
+
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1><i class="bi bi-ticket-detailed-fill me-2"></i>生成与管理优惠码</h1>
+                            <small class="text-muted">批量生成和管理优惠券码</small>
+                        </div>
+                        <a href="help.html" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>返回目录
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="help-text">
+                        <p>优惠码是用户实际使用的唯一标识符。系统支持两种方式生成优惠码：</p>
+                        <ul>
+                            <li><strong>手动批量生成</strong>：提前生成一批优惠码，可导出用于线下分发</li>
+                            <li><strong>营销活动按需生成</strong>：用户触发条件时自动生成（推荐）</li>
+                        </ul>
+
+                        <div class="section-title">
+                            <i class="bi bi-ui-checks"></i>
+                            券码状态说明
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mock-card">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="mock-badge success me-2">可用</span>
+                                        <strong>AVAILABLE</strong>
+                                    </div>
+                                    <p class="text-muted mb-0" style="font-size: 13px;">未使用，可正常领取和核销</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mock-card">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="mock-badge warning me-2">锁定中</span>
+                                        <strong>LOCKED</strong>
+                                    </div>
+                                    <p class="text-muted mb-0" style="font-size: 13px;">已被用户领取，等待使用或释放</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mock-card">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="mock-badge" style="background:#f8d7da;color:#721c24;">已使用</span>
+                                        <strong class="ms-2">USED</strong>
+                                    </div>
+                                    <p class="text-muted mb-0" style="font-size: 13px;">已完成核销，不可再次使用</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mock-card">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="mock-badge" style="background:#e2e3e5;color:#383d41;">已过期</span>
+                                        <strong class="ms-2">EXPIRED</strong>
+                                    </div>
+                                    <p class="text-muted mb-0" style="font-size: 13px;">超出有效期，自动失效</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title mt-4">
+                            <i class="bi bi-layers-fill"></i>
+                            批次管理
+                        </div>
+                        <p>批量生成的优惠码会按批次进行管理，方便追踪每批优惠码的发放来源和使用情况。每个批次记录：</p>
+                        <ul>
+                            <li>关联的优惠券模板</li>
+                            <li>生成数量和时间</li>
+                            <li>发放渠道/用途说明</li>
+                            <li>使用统计数据</li>
+                        </ul>
+
+                        <div class="tip-box">
+                            <div class="tip-title"><i class="bi bi-lightbulb"></i>推荐做法</div>
+                            <div class="tip-content">
+                                对于自动化营销场景，推荐使用<a href="help-marketing-activity.html">营销活动</a>按需生成优惠码，无需提前批量生成，更加灵活高效。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 上下篇导航 -->
+                <div class="d-flex justify-content-between">
+                    <a href="help-template.html" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>上一篇：创建优惠券模板
+                    </a>
+                    <a href="help-marketing-activity.html" class="btn btn-primary">
+                        下一篇：创建营销活动 <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

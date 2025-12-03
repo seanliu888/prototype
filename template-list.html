@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>优惠券模板管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .table-actions button {
+            padding: 4px 12px;
+            font-size: 13px;
+        }
+        .badge-type {
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .status-active {
+            color: #28a745;
+            font-weight: 600;
+        }
+        .status-expired {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        .status-pending {
+            color: #ffc107;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link active" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-file-earmark-text me-2"></i>优惠券模板管理</h1>
+                        <small class="text-muted">管理优惠券规则和配置</small>
+                    </div>
+                    <a href="template-create.html" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>创建模板
+                    </a>
+                </div>
+
+                <div class="content-card">
+                    <!-- 筛选区 -->
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">模板名称</label>
+                                <input type="text" class="form-control" placeholder="请输入模板名称">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">优惠券类型</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="DISCOUNT">折扣券</option>
+                                    <option value="CASH">现金券</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">状态</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="ACTIVE">进行中</option>
+                                    <option value="PENDING">未开始</option>
+                                    <option value="EXPIRED">已过期</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">适用范围</label>
+                                <input type="text" class="form-control" placeholder="商品ID/分类ID">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div>
+                                    <button class="btn btn-primary w-100">
+                                        <i class="bi bi-search me-1"></i>查询
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>模板ID</th>
+                                    <th>模板名称</th>
+                                    <th>类型</th>
+                                    <th>优惠力度</th>
+                                    <th>使用门槛</th>
+                                    <th>有效期</th>
+                                    <th>适用范围</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#10001</td>
+                                    <td>
+                                        <strong>新人满减券</strong>
+                                        <br><small class="text-muted">首次注册用户专享</small>
+                                    </td>
+                                    <td><span class="badge bg-success badge-type">现金券</span></td>
+                                    <td><strong class="text-danger">¥30</strong></td>
+                                    <td>满 ¥100 可用</td>
+                                    <td>
+                                        <small>2025-11-01</small><br>
+                                        <small>至 2025-12-31</small>
+                                    </td>
+                                    <td>全场通用</td>
+                                    <td><span class="status-active"><i class="bi bi-circle-fill"></i> 进行中</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='template-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='coupon-generate.html'">
+                                            <i class="bi bi-qr-code"></i> 生成码
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-warning me-1" onclick="window.location.href='template-edit.html'">
+                                            <i class="bi bi-pencil"></i> 编辑
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#10002</td>
+                                    <td>
+                                        <strong>双十一狂欢券</strong>
+                                        <br><small class="text-muted">双十一活动专用</small>
+                                    </td>
+                                    <td><span class="badge bg-info badge-type">折扣券</span></td>
+                                    <td><strong class="text-danger">8折</strong></td>
+                                    <td>满 ¥200 可用</td>
+                                    <td>
+                                        <small>2025-11-11</small><br>
+                                        <small>至 2025-11-11</small>
+                                    </td>
+                                    <td>分类ID: 101,102</td>
+                                    <td><span class="status-expired"><i class="bi bi-circle-fill"></i> 已过期</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='template-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary" disabled>
+                                            <i class="bi bi-qr-code"></i> 生成码
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#10003</td>
+                                    <td>
+                                        <strong>周年庆专享券</strong>
+                                        <br><small class="text-muted">周年庆活动</small>
+                                    </td>
+                                    <td><span class="badge bg-success badge-type">现金券</span></td>
+                                    <td><strong class="text-danger">¥50</strong></td>
+                                    <td>满 ¥300 可用</td>
+                                    <td>
+                                        <small>2025-12-01</small><br>
+                                        <small>至 2025-12-15</small>
+                                    </td>
+                                    <td>全场通用</td>
+                                    <td><span class="status-pending"><i class="bi bi-circle-fill"></i> 未开始</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='template-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='coupon-generate.html'">
+                                            <i class="bi bi-qr-code"></i> 生成码
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-warning me-1" onclick="window.location.href='template-edit.html'">
+                                            <i class="bi bi-pencil"></i> 编辑
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#10004</td>
+                                    <td>
+                                        <strong>限时抢购券</strong>
+                                        <br><small class="text-muted">限时优惠活动</small>
+                                    </td>
+                                    <td><span class="badge bg-info badge-type">折扣券</span></td>
+                                    <td><strong class="text-danger">7.5折</strong></td>
+                                    <td>满 ¥150 可用</td>
+                                    <td>
+                                        <small>2025-11-20</small><br>
+                                        <small>至 2025-11-25</small>
+                                    </td>
+                                    <td>商品ID: 1001,1002</td>
+                                    <td><span class="status-active"><i class="bi bi-circle-fill"></i> 进行中</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='template-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='coupon-generate.html'">
+                                            <i class="bi bi-qr-code"></i> 生成码
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-warning me-1" onclick="window.location.href='template-edit.html'">
+                                            <i class="bi bi-pencil"></i> 编辑
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#10005</td>
+                                    <td>
+                                        <strong>会员专属券</strong>
+                                        <br><small class="text-muted">VIP会员专享优惠</small>
+                                    </td>
+                                    <td><span class="badge bg-success badge-type">现金券</span></td>
+                                    <td><strong class="text-danger">¥20</strong></td>
+                                    <td>满 ¥80 可用</td>
+                                    <td>
+                                        <small>2025-11-15</small><br>
+                                        <small>至 2025-12-31</small>
+                                    </td>
+                                    <td>全场通用</td>
+                                    <td><span class="status-active"><i class="bi bi-circle-fill"></i> 进行中</span></td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='template-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='coupon-generate.html'">
+                                            <i class="bi bi-qr-code"></i> 生成码
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-warning me-1" onclick="window.location.href='template-edit.html'">
+                                            <i class="bi bi-pencil"></i> 编辑
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">
+                            显示第 1 到 5 条记录，共 25 条
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">上一页</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">下一页</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

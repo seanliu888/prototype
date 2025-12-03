@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>营销活动管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .filter-bar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .table-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .activity-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .activity-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        .activity-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .activity-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .info-item {
+            font-size: 14px;
+        }
+        .info-label {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+        .info-value {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        .stats-box {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        .stats-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3498db;
+        }
+        .stats-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link active" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1><i class="bi bi-megaphone me-2"></i>营销活动管理</h1>
+                            <small class="text-muted">配置自动发券规则，实现精准营销</small>
+                        </div>
+                        <button class="btn btn-primary" onclick="window.location.href='marketing-activity-create.html'">
+                            <i class="bi bi-plus-circle me-1"></i>创建活动
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 筛选栏 -->
+                <div class="content-card">
+                    <div class="filter-bar">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="搜索活动名称...">
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select">
+                                    <option value="">全部类型</option>
+                                    <option value="INVITE_REGISTER">邀请好友注册</option>
+                                    <option value="INVITE_FIRST_ORDER">邀请好友首单</option>
+                                    <option value="USER_REGISTER">用户注册</option>
+                                    <option value="FIRST_ORDER">首次下单</option>
+                                    <option value="ORDER_AMOUNT">订单满额</option>
+                                    <option value="BIRTHDAY">生日赠券</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select">
+                                    <option value="">全部状态</option>
+                                    <option value="ACTIVE">进行中</option>
+                                    <option value="INACTIVE">已停止</option>
+                                    <option value="FINISHED">已结束</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control" placeholder="开始日期">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-outline-primary w-100">
+                                    <i class="bi bi-search"></i> 搜索
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 活动列表 -->
+                    <div class="mt-4">
+                        <!-- 活动1: 邀请好友 -->
+                        <div class="activity-card">
+                            <div class="activity-header">
+                                <div>
+                                    <div class="activity-title">
+                                        <i class="bi bi-people-fill text-primary me-2"></i>
+                                        邀请好友得优惠券
+                                        <span class="badge bg-success ms-2">进行中</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size: 13px; margin-top: 5px;">
+                                        邀请好友注册成功即可获得优惠券奖励
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                            type="button" data-bs-toggle="dropdown">
+                                        操作
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="marketing-activity-detail.html"><i class="bi bi-eye me-2"></i>查看详情</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pause-circle me-2"></i>暂停活动</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="activity-info">
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-tag"></i> 活动类型</div>
+                                    <div class="info-value">邀请好友注册</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-person-check"></i> 奖励对象</div>
+                                    <div class="info-value">双方都奖励</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-ticket"></i> 关联模板</div>
+                                    <div class="info-value">邀请好友专享券 (¥50)</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-calendar-range"></i> 活动时间</div>
+                                    <div class="info-value">2025-11-01 至 2025-12-31</div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">1,234</div>
+                                        <div class="stats-label">触发次数</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">2,468</div>
+                                        <div class="stats-label">已发放券数</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">658</div>
+                                        <div class="stats-label">已使用</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">26.7%</div>
+                                        <div class="stats-label">使用率</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 活动2: 新人注册 -->
+                        <div class="activity-card">
+                            <div class="activity-header">
+                                <div>
+                                    <div class="activity-title">
+                                        <i class="bi bi-person-plus-fill text-success me-2"></i>
+                                        新人注册送券
+                                        <span class="badge bg-success ms-2">进行中</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size: 13px; margin-top: 5px;">
+                                        用户完成注册后自动发放新人优惠券
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                            type="button" data-bs-toggle="dropdown">
+                                        操作
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="marketing-activity-detail.html"><i class="bi bi-eye me-2"></i>查看详情</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pause-circle me-2"></i>暂停活动</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="activity-info">
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-tag"></i> 活动类型</div>
+                                    <div class="info-value">用户注册</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-person-check"></i> 奖励对象</div>
+                                    <div class="info-value">新注册用户</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-ticket"></i> 关联模板</div>
+                                    <div class="info-value">新人满减券 (¥30)</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-calendar-range"></i> 活动时间</div>
+                                    <div class="info-value">2025-11-01 至 2025-12-31</div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">3,456</div>
+                                        <div class="stats-label">触发次数</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">3,456</div>
+                                        <div class="stats-label">已发放券数</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">1,892</div>
+                                        <div class="stats-label">已使用</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">54.7%</div>
+                                        <div class="stats-label">使用率</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 活动3: 已停止的活动 -->
+                        <div class="activity-card" style="opacity: 0.7;">
+                            <div class="activity-header">
+                                <div>
+                                    <div class="activity-title">
+                                        <i class="bi bi-gift-fill text-warning me-2"></i>
+                                        双十一特惠活动
+                                        <span class="badge bg-secondary ms-2">已停止</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size: 13px; margin-top: 5px;">
+                                        订单满500元自动发放折扣券
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                            type="button" data-bs-toggle="dropdown">
+                                        操作
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>查看详情</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-play-circle me-2"></i>启用活动</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>复制活动</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="activity-info">
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-tag"></i> 活动类型</div>
+                                    <div class="info-value">订单满额</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-person-check"></i> 奖励对象</div>
+                                    <div class="info-value">下单用户</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-ticket"></i> 关联模板</div>
+                                    <div class="info-value">全场通用折扣券 (8折)</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label"><i class="bi bi-calendar-range"></i> 活动时间</div>
+                                    <div class="info-value">2025-11-01 至 2025-11-15</div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">856</div>
+                                        <div class="stats-label">触发次数</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">856</div>
+                                        <div class="stats-label">已发放券数</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">687</div>
+                                        <div class="stats-label">已使用</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stats-box">
+                                        <div class="stats-number">80.3%</div>
+                                        <div class="stats-label">使用率</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 分页 -->
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">上一页</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">下一页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

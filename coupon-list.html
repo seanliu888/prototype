@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>优惠码管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .coupon-code {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .progress-info {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link active" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-ticket-detailed me-2"></i>优惠码管理</h1>
+                        <small class="text-muted">查看和管理所有优惠码的使用情况</small>
+                    </div>
+                    <a href="coupon-generate.html" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>生成优惠码
+                    </a>
+                </div>
+
+                <div class="content-card">
+                    <!-- 筛选区 -->
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">券码</label>
+                                <input type="text" class="form-control" placeholder="请输入券码">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">生成批次</label>
+                                <select class="form-select" id="batchSelect">
+                                    <option value="">全部批次</option>
+                                    <option value="1001">BATCH-20251121123045</option>
+                                    <option value="1002">BATCH-20251121123156</option>
+                                    <option value="1003">BATCH-20251121100830</option>
+                                    <option value="1004">BATCH-20251120163022</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">关联模板</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="10001">新人满减券</option>
+                                    <option value="10003">周年庆专享券</option>
+                                    <option value="10004">限时抢购券</option>
+                                    <option value="10005">会员专属券</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">状态</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="AVAILABLE">可用</option>
+                                    <option value="FULLY_USED">已用尽</option>
+                                    <option value="EXPIRED">已过期</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">使用率</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="0-20">0-20%</option>
+                                    <option value="21-50">21-50%</option>
+                                    <option value="51-80">51-80%</option>
+                                    <option value="81-100">81-100%</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary flex-grow-1" onclick="searchCoupons()">
+                                        <i class="bi bi-search me-1"></i>查询
+                                    </button>
+                                    <button class="btn btn-outline-secondary" onclick="window.location.href='batch-list.html'" title="批次管理">
+                                        <i class="bi bi-layers"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 高级筛选（可折叠） -->
+                        <div class="mt-3" id="advancedFilter" style="display:none;">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">生成时间范围</label>
+                                    <input type="datetime-local" class="form-control" id="startTime">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">至</label>
+                                    <input type="datetime-local" class="form-control" id="endTime">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">操作人</label>
+                                    <input type="text" class="form-control" placeholder="请输入操作人">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <a href="#" class="text-decoration-none small" onclick="toggleAdvancedFilter(); return false;">
+                                <i class="bi bi-chevron-down" id="filterIcon"></i>
+                                <span id="filterText">展开高级筛选</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>券码ID</th>
+                                    <th>券码</th>
+                                    <th>生成批次</th>
+                                    <th>关联模板</th>
+                                    <th>最大使用次数</th>
+                                    <th>已使用次数</th>
+                                    <th>锁定次数</th>
+                                    <th>使用进度</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#20001</td>
+                                    <td><span class="coupon-code">NXMJ-8K3H-PQ7W-2MXZ</span></td>
+                                    <td>
+                                        <a href="batch-list.html" class="text-decoration-none">
+                                            <small class="text-primary">BATCH-20251121123045</small>
+                                        </a><br>
+                                        <small class="text-muted">2025-11-21 12:30:45</small>
+                                    </td>
+                                    <td>
+                                        <small>新人满减券</small><br>
+                                        <small class="text-muted">#10001</small>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><strong class="text-success">658</strong></td>
+                                    <td><strong class="text-warning">23</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-success" role="progressbar" 
+                                                 style="width: 65.8%" aria-valuenow="658" aria-valuemin="0" aria-valuemax="1000">
+                                                65.8%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info mt-1">剩余: 319 次</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#20002</td>
+                                    <td><span class="coupon-code">NXMJ-5T9N-XR4L-8HGF</span></td>
+                                    <td>
+                                        <a href="batch-list.html" class="text-decoration-none">
+                                            <small class="text-primary">BATCH-20251121123045</small>
+                                        </a><br>
+                                        <small class="text-muted">2025-11-21 12:30:45</small>
+                                    </td>
+                                    <td>
+                                        <small>新人满减券</small><br>
+                                        <small class="text-muted">#10001</small>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><strong class="text-success">1000</strong></td>
+                                    <td><strong class="text-warning">0</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-danger" role="progressbar" 
+                                                 style="width: 100%" aria-valuenow="1000" aria-valuemin="0" aria-valuemax="1000">
+                                                100%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info mt-1 text-danger">已用尽</div>
+                                    </td>
+                                    <td><span class="badge bg-danger">已用尽</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#20003</td>
+                                    <td><span class="coupon-code">ZZQX-2V8C-NK6J-4PWM</span></td>
+                                    <td>
+                                        <a href="batch-list.html" class="text-decoration-none">
+                                            <small class="text-primary">BATCH-20251121123156</small>
+                                        </a><br>
+                                        <small class="text-muted">2025-11-21 12:31:56</small>
+                                    </td>
+                                    <td>
+                                        <small>周年庆专享券</small><br>
+                                        <small class="text-muted">#10003</small>
+                                    </td>
+                                    <td><strong>500</strong></td>
+                                    <td><strong class="text-success">125</strong></td>
+                                    <td><strong class="text-warning">8</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar" role="progressbar" 
+                                                 style="width: 25%" aria-valuenow="125" aria-valuemin="0" aria-valuemax="500">
+                                                25%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info mt-1">剩余: 367 次</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#20004</td>
+                                    <td><span class="coupon-code">XSQG-9F3D-LX7T-5BNK</span></td>
+                                    <td>
+                                        <a href="batch-list.html" class="text-decoration-none">
+                                            <small class="text-primary">BATCH-20251121100830</small>
+                                        </a><br>
+                                        <small class="text-muted">2025-11-21 10:08:30</small>
+                                    </td>
+                                    <td>
+                                        <small>限时抢购券</small><br>
+                                        <small class="text-muted">#10004</small>
+                                    </td>
+                                    <td><strong>800</strong></td>
+                                    <td><strong class="text-success">456</strong></td>
+                                    <td><strong class="text-warning">15</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" 
+                                                 style="width: 57%" aria-valuenow="456" aria-valuemin="0" aria-valuemax="800">
+                                                57%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info mt-1">剩余: 329 次</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#20005</td>
+                                    <td><span class="coupon-code">HYZS-7Q2R-MT8V-3KCH</span></td>
+                                    <td>
+                                        <a href="batch-list.html" class="text-decoration-none">
+                                            <small class="text-primary">BATCH-20251120163022</small>
+                                        </a><br>
+                                        <small class="text-muted">2025-11-20 16:30:22</small>
+                                    </td>
+                                    <td>
+                                        <small>会员专属券</small><br>
+                                        <small class="text-muted">#10005</small>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><strong class="text-success">89</strong></td>
+                                    <td><strong class="text-warning">5</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                 style="width: 8.9%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="1000">
+                                                8.9%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info mt-1">剩余: 906 次</div>
+                                    </td>
+                                    <td><span class="badge bg-success">可用</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#20006</td>
+                                    <td><span class="coupon-code">NXMJ-6W9P-LH5X-2TKN</span></td>
+                                    <td>
+                                        <a href="batch-list.html" class="text-decoration-none">
+                                            <small class="text-primary">BATCH-20251121123045</small>
+                                        </a><br>
+                                        <small class="text-muted">2025-11-21 12:30:45</small>
+                                    </td>
+                                    <td>
+                                        <small>新人满减券</small><br>
+                                        <small class="text-muted">#10001</small>
+                                    </td>
+                                    <td><strong>1000</strong></td>
+                                    <td><strong class="text-success">923</strong></td>
+                                    <td><strong class="text-warning">42</strong></td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" 
+                                                 style="width: 92.3%" aria-valuenow="923" aria-valuemin="0" aria-valuemax="1000">
+                                                92.3%
+                                            </div>
+                                        </div>
+                                        <div class="progress-info mt-1 text-warning">仅剩: 35 次</div>
+                                    </td>
+                                    <td><span class="badge bg-warning">即将用尽</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='coupon-detail.html'">
+                                            <i class="bi bi-eye"></i> 详情
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">
+                            显示第 1 到 6 条记录，共 12,580 条
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">上一页</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2097</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">下一页</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function viewDetail(id) {
+            alert('查看券码详情（ID: ' + id + '）\n\n这是一个静态演示页面。');
+        }
+
+        function toggleAdvancedFilter() {
+            const filter = document.getElementById('advancedFilter');
+            const icon = document.getElementById('filterIcon');
+            const text = document.getElementById('filterText');
+            
+            if (filter.style.display === 'none') {
+                filter.style.display = 'block';
+                icon.className = 'bi bi-chevron-up';
+                text.textContent = '收起高级筛选';
+            } else {
+                filter.style.display = 'none';
+                icon.className = 'bi bi-chevron-down';
+                text.textContent = '展开高级筛选';
+            }
+        }
+
+        function searchCoupons() {
+            const batch = document.getElementById('batchSelect').value;
+            if (batch) {
+                alert('按批次查询券码\n\n批次ID: ' + batch + '\n\n这是一个静态演示页面。实际使用时会调用后端API进行查询。');
+            } else {
+                alert('执行查询\n\n这是一个静态演示页面。实际使用时会调用后端API进行查询。');
+            }
+        }
+    </script>
+</body>
+</html>
+

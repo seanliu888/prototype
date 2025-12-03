@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>编辑优惠券模板</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .form-section-title i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        .help-text {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .required-mark {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
+        .preview-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .preview-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .preview-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .preview-info {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 5px 0;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .warning-box i {
+            color: #ff9800;
+            margin-right: 8px;
+        }
+        .readonly-field {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link active" href="template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-pencil-square me-2"></i>编辑优惠券模板</h1>
+                        <small class="text-muted">模板ID: #10001 | 修改模板配置和规则</small>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <strong>注意：</strong>
+                    修改模板不会影响已生成的券码，如需更新券码规则，请禁用原批次后重新生成。
+                    优惠券类型和优惠力度一经创建不可修改，以保证历史数据一致性。
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="content-card">
+                            <form id="templateForm">
+                                <!-- 基本信息 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-info-circle-fill"></i>
+                                        基本信息
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">
+                                                模板ID
+                                            </label>
+                                            <input type="text" class="form-control readonly-field" 
+                                                   value="10001" readonly>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">
+                                                模板名称<span class="required-mark">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="templateName" 
+                                                   placeholder="例如: 新人专享满减券" required>
+                                            <div class="help-text">请输入易于识别的模板名称，建议包含优惠类型和使用场景</div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">备注说明</label>
+                                            <textarea class="form-control" id="remark" rows="3" 
+                                                      placeholder="例如: 首次注册用户专享，仅限首单使用"></textarea>
+                                            <div class="help-text">选填，用于说明该优惠券的使用场景或限制条件</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 优惠设置 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-percent"></i>
+                                        优惠设置
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                优惠券类型<span class="required-mark">*</span>
+                                            </label>
+                                            <select class="form-select readonly-field" id="couponType" 
+                                                    required disabled>
+                                                <option value="CASH" selected>现金券（固定金额）</option>
+                                                <option value="DISCOUNT">折扣券（按比例折扣）</option>
+                                            </select>
+                                            <div class="help-text text-warning">
+                                                <i class="bi bi-lock-fill"></i> 优惠券类型不可修改
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                优惠力度<span class="required-mark">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control readonly-field" 
+                                                       id="couponValue" value="30" step="0.01" 
+                                                       required readonly>
+                                                <span class="input-group-text" id="valueUnit">元</span>
+                                            </div>
+                                            <div class="help-text text-warning">
+                                                <i class="bi bi-lock-fill"></i> 优惠力度不可修改
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                使用门槛（最低消费）<span class="required-mark">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">¥</span>
+                                                <input type="number" class="form-control" id="minCartValue" 
+                                                       placeholder="例如: 100" step="0.01" required 
+                                                       onchange="updatePreview()">
+                                            </div>
+                                            <div class="help-text">订单金额需达到此金额才可使用，输入0表示无门槛</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 有效期设置 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-calendar-check"></i>
+                                        有效期设置
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                开始时间<span class="required-mark">*</span>
+                                            </label>
+                                            <input type="datetime-local" class="form-control" id="startTime" 
+                                                   required onchange="updatePreview()">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                结束时间<span class="required-mark">*</span>
+                                            </label>
+                                            <input type="datetime-local" class="form-control" id="endTime" 
+                                                   required onchange="updatePreview()">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                固定有效天数
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="enableFixedDays" 
+                                                       placeholder="0表示不启用" min="0" max="365" value="0"
+                                                       onchange="updatePreview()">
+                                                <span class="input-group-text">天</span>
+                                            </div>
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i>
+                                                设置为0表示使用上方固定时间范围；设置>0表示自领取之日起N天有效
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i>
+                                                修改有效期不影响已生成的券码
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 适用范围 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-tag"></i>
+                                        适用范围
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">范围类型</label>
+                                            <select class="form-select" id="scopeType" onchange="toggleScopeInput()">
+                                                <option value="ALL" selected>全场通用</option>
+                                                <option value="CATEGORY">指定分类</option>
+                                                <option value="PRODUCT">指定商品</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3" id="scopeValueDiv" style="display:none;">
+                                            <label class="form-label">范围值</label>
+                                            <input type="text" class="form-control" id="scopeValue" 
+                                                   placeholder="例如: 101,102,103">
+                                            <div class="help-text">多个ID用英文逗号分隔</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 模板状态 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-toggle-on"></i>
+                                        模板状态
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">当前状态</label>
+                                            <select class="form-select" id="templateStatus">
+                                                <option value="ACTIVE" selected>启用 - 可以生成新券码</option>
+                                                <option value="INACTIVE">禁用 - 暂停生成新券码</option>
+                                            </select>
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i>
+                                                禁用模板后将无法生成新券码，但不影响已生成券码的使用
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 提交按钮 -->
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-secondary" 
+                                            onclick="history.back()">
+                                        <i class="bi bi-arrow-left me-1"></i>返回
+                                    </button>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-secondary" 
+                                                onclick="window.location.href='template-detail.html'">
+                                            <i class="bi bi-x-circle me-1"></i>取消
+                                        </button>
+                                        <button type="button" class="btn btn-primary" onclick="submitForm()">
+                                            <i class="bi bi-check-circle me-1"></i>保存修改
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 预览区 -->
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-eye me-2"></i>优惠券预览</h5>
+                            <div class="preview-card">
+                                <div class="preview-title" id="previewName">新人满减券</div>
+                                <div class="preview-value" id="previewValue">¥30</div>
+                                <div class="preview-info" id="previewThreshold">
+                                    <i class="bi bi-cart-check"></i> 使用门槛：满¥100可用
+                                </div>
+                                <div class="preview-info" id="previewValidity">
+                                    <i class="bi bi-calendar-range"></i> 有效期：2025-11-01 至 2025-12-31
+                                </div>
+                                <div class="preview-info" id="previewScope">
+                                    <i class="bi bi-tags"></i> 适用范围：全场通用
+                                </div>
+                            </div>
+                            <div class="alert alert-warning mt-3">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>编辑说明：</strong>
+                                <ul class="mb-0 mt-2" style="font-size: 13px;">
+                                    <li>优惠券类型和优惠力度不可修改</li>
+                                    <li>其他字段修改后实时生效</li>
+                                    <li>修改不影响已生成的券码</li>
+                                    <li>需要更新券码规则请重新生成</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 修改记录 -->
+                            <div class="mt-3">
+                                <h6 class="mb-2"><i class="bi bi-clock-history me-2"></i>修改记录</h6>
+                                <div style="font-size: 13px; color: #7f8c8d;">
+                                    <div class="mb-2">
+                                        <strong>创建时间：</strong><br>
+                                        2025-11-01 10:00:00 | 管理员：张三
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>最后修改：</strong><br>
+                                        2025-11-20 15:30:00 | 管理员：李四
+                                    </div>
+                                    <div class="mb-2">
+                                        <strong>修改次数：</strong> 3次
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 页面加载时填充现有数据（模拟从后端获取）
+        window.onload = function() {
+            loadTemplateData();
+            updatePreview();
+        };
+
+        // 加载模板数据
+        function loadTemplateData() {
+            // 模拟从URL参数或后端API获取数据
+            const templateData = {
+                id: 10001,
+                name: '新人满减券',
+                remark: '首次注册用户专享优惠券',
+                type: 'CASH',
+                value: 30,
+                minCartValue: 100,
+                startTime: '2025-11-01T00:00',
+                endTime: '2025-12-31T23:59',
+                enableFixedDays: 0, // 固定有效天数（0表示不启用，>0表示天数）
+                scopeType: 'ALL',
+                scopeValue: '',
+                status: 'ACTIVE'
+            };
+
+            // 填充表单
+            document.getElementById('templateName').value = templateData.name;
+            document.getElementById('remark').value = templateData.remark;
+            document.getElementById('couponType').value = templateData.type;
+            document.getElementById('couponValue').value = templateData.value;
+            document.getElementById('minCartValue').value = templateData.minCartValue;
+            document.getElementById('startTime').value = templateData.startTime;
+            document.getElementById('endTime').value = templateData.endTime;
+            document.getElementById('enableFixedDays').value = templateData.enableFixedDays || 0;
+            document.getElementById('scopeType').value = templateData.scopeType;
+            document.getElementById('scopeValue').value = templateData.scopeValue;
+            document.getElementById('templateStatus').value = templateData.status;
+
+            // 更新单位显示
+            if (templateData.type === 'CASH') {
+                document.getElementById('valueUnit').textContent = '元';
+            } else {
+                document.getElementById('valueUnit').textContent = '折扣率';
+            }
+
+            // 显示/隐藏范围值输入框
+            toggleScopeInput();
+            
+            // 显示/隐藏"领取后n天可使用"输入框
+            toggleDaysAfterReceive();
+        }
+
+        // 切换适用范围输入框
+        function toggleScopeInput() {
+            const scopeType = document.getElementById('scopeType').value;
+            const scopeValueDiv = document.getElementById('scopeValueDiv');
+            if (scopeType === 'ALL') {
+                scopeValueDiv.style.display = 'none';
+            } else {
+                scopeValueDiv.style.display = 'block';
+            }
+            updatePreview();
+        }
+
+        // 切换固定有效天数选项
+        // 更新预览
+        function updatePreview() {
+            const name = document.getElementById('templateName').value || '优惠券名称';
+            const type = document.getElementById('couponType').value;
+            const value = document.getElementById('couponValue').value;
+            const minCart = document.getElementById('minCartValue').value;
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const scopeType = document.getElementById('scopeType').value;
+
+            // 更新名称
+            document.getElementById('previewName').textContent = name;
+
+            // 更新优惠力度
+            if (type && value) {
+                if (type === 'CASH') {
+                    document.getElementById('previewValue').textContent = '¥' + value;
+                } else if (type === 'DISCOUNT') {
+                    const discount = (parseFloat(value) * 10).toFixed(1);
+                    document.getElementById('previewValue').textContent = discount + '折';
+                }
+            }
+
+            // 更新使用门槛
+            if (minCart) {
+                const threshold = parseFloat(minCart) === 0 ? '无门槛' : '满¥' + minCart + '可用';
+                document.getElementById('previewThreshold').innerHTML = 
+                    '<i class="bi bi-cart-check"></i> 使用门槛：' + threshold;
+            }
+
+            // 更新有效期
+            const enableFixedDays = parseInt(document.getElementById('enableFixedDays').value) || 0;
+            
+            if (startTime && endTime) {
+                const start = new Date(startTime).toLocaleDateString('zh-CN');
+                const end = new Date(endTime).toLocaleDateString('zh-CN');
+                let validityText = start + ' 至 ' + end;
+                
+                // 如果启用了固定有效天数（>0）
+                if (enableFixedDays > 0) {
+                    validityText += '<br><small style="opacity:0.9;">自领取之日起' + enableFixedDays + '天内有效</small>';
+                }
+                
+                document.getElementById('previewValidity').innerHTML = 
+                    '<i class="bi bi-calendar-range"></i> 有效期：' + validityText;
+            }
+
+            // 更新适用范围
+            let scopeText = '全场通用';
+            if (scopeType === 'CATEGORY') {
+                scopeText = '指定分类';
+            } else if (scopeType === 'PRODUCT') {
+                scopeText = '指定商品';
+            }
+            document.getElementById('previewScope').innerHTML = 
+                '<i class="bi bi-tags"></i> 适用范围：' + scopeText;
+        }
+
+        // 提交表单
+        function submitForm() {
+            const form = document.getElementById('templateForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // 验证日期
+            const startTime = new Date(document.getElementById('startTime').value);
+            const endTime = new Date(document.getElementById('endTime').value);
+            if (endTime <= startTime) {
+                alert('结束时间必须晚于开始时间！');
+                return;
+            }
+
+            // 验证固定有效天数选项
+            const enableFixedDays = parseInt(document.getElementById('enableFixedDays').value) || 0;
+            if (enableFixedDays < 0 || enableFixedDays > 365) {
+                alert('固定有效天数应在0-365之间（0表示不启用）！');
+                return;
+            }
+
+            // 验证使用门槛
+            const minCart = parseFloat(document.getElementById('minCartValue').value);
+            if (minCart < 0) {
+                alert('使用门槛不能为负数！');
+                return;
+            }
+
+            // 收集修改的数据
+            const formData = {
+                id: 10001,
+                name: document.getElementById('templateName').value,
+                remark: document.getElementById('remark').value,
+                minCartValue: minCart,
+                startTime: document.getElementById('startTime').value,
+                endTime: document.getElementById('endTime').value,
+                enableFixedDays: enableFixedDays,
+                scopeType: document.getElementById('scopeType').value,
+                scopeValue: document.getElementById('scopeValue').value,
+                status: document.getElementById('templateStatus').value
+            };
+
+            console.log('提交的表单数据：', formData);
+
+            // 模拟提交
+            if (confirm('确认保存修改？\n\n修改将立即生效，但不影响已生成的券码。')) {
+                alert('模板修改成功！\n\n这是一个静态页面演示，实际使用时会调用后端API更新数据。');
+                window.location.href = 'template-detail.html';
+            }
+        }
+
+        // 监听输入事件，实时更新预览
+        document.getElementById('templateName').addEventListener('input', updatePreview);
+        document.getElementById('minCartValue').addEventListener('input', updatePreview);
+    </script>
+</body>
+</html>
+
