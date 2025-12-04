@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>字典类型管理 - 优惠券管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .table-actions button {
+            padding: 4px 12px;
+            font-size: 13px;
+        }
+        .status-active {
+            color: #28a745;
+            font-weight: 600;
+        }
+        .status-disabled {
+            color: #6c757d;
+            font-weight: 600;
+        }
+        .lang-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            margin-right: 3px;
+        }
+        .lang-badge.completed {
+            background-color: #28a745;
+        }
+        .lang-badge.incomplete {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="../index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="../template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="../coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="../batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="../marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="../usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="../statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="../operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link active" href="dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="../help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-book me-2"></i>字典类型管理</h1>
+                        <small class="text-muted">系统管理 / 数据字典 / 字典类型</small>
+                    </div>
+                    <a href="dict-type-add.html" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>新增字典类型
+                    </a>
+                </div>
+
+                <div class="content-card">
+                    <!-- 筛选区 -->
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">字典名称</label>
+                                <input type="text" class="form-control" placeholder="请输入字典名称">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">字典类型</label>
+                                <input type="text" class="form-control" placeholder="请输入字典类型">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">状态</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">翻译状态</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="complete">全部完成</option>
+                                    <option value="incomplete">未完成</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary flex-fill">
+                                        <i class="bi bi-search me-1"></i>查询
+                                    </button>
+                                    <button class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 工具栏 -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash me-1"></i>批量删除
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-download me-1"></i>导出
+                            </button>
+                        </div>
+                        <small class="text-muted">共 5 条记录</small>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="50"><input type="checkbox" class="form-check-input"></th>
+                                    <th width="80">编号</th>
+                                    <th>字典名称</th>
+                                    <th>字典类型</th>
+                                    <th width="140">多语言状态</th>
+                                    <th width="80">状态</th>
+                                    <th width="80">排序</th>
+                                    <th width="180">创建时间</th>
+                                    <th width="200">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                    <td>1</td>
+                                    <td>
+                                        <strong>用户性别</strong>
+                                    </td>
+                                    <td><code>sys_user_gender</code></td>
+                                    <td>
+                                        <span class="lang-badge completed" title="中文-已翻译">中</span>
+                                        <span class="lang-badge completed" title="英文-已翻译">En</span>
+                                        <span class="lang-badge completed" title="日文-已翻译">日</span>
+                                        <span class="lang-badge incomplete" title="西班牙文-未翻译">Es</span>
+                                    </td>
+                                    <td><span class="status-active"><i class="bi bi-circle-fill"></i> 启用</span></td>
+                                    <td>1</td>
+                                    <td>2024-01-15 10:30:00</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='dict-type-edit.html'">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='dict-data-list.html'">
+                                            <i class="bi bi-list-ul"></i> 数据
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                    <td>2</td>
+                                    <td>
+                                        <strong>菜单状态</strong>
+                                    </td>
+                                    <td><code>sys_menu_status</code></td>
+                                    <td>
+                                        <span class="lang-badge completed" title="中文-已翻译">中</span>
+                                        <span class="lang-badge completed" title="英文-已翻译">En</span>
+                                        <span class="lang-badge incomplete" title="日文-未翻译">日</span>
+                                        <span class="lang-badge incomplete" title="西班牙文-未翻译">Es</span>
+                                    </td>
+                                    <td><span class="status-active"><i class="bi bi-circle-fill"></i> 启用</span></td>
+                                    <td>2</td>
+                                    <td>2024-01-14 09:20:00</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='dict-type-edit.html'">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='dict-data-list.html'">
+                                            <i class="bi bi-list-ul"></i> 数据
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                    <td>3</td>
+                                    <td>
+                                        <strong>系统开关</strong>
+                                    </td>
+                                    <td><code>sys_normal_disable</code></td>
+                                    <td>
+                                        <span class="lang-badge completed" title="中文-已翻译">中</span>
+                                        <span class="lang-badge completed" title="英文-已翻译">En</span>
+                                        <span class="lang-badge completed" title="日文-已翻译">日</span>
+                                        <span class="lang-badge completed" title="西班牙文-已翻译">Es</span>
+                                    </td>
+                                    <td><span class="status-active"><i class="bi bi-circle-fill"></i> 启用</span></td>
+                                    <td>3</td>
+                                    <td>2024-01-13 14:15:00</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='dict-type-edit.html'">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='dict-data-list.html'">
+                                            <i class="bi bi-list-ul"></i> 数据
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                    <td>4</td>
+                                    <td>
+                                        <strong>任务状态</strong>
+                                    </td>
+                                    <td><code>sys_job_status</code></td>
+                                    <td>
+                                        <span class="lang-badge completed" title="中文-已翻译">中</span>
+                                        <span class="lang-badge incomplete" title="英文-未翻译">En</span>
+                                        <span class="lang-badge incomplete" title="日文-未翻译">日</span>
+                                        <span class="lang-badge incomplete" title="西班牙文-未翻译">Es</span>
+                                    </td>
+                                    <td><span class="status-active"><i class="bi bi-circle-fill"></i> 启用</span></td>
+                                    <td>4</td>
+                                    <td>2024-01-12 16:45:00</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='dict-type-edit.html'">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='dict-data-list.html'">
+                                            <i class="bi bi-list-ul"></i> 数据
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input"></td>
+                                    <td>5</td>
+                                    <td>
+                                        <strong>通知类型</strong>
+                                    </td>
+                                    <td><code>sys_notice_type</code></td>
+                                    <td>
+                                        <span class="lang-badge completed" title="中文-已翻译">中</span>
+                                        <span class="lang-badge completed" title="英文-已翻译">En</span>
+                                        <span class="lang-badge incomplete" title="日文-未翻译">日</span>
+                                        <span class="lang-badge incomplete" title="西班牙文-未翻译">Es</span>
+                                    </td>
+                                    <td><span class="status-disabled"><i class="bi bi-circle-fill"></i> 禁用</span></td>
+                                    <td>5</td>
+                                    <td>2024-01-11 11:20:00</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary me-1" onclick="window.location.href='dict-type-edit.html'">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success me-1" onclick="window.location.href='dict-data-list.html'">
+                                            <i class="bi bi-list-ul"></i> 数据
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">
+                            显示第 1 到 5 条记录，共 5 条
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">上一页</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">下一页</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

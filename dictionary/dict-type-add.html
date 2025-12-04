@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>新增字典类型 - 优惠券管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .form-section-title i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        .help-text {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .required-mark {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="../index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="../template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="../coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="../batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="../marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="../usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="../statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="../operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link active" href="dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="../help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <h1><i class="bi bi-plus-circle me-2"></i>新增字典类型</h1>
+                    <small class="text-muted"><a href="dict-type-list.html" class="text-decoration-none">字典类型</a> / 新增字典类型</small>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="content-card">
+                            <!-- 提示信息 -->
+                            <div class="alert alert-info mb-4">
+                                <i class="bi bi-lightbulb me-2"></i>
+                                <strong>填写说明：</strong>
+                                <ul class="mb-0 mt-2">
+                                    <li>字典类型是必填项，需确保唯一性，建议使用下划线命名法（如：sys_user_status）</li>
+                                    <li>字典名称（中文）是必填项，作为默认语言显示</li>
+                                    <li>保存后可在编辑页面添加其他语言的翻译</li>
+                                    <li>备注字段用于内部说明，不需要翻译</li>
+                                </ul>
+                            </div>
+
+                            <form id="dictTypeForm">
+                                <!-- 基本信息 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-info-circle-fill"></i>
+                                        基本信息
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">
+                                                字典类型<span class="required-mark">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="dictType" 
+                                                   placeholder="请输入字典类型，如：sys_user_status" required>
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i> 
+                                                字典类型唯一标识，用于系统调用，建议使用下划线命名法
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">
+                                                字典名称（中文）<span class="required-mark">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="dictName" 
+                                                   placeholder="请输入字典名称" required>
+                                            <div class="help-text">
+                                                <i class="bi bi-info-circle"></i> 
+                                                默认语言的字典名称，显示在界面上
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">排序</label>
+                                            <input type="number" class="form-control" id="sortOrder" 
+                                                   value="0" min="0" placeholder="请输入排序号">
+                                            <div class="help-text">数字越小越靠前</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                状态<span class="required-mark">*</span>
+                                            </label>
+                                            <div class="mt-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="status" 
+                                                           id="statusActive" value="1" checked>
+                                                    <label class="form-check-label" for="statusActive">启用</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="status" 
+                                                           id="statusDisabled" value="0">
+                                                    <label class="form-check-label" for="statusDisabled">禁用</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">备注</label>
+                                            <textarea class="form-control" id="remark" rows="3" 
+                                                      placeholder="请输入备注信息（可选）"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 提交按钮 -->
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" 
+                                            onclick="window.location.href='dict-type-list.html'">
+                                        <i class="bi bi-x-circle me-1"></i>取消
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="saveAndContinue()">
+                                        <i class="bi bi-plus me-1"></i>保存并继续添加
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="saveForm()">
+                                        <i class="bi bi-check-circle me-1"></i>保存
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 帮助信息 -->
+                    <div class="col-md-4">
+                        <div class="content-card">
+                            <h5 class="mb-3"><i class="bi bi-question-circle me-2"></i>帮助信息</h5>
+                            <div class="alert alert-light">
+                                <h6><i class="bi bi-bookmark me-1"></i> 什么是数据字典？</h6>
+                                <p class="small mb-0">数据字典用于管理系统中的枚举值和配置项，支持多语言翻译。创建字典类型后，可以在该类型下添加具体的字典数据项。</p>
+                            </div>
+                            <div class="alert alert-light">
+                                <h6><i class="bi bi-translate me-1"></i> 多语言支持</h6>
+                                <p class="small mb-0">字典支持中文、英文、日文、西班牙文等多种语言。创建后可在编辑页面配置多语言翻译。</p>
+                            </div>
+                            <div class="alert alert-light mb-0">
+                                <h6><i class="bi bi-code-slash me-1"></i> 命名规范</h6>
+                                <p class="small mb-0">字典类型建议使用小写字母和下划线，如：<code>sys_user_status</code>、<code>coupon_type</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function saveForm() {
+            const form = document.getElementById('dictTypeForm');
+            const dictType = document.getElementById('dictType').value.trim();
+            const dictName = document.getElementById('dictName').value.trim();
+            
+            if (!dictType || !dictName) {
+                alert('请填写必填项！');
+                return;
+            }
+            
+            alert('保存成功！');
+            window.location.href = 'dict-type-list.html';
+        }
+        
+        function saveAndContinue() {
+            const form = document.getElementById('dictTypeForm');
+            const dictType = document.getElementById('dictType').value.trim();
+            const dictName = document.getElementById('dictName').value.trim();
+            
+            if (!dictType || !dictName) {
+                alert('请填写必填项！');
+                return;
+            }
+            
+            alert('保存成功！您可以继续添加新的字典类型。');
+            // 清空表单
+            document.getElementById('dictType').value = '';
+            document.getElementById('dictName').value = '';
+            document.getElementById('sortOrder').value = '0';
+            document.getElementById('remark').value = '';
+            document.getElementById('statusActive').checked = true;
+            document.getElementById('dictType').focus();
+        }
+    </script>
+</body>
+</html>
