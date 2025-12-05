@@ -190,6 +190,10 @@
             border-color: #3498db;
             background-color: #f8f9fa;
         }
+        .dict-type-item.selected {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
         .dict-type-item .dict-type-key {
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 13px;
@@ -292,7 +296,7 @@
                                             </div>
                                             <div class="help-text">
                                                 <i class="bi bi-info-circle"></i> 
-                                                格式：<code>{{dict:字典类型:字典键值}}</code> + 备注文本，后端会自动替换为对应语言
+                                                格式：<code>{{dict:字典类型}}</code>（整类）或 <code>{{dict:字典类型:字典键值}}</code>（具体项），后端自动替换
                                             </div>
                                         </div>
                                         <div class="col-md-12 mb-3">
@@ -494,8 +498,34 @@
                             <input type="text" class="form-control" id="dictTypeSearchInput" 
                                    placeholder="搜索字典类型..." onkeyup="filterDictTypes(this.value)">
                         </div>
-                        <div id="dictTypeList" style="max-height: 300px; overflow-y: auto;">
+                        <div class="alert alert-info small mb-3">
+                            <i class="bi bi-lightbulb me-1"></i>
+                            <strong>提示：</strong>字典类型本身也是一个数据项，点击即可选择；也可展开查看下级的具体数据项
+                        </div>
+                        <div id="dictTypeList" style="max-height: 250px; overflow-y: auto;">
                             <!-- 字典类型列表 -->
+                        </div>
+                        
+                        <!-- 字典类型的覆盖值设置区域 -->
+                        <div id="dictTypeOverrideSection" class="mt-3 p-3 bg-light rounded" style="display: none;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label mb-0 fw-bold">
+                                    <i class="bi bi-pencil-square text-primary me-1"></i>覆盖值（可选）
+                                </label>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="copyFromDictType()">
+                                    <i class="bi bi-clipboard"></i> 复制字典值
+                                </button>
+                            </div>
+                            <input type="text" class="form-control" id="dictTypeOverrideValue" 
+                                   placeholder="留空则使用字典原值，填写则覆盖字典值">
+                            <div class="form-text">
+                                <i class="bi bi-info-circle"></i> 
+                                填写后将使用此值替代字典中的翻译
+                            </div>
+                            <div class="mt-2 small">
+                                <span class="text-muted">字典原值：</span>
+                                <span id="dictTypeOriginalValue" class="text-primary">-</span>
+                            </div>
                         </div>
                     </div>
                     
@@ -648,12 +678,17 @@
             currentDictTarget = targetId;
             currentDictType = null;
             selectedDictKey = null;
+            isSelectingDictType = false;
             
             // 重置界面
             document.getElementById('dictTypeSection').style.display = 'block';
             document.getElementById('dictItemSection').style.display = 'none';
             document.getElementById('dictTypeSearchInput').value = '';
             document.getElementById('confirmDictBtn').disabled = true;
+            
+            // 重置字典类型覆盖值区域
+            document.getElementById('dictTypeOverrideSection').style.display = 'none';
+            document.getElementById('dictTypeOverrideValue').value = '';
             
             // 渲染字典类型列表
             renderDictTypeList('', suggestedDictType);
@@ -683,9 +718,10 @@
                 const isRecommended = key === suggestedType;
                 
                 html += `
-                    <div class="dict-type-item" onclick="selectDictType('${key}')">
+                    <div class="dict-type-item" data-type="${key}" onclick="selectDictTypeItem('${key}')">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
+                                <input type="radio" name="dictTypeRadio" value="${key}" class="me-2">
                                 <span class="dict-type-name">${meta.name}</span>
                                 ${isRecommended ? '<span class="badge bg-success ms-2">推荐</span>' : ''}
                             </div>
@@ -693,6 +729,11 @@
                         </div>
                         <div class="dict-type-key mt-1">${key}</div>
                         <div class="text-muted small mt-1">${meta.description}</div>
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="selectDictType('${key}'); event.stopPropagation();">
+                                <i class="bi bi-list-ul me-1"></i>展开下级数据 (${itemCount})
+                            </button>
+                        </div>
                     </div>
                 `;
             });
@@ -703,11 +744,54 @@
             
             listContainer.innerHTML = html;
         }
+        
+        // 选择字典类型项（点击选中）
+        function selectDictTypeItem(dictType) {
+            // 移除所有选中样式
+            document.querySelectorAll('.dict-type-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 选中当前项
+            const selectedItem = document.querySelector(`.dict-type-item[data-type="${dictType}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+                selectedItem.querySelector('input[type="radio"]').checked = true;
+            }
+            
+            currentDictType = dictType;
+            selectedDictKey = null;
+            isSelectingDictType = true;
+            
+            const meta = dictTypes[dictType];
+            
+            // 显示覆盖值设置区域
+            const overrideSection = document.getElementById('dictTypeOverrideSection');
+            overrideSection.style.display = 'block';
+            document.getElementById('dictTypeOverrideValue').value = '';
+            document.getElementById('dictTypeOriginalValue').textContent = meta?.name || dictType;
+            
+            // 启用确认按钮
+            document.getElementById('confirmDictBtn').disabled = false;
+        }
+        
+        // 复制字典类型值到覆盖输入框
+        function copyFromDictType() {
+            const originalValue = document.getElementById('dictTypeOriginalValue').textContent;
+            if (originalValue && originalValue !== '-') {
+                document.getElementById('dictTypeOverrideValue').value = originalValue;
+                document.getElementById('dictTypeOverrideValue').focus();
+            }
+        }
 
-        // 选择字典类型
+        // 标记是否选择的是字典类型本身
+        let isSelectingDictType = false;
+
+        // 选择字典类型（展开下级数据）
         function selectDictType(dictType) {
             currentDictType = dictType;
             selectedDictKey = null;
+            isSelectingDictType = false;
             
             document.getElementById('dictTypeSection').style.display = 'none';
             document.getElementById('dictItemSection').style.display = 'block';
@@ -715,6 +799,10 @@
             document.getElementById('currentDictTypeName').textContent = dictTypes[dictType]?.name || '';
             document.getElementById('dictSearchInput').value = '';
             document.getElementById('confirmDictBtn').disabled = true;
+            
+            // 显示字典项列表和搜索框
+            document.getElementById('dictList').style.display = 'block';
+            document.querySelector('#dictItemSection .mb-3:nth-child(2)').style.display = 'block';
             
             document.getElementById('dictOverrideSection').style.display = 'none';
             document.getElementById('dictOverrideValue').value = '';
@@ -727,8 +815,19 @@
         function backToDictType() {
             document.getElementById('dictTypeSection').style.display = 'block';
             document.getElementById('dictItemSection').style.display = 'none';
-            document.getElementById('confirmDictBtn').disabled = true;
-            currentDictType = null;
+            
+            // 重置字典项列表和搜索框显示状态
+            document.getElementById('dictList').style.display = 'block';
+            document.querySelector('#dictItemSection .mb-3:nth-child(2)').style.display = 'block';
+            
+            // 如果之前选中了字典类型，保持选中状态和覆盖值区域
+            if (isSelectingDictType && currentDictType) {
+                document.getElementById('confirmDictBtn').disabled = false;
+            } else {
+                document.getElementById('confirmDictBtn').disabled = true;
+                currentDictType = null;
+            }
+            
             selectedDictKey = null;
         }
 
@@ -818,27 +917,44 @@
 
         // 确认字典选择
         function confirmDictSelection() {
-            if (!selectedDictKey) {
-                alert('请选择一个字典项');
-                return;
-            }
+            let placeholder;
+            let displayText;
             
-            const dictItems = dictData[currentDictType] || [];
-            const selectedItem = dictItems.find(item => item.key === selectedDictKey);
-            const overrideValue = document.getElementById('dictOverrideValue').value.trim();
-            
-            if (selectedItem) {
-                let placeholder;
-                let displayText;
+            if (isSelectingDictType) {
+                // 选择的是字典类型本身
+                const overrideValue = document.getElementById('dictTypeOverrideValue').value.trim();
+                const meta = dictTypes[currentDictType];
                 
                 if (overrideValue) {
-                    placeholder = `{{dict:${currentDictType}:${selectedDictKey}|${overrideValue}}}`;
+                    placeholder = `{{dict:${currentDictType}|${overrideValue}}}`;
                     displayText = overrideValue;
                 } else {
-                    placeholder = `{{dict:${currentDictType}:${selectedDictKey}}}`;
-                    displayText = selectedItem.translations.zh;
+                    placeholder = `{{dict:${currentDictType}}}`;
+                    displayText = meta?.name || currentDictType;
+                }
+            } else {
+                // 选择的是具体字典项
+                if (!selectedDictKey) {
+                    alert('请选择一个字典项');
+                    return;
                 }
                 
+                const overrideValue = document.getElementById('dictOverrideValue').value.trim();
+                const dictItems = dictData[currentDictType] || [];
+                const selectedItem = dictItems.find(item => item.key === selectedDictKey);
+                
+                if (selectedItem) {
+                    if (overrideValue) {
+                        placeholder = `{{dict:${currentDictType}:${selectedDictKey}|${overrideValue}}}`;
+                        displayText = overrideValue;
+                    } else {
+                        placeholder = `{{dict:${currentDictType}:${selectedDictKey}}}`;
+                        displayText = selectedItem.translations.zh;
+                    }
+                }
+            }
+            
+            if (placeholder) {
                 const targetInput = document.getElementById(currentDictTarget);
                 
                 let currentValue = targetInput.value;
@@ -851,8 +967,14 @@
                 targetInput.value = `${placeholder} ${displayText}${currentValue ? ' ' + currentValue.trim() : ''}`;
             }
             
+            // 重置状态
             document.getElementById('dictOverrideSection').style.display = 'none';
             document.getElementById('dictOverrideValue').value = '';
+            document.getElementById('dictTypeOverrideSection').style.display = 'none';
+            document.getElementById('dictTypeOverrideValue').value = '';
+            document.getElementById('dictList').style.display = 'block';
+            document.querySelector('#dictItemSection .mb-3:nth-child(2)').style.display = 'block';
+            isSelectingDictType = false;
             
             bootstrap.Modal.getInstance(document.getElementById('dictModal')).hide();
             updatePreview();
