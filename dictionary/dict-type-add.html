@@ -104,6 +104,183 @@
             color: #e74c3c;
             margin-left: 3px;
         }
+        /* 多语言区域样式 */
+        .i18n-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 10px;
+        }
+        .i18n-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .i18n-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        .i18n-title i {
+            margin-right: 8px;
+            color: #3498db;
+        }
+        .lang-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        .lang-item:hover {
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.15);
+        }
+        .lang-item:last-child {
+            margin-bottom: 0;
+        }
+        .lang-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .lang-flag {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        .lang-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .lang-code {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-left: 8px;
+            background: #f1f3f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .lang-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .lang-input input {
+            flex: 1;
+        }
+        .lang-input .btn-remove {
+            color: #dc3545;
+            border: none;
+            background: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        .lang-input .btn-remove:hover {
+            opacity: 1;
+        }
+        .add-lang-wrapper {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #dee2e6;
+        }
+        .add-lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3498db;
+            background: none;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 12px 20px;
+            width: 100%;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .add-lang-btn:hover {
+            background: rgba(52, 152, 219, 0.1);
+            border-style: solid;
+        }
+        .lang-select-dropdown {
+            position: relative;
+        }
+        .lang-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-top: 5px;
+        }
+        .lang-options.show {
+            display: block;
+        }
+        .lang-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .lang-option:hover {
+            background: #f8f9fa;
+        }
+        .lang-option.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #f8f9fa;
+        }
+        .lang-option .flag {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        .lang-option .name {
+            flex: 1;
+        }
+        .lang-option .added-badge {
+            font-size: 11px;
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .translation-hint {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #fff3cd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+        }
+        .translation-hint i {
+            margin-right: 8px;
+            color: #856404;
+        }
+        .batch-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .batch-actions .btn {
+            font-size: 13px;
+            padding: 5px 12px;
+        }
     </style>
 </head>
 <body>
@@ -176,7 +353,7 @@
                                 <ul class="mb-0 mt-2">
                                     <li>字典类型是必填项，需确保唯一性，建议使用下划线命名法（如：sys_user_status）</li>
                                     <li>字典名称（中文）是必填项，作为默认语言显示</li>
-                                    <li>保存后可在编辑页面添加其他语言的翻译</li>
+                                    <li>可在下方添加其他语言的翻译，也可保存后在编辑页面添加</li>
                                     <li>备注字段用于内部说明，不需要翻译</li>
                                 </ul>
                             </div>
@@ -242,6 +419,56 @@
                                     </div>
                                 </div>
 
+                                <!-- 多语言翻译 -->
+                                <div class="form-section">
+                                    <div class="form-section-title">
+                                        <i class="bi bi-translate"></i>
+                                        多语言翻译
+                                        <span class="badge bg-secondary ms-2" style="font-size: 12px; font-weight: normal;">可选</span>
+                                    </div>
+                                    
+                                    <div class="i18n-section">
+                                        <div class="i18n-header">
+                                            <div class="i18n-title">
+                                                <i class="bi bi-globe2"></i>
+                                                语言翻译列表
+                                                <span class="badge bg-primary ms-2" id="langCount">0 种语言</span>
+                                            </div>
+                                            <div class="batch-actions">
+                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addAllLangs()">
+                                                    <i class="bi bi-plus-square me-1"></i>添加全部
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearAllLangs()">
+                                                    <i class="bi bi-x-square me-1"></i>清空全部
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- 已添加的语言列表 -->
+                                        <div id="langList">
+                                            <!-- 动态添加的语言项会显示在这里 -->
+                                        </div>
+
+                                        <!-- 添加语言 -->
+                                        <div class="add-lang-wrapper">
+                                            <div class="lang-select-dropdown">
+                                                <button type="button" class="add-lang-btn" onclick="toggleLangOptions()">
+                                                    <i class="bi bi-plus-circle"></i>
+                                                    <span>添加语言翻译</span>
+                                                </button>
+                                                <div class="lang-options" id="langOptions">
+                                                    <!-- 语言选项会动态生成 -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="translation-hint">
+                                            <i class="bi bi-info-circle-fill"></i>
+                                            <span>提示：添加多语言翻译可以让系统支持国际化显示。如果暂时不需要，可以先保存，后续在编辑页面添加。</span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- 提交按钮 -->
                                 <div class="d-flex justify-content-end gap-2">
                                     <button type="button" class="btn btn-secondary" 
@@ -269,11 +496,32 @@
                             </div>
                             <div class="alert alert-light">
                                 <h6><i class="bi bi-translate me-1"></i> 多语言支持</h6>
-                                <p class="small mb-0">字典支持中文、英文、日文、西班牙文等多种语言。创建后可在编辑页面配置多语言翻译。</p>
+                                <p class="small mb-0">字典支持中文、英文、日文、西班牙文等多种语言。可以在创建时直接添加翻译，也可以后续在编辑页面配置。</p>
                             </div>
                             <div class="alert alert-light mb-0">
                                 <h6><i class="bi bi-code-slash me-1"></i> 命名规范</h6>
                                 <p class="small mb-0">字典类型建议使用小写字母和下划线，如：<code>sys_user_status</code>、<code>coupon_type</code></p>
+                            </div>
+                        </div>
+
+                        <!-- 支持的语言列表 -->
+                        <div class="content-card mt-3">
+                            <h5 class="mb-3"><i class="bi bi-globe me-2"></i>支持的语言</h5>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tbody>
+                                        <tr><td>🇨🇳</td><td>简体中文</td><td class="text-muted">zh_CN（默认）</td></tr>
+                                        <tr><td>🇺🇸</td><td>英语</td><td class="text-muted">en_US</td></tr>
+                                        <tr><td>🇯🇵</td><td>日语</td><td class="text-muted">ja_JP</td></tr>
+                                        <tr><td>🇪🇸</td><td>西班牙语</td><td class="text-muted">es_ES</td></tr>
+                                        <tr><td>🇫🇷</td><td>法语</td><td class="text-muted">fr_FR</td></tr>
+                                        <tr><td>🇩🇪</td><td>德语</td><td class="text-muted">de_DE</td></tr>
+                                        <tr><td>🇰🇷</td><td>韩语</td><td class="text-muted">ko_KR</td></tr>
+                                        <tr><td>🇷🇺</td><td>俄语</td><td class="text-muted">ru_RU</td></tr>
+                                        <tr><td>🇵🇹</td><td>葡萄牙语</td><td class="text-muted">pt_PT</td></tr>
+                                        <tr><td>🇮🇹</td><td>意大利语</td><td class="text-muted">it_IT</td></tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -284,8 +532,145 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // 可用语言列表
+        const availableLanguages = [
+            { code: 'en_US', name: '英语', flag: '🇺🇸', placeholder: 'Please enter dictionary name' },
+            { code: 'ja_JP', name: '日语', flag: '🇯🇵', placeholder: '辞書名を入力してください' },
+            { code: 'es_ES', name: '西班牙语', flag: '🇪🇸', placeholder: 'Por favor ingrese el nombre' },
+            { code: 'fr_FR', name: '法语', flag: '🇫🇷', placeholder: 'Veuillez saisir le nom' },
+            { code: 'de_DE', name: '德语', flag: '🇩🇪', placeholder: 'Bitte geben Sie den Namen ein' },
+            { code: 'ko_KR', name: '韩语', flag: '🇰🇷', placeholder: '이름을 입력하세요' },
+            { code: 'ru_RU', name: '俄语', flag: '🇷🇺', placeholder: 'Введите название' },
+            { code: 'pt_PT', name: '葡萄牙语', flag: '🇵🇹', placeholder: 'Por favor, insira o nome' },
+            { code: 'it_IT', name: '意大利语', flag: '🇮🇹', placeholder: 'Inserisci il nome' },
+            { code: 'ar_SA', name: '阿拉伯语', flag: '🇸🇦', placeholder: 'يرجى إدخال الاسم' }
+        ];
+
+        // 已添加的语言
+        let addedLanguages = [];
+
+        // 初始化语言选项
+        function initLangOptions() {
+            const optionsContainer = document.getElementById('langOptions');
+            optionsContainer.innerHTML = availableLanguages.map(lang => {
+                const isAdded = addedLanguages.includes(lang.code);
+                return `
+                    <div class="lang-option ${isAdded ? 'disabled' : ''}" 
+                         onclick="${isAdded ? '' : `addLanguage('${lang.code}')`}">
+                        <span class="flag">${lang.flag}</span>
+                        <span class="name">${lang.name}</span>
+                        ${isAdded ? '<span class="added-badge">已添加</span>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 切换语言选项下拉框
+        function toggleLangOptions() {
+            const options = document.getElementById('langOptions');
+            options.classList.toggle('show');
+        }
+
+        // 点击其他地方关闭下拉框
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.lang-select-dropdown');
+            const options = document.getElementById('langOptions');
+            if (!dropdown.contains(e.target)) {
+                options.classList.remove('show');
+            }
+        });
+
+        // 添加语言
+        function addLanguage(langCode) {
+            if (addedLanguages.includes(langCode)) return;
+            
+            const lang = availableLanguages.find(l => l.code === langCode);
+            if (!lang) return;
+
+            addedLanguages.push(langCode);
+            
+            const langList = document.getElementById('langList');
+            const langItem = document.createElement('div');
+            langItem.className = 'lang-item';
+            langItem.id = `lang-${langCode}`;
+            langItem.innerHTML = `
+                <div class="lang-header">
+                    <span class="lang-flag">${lang.flag}</span>
+                    <span class="lang-name">${lang.name}</span>
+                    <span class="lang-code">${lang.code}</span>
+                </div>
+                <div class="lang-input">
+                    <input type="text" class="form-control" 
+                           id="dictName_${langCode}" 
+                           placeholder="${lang.placeholder}"
+                           data-lang="${langCode}">
+                    <button type="button" class="btn-remove" onclick="removeLanguage('${langCode}')" title="移除">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            `;
+            langList.appendChild(langItem);
+
+            // 更新选项和计数
+            initLangOptions();
+            updateLangCount();
+            
+            // 关闭下拉框
+            document.getElementById('langOptions').classList.remove('show');
+        }
+
+        // 移除语言
+        function removeLanguage(langCode) {
+            addedLanguages = addedLanguages.filter(code => code !== langCode);
+            const langItem = document.getElementById(`lang-${langCode}`);
+            if (langItem) {
+                langItem.remove();
+            }
+            initLangOptions();
+            updateLangCount();
+        }
+
+        // 更新语言计数
+        function updateLangCount() {
+            const countBadge = document.getElementById('langCount');
+            countBadge.textContent = `${addedLanguages.length} 种语言`;
+        }
+
+        // 添加全部语言
+        function addAllLangs() {
+            availableLanguages.forEach(lang => {
+                if (!addedLanguages.includes(lang.code)) {
+                    addLanguage(lang.code);
+                }
+            });
+        }
+
+        // 清空全部语言
+        function clearAllLangs() {
+            if (addedLanguages.length === 0) return;
+            
+            if (confirm('确定要清空所有已添加的语言翻译吗？')) {
+                addedLanguages = [];
+                document.getElementById('langList').innerHTML = '';
+                initLangOptions();
+                updateLangCount();
+            }
+        }
+
+        // 收集多语言数据
+        function collectI18nData() {
+            const i18nData = {};
+            addedLanguages.forEach(langCode => {
+                const input = document.getElementById(`dictName_${langCode}`);
+                if (input && input.value.trim()) {
+                    i18nData[langCode] = input.value.trim();
+                }
+            });
+            return i18nData;
+        }
+
+        // 保存表单
         function saveForm() {
-            const form = document.getElementById('dictTypeForm');
             const dictType = document.getElementById('dictType').value.trim();
             const dictName = document.getElementById('dictName').value.trim();
             
@@ -294,12 +679,30 @@
                 return;
             }
             
-            alert('保存成功！');
+            // 收集多语言数据
+            const i18nData = collectI18nData();
+            const langCount = Object.keys(i18nData).length;
+            
+            // 模拟保存
+            console.log('保存数据:', {
+                dictType,
+                dictName,
+                sortOrder: document.getElementById('sortOrder').value,
+                status: document.querySelector('input[name="status"]:checked').value,
+                remark: document.getElementById('remark').value,
+                i18n: i18nData
+            });
+            
+            let msg = '保存成功！';
+            if (langCount > 0) {
+                msg += `\n已添加 ${langCount} 种语言翻译。`;
+            }
+            alert(msg);
             window.location.href = 'dict-type-list.html';
         }
         
+        // 保存并继续添加
         function saveAndContinue() {
-            const form = document.getElementById('dictTypeForm');
             const dictType = document.getElementById('dictType').value.trim();
             const dictName = document.getElementById('dictName').value.trim();
             
@@ -308,15 +711,36 @@
                 return;
             }
             
-            alert('保存成功！您可以继续添加新的字典类型。');
+            // 收集多语言数据
+            const i18nData = collectI18nData();
+            const langCount = Object.keys(i18nData).length;
+            
+            let msg = '保存成功！您可以继续添加新的字典类型。';
+            if (langCount > 0) {
+                msg += `\n已添加 ${langCount} 种语言翻译。`;
+            }
+            alert(msg);
+            
             // 清空表单
             document.getElementById('dictType').value = '';
             document.getElementById('dictName').value = '';
             document.getElementById('sortOrder').value = '0';
             document.getElementById('remark').value = '';
             document.getElementById('statusActive').checked = true;
+            
+            // 清空多语言
+            addedLanguages = [];
+            document.getElementById('langList').innerHTML = '';
+            initLangOptions();
+            updateLangCount();
+            
             document.getElementById('dictType').focus();
         }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initLangOptions();
+        });
     </script>
 </body>
 </html>
