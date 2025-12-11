@@ -717,6 +717,16 @@
                             </div>
                         </div>
                         
+                        <div class="tip-box warning">
+                            <div class="tip-title"><i class="bi bi-eye-slash-fill"></i> 禁用状态的影响</div>
+                            <div class="tip-content">
+                                当字典数据项的状态设为<strong>"禁用"</strong>时，客户端将无法获取该数据项的多语言翻译。此时优惠券名称会显示为<strong>去除占位符后的原始名称</strong>，而非预期的多语言文案。
+                                <div class="mt-2 p-2 rounded" style="background: rgba(0,0,0,0.05); font-size: 13px;">
+                                    <strong>示例：</strong>若模板关联的字典项 <code>new_user_coupon</code> 被禁用，原本显示"新用户专享优惠券"的地方将显示为模板的原始名称或空白。
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="tip-box success">
                             <div class="tip-title"><i class="bi bi-3-circle"></i> 及时翻译</div>
                             <div class="tip-content">

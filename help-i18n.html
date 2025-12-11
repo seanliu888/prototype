@@ -496,6 +496,13 @@
                             数据编码（如 <code>new_user_coupon</code>）一旦被优惠券模板引用，<strong>请勿修改</strong>。系统通过完整路径 <code>coupon_template_name.new_user_coupon</code> 关联模板与多语言翻译，修改编码将导致关联失效，模板名称无法正常显示。
                         </div>
                     </div>
+                    
+                    <div class="tip-box mt-3" style="background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); border-left-color: #ff9800;">
+                        <div class="tip-title"><i class="bi bi-eye-slash-fill" style="color: #e65100;"></i>注意：禁用状态会影响客户端显示</div>
+                        <div class="tip-content">
+                            当字典数据项的状态设为<strong>"禁用"</strong>时，客户端将无法获取对应的多语言翻译。优惠券名称会显示为<strong>去除占位符后的原始名称</strong>，而非预期的多语言文案。请确保正在使用的数据项保持"启用"状态。
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 步骤1.3 -->
