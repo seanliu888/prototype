@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>优惠券多语言配置 - 使用说明</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="chrome-compatibility.css">
+    <link rel="stylesheet" href="help-common.css">
+    <style>
+        /* 流程图样式 */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .flow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 180px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .flow-step i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .flow-step h6 {
+            margin: 0;
+            font-weight: 600;
+        }
+        .flow-step small {
+            opacity: 0.8;
+            font-size: 12px;
+        }
+        .flow-arrow {
+            font-size: 28px;
+            color: #667eea;
+        }
+        
+        /* 语言预览卡片 */
+        .lang-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .lang-preview-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .lang-preview-card .flag {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .lang-preview-card .lang-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .lang-preview-card .lang-value {
+            font-size: 14px;
+            color: #666;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        /* 对比表格 */
+        .compare-table {
+            margin: 20px 0;
+        }
+        .compare-table th {
+            background: #f8f9fa;
+        }
+        .compare-table .before {
+            background: #fff5f5;
+        }
+        .compare-table .after {
+            background: #f0fff4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="coupon/template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="coupon/coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="coupon/batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="coupon/marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link active" href="help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <!-- 面包屑导航 -->
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="help.html">使用说明</a></li>
+                        <li class="breadcrumb-item active">优惠券多语言配置</li>
+                    </ol>
+                </nav>
+
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1><i class="bi bi-translate me-2"></i>优惠券多语言配置</h1>
+                            <small class="text-muted">完整指南：从数据字典到优惠券模板的国际化配置</small>
+                        </div>
+                        <a href="help.html" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>返回目录
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 概述 -->
+                <div class="content-card">
+                    <div class="section-title">
+                        <i class="bi bi-globe2"></i>
+                        为什么需要多语言配置？
+                    </div>
+                    <div class="help-text">
+                        <p>当您的业务面向多个国家和地区的用户时，优惠券需要以用户的母语展示，提升用户体验和转化率。本系统通过<strong>数据字典 + 优惠券模板</strong>的组合，实现优惠券内容的多语言支持。</p>
+                        
+                        <!-- 效果预览 -->
+                        <p class="mt-4 mb-3"><strong>配置完成后的效果预览：</strong></p>
+                        <div class="lang-preview-grid">
+                            <div class="lang-preview-card">
+                                <div class="flag">🇨🇳</div>
+                                <div class="lang-name">简体中文</div>
+                                <div class="lang-value">新用户专享优惠券</div>
+                            </div>
+                            <div class="lang-preview-card">
+                                <div class="flag">🇺🇸</div>
+                                <div class="lang-name">English</div>
+                                <div class="lang-value">New User Exclusive Coupon</div>
+                            </div>
+                            <div class="lang-preview-card">
+                                <div class="flag">🇯🇵</div>
+                                <div class="lang-name">日本語</div>
+                                <div class="lang-value">新規ユーザー限定クーポン</div>
+                            </div>
+                            <div class="lang-preview-card">
+                                <div class="flag">🇪🇸</div>
+                                <div class="lang-name">Español</div>
+                                <div class="lang-value">Cupón Exclusivo para Nuevos</div>
+                            </div>
+                        </div>
+
+                        <!-- 配置流程 -->
+                        <p class="mt-4 mb-3"><strong>配置流程概览：</strong></p>
+                        <div class="flow-container">
+                            <div class="flow-step">
+                                <i class="bi bi-book"></i>
+                                <h6>1. 配置数据字典</h6>
+                                <small>创建多语言文案</small>
+                            </div>
+                            <div class="flow-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                            <div class="flow-step" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <h6>2. 配置优惠券模板</h6>
+                                <small>关联字典文案</small>
+                            </div>
+                            <div class="flow-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                            <div class="flow-step" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <i class="bi bi-check-circle"></i>
+                                <h6>3. 自动多语言展示</h6>
+                                <small>用户看到母语内容</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第一部分：配置数据字典 -->
+                <div class="content-card">
+                    <div class="section-title">
+                        <i class="bi bi-1-circle-fill"></i>
+                        第一步：在数据字典中创建多语言文案
+                    </div>
+                    <div class="help-text">
+                        <p>首先，我们需要在数据字典中创建优惠券名称的多语言文案。这些文案将作为优惠券模板的可选项。</p>
+                    </div>
+                </div>
+
+                <!-- 步骤1.1 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">1.1</div>
+                        <div>
+                            <h4 class="mb-1">创建字典类型</h4>
+                            <p class="text-muted mb-0">进入<strong>系统管理 → 数据字典</strong>，点击"新增字典类型"，创建一个用于存储优惠券名称的字典类型。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">新增字典类型</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-folder-fill"></i>字典类型信息
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">字典编码 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="mock-input">coupon_template_name</div>
+                                        <small class="text-muted">建议使用：模块_业务 格式</small>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">字典名称 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="mock-input">优惠券模板名称</div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">状态</div>
+                                        <div class="mock-select">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span><span class="badge bg-success me-2">●</span> 启用</span>
+                                                <i class="bi bi-chevron-down text-muted"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">排序号</div>
+                                        <div class="mock-input">0</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="mock-input-label">备注</div>
+                                    <div class="mock-input">存储优惠券模板的多语言名称选项</div>
+                                </div>
+                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                    <div class="mock-button secondary">取消</div>
+                                    <div class="mock-button primary"><i class="bi bi-check-circle me-1"></i>保存</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box warning mt-3">
+                        <div class="tip-title"><i class="bi bi-exclamation-triangle-fill"></i>重要提示：编码创建后请勿修改</div>
+                        <div class="tip-content">
+                            字典类型编码（如 <code>coupon_template_name</code>）一旦被优惠券模板引用，<strong>请勿修改</strong>。修改编码将导致已关联该字典的模板无法正确显示多语言名称。如需调整，请新建字典类型并更新模板关联。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤1.2 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">1.2</div>
+                        <div>
+                            <h4 class="mb-1">添加字典数据项</h4>
+                            <p class="text-muted mb-0">在字典类型列表中，点击刚创建的字典类型的<strong>"数据"按钮</strong>，进入字典数据管理页面，然后添加具体的优惠券名称选项。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 进入字典数据管理的截图 -->
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">字典类型列表 - 点击"数据"进入数据管理</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div style="font-size: 16px; font-weight: 600; color: #2c3e50;">
+                                    <i class="bi bi-book text-primary me-2"></i>字典类型管理
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover mb-0" style="font-size: 13px;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>字典名称</th>
+                                            <th>字典类型</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background: #e3f2fd;">
+                                            <td><strong>优惠券模板名称</strong></td>
+                                            <td><code style="font-size: 11px;">coupon_template_name</code></td>
+                                            <td><span class="badge bg-success">启用</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-1" style="padding: 2px 8px; font-size: 11px;">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-success me-1" style="padding: 2px 8px; font-size: 11px; position: relative;">
+                                                    <i class="bi bi-list-ul"></i> 数据
+                                                    <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px;">点击这里</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>用户性别</td>
+                                            <td><code style="font-size: 11px;">sys_user_gender</code></td>
+                                            <td><span class="badge bg-success">启用</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-1" style="padding: 2px 8px; font-size: 11px;">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-success me-1" style="padding: 2px 8px; font-size: 11px;">
+                                                    <i class="bi bi-list-ul"></i> 数据
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-3 mb-3">进入字典数据管理页面后，点击<strong>"新增数据"</strong>按钮添加数据项：</p>
+                    
+                    <!-- 字典数据列表截图 -->
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">字典数据管理 - 优惠券模板名称</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <div style="font-size: 16px; font-weight: 600; color: #2c3e50;">
+                                        <i class="bi bi-tag text-primary me-2"></i>字典数据管理
+                                    </div>
+                                    <small class="text-muted">字典类型：优惠券模板名称 (coupon_template_name)</small>
+                                </div>
+                                <div class="mock-button primary" style="cursor: pointer;">
+                                    <i class="bi bi-plus-circle me-1"></i>新增数据
+                                </div>
+                            </div>
+                            <div class="p-3 rounded" style="background: #f8f9fa; border: 1px dashed #dee2e6; text-align: center; color: #6c757d;">
+                                <i class="bi bi-inbox" style="font-size: 32px; opacity: 0.5;"></i>
+                                <p class="mb-0 mt-2">暂无数据，请点击"新增数据"添加</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-3 mb-3">填写数据项信息：</p>
+                    
+                    <!-- 新增数据表单截图 -->
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">新增字典数据 - 优惠券模板名称</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-tag-fill"></i>数据项信息
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">数据编码 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="mock-input">new_user_coupon</div>
+                                        <small class="text-muted">用于程序标识，建议使用英文</small>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">显示标签 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="mock-input">新用户专享优惠券</div>
+                                        <small class="text-muted">默认语言（中文）的显示文本</small>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">排序号</div>
+                                        <div class="mock-input">1</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">状态</div>
+                                        <div class="mock-select">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span><span class="badge bg-success me-2">●</span> 启用</span>
+                                                <i class="bi bi-chevron-down text-muted"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box mt-3">
+                        <div class="tip-title"><i class="bi bi-lightbulb"></i>建议创建的数据项</div>
+                        <div class="tip-content">
+                            <table class="table table-sm table-bordered mb-0" style="font-size: 13px;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>数据编码</th>
+                                        <th>显示标签（中文）</th>
+                                        <th>适用场景</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>new_user_coupon</code></td>
+                                        <td>新用户专享优惠券</td>
+                                        <td>新用户注册赠券</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>invite_reward_coupon</code></td>
+                                        <td>邀请好友奖励券</td>
+                                        <td>邀请活动奖励</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>birthday_coupon</code></td>
+                                        <td>生日专属优惠券</td>
+                                        <td>用户生日赠券</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>holiday_coupon</code></td>
+                                        <td>节日特惠券</td>
+                                        <td>节假日促销</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box warning mt-3">
+                        <div class="tip-title"><i class="bi bi-exclamation-triangle-fill"></i>重要提示：数据编码创建后请勿修改</div>
+                        <div class="tip-content">
+                            数据编码（如 <code>new_user_coupon</code>）一旦被优惠券模板引用，<strong>请勿修改</strong>。系统通过完整路径 <code>coupon_template_name.new_user_coupon</code> 关联模板与多语言翻译，修改编码将导致关联失效，模板名称无法正常显示。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤1.3 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">1.3</div>
+                        <div>
+                            <h4 class="mb-1">配置多语言翻译</h4>
+                            <p class="text-muted mb-0">为每个数据项添加各语言的翻译。点击数据项的编辑按钮，在"多语言翻译"区域添加翻译内容。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">配置多语言翻译 - "新用户专享优惠券"</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-translate"></i>多语言翻译
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center p-3 rounded mb-2" style="background: #e8f5e9; border: 1px solid #a5d6a7;">
+                                        <span style="font-size: 24px; margin-right: 15px;">🇨🇳</span>
+                                        <div style="min-width: 80px;">
+                                            <div style="font-size: 12px; color: #666;">zh_CN</div>
+                                            <div style="font-size: 11px; color: #999;">简体中文</div>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm" value="新用户专享优惠券" style="max-width: 280px;" disabled>
+                                        <span class="badge bg-success ms-3"><i class="bi bi-check me-1"></i>已翻译</span>
+                                    </div>
+                                    <div class="d-flex align-items-center p-3 rounded mb-2" style="background: #e8f5e9; border: 1px solid #a5d6a7;">
+                                        <span style="font-size: 24px; margin-right: 15px;">🇺🇸</span>
+                                        <div style="min-width: 80px;">
+                                            <div style="font-size: 12px; color: #666;">en_US</div>
+                                            <div style="font-size: 11px; color: #999;">English</div>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm" value="New User Exclusive Coupon" style="max-width: 280px;" disabled>
+                                        <span class="badge bg-success ms-3"><i class="bi bi-check me-1"></i>已翻译</span>
+                                    </div>
+                                    <div class="d-flex align-items-center p-3 rounded mb-2" style="background: #e8f5e9; border: 1px solid #a5d6a7;">
+                                        <span style="font-size: 24px; margin-right: 15px;">🇯🇵</span>
+                                        <div style="min-width: 80px;">
+                                            <div style="font-size: 12px; color: #666;">ja_JP</div>
+                                            <div style="font-size: 11px; color: #999;">日本語</div>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm" value="新規ユーザー限定クーポン" style="max-width: 280px;" disabled>
+                                        <span class="badge bg-success ms-3"><i class="bi bi-check me-1"></i>已翻译</span>
+                                    </div>
+                                    <div class="d-flex align-items-center p-3 rounded mb-2" style="background: #e8f5e9; border: 1px solid #a5d6a7;">
+                                        <span style="font-size: 24px; margin-right: 15px;">🇪🇸</span>
+                                        <div style="min-width: 80px;">
+                                            <div style="font-size: 12px; color: #666;">es_ES</div>
+                                            <div style="font-size: 11px; color: #999;">Español</div>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm" value="Cupón Exclusivo para Nuevos Usuarios" style="max-width: 280px;" disabled>
+                                        <span class="badge bg-success ms-3"><i class="bi bi-check me-1"></i>已翻译</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-success me-2">4/4 语言已翻译</span>
+                                        <span class="text-success" style="font-size: 13px;"><i class="bi bi-check-circle me-1"></i>翻译完成</span>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <div class="mock-button secondary">取消</div>
+                                        <div class="mock-button primary"><i class="bi bi-check-circle me-1"></i>保存翻译</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box success mt-3">
+                        <div class="tip-title"><i class="bi bi-check-circle"></i>字典配置完成！</div>
+                        <div class="tip-content">
+                            现在您已经创建了一个包含多语言翻译的优惠券名称字典。接下来，我们将在优惠券模板中使用这些配置。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二部分：配置优惠券模板 -->
+                <div class="content-card">
+                    <div class="section-title">
+                        <i class="bi bi-2-circle-fill"></i>
+                        第二步：创建优惠券模板并关联字典
+                    </div>
+                    <div class="help-text">
+                        <p>字典配置完成后，我们可以在创建优惠券模板时选择字典中的多语言文案，让优惠券自动支持多语言显示。</p>
+                    </div>
+                </div>
+
+                <!-- 步骤2.1 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">2.1</div>
+                        <div>
+                            <h4 class="mb-1">进入创建模板页面</h4>
+                            <p class="text-muted mb-0">进入<strong>模板配置 → 优惠券模板</strong>，点击"新增模板"按钮，开始创建新的优惠券模板。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">优惠券模板列表</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div style="font-size: 18px; font-weight: 600; color: #2c3e50;">
+                                    <i class="bi bi-file-earmark-text text-primary me-2"></i>优惠券模板管理
+                                </div>
+                                <div class="mock-button primary" style="cursor: pointer;">
+                                    <i class="bi bi-plus-circle me-1"></i>新增模板
+                                </div>
+                            </div>
+                            <div class="mock-card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>会员专享9折券</strong>
+                                        <span class="mock-badge primary ms-2">折扣券</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-muted me-3" style="font-size: 13px;">有效期至 2025-12-31</span>
+                                        <button class="btn btn-sm btn-outline-primary">编辑</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤2.2 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">2.2</div>
+                        <div>
+                            <h4 class="mb-1">选择多语言模板名称</h4>
+                            <p class="text-muted mb-0">在模板名称输入框旁边，点击<strong>字典选择按钮</strong>（图书图标），从字典中选择预设的多语言名称。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">创建优惠券模板 - 选择多语言名称</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-info-circle-fill"></i>基本信息
+                                </div>
+                                
+                                <div class="mock-input-label">模板名称 <span style="color:#e74c3c;">*</span></div>
+                                <div class="d-flex gap-2 mb-2">
+                                    <div style="width: 44px; height: 38px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);" title="从字典选择多语言名称">
+                                        <i class="bi bi-book text-white"></i>
+                                    </div>
+                                    <div class="mock-input flex-grow-1" style="background: #e3f2fd; border-color: #90caf9;">
+                                        <i class="bi bi-translate text-primary me-2"></i>新用户专享优惠券
+                                        <span class="badge bg-primary ms-2" style="font-size: 10px;">多语言</span>
+                                    </div>
+                                </div>
+                                <small class="text-muted d-block mb-3">
+                                    <i class="bi bi-info-circle me-1"></i>已关联字典：<code>coupon_template_name.new_user_coupon</code>，支持 4 种语言
+                                </small>
+                                
+                                <!-- 弹出的字典选择框 -->
+                                <div class="p-3 rounded mb-3" style="background: #f8f9fa; border: 2px dashed #667eea;">
+                                    <div style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 12px;">
+                                        <i class="bi bi-book text-primary me-2"></i>从字典选择模板名称
+                                    </div>
+                                    <div style="background: white; border: 1px solid #e9ecef; border-radius: 8px; max-height: 200px; overflow-y: auto;">
+                                        <div class="p-3 border-bottom" style="background: #e3f2fd; cursor: pointer;">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>新用户专享优惠券</strong>
+                                                    <div style="font-size: 12px; color: #666; margin-top: 3px;">
+                                                        <span class="me-2">🇺🇸 New User Exclusive Coupon</span>
+                                                        <span>🇯🇵 新規ユーザー限定クーポン</span>
+                                                    </div>
+                                                </div>
+                                                <i class="bi bi-check-circle-fill text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="p-3 border-bottom" style="cursor: pointer;">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>邀请好友奖励券</strong>
+                                                    <div style="font-size: 12px; color: #666; margin-top: 3px;">
+                                                        <span class="me-2">🇺🇸 Referral Reward Coupon</span>
+                                                        <span>🇯🇵 友達紹介特典クーポン</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-3 border-bottom" style="cursor: pointer;">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>生日专属优惠券</strong>
+                                                    <div style="font-size: 12px; color: #666; margin-top: 3px;">
+                                                        <span class="me-2">🇺🇸 Birthday Special Coupon</span>
+                                                        <span>🇯🇵 誕生日限定クーポン</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-3" style="cursor: pointer;">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>节日特惠券</strong>
+                                                    <div style="font-size: 12px; color: #666; margin-top: 3px;">
+                                                        <span class="me-2">🇺🇸 Holiday Special Coupon</span>
+                                                        <span>🇯🇵 祝日限定クーポン</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤2.3 -->
+                <div class="content-card">
+                    <div class="step-header">
+                        <div class="step-number-large">2.3</div>
+                        <div>
+                            <h4 class="mb-1">完成模板其他配置</h4>
+                            <p class="text-muted mb-0">选择多语言名称后，继续配置优惠券类型、金额、有效期等其他信息，然后保存模板。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">创建优惠券模板 - 完整配置</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="mock-form">
+                                <div class="mock-section-title">
+                                    <i class="bi bi-info-circle-fill"></i>基本信息
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="mock-input-label">模板名称</div>
+                                        <div class="mock-input" style="background: #e3f2fd; border-color: #90caf9;">
+                                            <i class="bi bi-translate text-primary me-2"></i>新用户专享优惠券
+                                            <span class="badge bg-primary ms-2" style="font-size: 10px;">4语言</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">优惠类型 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="mock-select">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span><span class="badge bg-success me-2">CASH</span> 现金券</span>
+                                                <i class="bi bi-chevron-down text-muted"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">优惠金额 <span style="color:#e74c3c;">*</span></div>
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="font-size: 13px;">¥</span>
+                                            <div class="mock-input" style="margin: 0; border-radius: 0 6px 6px 0;">20.00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">使用门槛</div>
+                                        <div class="input-group">
+                                            <span class="input-group-text" style="font-size: 13px;">满</span>
+                                            <div class="mock-input" style="margin: 0; border-radius: 0;">100.00</div>
+                                            <span class="input-group-text" style="font-size: 13px;">元可用</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">固定有效天数</div>
+                                        <div class="input-group">
+                                            <div class="mock-input" style="margin: 0; border-radius: 6px 0 0 6px;">30</div>
+                                            <span class="input-group-text" style="font-size: 13px;">天</span>
+                                        </div>
+                                        <small class="text-muted">领取后30天内有效</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="mock-section-title mt-4">
+                                    <i class="bi bi-calendar-event"></i>有效期范围
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mock-input-label">开始时间</div>
+                                        <div class="mock-input">2025-01-01 00:00</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mock-input-label">结束时间</div>
+                                        <div class="mock-input">2025-12-31 23:59</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                    <div class="mock-button secondary">取消</div>
+                                    <div class="mock-button primary"><i class="bi bi-check-circle me-1"></i>保存模板</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第三部分：效果验证 -->
+                <div class="content-card">
+                    <div class="section-title">
+                        <i class="bi bi-3-circle-fill"></i>
+                        第三步：验证多语言效果
+                    </div>
+                    <div class="help-text">
+                        <p>模板创建完成后，系统会自动根据用户的语言偏好显示对应的优惠券名称。以下展示不同语言用户看到的效果：</p>
+                    </div>
+                    
+                    <div class="screenshot-container">
+                        <div class="screenshot-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">用户端优惠券显示效果（多语言）</span>
+                        </div>
+                        <div class="screenshot-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="p-3 rounded" style="background: white; border: 1px solid #e9ecef;">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="font-size: 20px; margin-right: 8px;">🇨🇳</span>
+                                            <span class="badge bg-secondary">简体中文用户</span>
+                                        </div>
+                                        <div class="p-3 rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                            <div style="font-size: 16px; font-weight: 600;">新用户专享优惠券</div>
+                                            <div style="font-size: 24px; font-weight: 700; margin: 8px 0;">¥20</div>
+                                            <div style="font-size: 12px; opacity: 0.9;">满100元可用 · 领取后30天有效</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="p-3 rounded" style="background: white; border: 1px solid #e9ecef;">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="font-size: 20px; margin-right: 8px;">🇺🇸</span>
+                                            <span class="badge bg-secondary">English User</span>
+                                        </div>
+                                        <div class="p-3 rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                            <div style="font-size: 16px; font-weight: 600;">New User Exclusive Coupon</div>
+                                            <div style="font-size: 24px; font-weight: 700; margin: 8px 0;">¥20</div>
+                                            <div style="font-size: 12px; opacity: 0.9;">Min. spend ¥100 · Valid 30 days</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="p-3 rounded" style="background: white; border: 1px solid #e9ecef;">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="font-size: 20px; margin-right: 8px;">🇯🇵</span>
+                                            <span class="badge bg-secondary">日本語ユーザー</span>
+                                        </div>
+                                        <div class="p-3 rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                            <div style="font-size: 16px; font-weight: 600;">新規ユーザー限定クーポン</div>
+                                            <div style="font-size: 24px; font-weight: 700; margin: 8px 0;">¥20</div>
+                                            <div style="font-size: 12px; opacity: 0.9;">100元以上で使用可 · 30日間有効</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="p-3 rounded" style="background: white; border: 1px solid #e9ecef;">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="font-size: 20px; margin-right: 8px;">🇪🇸</span>
+                                            <span class="badge bg-secondary">Usuario Español</span>
+                                        </div>
+                                        <div class="p-3 rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                            <div style="font-size: 16px; font-weight: 600;">Cupón Exclusivo para Nuevos</div>
+                                            <div style="font-size: 24px; font-weight: 700; margin: 8px 0;">¥20</div>
+                                            <div style="font-size: 12px; opacity: 0.9;">Compra mín. ¥100 · Válido 30 días</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box success mt-3">
+                        <div class="tip-title"><i class="bi bi-check-circle"></i>配置完成！</div>
+                        <div class="tip-content">
+                            恭喜！您已完成优惠券多语言配置。现在当用户访问系统时，优惠券名称会自动根据用户的语言偏好显示对应的翻译内容。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 常见问题 -->
+                <div class="content-card">
+                    <div class="section-title">
+                        <i class="bi bi-question-circle-fill"></i>
+                        常见问题
+                    </div>
+                    <div class="help-text">
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        如果某个语言没有翻译怎么办？
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        系统会自动回退到默认语言（中文）显示。建议在创建字典数据时尽量完成所有语言的翻译，以提供更好的用户体验。
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        可以直接输入模板名称而不使用字典吗？
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        可以。您可以直接在输入框中输入文字，但这样只支持单一语言显示。如果您的业务面向多语言用户，建议使用字典配置方式。
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        修改字典翻译后，已创建的模板会自动更新吗？
+                                    </button>
+                                </h2>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        是的。由于模板关联的是字典项的编码，当您修改字典中的翻译内容后，所有引用该字典项的模板都会自动显示最新的翻译内容，无需逐个修改模板。
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                        如何添加新的语言支持？
+                                    </button>
+                                </h2>
+                                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        在数据字典的 <code>sys_languages</code> 类型中添加新的语言选项，然后为各字典数据项补充该语言的翻译即可。系统会自动识别新增的语言。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 相关文档 -->
+                <div class="content-card">
+                    <div class="section-title">
+                        <i class="bi bi-link-45deg"></i>
+                        相关文档
+                    </div>
+                    <div class="help-text">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="help-dictionary.html" class="d-block p-3 rounded text-decoration-none" style="background: #f8f9fa; border: 1px solid #e9ecef;">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-book text-primary me-3" style="font-size: 24px;"></i>
+                                        <div>
+                                            <div style="font-weight: 600; color: #2c3e50;">数据字典</div>
+                                            <small class="text-muted">了解字典的详细使用方法</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="help-template.html" class="d-block p-3 rounded text-decoration-none" style="background: #f8f9fa; border: 1px solid #e9ecef;">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-file-earmark-text text-success me-3" style="font-size: 24px;"></i>
+                                        <div>
+                                            <div style="font-weight: 600; color: #2c3e50;">创建优惠券模板</div>
+                                            <small class="text-muted">模板配置的完整指南</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="help-marketing-activity.html" class="d-block p-3 rounded text-decoration-none" style="background: #f8f9fa; border: 1px solid #e9ecef;">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-megaphone text-warning me-3" style="font-size: 24px;"></i>
+                                        <div>
+                                            <div style="font-weight: 600; color: #2c3e50;">创建营销活动</div>
+                                            <small class="text-muted">自动发券的配置方法</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 下一篇导航 -->
+                <div class="d-flex justify-content-between">
+                    <a href="help-dictionary.html" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> 上一篇：数据字典
+                    </a>
+                    <a href="help.html" class="btn btn-primary">
+                        返回目录 <i class="bi bi-house ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
