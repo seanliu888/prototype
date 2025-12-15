@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>分销商详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .info-row {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            width: 150px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        .info-value {
+            flex: 1;
+            color: #2c3e50;
+        }
+        .distributor-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 32px;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+        }
+        .stat-box .number {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .stat-box .label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .ratio-display {
+            font-size: 48px;
+            font-weight: 700;
+            color: #27ae60;
+            font-family: 'Courier New', monospace;
+        }
+        .site-config-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .site-config-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52,152,219,0.15);
+        }
+        .site-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        .nav-tabs .nav-link {
+            color: #7f8c8d;
+        }
+        .nav-tabs .nav-link.active {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .salesman-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .cashback-ratio {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #e74c3c;
+        }
+        .stat-mini {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .config-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .config-section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .form-control-color {
+            width: 50px;
+            padding: 0.375rem;
+        }
+        .config-value {
+            padding: 8px 12px;
+            background: #fff;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        .color-preview {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="../index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="../coupon/template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="../coupon/coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="../coupon/batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="../coupon/marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">分销商管理</div>
+                    <a class="nav-link active" href="distributor-list.html">
+                        <i class="bi bi-shop"></i>分销商列表
+                    </a>
+                    <a class="nav-link" href="salesman-list.html">
+                        <i class="bi bi-people"></i>业务员管理
+                    </a>
+                    <a class="nav-link" href="withdrawal-list.html">
+                        <i class="bi bi-cash-stack"></i>分销商提现
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="../usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="../statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="../operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="../dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="../help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1><i class="bi bi-shop me-2"></i>分销商详情</h1>
+                        <small class="text-muted">ID: #D1001 | 创建于 2025-10-15 10:30:25</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2" onclick="window.location.href='distributor-list.html'">
+                            <i class="bi bi-arrow-left me-1"></i>返回列表
+                        </button>
+                        <button class="btn btn-primary" onclick="toggleEditMode()">
+                            <i class="bi bi-pencil me-1"></i>编辑信息
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 选项卡 -->
+                <ul class="nav nav-tabs mb-4" id="distributorTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab">
+                            <i class="bi bi-person-badge me-1"></i>基本信息
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites" type="button" role="tab">
+                            <i class="bi bi-globe me-1"></i>站点配置
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="salesman-tab" data-bs-toggle="tab" data-bs-target="#salesman" type="button" role="tab">
+                            <i class="bi bi-people me-1"></i>业务员 <span class="badge bg-info">12</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">
+                            <i class="bi bi-bar-chart me-1"></i>数据统计
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="distributorTabContent">
+                    <!-- 基本信息 -->
+                    <div class="tab-pane fade show active" id="info" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!-- 基本信息卡片 -->
+                                <div class="content-card" id="infoCard">
+                                    <h5 class="form-section-title">
+                                        <i class="bi bi-person-badge me-2"></i>基本信息
+                                    </h5>
+                                    
+                                    <div class="d-flex align-items-center mb-4">
+                                        <div class="distributor-avatar-large me-3">张</div>
+                                        <div>
+                                            <h4 class="mb-1">张明远</h4>
+                                            <span class="badge bg-success">正常</span>
+                                            <span class="badge bg-info">已认证</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="info-row">
+                                        <div class="info-label">分销商ID</div>
+                                        <div class="info-value"><strong>#D1001</strong></div>
+                                    </div>
+                                    <div class="info-row">
+                                        <div class="info-label">电子邮箱</div>
+                                        <div class="info-value">
+                                            <i class="bi bi-envelope text-primary me-1"></i>
+                                            zhangmy@example.com
+                                        </div>
+                                    </div>
+                                    <div class="info-row">
+                                        <div class="info-label">电话号码</div>
+                                        <div class="info-value">
+                                            <i class="bi bi-telephone text-success me-1"></i>
+                                            +86 138****8888
+                                        </div>
+                                    </div>
+                                    <div class="info-row">
+                                        <div class="info-label">归属地</div>
+                                        <div class="info-value">
+                                            <span class="badge bg-light text-dark">
+                                                <i class="bi bi-geo-alt"></i> 中国大陆
+                                            </span>
+                                        </div>
+                                    </div>
+                                            <div class="info-row">
+                                        <div class="info-label">创建时间</div>
+                                        <div class="info-value">2025-10-15 10:30:25</div>
+                                    </div>
+                                    <div class="info-row">
+                                        <div class="info-label">最后登录</div>
+                                        <div class="info-value">2025-12-14 18:45:30</div>
+                                    </div>
+                                </div>
+
+                                <!-- 编辑表单（隐藏状态） -->
+                                <div class="content-card" id="editCard" style="display: none;">
+                                    <h5 class="form-section-title">
+                                        <i class="bi bi-pencil-square me-2"></i>编辑分销商信息
+                                    </h5>
+                                    
+                                    <form id="editForm" onsubmit="return saveChanges()">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">电子邮箱（登录账号）</label>
+                                                <input type="email" class="form-control" value="zhangmy@example.com" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">姓名</label>
+                                                <input type="text" class="form-control" value="张明远" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">电话号码</label>
+                                                <div class="input-group">
+                                                    <select class="form-select" style="max-width: 100px;">
+                                                        <option value="+86" selected>+86</option>
+                                                        <option value="+852">+852</option>
+                                                        <option value="+81">+81</option>
+                                                    </select>
+                                                    <input type="tel" class="form-control" value="13888888888">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">归属地</label>
+                                                <select class="form-select">
+                                                    <option value="CN" selected>中国大陆</option>
+                                                    <option value="HK">中国香港</option>
+                                                    <option value="TW">中国台湾</option>
+                                                    <option value="JP">日本</option>
+                                                    <option value="KR">韩国</option>
+                                                    <option value="SG">新加坡</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">分成比例</label>
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control" value="8.5" min="0.5" max="10" step="0.5">
+                                                    <span class="input-group-text">%</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">状态</label>
+                                                <select class="form-select">
+                                                    <option value="ACTIVE" selected>正常</option>
+                                                    <option value="DISABLED">禁用</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">备注</label>
+                                                <textarea class="form-control" rows="2">优质合作伙伴，月均销售额较高</textarea>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <button type="submit" class="btn btn-primary me-2">
+                                                <i class="bi bi-check-circle me-1"></i>保存修改
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary" onclick="toggleEditMode()">
+                                                <i class="bi bi-x-circle me-1"></i>取消
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- 备注信息 -->
+                                <div class="content-card">
+                                    <h5 class="form-section-title">
+                                        <i class="bi bi-chat-left-text me-2"></i>备注信息
+                                    </h5>
+                                    <p class="mb-0">优质合作伙伴，月均销售额较高。2025年Q4季度完成业绩目标，享受额外0.5%分成奖励。</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <!-- 分成比例 -->
+                                <div class="content-card text-center">
+                                    <h6 class="text-muted mb-3">分成比例</h6>
+                                    <div class="ratio-display">8.5%</div>
+                                    <small class="text-muted">有效订单金额的 8.5% 作为分成</small>
+                                </div>
+
+                                <!-- 快捷统计 -->
+                                <div class="content-card">
+                                    <h5 class="form-section-title">
+                                        <i class="bi bi-speedometer2 me-2"></i>快捷统计
+                                    </h5>
+                                    <div class="stat-box mb-3">
+                                        <div class="label">业务员数量</div>
+                                        <div class="number text-primary">12</div>
+                                    </div>
+                                    <div class="stat-box mb-3">
+                                        <div class="label">本月订单数</div>
+                                        <div class="number text-success">156</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="label">本月分成金额</div>
+                                        <div class="number text-warning">¥12,580</div>
+                                    </div>
+                                </div>
+
+                                <!-- 操作按钮 -->
+                                <div class="content-card">
+                                    <h5 class="form-section-title">
+                                        <i class="bi bi-gear me-2"></i>操作
+                                    </h5>
+                                    <div class="d-grid gap-2">
+                                        <a href="salesman-list.html?distributor=D1001" class="btn btn-info">
+                                            <i class="bi bi-people me-2"></i>查看业务员
+                                        </a>
+                                        <button class="btn btn-outline-primary" onclick="resetPassword()">
+                                            <i class="bi bi-key me-2"></i>重置密码
+                                        </button>
+                                        <button class="btn btn-outline-warning" onclick="disableDistributor()">
+                                            <i class="bi bi-pause-circle me-2"></i>禁用账号
+                                        </button>
+                                        <button class="btn btn-outline-danger" onclick="deleteDistributor()">
+                                            <i class="bi bi-trash me-2"></i>删除分销商
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 站点配置 -->
+                    <div class="tab-pane fade" id="sites" role="tabpanel">
+                        <div class="content-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="form-section-title mb-0" style="border: none; padding: 0;">
+                                    <i class="bi bi-palette me-2"></i>站点品牌配置
+                                </h5>
+                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> 已配置</span>
+                            </div>
+
+                            <!-- 站点预览 -->
+                            <div class="alert alert-info mb-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-globe me-2" style="font-size: 20px;"></i>
+                                    <div>
+                                        <strong>站点地址：</strong>
+                                        <a href="#" class="text-decoration-none">zhangmy.esim.limitflex.com</a>
+                                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="previewSite()">
+                                            <i class="bi bi-eye"></i> 预览站点
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- General 通用设置 -->
+                            <div class="config-section mb-4">
+                                <h6 class="config-section-title">
+                                    <i class="bi bi-gear me-2"></i>General（通用设置）
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted">Custom Domain（自定义域名）</label>
+                                        <div class="config-value">
+                                            <strong>zhangmy</strong><span class="text-muted">.esim.limitflex.com</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Theme Color（主题色）</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #415AA8;"></span>
+                                            <strong>#415AA8</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Theme Contrast Color（对比色）</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #FFFFFF; border: 1px solid #dee2e6;"></span>
+                                            <strong>#FFFFFF</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Header 头部设置 -->
+                            <div class="config-section mb-4">
+                                <h6 class="config-section-title">
+                                    <i class="bi bi-window me-2"></i>Header（头部设置）
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted">Logo</label>
+                                        <div class="config-value">
+                                            <div class="p-2 bg-light rounded d-inline-block">
+                                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='45' viewBox='0 0 120 45'%3E%3Crect fill='%23415AA8' width='120' height='45' rx='4'/%3E%3Ctext x='60' y='28' text-anchor='middle' fill='white' font-size='14' font-family='Arial'%3ELogo%3C/text%3E%3C/svg%3E" alt="Logo" style="max-height: 45px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted">Banner Text（横幅文字）</label>
+                                        <div class="config-value">
+                                            <strong>Say hello to wallet roaming data friendly</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Banner Background Color</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #FFFFFF; border: 1px solid #dee2e6;"></span>
+                                            <strong>#FFFFFF</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Banner Text Color</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #313543;"></span>
+                                            <strong>#313543</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted">Banner Image（横幅图片）</label>
+                                        <div class="config-value">
+                                            <div class="p-2 bg-light rounded d-inline-block">
+                                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect fill='%23e9ecef' width='80' height='80' rx='4'/%3E%3Ctext x='40' y='45' text-anchor='middle' fill='%236c757d' font-size='12' font-family='Arial'%3EBanner%3C/text%3E%3C/svg%3E" alt="Banner" style="max-height: 80px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Main Content 主要内容 -->
+                            <div class="config-section mb-4">
+                                <h6 class="config-section-title">
+                                    <i class="bi bi-body-text me-2"></i>Main Content（主要内容）
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Background Color（背景色）</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #FFFFFF; border: 1px solid #dee2e6;"></span>
+                                            <strong>#FFFFFF</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Text Color（文字颜色）</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #313543;"></span>
+                                            <strong>#313543</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer 页脚 -->
+                            <div class="config-section mb-0">
+                                <h6 class="config-section-title">
+                                    <i class="bi bi-layout-text-window-reverse me-2"></i>Footer（页脚）
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Background Color（背景色）</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #FFFFFF; border: 1px solid #dee2e6;"></span>
+                                            <strong>#FFFFFF</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label text-muted">Text Color（文字颜色）</label>
+                                        <div class="config-value d-flex align-items-center">
+                                            <span class="color-preview me-2" style="background-color: #313543;"></span>
+                                            <strong>#313543</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 业务员 -->
+                    <div class="tab-pane fade" id="salesman" role="tabpanel">
+                        <div class="content-card">
+                            <!-- 筛选区 -->
+                            <div class="filter-section mb-4">
+                                <div class="row g-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label">业务员ID</label>
+                                        <input type="text" class="form-control" placeholder="请输入ID">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">姓名</label>
+                                        <input type="text" class="form-control" placeholder="请输入姓名">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">电子邮箱</label>
+                                        <input type="text" class="form-control" placeholder="请输入邮箱">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">状态</label>
+                                        <select class="form-select">
+                                            <option value="">全部</option>
+                                            <option value="ACTIVE">正常</option>
+                                            <option value="DISABLED">已禁用</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-primary flex-grow-1" onclick="searchSalesmen()">
+                                                <i class="bi bi-search me-1"></i>查询
+                                            </button>
+                                            <button class="btn btn-outline-secondary" onclick="resetSalesmanFilter()">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 统计信息 -->
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <div class="alert alert-primary mb-0 d-flex align-items-center py-2">
+                                        <i class="bi bi-people-fill me-2" style="font-size: 20px;"></i>
+                                        <div>
+                                            <small>业务员总数</small>
+                                            <div class="fw-bold">12</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-success mb-0 d-flex align-items-center py-2">
+                                        <i class="bi bi-check-circle-fill me-2" style="font-size: 20px;"></i>
+                                        <div>
+                                            <small>正常状态</small>
+                                            <div class="fw-bold">11</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-warning mb-0 d-flex align-items-center py-2">
+                                        <i class="bi bi-cart-check-fill me-2" style="font-size: 20px;"></i>
+                                        <div>
+                                            <small>本月总订单</small>
+                                            <div class="fw-bold">156</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-danger mb-0 d-flex align-items-center py-2">
+                                        <i class="bi bi-cash-stack me-2" style="font-size: 20px;"></i>
+                                        <div>
+                                            <small>本月总返现</small>
+                                            <div class="fw-bold">¥2,340</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 数据表格 -->
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>业务员信息</th>
+                                            <th>电话号码</th>
+                                            <th>返现比例</th>
+                                            <th>本月数据</th>
+                                            <th>状态</th>
+                                            <th>加入时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#S10001</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2">王</div>
+                                                    <div>
+                                                        <strong>王小明</strong><br>
+                                                        <small class="text-muted">wangxm@example.com</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>+86 139****1234</td>
+                                            <td><span class="cashback-ratio">3%</span></td>
+                                            <td>
+                                                <span class="stat-mini bg-info text-white">订单 28</span>
+                                                <span class="stat-mini bg-success text-white">¥420</span>
+                                            </td>
+                                            <td><span class="badge bg-success">正常</span></td>
+                                            <td>
+                                                <small>2025-10-20</small><br>
+                                                <small class="text-muted">14:30:15</small>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="viewSalesman('S10001')" title="查看详情">
+                                                    <i class="bi bi-eye"></i> 查看
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#S10002</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">李</div>
+                                                    <div>
+                                                        <strong>李小红</strong><br>
+                                                        <small class="text-muted">lixh@example.com</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>+86 138****5678</td>
+                                            <td><span class="cashback-ratio">2.5%</span></td>
+                                            <td>
+                                                <span class="stat-mini bg-info text-white">订单 45</span>
+                                                <span class="stat-mini bg-success text-white">¥562</span>
+                                            </td>
+                                            <td><span class="badge bg-success">正常</span></td>
+                                            <td>
+                                                <small>2025-10-22</small><br>
+                                                <small class="text-muted">09:15:30</small>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="viewSalesman('S10002')" title="查看详情">
+                                                    <i class="bi bi-eye"></i> 查看
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#S10003</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">张</div>
+                                                    <div>
+                                                        <strong>张大伟</strong><br>
+                                                        <small class="text-muted">zdw@example.com</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>+86 137****9012</td>
+                                            <td><span class="cashback-ratio">2%</span></td>
+                                            <td>
+                                                <span class="stat-mini bg-info text-white">订单 32</span>
+                                                <span class="stat-mini bg-success text-white">¥320</span>
+                                            </td>
+                                            <td><span class="badge bg-success">正常</span></td>
+                                            <td>
+                                                <small>2025-10-25</small><br>
+                                                <small class="text-muted">16:45:22</small>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="viewSalesman('S10003')" title="查看详情">
+                                                    <i class="bi bi-eye"></i> 查看
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#S10004</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">刘</div>
+                                                    <div>
+                                                        <strong>刘芳芳</strong><br>
+                                                        <small class="text-muted">liuff@example.com</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>+86 135****6789</td>
+                                            <td><span class="cashback-ratio">2.5%</span></td>
+                                            <td>
+                                                <span class="stat-mini bg-info text-white">订单 18</span>
+                                                <span class="stat-mini bg-success text-white">¥225</span>
+                                            </td>
+                                            <td><span class="badge bg-success">正常</span></td>
+                                            <td>
+                                                <small>2025-11-01</small><br>
+                                                <small class="text-muted">10:20:45</small>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="viewSalesman('S10004')" title="查看详情">
+                                                    <i class="bi bi-eye"></i> 查看
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#S10005</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">赵</div>
+                                                    <div>
+                                                        <strong>赵强</strong><br>
+                                                        <small class="text-muted">zhaoq@example.com</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>+86 132****4321</td>
+                                            <td><span class="cashback-ratio">3%</span></td>
+                                            <td>
+                                                <span class="stat-mini bg-info text-white">订单 33</span>
+                                                <span class="stat-mini bg-success text-white">¥495</span>
+                                            </td>
+                                            <td><span class="badge bg-success">正常</span></td>
+                                            <td>
+                                                <small>2025-11-05</small><br>
+                                                <small class="text-muted">14:10:30</small>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="viewSalesman('S10005')" title="查看详情">
+                                                    <i class="bi bi-eye"></i> 查看
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#S10006</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">周</div>
+                                                    <div>
+                                                        <strong>周建国</strong><br>
+                                                        <small class="text-muted">zhoujg@example.net</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>+86 136****3456</td>
+                                            <td><span class="cashback-ratio">1.5%</span></td>
+                                            <td>
+                                                <span class="stat-mini bg-info text-white">订单 12</span>
+                                                <span class="stat-mini bg-success text-white">¥90</span>
+                                            </td>
+                                            <td><span class="badge bg-success">正常</span></td>
+                                            <td>
+                                                <small>2025-09-10</small><br>
+                                                <small class="text-muted">14:30:00</small>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="viewSalesman('S10006')" title="查看详情">
+                                                    <i class="bi bi-eye"></i> 查看
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- 分页 -->
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="text-muted">
+                                    显示第 1 到 6 条记录，共 12 条
+                                </div>
+                                <nav>
+                                    <ul class="pagination mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">上一页</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">下一页</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 数据统计 -->
+                    <div class="tab-pane fade" id="stats" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="content-card text-center">
+                                    <h6 class="text-muted">累计订单数</h6>
+                                    <div class="stat-box">
+                                        <div class="number text-primary">1,598</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="content-card text-center">
+                                    <h6 class="text-muted">累计销售额</h6>
+                                    <div class="stat-box">
+                                        <div class="number text-success">¥256,800</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="content-card text-center">
+                                    <h6 class="text-muted">累计分成</h6>
+                                    <div class="stat-box">
+                                        <div class="number text-warning">¥21,828</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="content-card text-center">
+                                    <h6 class="text-muted">业务员数</h6>
+                                    <div class="stat-box">
+                                        <div class="number text-info">12</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h5 class="form-section-title">
+                                <i class="bi bi-graph-up me-2"></i>近6个月销售趋势
+                            </h5>
+                            <div class="text-center py-5 bg-light rounded">
+                                <i class="bi bi-bar-chart-line" style="font-size: 48px; color: #3498db;"></i>
+                                <p class="text-muted mt-3">图表区域 - 实际项目中可集成 ECharts 等图表库</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let isEditMode = false;
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            document.getElementById('infoCard').style.display = isEditMode ? 'none' : 'block';
+            document.getElementById('editCard').style.display = isEditMode ? 'block' : 'none';
+        }
+
+        function saveChanges() {
+            alert('修改已保存！\n\n（这是一个静态演示页面）');
+            toggleEditMode();
+            return false;
+        }
+
+        function resetPassword() {
+            if (confirm('确定要重置分销商密码吗？\n\n新密码将发送至分销商邮箱。')) {
+                alert('密码已重置，新密码已发送至 zhangmy@example.com\n\n（这是一个静态演示页面）');
+            }
+        }
+
+        function disableDistributor() {
+            if (confirm('确定要禁用此分销商吗？\n\n禁用后该分销商将无法登录系统。')) {
+                alert('分销商已禁用！\n\n（这是一个静态演示页面）');
+            }
+        }
+
+        function deleteDistributor() {
+            if (confirm('确定要删除此分销商吗？\n\n⚠️ 警告：删除操作不可恢复！\n该分销商的所有数据将被清除。')) {
+                if (confirm('再次确认：真的要删除吗？')) {
+                    alert('分销商已删除！\n\n（这是一个静态演示页面）');
+                    window.location.href = 'distributor-list.html';
+                }
+            }
+        }
+
+        function previewSite() {
+            window.open('https://zhangmy.esim.limitflex.com', '_blank');
+        }
+
+        // 业务员相关函数
+        function searchSalesmen() {
+            alert('执行查询\n\n这是一个静态演示页面。实际使用时会调用后端API进行查询。');
+        }
+
+        function resetSalesmanFilter() {
+            document.querySelectorAll('#salesman .filter-section input, #salesman .filter-section select').forEach(el => {
+                if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                } else {
+                    el.value = '';
+                }
+            });
+        }
+
+        function viewSalesman(id) {
+            alert('查看业务员详情: ' + id + '\n\n（这是一个静态演示页面）');
+        }
+
+    </script>
+</body>
+</html>
+

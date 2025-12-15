@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>分销商管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .distributor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .share-ratio {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #27ae60;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .region-badge {
+            background: #e8f4fd;
+            color: #2980b9;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="../index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="../coupon/template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="../coupon/coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="../coupon/batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="../coupon/marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">分销商管理</div>
+                    <a class="nav-link active" href="distributor-list.html">
+                        <i class="bi bi-shop"></i>分销商列表
+                    </a>
+                    <a class="nav-link" href="salesman-list.html">
+                        <i class="bi bi-people"></i>业务员管理
+                    </a>
+                    <a class="nav-link" href="withdrawal-list.html">
+                        <i class="bi bi-cash-stack"></i>分销商提现
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="../usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="../statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="../operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="../dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="../help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-shop me-2"></i>分销商管理</h1>
+                        <small class="text-muted">管理所有分销商账号及其站点配置</small>
+                    </div>
+                    <a href="distributor-create.html" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>创建分销商
+                    </a>
+                </div>
+
+                <div class="content-card">
+                    <!-- 筛选区 -->
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">分销商ID</label>
+                                <input type="text" class="form-control" placeholder="请输入ID">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">电子邮箱</label>
+                                <input type="text" class="form-control" placeholder="请输入邮箱">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">姓名</label>
+                                <input type="text" class="form-control" placeholder="请输入姓名">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">归属地</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="CN">中国大陆</option>
+                                    <option value="HK">中国香港</option>
+                                    <option value="TW">中国台湾</option>
+                                    <option value="JP">日本</option>
+                                    <option value="KR">韩国</option>
+                                    <option value="SG">新加坡</option>
+                                    <option value="US">美国</option>
+                                    <option value="EU">欧洲</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">状态</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="ACTIVE">正常</option>
+                                    <option value="PENDING">待审核</option>
+                                    <option value="DISABLED">已禁用</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary flex-grow-1" onclick="searchDistributors()">
+                                        <i class="bi bi-search me-1"></i>查询
+                                    </button>
+                                    <button class="btn btn-outline-secondary" onclick="resetFilter()">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>分销商信息</th>
+                                    <th>电话号码</th>
+                                    <th>归属地</th>
+                                    <th>分成比例</th>
+                                    <th>业务员数</th>
+                                    <th>站点配置</th>
+                                    <th>状态</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#D1001</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="distributor-avatar me-2">张</div>
+                                            <div>
+                                                <strong>张明远</strong><br>
+                                                <small class="text-muted">zhangmy@example.com</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>+86 138****8888</td>
+                                    <td><span class="region-badge"><i class="bi bi-geo-alt"></i> 中国大陆</span></td>
+                                    <td><span class="share-ratio">8.5%</span></td>
+                                    <td>
+                                        <a href="salesman-list.html?distributor=D1001" class="text-decoration-none">
+                                            <span class="badge bg-info">12 人</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> 已配置</span>
+                                    </td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td>
+                                        <small>2025-10-15</small><br>
+                                        <small class="text-muted">10:30:25</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" onclick="window.location.href='distributor-detail.html'" title="查看详情">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-warning" onclick="window.location.href='distributor-detail.html?edit=1'" title="编辑">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="deleteDistributor('D1001')" title="删除">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#D1002</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="distributor-avatar me-2" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">李</div>
+                                            <div>
+                                                <strong>李婷婷</strong><br>
+                                                <small class="text-muted">ltt@partner.co</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>+852 9876****</td>
+                                    <td><span class="region-badge"><i class="bi bi-geo-alt"></i> 中国香港</span></td>
+                                    <td><span class="share-ratio">10%</span></td>
+                                    <td>
+                                        <a href="salesman-list.html?distributor=D1002" class="text-decoration-none">
+                                            <span class="badge bg-info">8 人</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> 已配置</span>
+                                    </td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td>
+                                        <small>2025-10-20</small><br>
+                                        <small class="text-muted">14:15:38</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" onclick="window.location.href='distributor-detail.html'" title="查看详情">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-warning" onclick="window.location.href='distributor-detail.html?edit=1'" title="编辑">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="deleteDistributor('D1002')" title="删除">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#D1003</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="distributor-avatar me-2" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">王</div>
+                                            <div>
+                                                <strong>王大伟</strong><br>
+                                                <small class="text-muted">wdw@travel.jp</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>+81 90****1234</td>
+                                    <td><span class="region-badge"><i class="bi bi-geo-alt"></i> 日本</span></td>
+                                    <td><span class="share-ratio">7%</span></td>
+                                    <td>
+                                        <a href="salesman-list.html?distributor=D1003" class="text-decoration-none">
+                                            <span class="badge bg-info">5 人</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning"><i class="bi bi-exclamation-circle"></i> 待配置</span>
+                                    </td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td>
+                                        <small>2025-11-01</small><br>
+                                        <small class="text-muted">09:22:11</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" onclick="window.location.href='distributor-detail.html'" title="查看详情">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-warning" onclick="window.location.href='distributor-detail.html?edit=1'" title="编辑">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="deleteDistributor('D1003')" title="删除">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#D1004</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="distributor-avatar me-2" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">陈</div>
+                                            <div>
+                                                <strong>陈思雨</strong><br>
+                                                <small class="text-muted">chensy@sg-travel.com</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>+65 8888****</td>
+                                    <td><span class="region-badge"><i class="bi bi-geo-alt"></i> 新加坡</span></td>
+                                    <td><span class="share-ratio">6.5%</span></td>
+                                    <td>
+                                        <a href="salesman-list.html?distributor=D1004" class="text-decoration-none">
+                                            <span class="badge bg-info">3 人</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> 已配置</span>
+                                    </td>
+                                    <td><span class="badge bg-warning">待审核</span></td>
+                                    <td>
+                                        <small>2025-12-10</small><br>
+                                        <small class="text-muted">16:45:30</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" onclick="window.location.href='distributor-detail.html'" title="查看详情">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-success" onclick="approveDistributor('D1004')" title="审核通过">
+                                                <i class="bi bi-check-lg"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="rejectDistributor('D1004')" title="拒绝">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="table-secondary">
+                                    <td>#D1005</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="distributor-avatar me-2" style="background: #95a5a6;">赵</div>
+                                            <div>
+                                                <strong class="text-muted">赵强</strong><br>
+                                                <small class="text-muted">zhaoq@example.net</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted">+86 139****5555</td>
+                                    <td><span class="region-badge"><i class="bi bi-geo-alt"></i> 中国大陆</span></td>
+                                    <td><span class="share-ratio text-muted">5%</span></td>
+                                    <td>
+                                        <span class="badge bg-secondary">0 人</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> 未配置</span>
+                                    </td>
+                                    <td><span class="badge bg-danger">已禁用</span></td>
+                                    <td>
+                                        <small class="text-muted">2025-08-05</small><br>
+                                        <small class="text-muted">11:20:45</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" onclick="window.location.href='distributor-detail.html'" title="查看详情">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-success" onclick="enableDistributor('D1005')" title="启用">
+                                                <i class="bi bi-play-circle"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="deleteDistributor('D1005')" title="删除">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">
+                            显示第 1 到 5 条记录，共 28 条
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">上一页</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">下一页</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function searchDistributors() {
+            alert('执行查询\n\n这是一个静态演示页面。实际使用时会调用后端API进行查询。');
+        }
+
+        function resetFilter() {
+            document.querySelectorAll('.filter-section input, .filter-section select').forEach(el => {
+                if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                } else {
+                    el.value = '';
+                }
+            });
+        }
+
+        function deleteDistributor(id) {
+            if (confirm('确定要删除分销商 ' + id + ' 吗？\n\n⚠️ 警告：删除后该分销商的所有数据将被清除！')) {
+                alert('分销商已删除！（这是一个静态演示）');
+            }
+        }
+
+        function approveDistributor(id) {
+            if (confirm('确定要审核通过分销商 ' + id + ' 吗？')) {
+                alert('分销商已审核通过！（这是一个静态演示）');
+            }
+        }
+
+        function rejectDistributor(id) {
+            const reason = prompt('请输入拒绝原因：');
+            if (reason !== null) {
+                alert('已拒绝分销商申请！\n原因：' + (reason || '未填写') + '\n（这是一个静态演示）');
+            }
+        }
+
+        function enableDistributor(id) {
+            if (confirm('确定要启用分销商 ' + id + ' 吗？')) {
+                alert('分销商已启用！（这是一个静态演示）');
+            }
+        }
+    </script>
+</body>
+</html>
+

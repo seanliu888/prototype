@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>创建分销商</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: #fff;
+            background-color: rgba(255,255,255,0.15);
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        .nav-section-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 8px 20px;
+            margin-top: 10px;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .brand-logo {
+            padding: 25px 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        .ratio-slider {
+            height: 8px;
+        }
+        .ratio-display {
+            font-size: 32px;
+            font-weight: 700;
+            color: #27ae60;
+            font-family: 'Courier New', monospace;
+        }
+        .requirement-badge {
+            background: #e8f4fd;
+            color: #2980b9;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .requirement-badge i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+                    eSIMtours管理系统
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="../index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    
+                    <div class="nav-section-title">模板配置</div>
+                    <a class="nav-link" href="../coupon/template-list.html">
+                        <i class="bi bi-file-earmark-text"></i>优惠券模板
+                    </a>
+                    
+                    <div class="nav-section-title">发券管理</div>
+                    <a class="nav-link" href="../coupon/coupon-list.html">
+                        <i class="bi bi-ticket-detailed"></i>优惠码管理
+                    </a>
+                    <a class="nav-link" href="../coupon/batch-list.html">
+                        <i class="bi bi-layers"></i>批次管理
+                    </a>
+                    <a class="nav-link" href="../coupon/marketing-activity-list.html">
+                        <i class="bi bi-megaphone"></i>营销活动
+                    </a>
+                    
+                    <div class="nav-section-title">分销商管理</div>
+                    <a class="nav-link active" href="distributor-list.html">
+                        <i class="bi bi-shop"></i>分销商列表
+                    </a>
+                    <a class="nav-link" href="salesman-list.html">
+                        <i class="bi bi-people"></i>业务员管理
+                    </a>
+                    <a class="nav-link" href="withdrawal-list.html">
+                        <i class="bi bi-cash-stack"></i>分销商提现
+                    </a>
+                    
+                    <div class="nav-section-title">数据分析</div>
+                    <a class="nav-link" href="../usage-log.html">
+                        <i class="bi bi-clock-history"></i>使用记录
+                    </a>
+                    <a class="nav-link" href="../statistics.html">
+                        <i class="bi bi-bar-chart-fill"></i>数据统计
+                    </a>
+                    <a class="nav-link" href="../operation-log.html">
+                        <i class="bi bi-journal-text"></i>操作日志
+                    </a>
+                    
+                    <div class="nav-section-title">系统管理</div>
+                    <a class="nav-link" href="../dictionary/dict-type-list.html">
+                        <i class="bi bi-book"></i>数据字典
+                    </a>
+                    
+                    <div class="nav-section-title">帮助</div>
+                    <a class="nav-link" href="../help.html">
+                        <i class="bi bi-question-circle-fill"></i>使用说明
+                    </a>
+                </nav>
+            </div>
+
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <div class="page-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1><i class="bi bi-plus-circle me-2"></i>创建分销商</h1>
+                        <small class="text-muted">收到用户申请后，审核通过后创建分销商账号</small>
+                    </div>
+                    <button class="btn btn-outline-secondary" onclick="window.location.href='distributor-list.html'">
+                        <i class="bi bi-arrow-left me-1"></i>返回列表
+                    </button>
+                </div>
+
+                <!-- 前置条件提示 -->
+                <div class="alert alert-info d-flex align-items-center mb-4">
+                    <i class="bi bi-info-circle-fill me-3" style="font-size: 24px;"></i>
+                    <div>
+                        <strong>创建条件：</strong>收到用户申请后，需审核通过才能创建分销商账号。
+                        <br>
+                        <small class="text-muted">请确保已完成申请资料审核，并确认申请人符合分销商合作条件。</small>
+                    </div>
+                </div>
+
+                <form id="distributorForm" onsubmit="return submitForm()">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- 基本信息 -->
+                            <div class="content-card">
+                                <h5 class="form-section-title">
+                                    <i class="bi bi-person-badge me-2"></i>基本信息
+                                </h5>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span class="text-danger">*</span> 电子邮箱（登录账号）</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                            <input type="email" class="form-control" id="email" placeholder="请输入电子邮箱" required>
+                                        </div>
+                                        <div class="form-text">此邮箱将作为分销商的登录账号</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span class="text-danger">*</span> 姓名</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                            <input type="text" class="form-control" id="name" placeholder="请输入真实姓名" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span class="text-danger">*</span> 电话号码</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                            <select class="form-select" style="max-width: 120px;" id="phonePrefix">
+                                                <option value="+86">+86</option>
+                                                <option value="+852">+852</option>
+                                                <option value="+886">+886</option>
+                                                <option value="+81">+81</option>
+                                                <option value="+82">+82</option>
+                                                <option value="+65">+65</option>
+                                                <option value="+1">+1</option>
+                                            </select>
+                                            <input type="tel" class="form-control" id="phone" placeholder="请输入电话号码" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span class="text-danger">*</span> 归属地</label>
+                                        <select class="form-select" id="region" required>
+                                            <option value="">请选择归属地</option>
+                                            <option value="CN">中国大陆</option>
+                                            <option value="HK">中国香港</option>
+                                            <option value="TW">中国台湾</option>
+                                            <option value="JP">日本</option>
+                                            <option value="KR">韩国</option>
+                                            <option value="SG">新加坡</option>
+                                            <option value="MY">马来西亚</option>
+                                            <option value="TH">泰国</option>
+                                            <option value="US">美国</option>
+                                            <option value="EU">欧洲</option>
+                                            <option value="OTHER">其他地区</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 分成设置 -->
+                            <div class="content-card">
+                                <h5 class="form-section-title">
+                                    <i class="bi bi-percent me-2"></i>分成比例设置
+                                </h5>
+                                
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label class="form-label"><span class="text-danger">*</span> 分成比例</label>
+                                        <input type="range" class="form-range ratio-slider" id="shareRatio" 
+                                               min="0.5" max="10" step="0.5" value="5" oninput="updateRatioDisplay()">
+                                        <div class="d-flex justify-content-between text-muted small">
+                                            <span>0.5%</span>
+                                            <span>5%</span>
+                                            <span>10%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="ratio-display" id="ratioDisplay">5%</div>
+                                        <small class="text-muted">当前设置</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-warning mt-3 mb-0">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    <strong>注意：</strong>分成比例范围为 0% < n ≤ 10%，设置后将影响该分销商的收益分成。
+                                </div>
+                            </div>
+
+                            <!-- 备注信息 -->
+                            <div class="content-card">
+                                <h5 class="form-section-title">
+                                    <i class="bi bi-chat-left-text me-2"></i>备注信息
+                                </h5>
+                                
+                                <div class="mb-0">
+                                    <label class="form-label">审核备注</label>
+                                    <textarea class="form-control" id="remark" rows="3" placeholder="可填写审核意见或其他备注信息..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <!-- 创建条件 -->
+                            <div class="content-card">
+                                <h5 class="form-section-title">
+                                    <i class="bi bi-clipboard-check me-2"></i>创建条件
+                                </h5>
+                                
+                                <div class="mb-0">
+                                    <div class="requirement-badge w-100 mb-2">
+                                        <i class="bi bi-check-circle-fill text-success"></i>
+                                        已收到用户申请
+                                    </div>
+                                    <div class="requirement-badge w-100 mb-2">
+                                        <i class="bi bi-check-circle-fill text-success"></i>
+                                        资料审核通过
+                                    </div>
+                                    <div class="requirement-badge w-100">
+                                        <i class="bi bi-hourglass-split text-warning"></i>
+                                        待填写基本信息
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 账号设置 -->
+                            <div class="content-card">
+                                <h5 class="form-section-title">
+                                    <i class="bi bi-shield-lock me-2"></i>账号设置
+                                </h5>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">初始密码设置</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="passwordOption" id="autoPassword" value="auto" checked>
+                                        <label class="form-check-label" for="autoPassword">
+                                            系统自动生成并发送至邮箱
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="passwordOption" id="manualPassword" value="manual">
+                                        <label class="form-check-label" for="manualPassword">
+                                            手动设置初始密码
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div id="passwordInput" style="display: none;">
+                                    <label class="form-label">初始密码</label>
+                                    <input type="password" class="form-control" id="password" placeholder="请输入初始密码">
+                                    <div class="form-text">密码至少8位，包含字母和数字</div>
+                                </div>
+                            </div>
+
+                            <!-- 操作按钮 -->
+                            <div class="content-card">
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="bi bi-check-circle me-2"></i>创建分销商
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="saveDraft()">
+                                        <i class="bi bi-save me-2"></i>保存草稿
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.location.href='distributor-list.html'">
+                                        <i class="bi bi-x-circle me-2"></i>取消创建
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateRatioDisplay() {
+            const ratio = document.getElementById('shareRatio').value;
+            document.getElementById('ratioDisplay').textContent = ratio + '%';
+        }
+
+        // 密码选项切换
+        document.querySelectorAll('input[name="passwordOption"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const passwordInput = document.getElementById('passwordInput');
+                if (this.value === 'manual') {
+                    passwordInput.style.display = 'block';
+                } else {
+                    passwordInput.style.display = 'none';
+                }
+            });
+        });
+
+        function submitForm() {
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const region = document.getElementById('region').value;
+            const ratio = document.getElementById('shareRatio').value;
+            
+            const message = `分销商创建成功！\n\n` +
+                `邮箱：${email}\n` +
+                `姓名：${name}\n` +
+                `电话：${document.getElementById('phonePrefix').value} ${phone}\n` +
+                `归属地：${region}\n` +
+                `分成比例：${ratio}%\n\n` +
+                `（这是一个静态演示页面）`;
+            
+            alert(message);
+            window.location.href = 'distributor-list.html';
+            return false;
+        }
+
+        function saveDraft() {
+            alert('草稿已保存！\n\n（这是一个静态演示页面）');
+        }
+    </script>
+</body>
+</html>
+
