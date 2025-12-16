@@ -253,6 +253,33 @@
                                 </div>
                             </div>
 
+                            <!-- 站点设置 -->
+                            <div class="content-card">
+                                <h5 class="form-section-title">
+                                    <i class="bi bi-globe me-2"></i>站点设置
+                                </h5>
+                                
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-label"><span class="text-danger">*</span> 自定义域名</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="subdomain" placeholder="请输入子域名" 
+                                                   pattern="^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$" required
+                                                   oninput="updateDomainPreview()">
+                                            <span class="input-group-text">.esimtours.com</span>
+                                        </div>
+                                        <div class="form-text">只能使用小写字母、数字和连字符，且不能以连字符开头或结尾</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label text-muted">站点地址预览</label>
+                                        <div class="alert alert-light mb-0 py-2">
+                                            <i class="bi bi-link-45deg me-1"></i>
+                                            <span id="domainPreview">https://<span class="text-primary">[子域名]</span>.esimtours.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- 分成设置 -->
                             <div class="content-card">
                                 <h5 class="form-section-title">
@@ -342,8 +369,16 @@
                                 
                                 <div id="passwordInput" style="display: none;">
                                     <label class="form-label">初始密码</label>
-                                    <input type="password" class="form-control" id="password" placeholder="请输入初始密码">
-                                    <div class="form-text">密码至少8位，包含字母和数字</div>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" placeholder="请输入初始密码">
+                                        <button class="btn btn-outline-primary" type="button" onclick="generateAndFillPassword('password')" title="随机生成">
+                                            <i class="bi bi-shuffle"></i>
+                                        </button>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password', this)" title="显示/隐藏">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text">密码至少8位，包含字母和数字；点击 <i class="bi bi-shuffle"></i> 可随机生成</div>
                                 </div>
                             </div>
 
@@ -375,6 +410,16 @@
             document.getElementById('ratioDisplay').textContent = ratio + '%';
         }
 
+        function updateDomainPreview() {
+            const subdomain = document.getElementById('subdomain').value.toLowerCase().trim();
+            const preview = document.getElementById('domainPreview');
+            if (subdomain) {
+                preview.innerHTML = 'https://<span class="text-primary fw-bold">' + subdomain + '</span>.esimtours.com';
+            } else {
+                preview.innerHTML = 'https://<span class="text-primary">[子域名]</span>.esimtours.com';
+            }
+        }
+
         // 密码选项切换
         document.querySelectorAll('input[name="passwordOption"]').forEach(radio => {
             radio.addEventListener('change', function() {
@@ -393,12 +438,20 @@
             const phone = document.getElementById('phone').value;
             const region = document.getElementById('region').value;
             const ratio = document.getElementById('shareRatio').value;
+            const subdomain = document.getElementById('subdomain').value.toLowerCase().trim();
+            
+            // 验证子域名格式
+            if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/.test(subdomain)) {
+                alert('子域名格式不正确！\n\n只能使用小写字母、数字和连字符，且不能以连字符开头或结尾');
+                return false;
+            }
             
             const message = `分销商创建成功！\n\n` +
                 `邮箱：${email}\n` +
                 `姓名：${name}\n` +
                 `电话：${document.getElementById('phonePrefix').value} ${phone}\n` +
                 `归属地：${region}\n` +
+                `站点域名：${subdomain}.esimtours.com\n` +
                 `分成比例：${ratio}%\n\n` +
                 `（这是一个静态演示页面）`;
             
@@ -409,6 +462,43 @@
 
         function saveDraft() {
             alert('草稿已保存！\n\n（这是一个静态演示页面）');
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+
+        function generateRandomPassword() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+            let password = '';
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        function generateAndFillPassword(inputId) {
+            const input = document.getElementById(inputId);
+            const password = generateRandomPassword();
+            input.value = password;
+            // 自动显示密码以便用户查看
+            input.type = 'text';
+            // 更新眼睛图标状态
+            const eyeBtn = input.parentElement.querySelector('.bi-eye, .bi-eye-slash');
+            if (eyeBtn) {
+                eyeBtn.classList.remove('bi-eye');
+                eyeBtn.classList.add('bi-eye-slash');
+            }
         }
     </script>
 </body>

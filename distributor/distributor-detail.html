@@ -425,7 +425,7 @@
                                             <div class="col-md-6">
                                                 <label class="form-label">分成比例</label>
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control" value="8.5" min="0.5" max="10" step="0.5">
+                                                    <input type="number" class="form-control" value="8.5" min="0.1" max="10" step="0.1">
                                                     <span class="input-group-text">%</span>
                                                 </div>
                                             </div>
@@ -435,6 +435,20 @@
                                                     <option value="ACTIVE" selected>正常</option>
                                                     <option value="DISABLED">禁用</option>
                                                 </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">自定义域名</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="editSubdomain" value="zhangmy" 
+                                                           pattern="^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$"
+                                                           oninput="updateEditDomainPreview()">
+                                                    <span class="input-group-text">.esimtours.com</span>
+                                                </div>
+                                                <div class="form-text">只能使用小写字母、数字和连字符，且不能以连字符开头或结尾</div>
+                                                <div class="mt-2">
+                                                    <small class="text-muted">站点地址预览：</small>
+                                                    <span id="editDomainPreview" class="text-primary">https://zhangmy.esimtours.com</span>
+                                                </div>
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label">备注</label>
@@ -532,7 +546,7 @@
                                             <div>
                                                 <h6 class="mb-2">站点地址</h6>
                                                 <div class="input-group mb-2">
-                                                    <input type="text" class="form-control form-control-sm bg-white" value="https://zhangmy.esim.esimtours.com" readonly id="siteUrl">
+                                                    <input type="text" class="form-control form-control-sm bg-white" value="https://zhangmy.esimtours.com" readonly id="siteUrl">
                                                     <button class="btn btn-sm btn-outline-primary" onclick="copySiteUrl()">
                                                         <i class="bi bi-clipboard"></i> 复制
                                                     </button>
@@ -600,7 +614,7 @@
                                     <div class="col-md-6">
                                         <label class="form-label text-muted">Custom Domain（自定义域名）</label>
                                         <div class="config-value">
-                                            <strong>zhangmy</strong><span class="text-muted">.esim.esimtours.com</span>
+                                            <strong>zhangmy</strong><span class="text-muted">.esimtours.com</span>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -1428,6 +1442,74 @@
         </div>
     </div>
 
+    <!-- 重置密码模态框 -->
+    <div class="modal fade" id="resetPasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-key me-2"></i>重置密码</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info py-2 mb-3">
+                        <i class="bi bi-info-circle me-1"></i>
+                        重置后的密码将发送至分销商邮箱：<strong>zhangmy@example.com</strong>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">密码设置方式</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="resetPasswordOption" id="resetAutoPassword" value="auto" checked onchange="toggleResetPasswordInput()">
+                            <label class="form-check-label" for="resetAutoPassword">
+                                系统自动生成随机密码
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="resetPasswordOption" id="resetManualPassword" value="manual" onchange="toggleResetPasswordInput()">
+                            <label class="form-check-label" for="resetManualPassword">
+                                手动设置新密码
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="resetPasswordInput" style="display: none;">
+                        <label class="form-label">新密码</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="newPassword" placeholder="请输入新密码">
+                            <button class="btn btn-outline-primary" type="button" onclick="generateAndFillPassword('newPassword')" title="随机生成">
+                                <i class="bi bi-shuffle"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('newPassword', this)" title="显示/隐藏">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">密码至少8位，包含字母和数字；点击 <i class="bi bi-shuffle"></i> 可随机生成</div>
+                    </div>
+                    
+                    <!-- 生成的密码显示区域 -->
+                    <div id="generatedPasswordArea" style="display: none;" class="mt-3">
+                        <div class="alert alert-success">
+                            <label class="form-label mb-2"><i class="bi bi-check-circle me-1"></i>密码已重置成功</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-white" id="generatedPassword" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyGeneratedPassword()">
+                                    <i class="bi bi-clipboard"></i> 复制
+                                </button>
+                            </div>
+                            <div class="form-text mt-2">请妥善保管此密码，或通知分销商查收邮件</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="confirmResetBtn" onclick="confirmResetPassword()">
+                        <i class="bi bi-check-circle me-1"></i>确认重置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let isEditMode = false;
@@ -1438,6 +1520,16 @@
             document.getElementById('editCard').style.display = isEditMode ? 'block' : 'none';
         }
 
+        function updateEditDomainPreview() {
+            const subdomain = document.getElementById('editSubdomain').value.toLowerCase().trim();
+            const preview = document.getElementById('editDomainPreview');
+            if (subdomain) {
+                preview.textContent = 'https://' + subdomain + '.esimtours.com';
+            } else {
+                preview.textContent = 'https://[子域名].esimtours.com';
+            }
+        }
+
         function saveChanges() {
             alert('修改已保存！\n\n（这是一个静态演示页面）');
             toggleEditMode();
@@ -1445,9 +1537,87 @@
         }
 
         function resetPassword() {
-            if (confirm('确定要重置分销商密码吗？\n\n新密码将发送至分销商邮箱。')) {
-                alert('密码已重置，新密码已发送至 zhangmy@example.com\n\n（这是一个静态演示页面）');
+            // 重置模态框状态
+            document.getElementById('resetAutoPassword').checked = true;
+            document.getElementById('resetPasswordInput').style.display = 'none';
+            document.getElementById('generatedPasswordArea').style.display = 'none';
+            document.getElementById('confirmResetBtn').style.display = 'inline-block';
+            document.getElementById('newPassword').value = '';
+            
+            const modal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+            modal.show();
+        }
+
+        function toggleResetPasswordInput() {
+            const isManual = document.getElementById('resetManualPassword').checked;
+            document.getElementById('resetPasswordInput').style.display = isManual ? 'block' : 'none';
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
             }
+        }
+
+        function confirmResetPassword() {
+            const isManual = document.getElementById('resetManualPassword').checked;
+            let newPassword;
+            
+            if (isManual) {
+                newPassword = document.getElementById('newPassword').value;
+                if (!newPassword || newPassword.length < 8) {
+                    alert('请输入至少8位的密码');
+                    return;
+                }
+            } else {
+                // 模拟生成随机密码
+                newPassword = generateRandomPassword();
+            }
+            
+            // 显示生成的密码
+            document.getElementById('generatedPassword').value = newPassword;
+            document.getElementById('generatedPasswordArea').style.display = 'block';
+            document.getElementById('confirmResetBtn').style.display = 'none';
+            
+            // 实际项目中这里会调用后端API
+        }
+
+        function generateRandomPassword() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+            let password = '';
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        function generateAndFillPassword(inputId) {
+            const input = document.getElementById(inputId);
+            const password = generateRandomPassword();
+            input.value = password;
+            // 自动显示密码以便用户查看
+            input.type = 'text';
+            // 更新眼睛图标状态
+            const eyeBtn = input.parentElement.querySelector('.bi-eye, .bi-eye-slash');
+            if (eyeBtn) {
+                eyeBtn.classList.remove('bi-eye');
+                eyeBtn.classList.add('bi-eye-slash');
+            }
+        }
+
+        function copyGeneratedPassword() {
+            const password = document.getElementById('generatedPassword').value;
+            navigator.clipboard.writeText(password).then(() => {
+                alert('密码已复制到剪贴板！');
+            });
         }
 
         function disableDistributor() {
@@ -1466,7 +1636,7 @@
         }
 
         function previewSite() {
-            window.open('https://zhangmy.esim.esimtours.com', '_blank');
+            window.open('https://zhangmy.esimtours.com', '_blank');
         }
 
         function copySiteUrl() {
