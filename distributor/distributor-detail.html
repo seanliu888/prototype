@@ -529,7 +529,7 @@
                                     <i class="bi bi-globe me-2" style="font-size: 20px;"></i>
                                     <div>
                                         <strong>站点地址：</strong>
-                                        <a href="#" class="text-decoration-none">zhangmy.esim.limitflex.com</a>
+                                        <a href="#" class="text-decoration-none">zhangmy.esim.esimtours.com</a>
                                         <button class="btn btn-sm btn-outline-primary ms-2" onclick="previewSite()">
                                             <i class="bi bi-eye"></i> 预览站点
                                         </button>
@@ -546,7 +546,7 @@
                                     <div class="col-md-6">
                                         <label class="form-label text-muted">Custom Domain（自定义域名）</label>
                                         <div class="config-value">
-                                            <strong>zhangmy</strong><span class="text-muted">.esim.limitflex.com</span>
+                                            <strong>zhangmy</strong><span class="text-muted">.esim.esimtours.com</span>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -984,14 +984,387 @@
                                 </div>
                             </div>
                         </div>
-                        
+
+                        <!-- 平台收益流水 -->
                         <div class="content-card">
-                            <h5 class="form-section-title">
-                                <i class="bi bi-graph-up me-2"></i>近6个月销售趋势
-                            </h5>
-                            <div class="text-center py-5 bg-light rounded">
-                                <i class="bi bi-bar-chart-line" style="font-size: 48px; color: #3498db;"></i>
-                                <p class="text-muted mt-3">图表区域 - 实际项目中可集成 ECharts 等图表库</p>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="form-section-title mb-0" style="border: none; padding: 0;">
+                                    <i class="bi bi-journal-text me-2"></i>平台收益（对账流水）
+                                </h5>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-success" onclick="exportRevenue()">
+                                        <i class="bi bi-download me-1"></i>导出Excel
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 筛选区 -->
+                            <div class="filter-section mb-4">
+                                <div class="row g-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label">收益类型</label>
+                                        <select class="form-select form-select-sm">
+                                            <option value="">全部类型</option>
+                                            <option value="ORDER">订单分成</option>
+                                            <option value="REBATE">返利奖励</option>
+                                            <option value="BONUS">业绩奖金</option>
+                                            <option value="ADJUST">手工调整</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">产品</label>
+                                        <select class="form-select form-select-sm">
+                                            <option value="">全部产品</option>
+                                            <option value="JP-7D-5G">日本7天5GB套餐</option>
+                                            <option value="KR-5D-3G">韩国5天3GB套餐</option>
+                                            <option value="TH-7D-UNL">泰国7天无限流量</option>
+                                            <option value="ASIA-10D">亚洲多国10天套餐</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">业务员</label>
+                                        <select class="form-select form-select-sm">
+                                            <option value="">全部业务员</option>
+                                            <option value="S10001">王小明</option>
+                                            <option value="S10002">李小红</option>
+                                            <option value="S10003">张大伟</option>
+                                            <option value="S10004">刘芳芳</option>
+                                            <option value="S10005">赵强</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">收益时间</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="date" class="form-control" value="2025-12-01">
+                                            <span class="input-group-text">至</span>
+                                            <input type="date" class="form-control" value="2025-12-16">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-sm btn-primary flex-grow-1" onclick="searchRevenue()">
+                                                <i class="bi bi-search me-1"></i>查询
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary" onclick="resetRevenueFilter()">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 汇总信息 -->
+                            <div class="row mb-4">
+                                <div class="col-md-4">
+                                    <div class="alert alert-success mb-0 py-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span><i class="bi bi-wallet2 me-1"></i>本期报酬合计</span>
+                                            <strong class="fs-5">¥3,568.50</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="alert alert-info mb-0 py-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span><i class="bi bi-receipt me-1"></i>原值合计</span>
+                                            <strong class="fs-5">¥41,982.00</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="alert alert-primary mb-0 py-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span><i class="bi bi-file-text me-1"></i>流水笔数</span>
+                                            <strong class="fs-5">86 笔</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 数据表格 -->
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 100px;">报酬</th>
+                                            <th style="width: 100px;">类型</th>
+                                            <th>产品</th>
+                                            <th style="width: 120px;">业务员</th>
+                                            <th style="width: 100px;">原值</th>
+                                            <th style="width: 100px;">新值</th>
+                                            <th style="width: 160px;">收益时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥68.00</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">订单分成</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>日本7天5GB套餐</strong>
+                                                    <br><small class="text-muted">订单号: #ORD202512160001</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px;">王</div>
+                                                    <span>王小明</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,760.50</td>
+                                            <td class="text-end">¥21,828.50</td>
+                                            <td>
+                                                <small>2025-12-16 14:32:18</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥52.50</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">订单分成</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>韩国5天3GB套餐</strong>
+                                                    <br><small class="text-muted">订单号: #ORD202512160002</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">李</div>
+                                                    <span>李小红</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,708.00</td>
+                                            <td class="text-end">¥21,760.50</td>
+                                            <td>
+                                                <small>2025-12-16 11:28:45</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥120.00</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">返利奖励</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>月度销售目标达成奖励</strong>
+                                                    <br><small class="text-muted">2025年11月目标：50单</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">—</span>
+                                            </td>
+                                            <td class="text-end">¥21,588.00</td>
+                                            <td class="text-end">¥21,708.00</td>
+                                            <td>
+                                                <small>2025-12-15 09:00:00</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥85.00</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">订单分成</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>泰国7天无限流量</strong>
+                                                    <br><small class="text-muted">订单号: #ORD202512150015</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">张</div>
+                                                    <span>张大伟</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,503.00</td>
+                                            <td class="text-end">¥21,588.00</td>
+                                            <td>
+                                                <small>2025-12-15 16:45:22</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥42.50</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">订单分成</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>亚洲多国10天套餐</strong>
+                                                    <br><small class="text-muted">订单号: #ORD202512150008</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">刘</div>
+                                                    <span>刘芳芳</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,460.50</td>
+                                            <td class="text-end">¥21,503.00</td>
+                                            <td>
+                                                <small>2025-12-15 10:12:38</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-danger fw-bold">-¥25.00</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-warning text-dark">手工调整</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>退款订单扣减</strong>
+                                                    <br><small class="text-muted">关联订单: #ORD202512100023</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px;">王</div>
+                                                    <span>王小明</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,485.50</td>
+                                            <td class="text-end">¥21,460.50</td>
+                                            <td>
+                                                <small>2025-12-14 15:30:00</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥200.00</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-success">业绩奖金</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>Q4季度业绩奖励</strong>
+                                                    <br><small class="text-muted">季度销售额达标奖金</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">—</span>
+                                            </td>
+                                            <td class="text-end">¥21,285.50</td>
+                                            <td class="text-end">¥21,485.50</td>
+                                            <td>
+                                                <small>2025-12-14 09:00:00</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥76.50</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">订单分成</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>日本7天5GB套餐</strong>
+                                                    <br><small class="text-muted">订单号: #ORD202512140012</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">赵</div>
+                                                    <span>赵强</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,209.00</td>
+                                            <td class="text-end">¥21,285.50</td>
+                                            <td>
+                                                <small>2025-12-14 18:22:15</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥58.00</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">订单分成</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>韩国5天3GB套餐</strong>
+                                                    <br><small class="text-muted">订单号: #ORD202512130045</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">周</div>
+                                                    <span>周建国</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,151.00</td>
+                                            <td class="text-end">¥21,209.00</td>
+                                            <td>
+                                                <small>2025-12-13 14:08:33</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-success fw-bold">+¥63.00</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">订单分成</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>泰国7天无限流量</strong>
+                                                    <br><small class="text-muted">订单号: #ORD202512130028</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="salesman-avatar me-2" style="width: 28px; height: 28px; font-size: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">李</div>
+                                                    <span>李小红</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">¥21,088.00</td>
+                                            <td class="text-end">¥21,151.00</td>
+                                            <td>
+                                                <small>2025-12-13 09:45:12</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- 分页 -->
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="text-muted">
+                                    显示第 1 到 10 条记录，共 86 条
+                                </div>
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">上一页</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">9</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">下一页</a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -1038,7 +1411,7 @@
         }
 
         function previewSite() {
-            window.open('https://zhangmy.esim.limitflex.com', '_blank');
+            window.open('https://zhangmy.esim.esimtours.com', '_blank');
         }
 
         // 业务员相关函数
