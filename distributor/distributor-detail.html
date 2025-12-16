@@ -524,15 +524,69 @@
                             </div>
 
                             <!-- 站点预览 -->
-                            <div class="alert alert-info mb-4">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-globe me-2" style="font-size: 20px;"></i>
-                                    <div>
-                                        <strong>站点地址：</strong>
-                                        <a href="#" class="text-decoration-none">zhangmy.esim.esimtours.com</a>
-                                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="previewSite()">
-                                            <i class="bi bi-eye"></i> 预览站点
-                                        </button>
+                            <div class="row mb-4">
+                                <div class="col-md-8">
+                                    <div class="alert alert-info mb-0 h-100">
+                                        <div class="d-flex align-items-start">
+                                            <i class="bi bi-globe me-3" style="font-size: 24px;"></i>
+                                            <div>
+                                                <h6 class="mb-2">站点地址</h6>
+                                                <div class="input-group mb-2">
+                                                    <input type="text" class="form-control form-control-sm bg-white" value="https://zhangmy.esim.esimtours.com" readonly id="siteUrl">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="copySiteUrl()">
+                                                        <i class="bi bi-clipboard"></i> 复制
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <button class="btn btn-sm btn-primary" onclick="previewSite()">
+                                                        <i class="bi bi-eye me-1"></i>预览站点
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary" onclick="showSiteQrCode()">
+                                                        <i class="bi bi-qr-code me-1"></i>查看二维码
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="border rounded p-3 text-center h-100 bg-white">
+                                        <div class="mb-2"><small class="text-muted">站点链接二维码</small></div>
+                                        <div class="d-inline-block p-2 bg-light rounded" id="siteQrCode">
+                                            <svg viewBox="0 0 100 100" width="100" height="100">
+                                                <rect fill="#fff" width="100" height="100"/>
+                                                <g fill="#000">
+                                                    <rect x="10" y="10" width="25" height="25"/>
+                                                    <rect x="65" y="10" width="25" height="25"/>
+                                                    <rect x="10" y="65" width="25" height="25"/>
+                                                    <rect x="15" y="15" width="15" height="15" fill="#fff"/>
+                                                    <rect x="70" y="15" width="15" height="15" fill="#fff"/>
+                                                    <rect x="15" y="70" width="15" height="15" fill="#fff"/>
+                                                    <rect x="18" y="18" width="9" height="9"/>
+                                                    <rect x="73" y="18" width="9" height="9"/>
+                                                    <rect x="18" y="73" width="9" height="9"/>
+                                                    <rect x="40" y="10" width="5" height="5"/>
+                                                    <rect x="50" y="10" width="5" height="5"/>
+                                                    <rect x="40" y="20" width="5" height="5"/>
+                                                    <rect x="45" y="25" width="5" height="5"/>
+                                                    <rect x="40" y="40" width="5" height="5"/>
+                                                    <rect x="50" y="45" width="5" height="5"/>
+                                                    <rect x="45" y="50" width="5" height="5"/>
+                                                    <rect x="55" y="55" width="5" height="5"/>
+                                                    <rect x="65" y="40" width="5" height="5"/>
+                                                    <rect x="75" y="45" width="5" height="5"/>
+                                                    <rect x="85" y="50" width="5" height="5"/>
+                                                    <rect x="65" y="65" width="25" height="25"/>
+                                                    <rect x="70" y="70" width="15" height="15" fill="#fff"/>
+                                                    <rect x="73" y="73" width="9" height="9"/>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div class="mt-2">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="downloadSiteQr()">
+                                                <i class="bi bi-download me-1"></i>下载
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1009,6 +1063,7 @@
                                             <option value="REBATE">返利奖励</option>
                                             <option value="BONUS">业绩奖金</option>
                                             <option value="ADJUST">手工调整</option>
+                                            <option value="WITHDRAW">收益提现</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
@@ -1412,6 +1467,21 @@
 
         function previewSite() {
             window.open('https://zhangmy.esim.esimtours.com', '_blank');
+        }
+
+        function copySiteUrl() {
+            const url = document.getElementById('siteUrl').value;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('站点地址已复制到剪贴板！');
+            });
+        }
+
+        function showSiteQrCode() {
+            alert('二维码已显示在右侧\n\n实际项目中可使用 qrcode.js 等库动态生成二维码');
+        }
+
+        function downloadSiteQr() {
+            alert('下载站点二维码\n\n（这是一个静态演示页面）');
         }
 
         // 业务员相关函数
