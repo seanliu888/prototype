@@ -225,7 +225,6 @@
                                 <select class="form-select">
                                     <option value="">全部</option>
                                     <option value="ACTIVE">正常</option>
-                                    <option value="PENDING">待审核</option>
                                     <option value="DISABLED">已禁用</option>
                                 </select>
                             </div>
@@ -254,7 +253,6 @@
                                     <th>归属地</th>
                                     <th>分成比例</th>
                                     <th>业务员数</th>
-                                    <th>站点配置</th>
                                     <th>状态</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
@@ -279,9 +277,6 @@
                                         <a href="salesman-list.html?distributor=D1001" class="text-decoration-none">
                                             <span class="badge bg-info">12 人</span>
                                         </a>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> 已配置</span>
                                     </td>
                                     <td><span class="badge bg-success">正常</span></td>
                                     <td>
@@ -321,9 +316,6 @@
                                             <span class="badge bg-info">8 人</span>
                                         </a>
                                     </td>
-                                    <td>
-                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> 已配置</span>
-                                    </td>
                                     <td><span class="badge bg-success">正常</span></td>
                                     <td>
                                         <small>2025-10-20</small><br>
@@ -361,9 +353,6 @@
                                         <a href="salesman-list.html?distributor=D1003" class="text-decoration-none">
                                             <span class="badge bg-info">5 人</span>
                                         </a>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-warning"><i class="bi bi-exclamation-circle"></i> 待配置</span>
                                     </td>
                                     <td><span class="badge bg-success">正常</span></td>
                                     <td>
@@ -403,10 +392,7 @@
                                             <span class="badge bg-info">3 人</span>
                                         </a>
                                     </td>
-                                    <td>
-                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> 已配置</span>
-                                    </td>
-                                    <td><span class="badge bg-warning">待审核</span></td>
+                                    <td><span class="badge bg-success">正常</span></td>
                                     <td>
                                         <small>2025-12-10</small><br>
                                         <small class="text-muted">16:45:30</small>
@@ -416,11 +402,11 @@
                                             <button class="btn btn-outline-primary" onclick="window.location.href='distributor-detail.html'" title="查看详情">
                                                 <i class="bi bi-eye"></i>
                                             </button>
-                                            <button class="btn btn-outline-success" onclick="approveDistributor('D1004')" title="审核通过">
-                                                <i class="bi bi-check-lg"></i>
+                                            <button class="btn btn-outline-warning" onclick="window.location.href='distributor-detail.html?edit=1'" title="编辑">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-outline-danger" onclick="rejectDistributor('D1004')" title="拒绝">
-                                                <i class="bi bi-x-lg"></i>
+                                            <button class="btn btn-outline-danger" onclick="deleteDistributor('D1004')" title="删除">
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -441,9 +427,6 @@
                                     <td><span class="share-ratio text-muted">5%</span></td>
                                     <td>
                                         <span class="badge bg-secondary">0 人</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> 未配置</span>
                                     </td>
                                     <td><span class="badge bg-danger">已禁用</span></td>
                                     <td>
@@ -513,19 +496,6 @@
         function deleteDistributor(id) {
             if (confirm('确定要删除分销商 ' + id + ' 吗？\n\n⚠️ 警告：删除后该分销商的所有数据将被清除！')) {
                 alert('分销商已删除！（这是一个静态演示）');
-            }
-        }
-
-        function approveDistributor(id) {
-            if (confirm('确定要审核通过分销商 ' + id + ' 吗？')) {
-                alert('分销商已审核通过！（这是一个静态演示）');
-            }
-        }
-
-        function rejectDistributor(id) {
-            const reason = prompt('请输入拒绝原因：');
-            if (reason !== null) {
-                alert('已拒绝分销商申请！\n原因：' + (reason || '未填写') + '\n（这是一个静态演示）');
             }
         }
 
