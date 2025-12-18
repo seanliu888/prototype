@@ -382,6 +382,21 @@
                                         <div class="info-label">最后登录</div>
                                         <div class="info-value">2025-12-14 18:45:30</div>
                                     </div>
+                                    <div class="info-row">
+                                        <div class="info-label">初始密码</div>
+                                        <div class="info-value">
+                                            <div class="input-group" style="max-width: 400px;">
+                                                <input type="password" class="form-control form-control-sm bg-light" id="initialPassword" value="P@ssw0rd2025" readonly>
+                                                <button class="btn btn-sm btn-outline-secondary" type="button" onclick="toggleInitialPasswordVisibility()" title="显示/隐藏">
+                                                    <i class="bi bi-eye" id="initialPasswordIcon"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" type="button" onclick="copyInitialPassword()" title="复制密码">
+                                                    <i class="bi bi-clipboard"></i>
+                                                </button>
+                                            </div>
+                                            <small class="text-muted d-block mt-1">创建时设置的初始密码</small>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- 编辑表单（隐藏状态） -->
@@ -1671,6 +1686,27 @@
 
         function viewSalesman(id) {
             alert('查看业务员详情: ' + id + '\n\n（这是一个静态演示页面）');
+        }
+
+        function toggleInitialPasswordVisibility() {
+            const input = document.getElementById('initialPassword');
+            const icon = document.getElementById('initialPasswordIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+
+        function copyInitialPassword() {
+            const password = document.getElementById('initialPassword').value;
+            navigator.clipboard.writeText(password).then(() => {
+                alert('初始密码已复制到剪贴板！');
+            });
         }
 
     </script>
