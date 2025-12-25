@@ -264,14 +264,17 @@
                                     <option value="PROCESSING">处理中</option>
                                     <option value="SUCCESS">已到账</option>
                                     <option value="FAILED">打款失败</option>
-                                    <option value="REVERSED">已冲正</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row g-3 mt-1">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label class="form-label">录入时间</label>
-                                <input type="date" class="form-control">
+                                <div class="input-group">
+                                    <input type="date" class="form-control" id="startDate" placeholder="开始日期">
+                                    <span class="input-group-text">至</span>
+                                    <input type="date" class="form-control" id="endDate" placeholder="结束日期">
+                                </div>
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
@@ -362,14 +365,9 @@
                                     </td>
                                     <td><span class="badge bg-secondary">运营</span></td>
                                     <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-outline-primary" onclick="viewWithdrawal('W202512140002')">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger" onclick="showReversalModal('W202512140002', '李婷婷', '$2,350.00')" title="冲正">
-                                                <i class="bi bi-arrow-counterclockwise"></i>
-                                            </button>
-                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewWithdrawal('W202512140002')">
+                                            <i class="bi bi-eye"></i> 查看
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -398,87 +396,8 @@
                                     </td>
                                     <td><span class="badge bg-secondary">管理员</span></td>
                                     <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-outline-primary" onclick="viewWithdrawal('W202512140003')">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger" onclick="showReversalModal('W202512140003', '王大伟', '¥186,500')" title="冲正">
-                                                <i class="bi bi-arrow-counterclockwise"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- 已冲正的记录 -->
-                                <tr class="table-secondary">
-                                    <td>
-                                        <strong class="text-muted">#W202512130004</strong>
-                                        <br>
-                                        <small class="text-danger">
-                                            <i class="bi bi-arrow-right"></i> 冲正单: #R202512150001
-                                        </small>
-                                    </td>
-                                    <td>
-                                        <a href="distributor-detail.html" class="text-decoration-none text-muted">
-                                            <strong>张明远</strong>
-                                        </a>
-                                        <br>
-                                        <small class="text-muted">D1001</small>
-                                    </td>
-                                    <td><span class="channel-badge channel-wechat" style="opacity: 0.6;"><i class="bi bi-wechat"></i> 微信</span></td>
-                                    <td><span class="badge bg-secondary">CNY</span></td>
-                                    <td><span class="amount-display text-muted text-decoration-line-through">¥8,650.00</span></td>
-                                    <td>
-                                        <span class="badge bg-secondary">
-                                            <i class="bi bi-arrow-counterclockwise"></i> 已冲正
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <small class="text-muted">微信号: zhang_my</small>
-                                    </td>
-                                    <td>
-                                        <small class="text-muted">2025-12-13</small><br>
-                                        <small class="text-muted">09:15:22</small>
-                                    </td>
-                                    <td><span class="badge bg-secondary">运营</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-secondary" onclick="viewWithdrawal('W202512130004')">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- 冲正单记录 -->
-                                <tr class="table-warning">
-                                    <td>
-                                        <strong class="text-warning">#R202512150001</strong>
-                                        <br>
-                                        <span class="badge bg-warning text-dark">冲正单</span>
-                                    </td>
-                                    <td>
-                                        <a href="distributor-detail.html" class="text-decoration-none">
-                                            <strong>张明远</strong>
-                                        </a>
-                                        <br>
-                                        <small class="text-muted">D1001</small>
-                                    </td>
-                                    <td><span class="channel-badge channel-wechat"><i class="bi bi-wechat"></i> 微信</span></td>
-                                    <td><span class="badge bg-danger">CNY</span></td>
-                                    <td><span class="amount-display text-success">+¥8,650.00</span></td>
-                                    <td>
-                                        <span class="badge bg-info">
-                                            <i class="bi bi-check-circle"></i> 已恢复额度
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <small>冲正原单: #W202512130004</small>
-                                    </td>
-                                    <td>
-                                        <small>2025-12-15</small><br>
-                                        <small class="text-muted">11:30:00</small>
-                                    </td>
-                                    <td><span class="badge bg-secondary">管理员</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary" onclick="viewReversal('R202512150001')">
-                                            <i class="bi bi-eye"></i>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewWithdrawal('W202512140003')">
+                                            <i class="bi bi-eye"></i> 查看
                                         </button>
                                     </td>
                                 </tr>
@@ -541,14 +460,9 @@
                                     </td>
                                     <td><span class="badge bg-secondary">管理员</span></td>
                                     <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-outline-primary" onclick="viewWithdrawal('W202512120005')">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger" onclick="showReversalModal('W202512120005', '陈思雨', '$1,280.00')" title="冲正">
-                                                <i class="bi bi-arrow-counterclockwise"></i>
-                                            </button>
-                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewWithdrawal('W202512120005')">
+                                            <i class="bi bi-eye"></i> 查看
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -577,14 +491,9 @@
                                     </td>
                                     <td><span class="badge bg-secondary">运营</span></td>
                                     <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-outline-primary" onclick="viewWithdrawal('W202512100006')">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger" onclick="showReversalModal('W202512100006', '李婷婷', '¥28,650.00')" title="冲正">
-                                                <i class="bi bi-arrow-counterclockwise"></i>
-                                            </button>
-                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewWithdrawal('W202512100006')">
+                                            <i class="bi bi-eye"></i> 查看
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -680,74 +589,6 @@
         </div>
     </div>
 
-    <!-- 冲正确认模态框 -->
-    <div class="modal fade" id="reversalModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-warning">
-                    <h5 class="modal-title"><i class="bi bi-arrow-counterclockwise me-2"></i>冲正确认</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>警告：</strong>冲正操作将作废原提现记录，并恢复分销商的可提现额度。此操作不可撤销！
-                    </div>
-                    
-                    <div class="bg-light rounded p-3 mb-3">
-                        <h6 class="mb-3">原提现记录信息</h6>
-                        <table class="table table-sm table-borderless mb-0">
-                            <tr>
-                                <td class="text-muted" width="100">提现单号</td>
-                                <td><strong id="reversalOrderId">#W202512140002</strong></td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">分销商</td>
-                                <td><strong id="reversalDistributor">李婷婷</strong></td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">提现金额</td>
-                                <td><span class="amount-display fs-5" id="reversalAmount">$2,350.00</span></td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label"><span class="text-danger">*</span> 冲正原因</label>
-                        <select class="form-select" id="reversalReason" required>
-                            <option value="">请选择冲正原因</option>
-                            <option value="WRONG_DISTRIBUTOR">分销商选择错误</option>
-                            <option value="WRONG_AMOUNT">金额填写错误</option>
-                            <option value="WRONG_CHANNEL">渠道选择错误</option>
-                            <option value="DUPLICATE">重复录入</option>
-                            <option value="OTHER">其他原因</option>
-                        </select>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">备注说明</label>
-                        <textarea class="form-control" id="reversalRemark" rows="2" placeholder="请填写详细的冲正说明..."></textarea>
-                    </div>
-                    
-                    <div class="bg-success bg-opacity-10 rounded p-3">
-                        <h6 class="text-success mb-2"><i class="bi bi-check-circle me-1"></i> 冲正后影响</h6>
-                        <ul class="mb-0 small">
-                            <li>原提现记录将标记为"已冲正"状态</li>
-                            <li>系统将生成一条冲正单记录</li>
-                            <li>分销商可提现额度将恢复 <strong id="restoreAmount">$2,350.00</strong></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmReversal()">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i>确认冲正
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function searchWithdrawals() {
@@ -767,48 +608,6 @@
         function viewWithdrawal(id) {
             const modal = new bootstrap.Modal(document.getElementById('withdrawalModal'));
             modal.show();
-        }
-
-        let currentReversalId = '';
-
-        function showReversalModal(orderId, distributor, amount) {
-            currentReversalId = orderId;
-            document.getElementById('reversalOrderId').textContent = '#' + orderId;
-            document.getElementById('reversalDistributor').textContent = distributor;
-            document.getElementById('reversalAmount').textContent = amount;
-            document.getElementById('restoreAmount').textContent = amount;
-            document.getElementById('reversalReason').value = '';
-            document.getElementById('reversalRemark').value = '';
-            
-            const modal = new bootstrap.Modal(document.getElementById('reversalModal'));
-            modal.show();
-        }
-
-        function confirmReversal() {
-            const reason = document.getElementById('reversalReason').value;
-            const remark = document.getElementById('reversalRemark').value;
-            
-            if (!reason) {
-                alert('请选择冲正原因');
-                return;
-            }
-            
-            const reasonText = {
-                'WRONG_DISTRIBUTOR': '分销商选择错误',
-                'WRONG_AMOUNT': '金额填写错误',
-                'WRONG_CHANNEL': '渠道选择错误',
-                'DUPLICATE': '重复录入',
-                'OTHER': '其他原因'
-            };
-            
-            if (confirm(`确认对提现单 #${currentReversalId} 执行冲正操作？\n\n冲正原因：${reasonText[reason]}\n${remark ? '备注：' + remark : ''}\n\n此操作将：\n1. 将原记录标记为"已冲正"\n2. 生成一条冲正单\n3. 恢复分销商可提现额度\n\n确认执行？`)) {
-                alert('冲正成功！\n\n• 原提现单 #' + currentReversalId + ' 已标记为"已冲正"\n• 已生成冲正单 #R' + new Date().getTime().toString().slice(-10) + '\n• 分销商可提现额度已恢复\n\n（这是一个静态演示页面）');
-                bootstrap.Modal.getInstance(document.getElementById('reversalModal')).hide();
-            }
-        }
-
-        function viewReversal(id) {
-            alert('查看冲正单详情: #' + id + '\n\n（这是一个静态演示页面）');
         }
     </script>
 </body>

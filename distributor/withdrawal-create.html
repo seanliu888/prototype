@@ -191,171 +191,200 @@
             <div class="col-md-10 main-content">
                 <div class="page-header d-flex justify-content-between align-items-center">
                     <div>
-                        <h1><i class="bi bi-plus-circle me-2"></i>录入提现</h1>
-                        <small class="text-muted">录入提现记录，触发对分销商的返现操作</small>
+                        <h1><i class="bi bi-cash-stack me-2"></i>创建提现申请</h1>
+                        <small class="text-muted">为分销商或业务员创建提现申请，提交后将立即触发返现操作</small>
                     </div>
                     <button class="btn btn-outline-secondary" onclick="window.location.href='withdrawal-list.html'">
                         <i class="bi bi-arrow-left me-1"></i>返回列表
                     </button>
                 </div>
 
-                <!-- 提示信息 -->
-                <div class="alert alert-warning d-flex align-items-center mb-4">
-                    <i class="bi bi-exclamation-triangle-fill me-3" style="font-size: 24px;"></i>
-                    <div>
-                        <strong>注意：</strong>录入提现后将立即触发对分销商的返现操作，请仔细核对信息后再提交。
-                    </div>
-                </div>
-
-                <form id="withdrawalForm" onsubmit="return submitForm()">
+                <form id="withdrawalForm" onsubmit="return submitForm(event)">
                     <div class="row">
                         <div class="col-md-8">
-                            <!-- 分销商选择 -->
+                            <!-- 提现对象 -->
                             <div class="content-card">
                                 <h5 class="form-section-title">
-                                    <i class="bi bi-shop me-2"></i>选择分销商
+                                    <i class="bi bi-person-badge me-2"></i>提现对象
                                 </h5>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label"><span class="text-danger">*</span> 分销商</label>
-                                    <select class="form-select form-select-lg" id="distributor" required onchange="updateDistributorInfo()">
+                                <div class="mb-4">
+                                    <label class="form-label mb-3"><span class="text-danger">*</span> 对象类型</label>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-check form-check-inline p-3 border rounded h-100" style="cursor: pointer;" onclick="selectType('DISTRIBUTOR')">
+                                                <input class="form-check-input" type="radio" name="withdrawalType" id="typeDistributor" value="DISTRIBUTOR" checked onchange="switchType()">
+                                                <label class="form-check-label ms-2 w-100" for="typeDistributor" style="cursor: pointer;">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-shop me-2" style="font-size: 24px; color: #3498db;"></i>
+                                                        <div>
+                                                            <strong>分销商</strong>
+                                                            <div class="small text-muted">为分销商创建提现申请</div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check form-check-inline p-3 border rounded h-100" style="cursor: pointer;" onclick="selectType('SALESMAN')">
+                                                <input class="form-check-input" type="radio" name="withdrawalType" id="typeSalesman" value="SALESMAN" onchange="switchType()">
+                                                <label class="form-check-label ms-2 w-100" for="typeSalesman" style="cursor: pointer;">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-people me-2" style="font-size: 24px; color: #27ae60;"></i>
+                                                        <div>
+                                                            <strong>业务员</strong>
+                                                            <div class="small text-muted">为业务员创建提现申请</div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 分销商筛选（仅业务员类型时显示） -->
+                                <div class="mb-3" id="distributorFilterDiv" style="display: none;">
+                                    <label class="form-label"><span class="text-danger">*</span> 所属分销商</label>
+                                    <select class="form-select" id="distributorFilter" required onchange="filterSalesmen()">
                                         <option value="">请选择分销商</option>
-                                        <option value="D1001" data-name="张明远" data-email="zhangmy@example.com" data-balance="15680.50" data-currency="CNY">张明远 (D1001) - 待结算: ¥15,680.50</option>
-                                        <option value="D1002" data-name="李婷婷" data-email="ltt@partner.co" data-balance="8520.00" data-currency="USD">李婷婷 (D1002) - 待结算: $8,520.00</option>
-                                        <option value="D1003" data-name="王大伟" data-email="wdw@travel.jp" data-balance="256800" data-currency="JPY">王大伟 (D1003) - 待结算: ¥256,800</option>
-                                        <option value="D1004" data-name="陈思雨" data-email="chensy@sg-travel.com" data-balance="3250.00" data-currency="USD">陈思雨 (D1004) - 待结算: $3,250.00</option>
+                                    </select>
+                                    <div class="form-text">选择分销商后，下方将显示该分销商下的业务员</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label"><span class="text-danger">*</span> <span id="selectLabel">选择对象</span></label>
+                                    <select class="form-select form-select-lg" id="targetSelect" required onchange="updateTargetInfo()">
+                                        <option value="">请选择</option>
                                     </select>
                                 </div>
                                 
-                                <div class="distributor-info" id="distributorInfo" style="display: none;">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <small class="text-muted">分销商名称</small>
-                                            <div class="fw-bold" id="infoName">-</div>
+                                <div class="distributor-info" id="targetInfo" style="display: none;">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block mb-1"><span id="infoNameLabel">对象名称</span></small>
+                                            <div class="fw-bold fs-6" id="infoName">-</div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <small class="text-muted">联系邮箱</small>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block mb-1">联系邮箱</small>
                                             <div id="infoEmail">-</div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <small class="text-muted">待结算金额</small>
-                                            <div class="fw-bold text-success" id="infoBalance">-</div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block mb-1">可提现金额</small>
+                                            <div class="fw-bold text-primary fs-5" id="infoWithdrawable">-</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block mb-1">待结算金额</small>
+                                            <div class="fw-bold text-success fs-5" id="infoBalance">-</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- 提现渠道 -->
+                            <!-- 提现信息 -->
                             <div class="content-card">
                                 <h5 class="form-section-title">
-                                    <i class="bi bi-credit-card me-2"></i>提现渠道
+                                    <i class="bi bi-wallet2 me-2"></i>提现信息
                                 </h5>
                                 
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-3">
-                                        <div class="channel-option channel-alipay" onclick="selectChannel('ALIPAY', this)">
-                                            <i class="bi bi-alipay d-block"></i>
-                                            <strong>支付宝</strong>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span class="text-danger">*</span> 提现金额</label>
+                                        <div class="input-group input-group-lg">
+                                            <span class="input-group-text bg-light">$</span>
+                                            <input type="number" class="form-control" id="amount" placeholder="0.00" step="0.01" min="0.01" required oninput="updateAmountPreview()">
                                         </div>
+                                        <div class="form-text">货币类型：USD（美元）</div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="channel-option channel-wechat" onclick="selectChannel('WECHAT', this)">
-                                            <i class="bi bi-wechat d-block"></i>
-                                            <strong>微信</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="channel-option channel-bank" onclick="selectChannel('BANK', this)">
-                                            <i class="bi bi-bank d-block"></i>
-                                            <strong>银行转账</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="channel-option channel-paypal" onclick="selectChannel('PAYPAL', this)">
-                                            <i class="bi bi-paypal d-block"></i>
-                                            <strong>PayPal</strong>
-                                        </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">货币类型</label>
+                                        <input type="text" class="form-control form-control-lg bg-light" value="USD - 美元" readonly>
+                                        <input type="hidden" id="currency" value="USD">
                                     </div>
                                 </div>
-                                <input type="hidden" id="channel" required>
                                 
                                 <div class="mb-3">
+                                    <label class="form-label"><span class="text-danger">*</span> 提现渠道</label>
+                                    <div class="row g-3">
+                                        <div class="col-md-3">
+                                            <div class="channel-option channel-alipay" onclick="selectChannel('ALIPAY', this)">
+                                                <i class="bi bi-alipay d-block"></i>
+                                                <strong>支付宝</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="channel-option channel-wechat" onclick="selectChannel('WECHAT', this)">
+                                                <i class="bi bi-wechat d-block"></i>
+                                                <strong>微信</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="channel-option channel-bank" onclick="selectChannel('BANK', this)">
+                                                <i class="bi bi-bank d-block"></i>
+                                                <strong>银行转账</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="channel-option channel-paypal" onclick="selectChannel('PAYPAL', this)">
+                                                <i class="bi bi-paypal d-block"></i>
+                                                <strong>PayPal</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="channel" required>
+                                </div>
+                                
+                                <div class="mb-0">
                                     <label class="form-label"><span class="text-danger">*</span> 收款账号</label>
                                     <input type="text" class="form-control" id="accountNumber" placeholder="请输入收款账号（邮箱/手机号/银行卡号）" required>
                                     <div class="form-text">根据所选渠道填写对应的收款账号信息</div>
                                 </div>
                             </div>
 
-                            <!-- 金额信息 -->
+                            <!-- 备注说明 -->
                             <div class="content-card">
                                 <h5 class="form-section-title">
-                                    <i class="bi bi-cash me-2"></i>金额信息
-                                </h5>
-                                
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"><span class="text-danger">*</span> 货币类型</label>
-                                        <select class="form-select" id="currency" required onchange="updateAmountPreview()">
-                                            <option value="">请选择货币类型</option>
-                                            <option value="CNY">CNY - 人民币 ¥</option>
-                                            <option value="USD">USD - 美元 $</option>
-                                            <option value="JPY">JPY - 日元 ¥</option>
-                                            <option value="EUR">EUR - 欧元 €</option>
-                                            <option value="HKD">HKD - 港币 HK$</option>
-                                            <option value="SGD">SGD - 新加坡元 S$</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"><span class="text-danger">*</span> 提现金额</label>
-                                        <input type="number" class="form-control" id="amount" placeholder="请输入金额" step="0.01" min="0.01" required oninput="updateAmountPreview()">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 备注 -->
-                            <div class="content-card">
-                                <h5 class="form-section-title">
-                                    <i class="bi bi-chat-left-text me-2"></i>备注信息
+                                    <i class="bi bi-chat-left-text me-2"></i>备注说明
                                 </h5>
                                 
                                 <div class="mb-0">
                                     <label class="form-label">备注</label>
-                                    <textarea class="form-control" id="remark" rows="3" placeholder="可填写结算周期、备注说明等..."></textarea>
+                                    <textarea class="form-control" id="remark" rows="3" placeholder="可填写结算周期、备注说明等信息（选填）"></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <!-- 金额预览 -->
-                            <div class="content-card text-center">
-                                <h6 class="text-muted mb-3">提现金额预览</h6>
+                            <div class="content-card text-center mb-3">
+                                <h6 class="text-muted mb-3">提现金额</h6>
                                 <div class="amount-preview" id="amountPreview">
-                                    <span class="text-muted">¥0.00</span>
+                                    <span class="text-muted">$0.00</span>
                                 </div>
-                                <small class="text-muted" id="currencyLabel">请选择货币类型</small>
+                                <small class="text-muted" id="currencyLabel">USD（美元）</small>
                             </div>
 
-                            <!-- 操作确认 -->
+                            <!-- 操作 -->
                             <div class="content-card">
                                 <h5 class="form-section-title">
-                                    <i class="bi bi-shield-check me-2"></i>确认提交
+                                    <i class="bi bi-send me-2"></i>提交申请
                                 </h5>
                                 
                                 <div class="alert alert-info mb-3">
                                     <small>
                                         <i class="bi bi-info-circle me-1"></i>
-                                        提交后将立即触发返现，请确认以下信息：
-                                        <ul class="mb-0 mt-2">
-                                            <li>分销商信息正确</li>
-                                            <li>提现渠道正确</li>
+                                        提交前请确认：
+                                        <ul class="mb-0 mt-2 small">
+                                            <li id="confirmTypeInfo">提现对象信息正确</li>
+                                            <li>提现渠道已选择</li>
                                             <li>金额核对无误</li>
+                                            <li>收款账号正确</li>
                                         </ul>
                                     </small>
                                 </div>
                                 
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary btn-lg">
-                                        <i class="bi bi-check-circle me-2"></i>确认录入
+                                        <i class="bi bi-send me-2"></i>提交申请
                                     </button>
                                     <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='withdrawal-list.html'">
                                         <i class="bi bi-x-circle me-2"></i>取消
@@ -399,9 +428,209 @@
         </div>
     </div>
 
+    <!-- 预览确认模态框 -->
+    <div class="modal fade" id="previewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-eye me-2"></i>提现申请预览</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning mb-4">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <div>
+                            <strong>重要提示：</strong>提交后将立即触发返现操作，请仔细核对以下信息，确认无误后再提交。
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small">提现对象类型</label>
+                            <div class="fw-bold" id="previewType">-</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">提现对象</label>
+                            <div class="fw-bold" id="previewTarget">-</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">提现渠道</label>
+                            <div id="previewChannel">-</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">货币类型</label>
+                            <div id="previewCurrency">-</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="text-muted small">提现金额</label>
+                            <div class="fs-3 fw-bold text-success" id="previewAmount">-</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="text-muted small">收款账号</label>
+                            <div class="fw-bold" id="previewAccount">-</div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="text-muted small">备注</label>
+                            <div id="previewRemark" class="text-muted">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>返回修改
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="confirmSubmit()">
+                        <i class="bi bi-check-circle me-2"></i>确认提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let selectedChannel = '';
+        let currentType = 'DISTRIBUTOR';
+
+        // 分销商数据
+        const distributorData = [
+            { id: 'D1001', name: '张明远', email: 'zhangmy@example.com', balance: 15680.50, withdrawable: 125800.00, currency: 'CNY' },
+            { id: 'D1002', name: '李婷婷', email: 'ltt@partner.co', balance: 8520.00, withdrawable: 45600.00, currency: 'USD' },
+            { id: 'D1003', name: '王大伟', email: 'wdw@travel.jp', balance: 256800, withdrawable: 1250000, currency: 'JPY' },
+            { id: 'D1004', name: '陈思雨', email: 'chensy@sg-travel.com', balance: 3250.00, withdrawable: 18900.00, currency: 'USD' }
+        ];
+
+        // 业务员数据
+        const salesmanData = [
+            { id: 'S10001', name: '王小明', email: 'wangxm@example.com', balance: 420.00, withdrawable: 2340.00, currency: 'CNY', distributor: '张明远 (D1001)' },
+            { id: 'S10002', name: '李小红', email: 'lixh@example.com', balance: 562.50, withdrawable: 3150.00, currency: 'CNY', distributor: '张明远 (D1001)' },
+            { id: 'S10003', name: '张大伟', email: 'zdw@example.com', balance: 320.00, withdrawable: 1800.00, currency: 'CNY', distributor: '张明远 (D1001)' },
+            { id: 'S10004', name: '刘芳芳', email: 'liuff@partner.co', balance: 225.00, withdrawable: 1200.00, currency: 'CNY', distributor: '李婷婷 (D1002)' },
+            { id: 'S10005', name: '赵强', email: 'zhaoq@example.net', balance: 495.00, withdrawable: 2800.00, currency: 'CNY', distributor: '张明远 (D1001)' }
+        ];
+
+        function selectType(type) {
+            const radio = type === 'DISTRIBUTOR' ? document.getElementById('typeDistributor') : document.getElementById('typeSalesman');
+            radio.checked = true;
+            switchType();
+        }
+
+        function switchType() {
+            const typeRadio = document.querySelector('input[name="withdrawalType"]:checked');
+            currentType = typeRadio ? typeRadio.value : 'DISTRIBUTOR';
+            
+            const select = document.getElementById('targetSelect');
+            const label = document.getElementById('selectLabel');
+            const nameLabel = document.getElementById('infoNameLabel');
+            const confirmInfo = document.getElementById('confirmTypeInfo');
+            const distributorFilterDiv = document.getElementById('distributorFilterDiv');
+            const distributorFilter = document.getElementById('distributorFilter');
+            
+            if (!select) {
+                console.error('targetSelect元素未找到');
+                return;
+            }
+            
+            // 清空选择
+            select.innerHTML = '<option value="">请选择</option>';
+            const targetInfo = document.getElementById('targetInfo');
+            if (targetInfo) {
+                targetInfo.style.display = 'none';
+            }
+            
+            if (currentType === 'DISTRIBUTOR') {
+                // 隐藏分销商筛选
+                if (distributorFilterDiv) {
+                    distributorFilterDiv.style.display = 'none';
+                }
+                // 移除required属性，避免表单验证错误
+                if (distributorFilter) {
+                    distributorFilter.removeAttribute('required');
+                }
+                
+                if (label) label.textContent = '选择对象';
+                if (nameLabel) nameLabel.textContent = '对象名称';
+                if (confirmInfo) confirmInfo.textContent = '提现对象信息正确';
+                
+                // 填充分销商选项
+                distributorData.forEach(item => {
+                    const symbol = '$';
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.dataset.name = item.name;
+                    option.dataset.email = item.email;
+                    option.dataset.balance = item.balance;
+                    option.dataset.withdrawable = item.withdrawable;
+                    option.dataset.currency = item.currency;
+                    option.textContent = `${item.name} (${item.id}) - 可提现: ${symbol}${item.withdrawable.toLocaleString()} | 待结算: ${symbol}${item.balance.toLocaleString()}`;
+                    select.appendChild(option);
+                });
+            } else {
+                // 显示分销商筛选
+                if (distributorFilterDiv) {
+                    distributorFilterDiv.style.display = 'block';
+                }
+                // 添加required属性
+                if (distributorFilter) {
+                    distributorFilter.setAttribute('required', 'required');
+                }
+                
+                // 填充分销商筛选选项
+                if (distributorFilter) {
+                    distributorFilter.innerHTML = '<option value="">请选择分销商</option>';
+                    distributorData.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = `${item.name} (${item.id})`;
+                        distributorFilter.appendChild(option);
+                    });
+                }
+                
+                if (label) label.textContent = '选择对象';
+                if (nameLabel) nameLabel.textContent = '对象名称';
+                if (confirmInfo) confirmInfo.textContent = '提现对象信息正确';
+                
+                // 填充业务员选项（初始显示全部）
+                filterSalesmen();
+            }
+        }
+
+        function filterSalesmen() {
+            const select = document.getElementById('targetSelect');
+            const distributorFilter = document.getElementById('distributorFilter');
+            const selectedDistributorId = distributorFilter.value;
+            
+            // 清空当前选项
+            select.innerHTML = '<option value="">请选择</option>';
+            document.getElementById('targetInfo').style.display = 'none';
+            
+            // 如果没有选择分销商，不显示业务员
+            if (!selectedDistributorId) {
+                return;
+            }
+            
+            // 根据筛选条件填充业务员
+            salesmanData.forEach(item => {
+                // 从distributor字段中提取ID（格式：张明远 (D1001)）
+                const distributorIdMatch = item.distributor.match(/\(([^)]+)\)/);
+                const itemDistributorId = distributorIdMatch ? distributorIdMatch[1] : '';
+                if (itemDistributorId !== selectedDistributorId) {
+                    return;
+                }
+                
+                const symbol = '$';
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.dataset.name = item.name;
+                option.dataset.email = item.email;
+                option.dataset.balance = item.balance;
+                option.dataset.withdrawable = item.withdrawable;
+                option.dataset.currency = item.currency;
+                option.dataset.distributor = item.distributor;
+                option.textContent = `${item.name} (${item.id}) - 可提现: ${symbol}${item.withdrawable.toLocaleString()} | 待结算: ${symbol}${item.balance.toLocaleString()}`;
+                select.appendChild(option);
+            });
+        }
 
         function selectChannel(channel, element) {
             // 移除其他选中状态
@@ -429,10 +658,10 @@
             }
         }
 
-        function updateDistributorInfo() {
-            const select = document.getElementById('distributor');
+        function updateTargetInfo() {
+            const select = document.getElementById('targetSelect');
             const option = select.options[select.selectedIndex];
-            const infoDiv = document.getElementById('distributorInfo');
+            const infoDiv = document.getElementById('targetInfo');
             
             if (select.value) {
                 document.getElementById('infoName').textContent = option.dataset.name;
@@ -440,11 +669,31 @@
                 
                 const currency = option.dataset.currency;
                 const balance = parseFloat(option.dataset.balance);
-                let symbol = '¥';
-                if (currency === 'USD') symbol = '$';
-                if (currency === 'JPY') symbol = '¥';
+                const withdrawable = parseFloat(option.dataset.withdrawable);
+                const symbol = '$';
                 
+                document.getElementById('infoWithdrawable').textContent = symbol + withdrawable.toLocaleString();
                 document.getElementById('infoBalance').textContent = symbol + balance.toLocaleString();
+                
+                // 如果是业务员，显示所属分销商
+                if (currentType === 'SALESMAN' && option.dataset.distributor) {
+                    const infoRow = infoDiv.querySelector('.row');
+                    if (!infoRow.querySelector('#infoDistributor')) {
+                        const distributorCol = document.createElement('div');
+                        distributorCol.className = 'col-md-12 mt-2';
+                        distributorCol.id = 'infoDistributor';
+                        distributorCol.innerHTML = '<small class="text-muted">所属分销商</small><div>' + option.dataset.distributor + '</div>';
+                        infoRow.appendChild(distributorCol);
+                    } else {
+                        document.getElementById('infoDistributor').querySelector('div').textContent = option.dataset.distributor;
+                    }
+                } else {
+                    const distributorInfo = document.getElementById('infoDistributor');
+                    if (distributorInfo) {
+                        distributorInfo.remove();
+                    }
+                }
+                
                 infoDiv.style.display = 'block';
             } else {
                 infoDiv.style.display = 'none';
@@ -452,91 +701,142 @@
         }
 
         function updateAmountPreview() {
-            const currency = document.getElementById('currency').value;
             const amount = parseFloat(document.getElementById('amount').value) || 0;
             const preview = document.getElementById('amountPreview');
-            const label = document.getElementById('currencyLabel');
             
-            let symbol = '';
-            let colorClass = '';
-            let currencyName = '请选择货币类型';
-            
-            switch(currency) {
-                case 'CNY':
-                    symbol = '¥';
-                    colorClass = 'amount-cny';
-                    currencyName = '人民币';
-                    break;
-                case 'USD':
-                    symbol = '$';
-                    colorClass = 'amount-usd';
-                    currencyName = '美元';
-                    break;
-                case 'JPY':
-                    symbol = '¥';
-                    colorClass = 'amount-jpy';
-                    currencyName = '日元';
-                    break;
-                case 'EUR':
-                    symbol = '€';
-                    colorClass = 'amount-eur';
-                    currencyName = '欧元';
-                    break;
-                case 'HKD':
-                    symbol = 'HK$';
-                    colorClass = 'amount-cny';
-                    currencyName = '港币';
-                    break;
-                case 'SGD':
-                    symbol = 'S$';
-                    colorClass = 'amount-usd';
-                    currencyName = '新加坡元';
-                    break;
-                default:
-                    preview.innerHTML = '<span class="text-muted">¥0.00</span>';
-                    label.textContent = currencyName;
-                    return;
+            if (amount > 0) {
+                preview.innerHTML = `<span class="amount-usd">$${amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
+            } else {
+                preview.innerHTML = '<span class="text-muted">$0.00</span>';
             }
-            
-            preview.innerHTML = `<span class="${colorClass}">${symbol}${amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
-            label.textContent = currencyName;
         }
 
-        function submitForm() {
-            const distributor = document.getElementById('distributor');
-            const channel = document.getElementById('channel').value;
-            const currency = document.getElementById('currency').value;
-            const amount = document.getElementById('amount').value;
-            const account = document.getElementById('accountNumber').value;
-            
-            if (!channel) {
-                alert('请选择提现渠道');
-                return false;
+        function submitForm(event) {
+            // 阻止表单默认提交
+            if (event) {
+                event.preventDefault();
             }
             
-            const distributorName = distributor.options[distributor.selectedIndex].dataset.name;
-            
-            const channelNames = {
-                'ALIPAY': '支付宝',
-                'WECHAT': '微信',
-                'BANK': '银行转账',
-                'PAYPAL': 'PayPal'
-            };
-            
-            const currencySymbols = {
-                'CNY': '¥',
-                'USD': '$',
-                'JPY': '¥',
-                'EUR': '€',
-                'HKD': 'HK$',
-                'SGD': 'S$'
-            };
-            
-            if (confirm(`确认录入以下提现信息？\n\n分销商：${distributorName}\n提现渠道：${channelNames[channel]}\n货币类型：${currency}\n提现金额：${currencySymbols[currency]}${parseFloat(amount).toLocaleString()}\n收款账号：${account}\n\n确认后将立即触发返现！`)) {
-                alert('提现录入成功！已触发返现操作。\n\n（这是一个静态演示页面）');
-                window.location.href = 'withdrawal-list.html';
+            try {
+                // 如果是分销商类型，确保分销商筛选器不是必填的
+                if (currentType === 'DISTRIBUTOR') {
+                    const distributorFilter = document.getElementById('distributorFilter');
+                    if (distributorFilter) {
+                        distributorFilter.removeAttribute('required');
+                    }
+                }
+                
+                const target = document.getElementById('targetSelect');
+                const channel = document.getElementById('channel').value;
+                const currency = document.getElementById('currency').value;
+                const amount = document.getElementById('amount').value;
+                const account = document.getElementById('accountNumber').value;
+                const remark = document.getElementById('remark').value;
+                
+                // 如果是业务员类型，检查是否选择了分销商
+                if (currentType === 'SALESMAN') {
+                    const distributorFilter = document.getElementById('distributorFilter');
+                    if (!distributorFilter || !distributorFilter.value) {
+                        alert('请先选择分销商');
+                        return false;
+                    }
+                }
+                
+                if (!channel) {
+                    alert('请选择提现渠道');
+                    return false;
+                }
+                
+                if (!target || !target.value) {
+                    alert('请选择提现对象');
+                    return false;
+                }
+                
+                if (!amount || parseFloat(amount) <= 0) {
+                    alert('请输入有效的提现金额');
+                    return false;
+                }
+                
+                if (!account) {
+                    alert('请输入收款账号');
+                    return false;
+                }
+                
+                // 填充预览信息
+                const targetName = target.options[target.selectedIndex].dataset.name;
+                const typeName = currentType === 'DISTRIBUTOR' ? '分销商' : '业务员';
+                
+                const channelNames = {
+                    'ALIPAY': '支付宝',
+                    'WECHAT': '微信',
+                    'BANK': '银行转账',
+                    'PAYPAL': 'PayPal'
+                };
+                
+                const channelIcons = {
+                    'ALIPAY': '<i class="bi bi-alipay"></i>',
+                    'WECHAT': '<i class="bi bi-wechat"></i>',
+                    'BANK': '<i class="bi bi-bank"></i>',
+                    'PAYPAL': '<i class="bi bi-paypal"></i>'
+                };
+                
+                // 如果是业务员，显示所属分销商
+                let targetDisplay = targetName;
+                if (currentType === 'SALESMAN') {
+                    const distributorFilter = document.getElementById('distributorFilter');
+                    if (distributorFilter && distributorFilter.value) {
+                        const distributorOption = distributorFilter.options[distributorFilter.selectedIndex];
+                        targetDisplay = `${targetName}（所属分销商：${distributorOption.textContent}）`;
+                    }
+                }
+                
+                document.getElementById('previewType').textContent = typeName;
+                document.getElementById('previewTarget').textContent = targetDisplay;
+                document.getElementById('previewChannel').innerHTML = `<span class="badge bg-primary">${channelIcons[channel]} ${channelNames[channel]}</span>`;
+                document.getElementById('previewCurrency').innerHTML = `<span class="badge bg-info">${currency} - 美元</span>`;
+                document.getElementById('previewAmount').textContent = '$' + parseFloat(amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('previewAccount').textContent = account;
+                document.getElementById('previewRemark').textContent = remark || '无';
+                
+                // 显示预览弹窗
+                const previewModal = document.getElementById('previewModal');
+                if (!previewModal) {
+                    alert('预览弹窗未找到，请刷新页面重试');
+                    return false;
+                }
+                
+                const modal = new bootstrap.Modal(previewModal);
+                modal.show();
+                
+            } catch (error) {
+                console.error('提交表单时出错:', error);
+                alert('提交时发生错误：' + error.message);
             }
+            
             return false;
+        }
+
+        function confirmSubmit() {
+            // 关闭预览弹窗
+            bootstrap.Modal.getInstance(document.getElementById('previewModal')).hide();
+            
+            // 显示成功提示
+            alert('提现录入成功！已触发返现操作。\n\n（这是一个静态演示页面）');
+            window.location.href = 'withdrawal-list.html';
+        }
+
+        // 初始化
+        function initPage() {
+            switchType();
+            updateAmountPreview();
+        }
+        
+        // 确保DOM加载完成后再初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            // DOM已经加载完成，直接执行
+            initPage();
         }
     </script>
 </body>
