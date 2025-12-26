@@ -448,35 +448,53 @@
                         </div>
                     </div>
                     
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="text-muted small">提现对象类型</label>
-                            <div class="fw-bold" id="previewType">-</div>
+                    <!-- 提现金额 - 突出显示 -->
+                    <div class="text-center mb-4 p-4 bg-light rounded">
+                        <label class="text-muted small d-block mb-2">提现金额</label>
+                        <div class="fs-2 fw-bold text-success" id="previewAmount">-</div>
+                        <div class="mt-2" id="previewCurrency">-</div>
+                    </div>
+                    
+                    <!-- 提现对象信息 -->
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-3 border-bottom pb-2">
+                            <i class="bi bi-person-circle me-2"></i>提现对象信息
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="text-muted small d-block mb-1">对象类型</label>
+                                <div class="fw-bold" id="previewType">-</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted small d-block mb-1">对象名称</label>
+                                <div class="fw-bold" id="previewTarget">-</div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="text-muted small">提现对象</label>
-                            <div class="fw-bold" id="previewTarget">-</div>
+                    </div>
+                    
+                    <!-- 提现渠道信息 -->
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-3 border-bottom pb-2">
+                            <i class="bi bi-wallet2 me-2"></i>提现渠道信息
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="text-muted small d-block mb-1">提现渠道</label>
+                                <div id="previewChannel">-</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted small d-block mb-1">收款账号</label>
+                                <div class="fw-bold" id="previewAccount">-</div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="text-muted small">提现渠道</label>
-                            <div id="previewChannel">-</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="text-muted small">货币类型</label>
-                            <div id="previewCurrency">-</div>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="text-muted small">提现金额</label>
-                            <div class="fs-3 fw-bold text-success" id="previewAmount">-</div>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="text-muted small">收款账号</label>
-                            <div class="fw-bold" id="previewAccount">-</div>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="text-muted small">备注</label>
-                            <div id="previewRemark" class="text-muted">-</div>
-                        </div>
+                    </div>
+                    
+                    <!-- 备注信息 -->
+                    <div>
+                        <h6 class="text-muted mb-3 border-bottom pb-2">
+                            <i class="bi bi-chat-left-text me-2"></i>备注信息
+                        </h6>
+                        <div id="previewRemark" class="text-muted">-</div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -804,7 +822,7 @@
                 document.getElementById('previewCurrency').innerHTML = `<span class="badge bg-info">${currency} - 美元</span>`;
                 document.getElementById('previewAmount').textContent = '$' + parseFloat(amount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 document.getElementById('previewAccount').textContent = account;
-                document.getElementById('previewRemark').textContent = remark || '无';
+                document.getElementById('previewRemark').textContent = remark || '无备注';
                 
                 // 显示预览弹窗
                 const previewModal = document.getElementById('previewModal');
