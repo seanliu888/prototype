@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集成商定价 - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">业务管理</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <a class="nav-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-currency-dollar me-2"></i>集成商定价</h1>
+                        <small class="text-muted">从已同步的供应商套餐中为集成商配置售价、成本价、建议零售价及白名单；支持筛选、编辑、批量调整与全局模板（可选）</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="pricing-import.html" class="btn btn-outline-primary"><i class="bi bi-upload me-1"></i>批量导入</a>
+                        <button class="btn btn-outline-secondary"><i class="bi bi-download me-1"></i>导出</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyTemplateModal"><i class="bi bi-plus-circle me-1"></i>应用模板</button>
+                    </div>
+                </div>
+                <div class="content-card">
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">集成商</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="INT-2025001">环球 eSIM 科技</option>
+                                    <option value="INT-2025002">旅行家 eSIM</option>
+                                    <option value="INT-2025003">出境游 eSIM 联盟</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">类型</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="REGIONAL">区域</option>
+                                    <option value="SINGLE_COUNTRY">国家</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">地区/国家</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="ASIA">亚洲</option>
+                                    <option value="EU">欧洲</option>
+                                    <option value="JP">日本</option>
+                                    <option value="KR">韩国</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">套餐名称</label>
+                                <input type="text" class="form-control" placeholder="套餐名称">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">状态</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="ONSALE">在售</option>
+                                    <option value="DISABLED">禁售</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">数据类型</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="DATA">流量</option>
+                                    <option value="UNLIMITED">不限量</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary flex-grow-1"><i class="bi bi-search me-1"></i>查询</button>
+                                    <button class="btn btn-outline-secondary"><i class="bi bi-arrow-clockwise"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>集成商</th>
+                                    <th>套餐</th>
+                                    <th>类型</th>
+                                    <th>国家/覆盖范围</th>
+                                    <th>运营商</th>
+                                    <th>成本 <i class="bi bi-question-circle text-muted small" style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="对集成商不可见"></i></th>
+                                    <th>售价</th>
+                                    <th>建议零售价</th>
+                                    <th>导入时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="18.00" data-price="28.00" data-retail="35.00" data-catalog-pkg="pkg_1001" data-catalog-supplier-id="PKG-AS-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="亚洲 7 天 1GB" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="18.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
+                                    <td>环球 eSIM 科技</td>
+                                    <td>亚洲 7 天 1GB</td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>亚洲（多国）</td>
+                                    <td>多运营商</td>
+                                    <td>¥ 18.00</td>
+                                    <td>¥ 28.00 <small class="text-success">(+10.00)</small></td>
+                                    <td>¥ 35.00</td>
+                                    <td>2025-01-15 10:30</td>
+                                    <td><span class="badge bg-success pricing-status-badge">在售</span></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="pricing-detail.html?id=1"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="pricingEditFromRow(this, '环球 eSIM 科技', '亚洲 7 天 1GB', '18.00', '28.00', '35.00'); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                <li><a class="dropdown-item pricing-menu-status" href="#" onclick="pricingToggleStatusFromRow(this); return false;"><i class="bi bi-pause-circle me-2"></i>设为禁售</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="pricingDeleteFromRow(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="45.00" data-price="68.00" data-retail="88.00" data-catalog-pkg="pkg_1002" data-catalog-supplier-id="PKG-EU-15D-3G" data-catalog-supplier="eSIM 全球供" data-catalog-name="欧洲 15 天 3GB" data-catalog-type="区域" data-catalog-region="欧洲（多国可用）" data-catalog-carrier="Vodafone" data-catalog-cap="3GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="15 天" data-catalog-quote="45.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
+                                    <td>环球 eSIM 科技</td>
+                                    <td>欧洲 15 天 3GB</td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>欧洲（多国）</td>
+                                    <td>Vodafone</td>
+                                    <td>¥ 45.00</td>
+                                    <td>¥ 68.00 <small class="text-success">(+23.00)</small></td>
+                                    <td>¥ 88.00</td>
+                                    <td>2025-01-15 10:30</td>
+                                    <td><span class="badge bg-success pricing-status-badge">在售</span></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="pricing-detail.html?id=2"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="pricingEditFromRow(this, '环球 eSIM 科技', '欧洲 15 天 3GB', '45.00', '68.00', '88.00'); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                <li><a class="dropdown-item pricing-menu-status" href="#" onclick="pricingToggleStatusFromRow(this); return false;"><i class="bi bi-pause-circle me-2"></i>设为禁售</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="pricingDeleteFromRow(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="22.00" data-price="32.00" data-retail="42.00" data-catalog-pkg="pkg_1003" data-catalog-supplier-id="PKG-JP-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="日本 7 天 1GB" data-catalog-type="国家" data-catalog-region="日本" data-catalog-carrier="NTT Docomo" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="22.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
+                                    <td>环球 eSIM 科技</td>
+                                    <td>日本 7 天 1GB</td>
+                                    <td><span class="badge bg-secondary">国家</span></td>
+                                    <td>日本</td>
+                                    <td>NTT Docomo</td>
+                                    <td>¥ 22.00</td>
+                                    <td>¥ 32.00 <small class="text-success">(+10.00)</small></td>
+                                    <td>¥ 42.00</td>
+                                    <td>2025-01-15 10:30</td>
+                                    <td><span class="badge bg-success pricing-status-badge">在售</span></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="pricing-detail.html?id=3"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="pricingEditFromRow(this, '环球 eSIM 科技', '日本 7 天 1GB', '22.00', '32.00', '42.00'); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                <li><a class="dropdown-item pricing-menu-status" href="#" onclick="pricingToggleStatusFromRow(this); return false;"><i class="bi bi-pause-circle me-2"></i>设为禁售</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="pricingDeleteFromRow(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-status="disabled" data-integrator="旅行家 eSIM" data-import-time="2025-02-01 14:20" data-cost="" data-price="30.00" data-retail="38.00" data-catalog-pkg="pkg_2001" data-catalog-supplier-id="PKG-AS-7D-1G-B" data-catalog-supplier="跨境 eSIM 源" data-catalog-name="亚洲 7 日 1G 流量" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="4G 网速" data-catalog-validity="7 天" data-catalog-quote="16.50" data-catalog-sync="2025-02-27 14:00" data-catalog-status="有效">
+                                    <td>旅行家 eSIM</td>
+                                    <td>亚洲 7 天 1GB</td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>亚洲（多国）</td>
+                                    <td>多运营商</td>
+                                    <td>—</td>
+                                    <td>¥ 30.00</td>
+                                    <td>¥ 38.00</td>
+                                    <td>2025-02-01 14:20</td>
+                                    <td><span class="badge bg-secondary pricing-status-badge">禁售</span></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="pricing-detail.html?id=4"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="pricingEditFromRow(this, '旅行家 eSIM', '亚洲 7 天 1GB', '', '30.00', '38.00'); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                <li><a class="dropdown-item pricing-menu-status" href="#" onclick="pricingToggleStatusFromRow(this); return false;"><i class="bi bi-play-circle me-2"></i>设为在售</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="pricingDeleteFromRow(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">显示第 1 到 3 条（原型演示）</div>
+                        <button class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square me-1"></i>批量调整</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 应用定价模板弹窗 -->
+    <div class="modal fade" id="applyTemplateModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-file-earmark-ruled me-2"></i>应用定价模板</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">按比例或按指定额度分别设置售价、建议零售价（基于成本计算），应用到指定集成商后可在列表内继续微调。</p>
+                    <div class="mb-3">
+                        <label class="form-label">供应商</label>
+                        <select class="form-select" id="applyTemplateSupplier">
+                            <option value="">全部供应商</option>
+                            <option value="eSIM 全球供">eSIM 全球供</option>
+                            <option value="跨境 eSIM 源">跨境 eSIM 源</option>
+                        </select>
+                        <small class="text-muted">仅对所选供应商的套餐应用模板；不选则对全部供应商套餐生效。</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">售价</label>
+                        <div class="d-flex flex-wrap align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="radio" name="priceMode" id="priceModeRatio" value="ratio" class="form-check-input" checked>
+                                <label class="form-check-label mb-0" for="priceModeRatio">按比例</label>
+                                <span>成本 ×</span>
+                                <input type="number" class="form-control form-control-sm" id="priceRatio" placeholder="130" step="0.01" min="0" style="width: 5rem;"> %
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="radio" name="priceMode" id="priceModeAmount" value="amount" class="form-check-input">
+                                <label class="form-check-label mb-0" for="priceModeAmount">按指定额度</label>
+                                <span>成本 +</span>
+                                <input type="number" class="form-control form-control-sm" id="priceAmount" placeholder="0" step="0.01" style="width: 5rem;"> 元
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">建议零售价</label>
+                        <div class="d-flex flex-wrap align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="radio" name="retailMode" id="retailModeRatio" value="ratio" class="form-check-input" checked>
+                                <label class="form-check-label mb-0" for="retailModeRatio">按比例</label>
+                                <span>成本 ×</span>
+                                <input type="number" class="form-control form-control-sm" id="retailRatio" placeholder="150" step="0.01" min="0" style="width: 5rem;"> %
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="radio" name="retailMode" id="retailModeAmount" value="amount" class="form-check-input">
+                                <label class="form-check-label mb-0" for="retailModeAmount">按指定额度</label>
+                                <span>成本 +</span>
+                                <input type="number" class="form-control form-control-sm" id="retailAmount" placeholder="0" step="0.01" style="width: 5rem;"> 元
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">目标集成商 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="applyTemplateIntegrator">
+                            <option value="">请选择集成商</option>
+                            <option value="INT-2025001">环球 eSIM 科技</option>
+                            <option value="INT-2025002">旅行家 eSIM</option>
+                            <option value="INT-2025003">出境游 eSIM 联盟</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="applyTemplateReplace">
+                            <label class="form-check-label" for="applyTemplateReplace">存在时替换</label>
+                        </div>
+                        <small class="text-muted">勾选后，该集成商下已有定价的套餐将按模板规则覆盖；不勾选则仅对未配置的套餐应用模板。</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="btnApplyTemplateConfirm"><i class="bi bi-check-lg me-1"></i>应用</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑定价弹窗：仅可修改售价、建议零售价 -->
+    <div class="modal fade" id="pricingEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑定价</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">仅支持修改售价与建议零售价，其余信息仅作展示。</p>
+                    <div class="mb-3">
+                        <label class="form-label">集成商</label>
+                        <input type="text" class="form-control" id="editIntegrator" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">套餐</label>
+                        <input type="text" class="form-control" id="editPlan" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">成本 <span class="text-muted small fw-normal">(对集成商不可见)</span></label>
+                        <input type="text" class="form-control" id="editCost" readonly placeholder="—">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">售价 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="editPrice" step="0.01" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">建议零售价 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="editRetail" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="pricingSave()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) { new bootstrap.Tooltip(el); });
+        var pricingEditModal = document.getElementById('pricingEditModal');
+        if (pricingEditModal) {
+            pricingEditModal.addEventListener('show.bs.modal', function (e) {
+                var btn = e.relatedTarget;
+                if (!btn) return;
+                document.getElementById('editIntegrator').value = btn.getAttribute('data-integrator') || '';
+                document.getElementById('editPlan').value = btn.getAttribute('data-plan') || '';
+                var cost = btn.getAttribute('data-cost');
+                document.getElementById('editCost').value = cost ? '¥ ' + cost : '—';
+                document.getElementById('editPrice').value = btn.getAttribute('data-price') || '';
+                document.getElementById('editRetail').value = btn.getAttribute('data-retail') || '';
+            });
+        }
+        function pricingSave() {
+            var price = document.getElementById('editPrice').value;
+            var retail = document.getElementById('editRetail').value;
+            if (!price || !retail) { alert('请填写售价和建议零售价'); return; }
+            bootstrap.Modal.getInstance(document.getElementById('pricingEditModal')).hide();
+            alert('已保存（原型演示）');
+        }
+        function pricingEditFromRow(el, integrator, plan, cost, price, retail) {
+            document.getElementById('editIntegrator').value = integrator || '';
+            document.getElementById('editPlan').value = plan || '';
+            document.getElementById('editCost').value = cost ? '¥ ' + cost : '—';
+            document.getElementById('editPrice').value = price || '';
+            document.getElementById('editRetail').value = retail || '';
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('pricingEditModal')).show();
+        }
+        function pricingToggleStatusFromRow(el) {
+            var row = el.closest('tr');
+            if (!row) return;
+            var status = row.getAttribute('data-status');
+            var badge = row.querySelector('.pricing-status-badge');
+            var menuItem = row.querySelector('.pricing-menu-status');
+            if (status === 'onsale') {
+                if (!confirm('确定将该条定价设为禁售？禁售后集成商侧将不可见。')) return;
+                row.setAttribute('data-status', 'disabled');
+                if (badge) { badge.className = 'badge bg-secondary pricing-status-badge'; badge.textContent = '禁售'; }
+                if (menuItem) { menuItem.innerHTML = '<i class="bi bi-play-circle me-2"></i>设为在售'; }
+                alert('已设为禁售（原型演示）');
+            } else {
+                if (!confirm('确定将该条定价设为在售？')) return;
+                row.setAttribute('data-status', 'onsale');
+                if (badge) { badge.className = 'badge bg-success pricing-status-badge'; badge.textContent = '在售'; }
+                if (menuItem) { menuItem.innerHTML = '<i class="bi bi-pause-circle me-2"></i>设为禁售'; }
+                alert('已设为在售（原型演示）');
+            }
+        }
+        function pricingDeleteFromRow(el) {
+            if (!confirm('确定要删除该条定价配置吗？')) return;
+            var row = el.closest('tr');
+            if (row) row.remove();
+        }
+        function pricingDelete(btn) {
+            if (!confirm('确定要删除该条定价配置吗？')) return;
+            var row = btn.closest('tr');
+            if (row) row.remove();
+        }
+        document.getElementById('btnApplyTemplateConfirm').addEventListener('click', function () {
+            var integratorId = document.getElementById('applyTemplateIntegrator').value;
+            if (!integratorId) { alert('请选择目标集成商'); return; }
+            var priceByRatio = document.getElementById('priceModeRatio').checked;
+            var retailByRatio = document.getElementById('retailModeRatio').checked;
+            var priceVal = priceByRatio ? document.getElementById('priceRatio').value : document.getElementById('priceAmount').value;
+            var retailVal = retailByRatio ? document.getElementById('retailRatio').value : document.getElementById('retailAmount').value;
+            if (priceVal === '' || isNaN(parseFloat(priceVal))) { alert('请填写售价的' + (priceByRatio ? '比例' : '额度')); return; }
+            if (retailVal === '' || isNaN(parseFloat(retailVal))) { alert('请填写建议零售价的' + (retailByRatio ? '比例' : '额度')); return; }
+            var replace = document.getElementById('applyTemplateReplace').checked;
+            var supplierEl = document.getElementById('applyTemplateSupplier');
+            var supplierText = supplierEl && supplierEl.selectedOptions && supplierEl.selectedOptions[0] ? supplierEl.selectedOptions[0].text : '全部供应商';
+            var msg = '售价：' + (priceByRatio ? '成本 × ' + priceVal + '%' : '成本 + ' + priceVal + ' 元') + '\n建议零售价：' + (retailByRatio ? '成本 × ' + retailVal + '%' : '成本 + ' + retailVal + ' 元') + '\n供应商：' + supplierText + '\n集成商：' + document.getElementById('applyTemplateIntegrator').selectedOptions[0].text + '\n存在时替换：' + (replace ? '是' : '否');
+            bootstrap.Modal.getInstance(document.getElementById('applyTemplateModal')).hide();
+            alert('模板已应用（原型演示）。\n' + msg + '\n\n实际接入时请调用后端接口执行应用逻辑。');
+        });
+
+        function pricingToggleStatus(btn) {
+            var row = btn.closest('tr');
+            if (!row) return;
+            var status = row.getAttribute('data-status');
+            var badge = row.querySelector('.pricing-status-badge');
+            var statusBtn = row.querySelector('.pricing-status-btn');
+            if (status === 'onsale') {
+                if (!confirm('确定将该条定价设为禁售？禁售后集成商侧将不可见。')) return;
+                row.setAttribute('data-status', 'disabled');
+                if (badge) { badge.className = 'badge bg-secondary pricing-status-badge'; badge.textContent = '禁售'; }
+                if (statusBtn) {
+                    statusBtn.className = 'btn btn-outline-success btn-sm pricing-status-btn';
+                    statusBtn.title = '设为在售';
+                    statusBtn.innerHTML = '<i class="bi bi-play-circle"></i> 在售';
+                    statusBtn.onclick = function () { pricingToggleStatus(this); };
+                }
+                alert('已设为禁售（原型演示）');
+            } else {
+                if (!confirm('确定将该条定价设为在售？')) return;
+                row.setAttribute('data-status', 'onsale');
+                if (badge) { badge.className = 'badge bg-success pricing-status-badge'; badge.textContent = '在售'; }
+                if (statusBtn) {
+                    statusBtn.className = 'btn btn-outline-secondary btn-sm pricing-status-btn';
+                    statusBtn.title = '设为禁售';
+                    statusBtn.innerHTML = '<i class="bi bi-pause-circle"></i> 禁售';
+                    statusBtn.onclick = function () { pricingToggleStatus(this); };
+                }
+                alert('已设为在售（原型演示）');
+            }
+        }
+    </script>
+</body>
+</html>

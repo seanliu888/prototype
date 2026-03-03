@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSIM 集成商管理平台 - 首页</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+    <style>
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+        .stat-number { font-size: 28px; font-weight: 700; margin: 10px 0; }
+        .stat-label { color: #7f8c8d; font-size: 14px; }
+        .stat-icon {
+            width: 56px; height: 56px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+        }
+        .quick-link {
+            display: block;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #2c3e50;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        .quick-link:hover { border-color: #1a4a8c; color: #1a4a8c; box-shadow: 0 4px 12px rgba(26,74,140,0.15); }
+        .quick-link i { font-size: 32px; margin-bottom: 8px; color: #1a4a8c; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="index.html">
+                        <i class="bi bi-house-door-fill"></i>首页概览
+                    </a>
+                    <div class="nav-section-title">业务管理</div>
+                    <a class="nav-link" href="integrator-list.html">
+                        <i class="bi bi-people-fill"></i>集成商管理
+                    </a>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link" href="order-list.html">
+                        <i class="bi bi-cart-check"></i>订单与用量
+                    </a>
+                    <a class="nav-link" href="billing-transactions.html">
+                        <i class="bi bi-wallet2"></i>财务与结算
+                    </a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html">
+                        <i class="bi bi-key-fill"></i>开发者与 API
+                    </a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-house-door me-2"></i>首页概览</h1>
+                        <small class="text-muted">eSIM 集成商管理平台 · 预留仪表盘（兼容后续平台数据总览、排行、告警）</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">集成商总数</div>
+                                    <div class="stat-number text-primary">—</div>
+                                    <small class="text-muted">仪表盘接入后显示</small>
+                                </div>
+                                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">总订单量</div>
+                                    <div class="stat-number text-success">—</div>
+                                    <small class="text-muted">仪表盘接入后显示</small>
+                                </div>
+                                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                                    <i class="bi bi-cart"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">待审核</div>
+                                    <div class="stat-number text-warning">—</div>
+                                    <small class="text-muted">告警与待办接入后显示</small>
+                                </div>
+                                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                                    <i class="bi bi-bell"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="stat-label">eSIM 激活量</div>
+                                    <div class="stat-number text-info">—</div>
+                                    <small class="text-muted">仪表盘接入后显示</small>
+                                </div>
+                                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                                    <i class="bi bi-sim"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="content-card">
+                            <h5 class="mb-3">快捷入口</h5>
+                            <div class="row g-3">
+                                <div class="col-md-2">
+                                    <a href="integrator-list.html" class="quick-link">
+                                        <i class="bi bi-people-fill"></i>
+                                        <div>集成商列表</div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="integrator-form.html" class="quick-link">
+                                        <i class="bi bi-person-plus-fill"></i>
+                                        <div>新增集成商</div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="supplier-list.html" class="quick-link">
+                                        <i class="bi bi-truck"></i>
+                                        <div>供应商管理</div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="pricing-list.html" class="quick-link">
+                                        <i class="bi bi-currency-dollar"></i>
+                                        <div>集成商定价</div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="order-list.html" class="quick-link">
+                                        <i class="bi bi-cart-check"></i>
+                                        <div>订单管理</div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="billing-transactions.html" class="quick-link">
+                                        <i class="bi bi-wallet2"></i>
+                                        <div>交易记录</div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="developer-api.html" class="quick-link">
+                                        <i class="bi bi-key-fill"></i>
+                                        <div>API 监管</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

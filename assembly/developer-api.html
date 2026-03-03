@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发者与 API - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">业务管理</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link active" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-key-fill me-2"></i>开发者与 API</h1>
+                        <small class="text-muted">密钥与回调监管；支持强制重置密钥、临时禁用 API；API 版本与文档入口</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary" target="_blank"><i class="bi bi-book me-1"></i>API 版本与文档</a>
+                </div>
+                <div class="content-card mb-4">
+                    <h5 class="mb-3">密钥与 Webhooks 监管</h5>
+                    <p class="text-muted small">管理员可查看（脱敏）各集成商的 API 密钥状态、Webhooks 配置；风控或客诉场景下可「强制重置密钥」或「临时禁用 API」。</p>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>集成商</th>
+                                    <th>AccessCode</th>
+                                    <th>SecretKey</th>
+                                    <th>Webhooks</th>
+                                    <th>API 状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>环球 eSIM 科技</td>
+                                    <td>
+                                        <code class="api-key-display">ac_live_************8f2a</code>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="复制 AccessCode" onclick="copyApiKey(this, 'ac_live_xxxxxxxxxxxxxxxx8f2a')"><i class="bi bi-clipboard"></i></button>
+                                    </td>
+                                    <td>
+                                        <code class="api-key-display">sk_live_************abcd</code>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="复制 SecretKey" onclick="copyApiKey(this, 'sk_live_xxxxxxxxxxxxxxxxabcd')"><i class="bi bi-clipboard"></i></button>
+                                    </td>
+                                    <td>
+                                        <span class="webhook-url">https://api.global-esim.com/webhook</span> <span class="badge bg-success">正常</span>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="编辑 Webhook" data-bs-toggle="modal" data-bs-target="#webhookEditModal" data-integrator="环球 eSIM 科技" data-webhook="https://api.global-esim.com/webhook"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                    <td><span class="badge bg-success">启用</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-warning" title="重置密钥">重置密钥</button>
+                                            <button class="btn btn-outline-danger" title="禁用 API">禁用 API</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>旅行家 eSIM</td>
+                                    <td>
+                                        <code class="api-key-display">ac_live_************1b3c</code>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="复制 AccessCode" onclick="copyApiKey(this, 'ac_live_xxxxxxxxxxxxxxxx1b3c')"><i class="bi bi-clipboard"></i></button>
+                                    </td>
+                                    <td>
+                                        <code class="api-key-display">sk_live_************ef12</code>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="复制 SecretKey" onclick="copyApiKey(this, 'sk_live_xxxxxxxxxxxxxxxxef12')"><i class="bi bi-clipboard"></i></button>
+                                    </td>
+                                    <td>
+                                        <span class="webhook-url">未配置</span>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="编辑 Webhook" data-bs-toggle="modal" data-bs-target="#webhookEditModal" data-integrator="旅行家 eSIM" data-webhook=""><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                    <td><span class="badge bg-success">启用</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-warning">重置密钥</button>
+                                            <button class="btn btn-outline-danger">禁用 API</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="webhookEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑 Webhook</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">集成商</label>
+                        <input type="text" class="form-control" id="webhookEditIntegrator" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Webhook 地址</label>
+                        <input type="url" class="form-control" id="webhookEditUrl" placeholder="https://">
+                        <small class="text-muted">留空表示未配置，保存后将移除该集成商的 Webhook。</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="webhookEditSave">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var webhookEditModal = document.getElementById('webhookEditModal');
+        if (webhookEditModal) {
+            webhookEditModal.addEventListener('show.bs.modal', function (e) {
+                var btn = e.relatedTarget;
+                if (!btn) return;
+                document.getElementById('webhookEditIntegrator').value = btn.getAttribute('data-integrator') || '';
+                document.getElementById('webhookEditUrl').value = btn.getAttribute('data-webhook') || '';
+                document.getElementById('webhookEditUrl').setAttribute('data-source-btn', ''); // store ref via row
+                var row = btn.closest('tr');
+                if (row) document.getElementById('webhookEditUrl').setAttribute('data-source-row', row.rowIndex);
+            });
+        }
+        document.getElementById('webhookEditSave').addEventListener('click', function () {
+            var url = document.getElementById('webhookEditUrl').value.trim();
+            var integrator = document.getElementById('webhookEditIntegrator').value;
+            var rowIndex = parseInt(document.getElementById('webhookEditUrl').getAttribute('data-source-row'), 10);
+            bootstrap.Modal.getInstance(document.getElementById('webhookEditModal')).hide();
+            var tbody = document.querySelector('.content-card table tbody');
+            var row = tbody && !isNaN(rowIndex) ? tbody.rows[rowIndex] : null;
+            if (row) {
+                var cell = row.cells[3];
+                var span = cell.querySelector('.webhook-url');
+                var btn = cell.querySelector('[data-bs-toggle="modal"]');
+                if (span) span.textContent = url || '未配置';
+                if (btn) btn.setAttribute('data-webhook', url);
+                var badge = cell.querySelector('.badge');
+                if (badge) {
+                    badge.textContent = url ? '正常' : '';
+                    badge.className = 'badge ' + (url ? 'bg-success' : '');
+                    if (!url) badge.remove();
+                } else if (url) {
+                    var b = document.createElement('span');
+                    b.className = 'badge bg-success';
+                    b.textContent = '正常';
+                    cell.insertBefore(b, cell.querySelector('button'));
+                }
+            }
+            alert('已保存（原型演示）。\n集成商：' + integrator + '\nWebhook：' + (url || '未配置'));
+        });
+        function copyApiKey(btn, value) {
+            if (!value) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(value).then(function () {
+                    var icon = btn.querySelector('i');
+                    if (icon) { icon.className = 'bi bi-check'; setTimeout(function () { icon.className = 'bi bi-clipboard'; }, 1500); }
+                }).catch(function () { fallbackCopy(value, btn); });
+            } else {
+                fallbackCopy(value, btn);
+            }
+        }
+        function fallbackCopy(value, btn) {
+            var ta = document.createElement('textarea');
+            ta.value = value;
+            ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                var icon = btn.querySelector('i');
+                if (icon) { icon.className = 'bi bi-check'; setTimeout(function () { icon.className = 'bi bi-clipboard'; }, 1500); }
+            } catch (e) {}
+            document.body.removeChild(ta);
+        }
+    </script>
+</body>
+</html>

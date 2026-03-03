@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商套餐目录 - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">业务管理</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <a class="nav-link active" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-collection me-2"></i>供应商套餐目录</h1>
+                        <small class="text-muted">只读；类型：区域（多国可用）、国家（单一国家）；由供应商 API 同步生成</small>
+                    </div>
+                    <a href="supplier-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>去同步</a>
+                </div>
+                <div class="content-card">
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">供应商</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="SUP-001">eSIM 全球供</option>
+                                    <option value="SUP-002">跨境 eSIM 源</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">类型</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="REGIONAL">区域</option>
+                                    <option value="SINGLE_COUNTRY">国家</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">地区/国家</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="ASIA">亚洲（区域）</option>
+                                    <option value="EU">欧洲（区域）</option>
+                                    <option value="NA">北美（区域）</option>
+                                    <option value="JP">日本</option>
+                                    <option value="KR">韩国</option>
+                                    <option value="TH">泰国</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">套餐名称</label>
+                                <input type="text" class="form-control" placeholder="套餐名称">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">数据类型</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="DATA">流量</option>
+                                    <option value="UNLIMITED">不限量</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">流量规格</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="数值" min="0" step="0.01">
+                                    <select class="form-select" style="max-width: 5rem;">
+                                        <option value="MB">MB</option>
+                                        <option value="GB" selected>GB</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">有效期</label>
+                                <input type="text" class="form-control" placeholder="如 7天">
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-primary me-2"><i class="bi bi-search me-1"></i>查询</button>
+                                <button class="btn btn-outline-secondary"><i class="bi bi-arrow-clockwise"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>供应商</th>
+                                    <th>套餐Code</th>
+                                    <th>供应商套餐ID</th>
+                                    <th>套餐名称</th>
+                                    <th>类型</th>
+                                    <th>国家/覆盖范围</th>
+                                    <th>运营商</th>
+                                    <th>流量规格</th>
+                                    <th>速度</th>
+                                    <th>有效期</th>
+                                    <th>报价</th>
+                                    <th>最后同步时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eSIM 全球供</td>
+                                    <td><code>pkg_1001</code></td>
+                                    <td><code>PKG-AS-7D-1G</code></td>
+                                    <td>亚洲 7 天 1GB</td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>亚洲（多国可用）</td>
+                                    <td>多运营商</td>
+                                    <td>1GB</td>
+                                    <td><span class="badge bg-primary">5G</span></td>
+                                    <td>7 天</td>
+                                    <td>¥ 18.00</td>
+                                    <td>2025-02-28 09:00</td>
+                                    <td><span class="badge bg-success">有效</span></td>
+                                    <td><a href="catalog-detail.html?id=pkg_1001" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                                <tr>
+                                    <td>eSIM 全球供</td>
+                                    <td><code>pkg_1002</code></td>
+                                    <td><code>PKG-EU-15D-3G</code></td>
+                                    <td>欧洲 15 天 3GB</td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>欧洲（多国可用）</td>
+                                    <td>Vodafone</td>
+                                    <td>3GB</td>
+                                    <td><span class="badge bg-primary">5G</span></td>
+                                    <td>15 天</td>
+                                    <td>¥ 45.00</td>
+                                    <td>2025-02-28 09:00</td>
+                                    <td><span class="badge bg-success">有效</span></td>
+                                    <td><a href="catalog-detail.html?id=pkg_1002" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                                <tr>
+                                    <td>eSIM 全球供</td>
+                                    <td><code>pkg_1003</code></td>
+                                    <td><code>PKG-JP-7D-1G</code></td>
+                                    <td>日本 7 天 1GB</td>
+                                    <td><span class="badge bg-secondary">国家</span></td>
+                                    <td>日本</td>
+                                    <td>NTT Docomo</td>
+                                    <td>1GB</td>
+                                    <td><span class="badge bg-secondary">4G</span></td>
+                                    <td>7 天</td>
+                                    <td>¥ 22.00</td>
+                                    <td>2025-02-28 09:00</td>
+                                    <td><span class="badge bg-success">有效</span></td>
+                                    <td><a href="catalog-detail.html?id=pkg_1003" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                                <tr>
+                                    <td>跨境 eSIM 源</td>
+                                    <td><code>pkg_2001</code></td>
+                                    <td><code>PLAN-AS-7D-1G</code></td>
+                                    <td>亚洲 7 日 1G 流量</td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>亚洲（多国可用）</td>
+                                    <td>多运营商</td>
+                                    <td>1GB</td>
+                                    <td><span class="badge bg-secondary">4G</span></td>
+                                    <td>7 天</td>
+                                    <td>¥ 16.50</td>
+                                    <td>2025-02-28 08:30</td>
+                                    <td><span class="badge bg-success">有效</span></td>
+                                    <td><a href="catalog-detail.html?id=pkg_2001" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-muted small mt-3 mb-0"><strong>ID 说明：</strong>套餐Code为平台内部唯一标识（同步后生成）；供应商套餐ID为供应商侧套餐编码（同步时带入）。管理员不可在此编辑/删除，需通过供应商 API 同步更新。为集成商配置售价请前往「<a href="pricing-list.html">集成商定价</a>」。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

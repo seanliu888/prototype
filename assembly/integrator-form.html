@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增/编辑集成商 - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+    <style>
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1a4a8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">业务管理</div>
+                    <a class="nav-link active" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-person-plus-fill me-2"></i><span id="pageTitle">新增集成商</span></h1>
+                        <small class="text-muted">录入企业名称、联系人、结算方式等；创建后自动生成平台账号或发送激活链接</small>
+                    </div>
+                    <a href="integrator-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>返回列表</a>
+                </div>
+                <div class="content-card">
+                    <form>
+                        <div class="form-section-title">基本信息</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">企业名称 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="请输入企业名称" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">联系人姓名 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="请输入联系人姓名" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">联系人邮箱 <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" placeholder="example@company.com" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">联系人手机 <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" placeholder="请输入手机号" required>
+                            </div>
+                        </div>
+                        <div class="form-section-title">结算与账号</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">结算方式 <span class="text-danger">*</span></label>
+                                <select class="form-select" id="settlementType" required>
+                                    <option value="">请选择</option>
+                                    <option value="PREPAID">预付</option>
+                                    <option value="POSTPAID">后付</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">信用额度（可选）</label>
+                                <input type="number" class="form-control" id="creditLimit" placeholder="不填则不限制" min="0" step="0.01">
+                                <small class="text-muted">预付、后付均可设置，留空表示不限制</small>
+                            </div>
+                        </div>
+                        <div class="form-section-title">状态与备注（编辑时可见）</div>
+                        <div class="row g-3 mb-4" id="editOnlySection" style="display: none;">
+                            <div class="col-md-6">
+                                <label class="form-label">状态</label>
+                                <select class="form-select">
+                                    <option value="NORMAL">正常</option>
+                                    <option value="DISABLED">停用</option>
+                                    <option value="PENDING">待审核</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-12">
+                                <label class="form-label">备注</label>
+                                <textarea class="form-control" rows="2" placeholder="备注信息"></textarea>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-4" id="remarkNewSection">
+                            <div class="col-12">
+                                <label class="form-label">备注</label>
+                                <textarea class="form-control" rows="2" placeholder="备注信息"></textarea>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>保存</button>
+                            <a href="integrator-list.html" class="btn btn-outline-secondary">取消</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            var id = new URLSearchParams(location.search).get('id');
+            if (id) {
+                document.getElementById('pageTitle').textContent = '编辑集成商';
+                document.getElementById('editOnlySection').style.display = 'block';
+                document.getElementById('remarkNewSection').style.display = 'none';
+            }
+        })();
+    </script>
+</body>
+</html>

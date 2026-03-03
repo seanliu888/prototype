@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定价详情 - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">业务管理</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <a class="nav-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-currency-dollar me-2"></i>定价详情</h1>
+                        <small class="text-muted">关联套餐与定价信息</small>
+                    </div>
+                    <a href="pricing-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>返回列表</a>
+                </div>
+
+                <h6 class="text-muted mb-2">关联套餐</h6>
+                <p class="text-muted small mb-2">只读，由供应商 API 同步</p>
+                <div class="content-card mb-4" id="catalogSection">
+                    <div class="info-row"><span class="info-label">套餐Code</span><span class="info-value" id="pdPkg">—</span></div>
+                    <div class="info-row"><span class="info-label">供应商套餐ID</span><span class="info-value" id="pdSupplierId">—</span></div>
+                    <div class="info-row"><span class="info-label">供应商</span><span class="info-value" id="pdSupplier">—</span></div>
+                    <div class="info-row"><span class="info-label">套餐名称</span><span class="info-value" id="pdName">—</span></div>
+                    <div class="info-row"><span class="info-label">类型</span><span class="info-value" id="pdType">—</span></div>
+                    <div class="info-row"><span class="info-label">国家/覆盖范围</span><span class="info-value" id="pdRegion">—</span></div>
+                    <div class="info-row"><span class="info-label">运营商</span><span class="info-value" id="pdCarrier">—</span></div>
+                    <div class="info-row"><span class="info-label">流量规格</span><span class="info-value" id="pdCap">—</span></div>
+                    <div class="info-row"><span class="info-label">速度</span><span class="info-value" id="pdSpeed">—</span></div>
+                    <div class="info-row"><span class="info-label">有效期</span><span class="info-value" id="pdValidity">—</span></div>
+                    <div class="info-row"><span class="info-label">报价</span><span class="info-value" id="pdQuote">—</span></div>
+                    <div class="info-row"><span class="info-label">最后同步时间</span><span class="info-value" id="pdSync">—</span></div>
+                    <div class="info-row"><span class="info-label">状态</span><span class="info-value" id="pdCatalogStatus">—</span></div>
+                </div>
+
+                <h6 class="text-muted mb-2">定价信息</h6>
+                <div class="content-card" id="pricingSection">
+                    <div class="info-row"><span class="info-label">集成商</span><span class="info-value" id="pdIntegrator">—</span></div>
+                    <div class="info-row"><span class="info-label">成本</span><span class="info-value" id="pdCost">—</span></div>
+                    <div class="info-row"><span class="info-label">售价</span><span class="info-value" id="pdPrice">—</span></div>
+                    <div class="info-row"><span class="info-label">建议零售价</span><span class="info-value" id="pdRetail">—</span></div>
+                    <div class="info-row"><span class="info-label">导入时间</span><span class="info-value" id="pdImportTime">—</span></div>
+                    <div class="info-row"><span class="info-label">状态</span><span class="info-value" id="pdStatus">—</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            var data = {
+                '1': { integrator: '环球 eSIM 科技', importTime: '2025-01-15 10:30', cost: '18.00', price: '28.00', retail: '35.00', status: 'onsale', catalog: { pkg: 'pkg_1001', supplierId: 'PKG-AS-7D-1G', supplier: 'eSIM 全球供', name: '亚洲 7 天 1GB', type: '区域', region: '亚洲（多国可用）', carrier: '多运营商', cap: '1GB', speed: '5G/4G 网速', validity: '7 天', quote: '18.00', sync: '2025-02-28 09:00', catalogStatus: '有效' }},
+                '2': { integrator: '环球 eSIM 科技', importTime: '2025-01-15 10:30', cost: '45.00', price: '68.00', retail: '88.00', status: 'onsale', catalog: { pkg: 'pkg_1002', supplierId: 'PKG-EU-15D-3G', supplier: 'eSIM 全球供', name: '欧洲 15 天 3GB', type: '区域', region: '欧洲（多国可用）', carrier: 'Vodafone', cap: '3GB', speed: '5G/4G 网速', validity: '15 天', quote: '45.00', sync: '2025-02-28 09:00', catalogStatus: '有效' }},
+                '3': { integrator: '环球 eSIM 科技', importTime: '2025-01-15 10:30', cost: '22.00', price: '32.00', retail: '42.00', status: 'onsale', catalog: { pkg: 'pkg_1003', supplierId: 'PKG-JP-7D-1G', supplier: 'eSIM 全球供', name: '日本 7 天 1GB', type: '国家', region: '日本', carrier: 'NTT Docomo', cap: '1GB', speed: '5G/4G 网速', validity: '7 天', quote: '22.00', sync: '2025-02-28 09:00', catalogStatus: '有效' }},
+                '4': { integrator: '旅行家 eSIM', importTime: '2025-02-01 14:20', cost: '', price: '30.00', retail: '38.00', status: 'disabled', catalog: { pkg: 'pkg_2001', supplierId: 'PKG-AS-7D-1G-B', supplier: '跨境 eSIM 源', name: '亚洲 7 日 1G 流量', type: '区域', region: '亚洲（多国可用）', carrier: '多运营商', cap: '1GB', speed: '4G 网速', validity: '7 天', quote: '16.50', sync: '2025-02-27 14:00', catalogStatus: '有效' }}
+            };
+            var id = (function () { var m = /[?&]id=([^&]*)/.exec(location.search); return (m && m[1]) ? m[1] : '1'; })();
+            var row = data[id] || data['1'];
+            var c = row.catalog || {};
+            document.getElementById('pdPkg').innerHTML = c.pkg ? '<code>' + c.pkg + '</code>' : '—';
+            document.getElementById('pdSupplierId').innerHTML = c.supplierId ? '<code>' + c.supplierId + '</code>' : '—';
+            document.getElementById('pdSupplier').textContent = c.supplier || '—';
+            document.getElementById('pdName').textContent = c.name || '—';
+            document.getElementById('pdType').innerHTML = c.type === '区域' ? '<span class="badge bg-info">区域</span>' : c.type === '国家' ? '<span class="badge bg-secondary">国家</span>' : (c.type || '—');
+            document.getElementById('pdRegion').textContent = c.region || '—';
+            document.getElementById('pdCarrier').textContent = c.carrier || '—';
+            document.getElementById('pdCap').textContent = c.cap || '—';
+            document.getElementById('pdSpeed').innerHTML = c.speed ? (c.speed.indexOf('5G') !== -1 ? '<span class="badge bg-primary">5G</span> ' + c.speed : '<span class="badge bg-secondary">4G</span> ' + c.speed) : '—';
+            document.getElementById('pdValidity').textContent = c.validity || '—';
+            document.getElementById('pdQuote').textContent = c.quote ? '¥ ' + c.quote : '—';
+            document.getElementById('pdSync').textContent = c.sync || '—';
+            document.getElementById('pdCatalogStatus').innerHTML = c.catalogStatus === '有效' ? '<span class="badge bg-success">有效</span>' : (c.catalogStatus || '—');
+            document.getElementById('pdIntegrator').textContent = row.integrator || '—';
+            document.getElementById('pdCost').textContent = row.cost ? '¥ ' + row.cost : '—';
+            document.getElementById('pdPrice').textContent = row.price ? '¥ ' + row.price : '—';
+            document.getElementById('pdRetail').textContent = row.retail ? '¥ ' + row.retail : '—';
+            document.getElementById('pdImportTime').textContent = row.importTime || '—';
+            document.getElementById('pdStatus').innerHTML = row.status === 'onsale' ? '<span class="badge bg-success">在售</span>' : row.status === 'disabled' ? '<span class="badge bg-secondary">禁售</span>' : '—';
+        })();
+    </script>
+</body>
+</html>
