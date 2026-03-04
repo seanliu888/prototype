@@ -18,12 +18,14 @@
                 </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
-                    <div class="nav-section-title">业务管理</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
                     <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
-                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
                     <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
@@ -33,14 +35,14 @@
                 <div class="page-header">
                     <div>
                         <h1><i class="bi bi-upload me-2"></i>批量导入定价</h1>
-                        <small class="text-muted">先从套餐目录勾选要定价的套餐并导出模板，再选择集成商，填写售价后上传</small>
+                        <small class="text-muted">先从套餐目录勾选要定价的套餐，再选择集成商，通过模板或 CSV 文件设置定价</small>
                     </div>
                     <a href="pricing-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>返回定价列表</a>
                 </div>
 
                 <div class="content-card mb-4">
-                    <h5 class="mb-3">第一步：从供应商套餐目录选择并导出模板</h5>
-                    <p class="text-muted small mb-3">先用筛选缩小范围，再通过「全选当前结果」或逐页「全选本页」勾选套餐；导出后填写售价、建议零售价，在第三步上传。套餐较多时建议按供应商/类型/地区筛选后批量选择。</p>
+                    <h5 class="mb-3">第一步：选择套餐</h5>
+                    <p class="text-muted small mb-3">先用筛选缩小范围，再通过「全选当前结果」或逐页「全选本页」勾选套餐。套餐较多时建议按供应商/类型/地区筛选后批量选择。</p>
                     <div class="filter-section mb-3">
                         <div class="row g-2">
                             <div class="col-md-2">
@@ -61,16 +63,26 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">国家/地区</label>
-                                <select class="form-select form-select-sm" id="filterRegion">
-                                    <option value="">全部</option>
+                                <select class="form-select form-select-sm" id="filterRegion" multiple size="4">
                                     <option value="亚洲">亚洲</option>
                                     <option value="欧洲">欧洲</option>
                                     <option value="日本">日本</option>
+                                    <option value="韩国">韩国</option>
                                 </select>
+                                <small class="text-muted">可多选（Ctrl+点击），不选为全部</small>
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">套餐名称</label>
                                 <input type="text" class="form-control form-control-sm" id="filterName" placeholder="关键词">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">运营商</label>
+                                <select class="form-select form-select-sm" id="filterCarrier" multiple size="3">
+                                    <option value="多运营商">多运营商</option>
+                                    <option value="Vodafone">Vodafone</option>
+                                    <option value="NTT Docomo">NTT Docomo</option>
+                                </select>
+                                <small class="text-muted">可多选（Ctrl+点击），不选为全部</small>
                             </div>
                             <div class="col-md-2 d-flex align-items-end">
                                 <button type="button" class="btn btn-primary btn-sm me-1" id="btnSearch">查询</button>
@@ -85,9 +97,6 @@
                         <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSelectPage">全选本页</button>
                         <button type="button" class="btn btn-outline-secondary btn-sm" id="btnClearPage">取消本页</button>
                         <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSelectNone">取消全选</button>
-                        <button type="button" class="btn btn-primary" id="btnExportSelected">
-                            <i class="bi bi-download me-1"></i>导出已选为导入模板（CSV）
-                        </button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle table-sm">
@@ -111,7 +120,7 @@
                             <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
                         </nav>
                     </div>
-                    <p class="text-muted small mt-2 mb-0">导出的 CSV 含列：套餐Code、套餐名称、类型、国家/覆盖范围、运营商、供应商报价、售价、建议零售价、状态。请填写「售价」「建议零售价」后保存，在第三步上传。</p>
+                    <p class="text-muted small mt-2 mb-0">选择的套餐可在第三步通过「应用定价模板」快速批量设置售价，或导出 CSV 后手动填写再上传。</p>
                 </div>
 
                 <div class="content-card mb-4">
@@ -130,30 +139,120 @@
                 </div>
 
                 <div class="content-card mb-4">
-                    <h5 class="mb-3">第三步：上传填写后的文件并预览</h5>
-                    <div class="mb-3">
-                        <label class="form-label">选择 CSV 文件</label>
-                        <input type="file" class="form-control" id="fileInput" accept=".csv,text/csv">
-                    </div>
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="replaceWhenExists">
-                            <label class="form-check-label" for="replaceWhenExists">存在时替换</label>
+                    <h5 class="mb-3">第三步：设置定价</h5>
+                    <p class="text-muted small mb-3">选择以下任一方式为第一步选中的套餐设置定价。</p>
+
+                    <!-- 应用定价模板 -->
+                    <div class="border rounded p-3 mb-3" id="methodTemplate">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="importMethod" id="methodTemplateRadio" value="template" checked>
+                            <label class="form-check-label fw-bold" for="methodTemplateRadio">应用定价模板</label>
+                            <span class="text-muted small ms-2">根据供应商报价按比例或指定金额自动计算售价</span>
                         </div>
-                        <small class="text-muted">勾选后，若该集成商下已有同套餐定价则覆盖更新；不勾选则跳过已存在记录。</small>
-                    </div>
-                    <div id="previewSection" class="d-none">
-                        <p class="text-muted small mb-2">解析预览（最多显示前 20 条），请核对后点击「确认导入」。</p>
-                        <div class="table-responsive">
-                            <table class="table table-sm table-hover" id="previewTable">
-                                <thead class="table-light"><tr id="previewThead"></tr></thead>
-                                <tbody id="previewTbody"></tbody>
-                            </table>
+                        <div id="templateOptions">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">售价</label>
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="priceMode" id="priceModeRatio" value="ratio" class="form-check-input" checked>
+                                            <label class="form-check-label" for="priceModeRatio">按利润率</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 +</span>
+                                            <input type="number" class="form-control form-control-sm" id="priceRatio" placeholder="30" step="0.01" min="0" style="width: 5rem;">
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="priceMode" id="priceModeAmount" value="amount" class="form-check-input">
+                                            <label class="form-check-label" for="priceModeAmount">按固定金额</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 + $</span>
+                                            <input type="number" class="form-control form-control-sm" id="priceAmount" placeholder="2" step="0.01" style="width: 5rem;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">建议零售价</label>
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="retailMode" id="retailModeRatio" value="ratio" class="form-check-input" checked>
+                                            <label class="form-check-label" for="retailModeRatio">按利润率</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 +</span>
+                                            <input type="number" class="form-control form-control-sm" id="retailRatio" placeholder="50" step="0.01" min="0" style="width: 5rem;">
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="retailMode" id="retailModeAmount" value="amount" class="form-check-input">
+                                            <label class="form-check-label" for="retailModeAmount">按固定金额</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 + $</span>
+                                            <input type="number" class="form-control form-control-sm" id="retailAmount" placeholder="5" step="0.01" style="width: 5rem;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                                <div class="form-check mb-0">
+                                    <input type="checkbox" class="form-check-input" id="replaceWhenExistsTemplate">
+                                    <label class="form-check-label" for="replaceWhenExistsTemplate">存在时替换</label>
+                                </div>
+                                <small class="text-muted">勾选后，若该集成商下已有同套餐定价则覆盖更新；不勾选则跳过已存在记录。</small>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="btnApplyTemplate">
+                                <i class="bi bi-check-lg me-1"></i>应用模板并导入
+                            </button>
+                            <span class="text-muted small ms-2" id="templateSelectedTip">已选 0 条套餐</span>
                         </div>
-                        <p class="text-muted small mb-3" id="previewSummary"></p>
-                        <button type="button" class="btn btn-primary" id="btnConfirmImport" disabled>
-                            <i class="bi bi-check-lg me-1"></i>确认导入
-                        </button>
+                    </div>
+
+                    <!-- 上传 CSV 文件 -->
+                    <div class="border rounded p-3" id="methodCsv">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="importMethod" id="methodCsvRadio" value="csv">
+                            <label class="form-check-label fw-bold" for="methodCsvRadio">上传 CSV 文件</label>
+                            <span class="text-muted small ms-2">先导出模板，手动填写售价后上传</span>
+                        </div>
+                        <div id="csvOptions" class="d-none">
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-outline-secondary btn-sm me-2" id="btnExportSelected">
+                                    <i class="bi bi-download me-1"></i>导出已选套餐为 CSV 模板
+                                </button>
+                                <span class="text-muted small">导出后填写「售价」「建议零售价」列，再上传。</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">选择 CSV 文件</label>
+                                <input type="file" class="form-control" id="fileInput" accept=".csv,text/csv">
+                            </div>
+                            <div id="previewSection" class="d-none">
+                                <p class="text-muted small mb-2">解析预览（最多显示前 20 条），请核对后点击「确认导入」。</p>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-hover" id="previewTable">
+                                        <thead class="table-light"><tr id="previewThead"></tr></thead>
+                                        <tbody id="previewTbody"></tbody>
+                                    </table>
+                                </div>
+                                <p class="text-muted small mb-3" id="previewSummary"></p>
+                                <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                                    <div class="form-check mb-0">
+                                        <input type="checkbox" class="form-check-input" id="replaceWhenExists">
+                                        <label class="form-check-label" for="replaceWhenExists">存在时替换</label>
+                                    </div>
+                                    <small class="text-muted">勾选后，若该集成商下已有同套餐定价则覆盖更新；不勾选则跳过已存在记录。</small>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="btnConfirmImport" disabled>
+                                    <i class="bi bi-check-lg me-1"></i>确认导入
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -169,14 +268,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         (function () {
-            var CSV_EXPORT_HEADER = '套餐Code,套餐名称,类型,国家/覆盖范围,运营商,供应商报价,售价,建议零售价,状态';
+            var CSV_EXPORT_HEADER = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,流量,供应商报价,售价,建议零售价,状态';
             var PAGE_SIZE = 10;
 
             var catalogData = [
-                { pkg: 'pkg_1001', name: '亚洲 7 天 1GB', type: '区域', region: '亚洲（多国可用）', carrier: '多运营商', quote: '18.00', supplier: 'eSIM 全球供' },
-                { pkg: 'pkg_1002', name: '欧洲 15 天 3GB', type: '区域', region: '欧洲（多国可用）', carrier: 'Vodafone', quote: '45.00', supplier: 'eSIM 全球供' },
-                { pkg: 'pkg_1003', name: '日本 7 天 1GB', type: '国家', region: '日本', carrier: 'NTT Docomo', quote: '22.00', supplier: 'eSIM 全球供' },
-                { pkg: 'pkg_2001', name: '亚洲 7 日 1G 流量', type: '区域', region: '亚洲（多国可用）', carrier: '多运营商', quote: '16.50', supplier: '跨境 eSIM 源' }
+                { pkg: 'pkg_1001', name: '亚洲 7 天 1GB', type: '区域', region: '亚洲（多国可用）', carrier: '多运营商', quote: '18.00', supplier: 'eSIM 全球供', addons: [{ traffic: '1GB', quote: '$3' }, { traffic: '2GB', quote: '$5' }] },
+                { pkg: 'pkg_1002', name: '欧洲 15 天 3GB', type: '区域', region: '欧洲（多国可用）', carrier: 'Vodafone', quote: '45.00', supplier: 'eSIM 全球供', addons: [{ traffic: '1GB', quote: '$4' }, { traffic: '3GB', quote: '$8' }] },
+                { pkg: 'pkg_1003', name: '日本 7 天 1GB', type: '国家', region: '日本', carrier: 'NTT Docomo', quote: '22.00', supplier: 'eSIM 全球供', addons: [{ traffic: '500MB', quote: '$2' }] },
+                { pkg: 'pkg_2001', name: '亚洲 7 日 1G 流量', type: '区域', region: '亚洲（多国可用）', carrier: '多运营商', quote: '16.50', supplier: '跨境 eSIM 源', addons: [] }
             ];
             (function () {
                 var more = [];
@@ -189,7 +288,8 @@
                         region: base.region,
                         carrier: base.carrier,
                         quote: base.quote,
-                        supplier: base.supplier
+                        supplier: base.supplier,
+                        addons: base.addons ? base.addons.slice() : []
                     });
                 }
                 catalogData = catalogData.concat(more);
@@ -198,18 +298,22 @@
             var selectedCodes = new Set();
             var filteredData = [];
             var currentPage = 1;
-            var filterState = { supplier: '', type: '', region: '', name: '' };
+            var filterState = { supplier: '', type: '', region: [], carrier: [], name: '' };
 
             function applyFilter() {
                 filterState.supplier = (document.getElementById('filterSupplier') && document.getElementById('filterSupplier').value) || '';
                 filterState.type = (document.getElementById('filterType') && document.getElementById('filterType').value) || '';
-                filterState.region = (document.getElementById('filterRegion') && document.getElementById('filterRegion').value) || '';
+                var regionEl = document.getElementById('filterRegion');
+                filterState.region = regionEl ? Array.from(regionEl.selectedOptions || []).map(function (o) { return o.value; }) : [];
+                var carrierEl = document.getElementById('filterCarrier');
+                filterState.carrier = carrierEl ? Array.from(carrierEl.selectedOptions || []).map(function (o) { return o.value; }) : [];
                 filterState.name = (document.getElementById('filterName') && document.getElementById('filterName').value) || '';
                 var nameLower = filterState.name.trim().toLowerCase();
                 filteredData = catalogData.filter(function (row) {
                     if (filterState.supplier && row.supplier !== filterState.supplier) return false;
                     if (filterState.type && row.type !== filterState.type) return false;
-                    if (filterState.region && row.region.indexOf(filterState.region) === -1) return false;
+                    if (filterState.region.length > 0 && !filterState.region.some(function (r) { return row.region.indexOf(r) !== -1; })) return false;
+                    if (filterState.carrier.length > 0 && filterState.carrier.indexOf(row.carrier) === -1) return false;
                     if (nameLower && (row.name || '').toLowerCase().indexOf(nameLower) === -1) return false;
                     return true;
                 });
@@ -320,7 +424,8 @@
             document.getElementById('btnResetFilter').addEventListener('click', function () {
                 document.getElementById('filterSupplier').value = '';
                 document.getElementById('filterType').value = '';
-                document.getElementById('filterRegion').value = '';
+                document.querySelectorAll('#filterRegion option').forEach(function (opt) { opt.selected = false; });
+                document.querySelectorAll('#filterCarrier option').forEach(function (opt) { opt.selected = false; });
                 document.getElementById('filterName').value = '';
                 applyFilter();
                 renderTable();
@@ -346,6 +451,75 @@
                 renderPagination();
             });
 
+            // 方式切换逻辑
+            var methodTemplateRadio = document.getElementById('methodTemplateRadio');
+            var methodCsvRadio = document.getElementById('methodCsvRadio');
+            var templateOptions = document.getElementById('templateOptions');
+            var csvOptions = document.getElementById('csvOptions');
+
+            function toggleImportMethod() {
+                if (methodTemplateRadio.checked) {
+                    templateOptions.classList.remove('d-none');
+                    csvOptions.classList.add('d-none');
+                } else {
+                    templateOptions.classList.add('d-none');
+                    csvOptions.classList.remove('d-none');
+                }
+            }
+            methodTemplateRadio.addEventListener('change', toggleImportMethod);
+            methodCsvRadio.addEventListener('change', toggleImportMethod);
+
+            // 更新模板方式的已选数量提示
+            function updateTemplateSelectedTip() {
+                var tip = document.getElementById('templateSelectedTip');
+                if (tip) tip.textContent = '已选 ' + selectedCodes.size + ' 条套餐';
+            }
+
+            // 重写 updateTips 以同时更新模板提示
+            var originalUpdateTips = updateTips;
+            updateTips = function () {
+                originalUpdateTips();
+                updateTemplateSelectedTip();
+            };
+
+            // 应用模板并导入
+            document.getElementById('btnApplyTemplate').addEventListener('click', function () {
+                var integrator = document.getElementById('importIntegrator').value;
+                if (!integrator) {
+                    alert('请先在第二步选择集成商');
+                    return;
+                }
+                if (selectedCodes.size === 0) {
+                    alert('请先在第一步选择套餐');
+                    return;
+                }
+                var priceByRatio = document.getElementById('priceModeRatio').checked;
+                var retailByRatio = document.getElementById('retailModeRatio').checked;
+                var priceVal = priceByRatio ? document.getElementById('priceRatio').value : document.getElementById('priceAmount').value;
+                var retailVal = retailByRatio ? document.getElementById('retailRatio').value : document.getElementById('retailAmount').value;
+                if (priceVal === '' || isNaN(parseFloat(priceVal))) {
+                    alert('请填写售价的' + (priceByRatio ? '比例' : '金额'));
+                    return;
+                }
+                if (retailVal === '' || isNaN(parseFloat(retailVal))) {
+                    alert('请填写建议零售价的' + (retailByRatio ? '比例' : '金额'));
+                    return;
+                }
+                var replaceWhenExists = document.getElementById('replaceWhenExistsTemplate').checked;
+                var integratorName = integrator === 'INT-2025001' ? '环球 eSIM 科技' : integrator === 'INT-2025002' ? '旅行家 eSIM' : '出境游 eSIM 联盟';
+
+                document.querySelector('#methodTemplate').closest('.content-card').classList.add('d-none');
+                var resultSection = document.getElementById('resultSection');
+                resultSection.classList.remove('d-none');
+                document.getElementById('resultContent').innerHTML =
+                    '<p class="text-success"><i class="bi bi-check-circle me-2"></i>模板应用完成（原型演示）</p>' +
+                    '<p>集成商：<strong>' + integratorName + '</strong></p>' +
+                    '<p>售价规则：<strong>' + (priceByRatio ? '报价 + ' + priceVal + '% 利润' : '报价 + $' + priceVal) + '</strong></p>' +
+                    '<p>建议零售价规则：<strong>' + (retailByRatio ? '报价 + ' + retailVal + '% 利润' : '报价 + $' + retailVal) + '</strong></p>' +
+                    '<p>存在时替换：<strong>' + (replaceWhenExists ? '是' : '否（跳过已存在）') + '</strong></p>' +
+                    '<p>成功：<strong>' + selectedCodes.size + '</strong> 条，失败：<strong>0</strong> 条。</p>';
+            });
+
             document.getElementById('btnExportSelected').addEventListener('click', function () {
                 if (selectedCodes.size === 0) {
                     alert('请至少勾选一条套餐');
@@ -354,7 +528,15 @@
                 var rows = [];
                 catalogData.forEach(function (row) {
                     if (!selectedCodes.has(row.pkg)) return;
-                    rows.push([row.pkg, row.name, row.type, row.region, row.carrier, row.quote, '', '', ''].map(escapeCsv).join(','));
+                    var pkgCap = row.name.match(/(\d+(?:\.\d+)?\s*[GMKT]?B)/i);
+                    var pkgCapStr = pkgCap ? pkgCap[1] : '';
+                    rows.push([row.pkg, '套餐', row.name, row.type, row.region, row.carrier, pkgCapStr, row.quote, '', '', ''].map(escapeCsv).join(','));
+                    if (row.addons && row.addons.length > 0) {
+                        row.addons.forEach(function (addon, idx) {
+                            var addonCode = 'rfl_' + row.pkg.replace('pkg_', '') + '_' + (idx + 1);
+                            rows.push([addonCode, '加油包', '', '', '', '', addon.traffic, addon.quote, '', '', ''].map(escapeCsv).join(','));
+                        });
+                    }
                 });
                 var csv = CSV_EXPORT_HEADER + '\n' + rows.join('\n');
                 var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });

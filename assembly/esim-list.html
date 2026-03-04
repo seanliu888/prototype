@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSIM管理 - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">供应商</div>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link active" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-sim me-2"></i>eSIM管理</h1>
+                        <small class="text-muted">按供应商交易号、套餐、状态、订单号等筛选；支持查看合计/可用数量与分页</small>
+                    </div>
+                </div>
+                <div class="content-card">
+                    <div class="filter-section">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">供应商交易号</label>
+                                <input type="text" class="form-control" placeholder="供应商交易号">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">套餐名称</label>
+                                <input type="text" class="form-control" placeholder="套餐名称">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">eSIM 状态</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="ACTIVE">已激活</option>
+                                    <option value="PENDING">待激活</option>
+                                    <option value="EXPIRED">已过期</option>
+                                    <option value="DISABLED">已停用</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">订单号（批次 ID）</label>
+                                <input type="text" class="form-control" placeholder="订单号">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">商户交易号</label>
+                                <input type="text" class="form-control" placeholder="商户交易号">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">ICCID</label>
+                                <input type="text" class="form-control" placeholder="ICCID">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">集成商</label>
+                                <select class="form-select">
+                                    <option value="">全部</option>
+                                    <option value="INT-2025001">环球 eSIM 科技</option>
+                                    <option value="INT-2025002">旅行家 eSIM</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-primary me-2"><i class="bi bi-search me-1"></i>查询</button>
+                                <button class="btn btn-outline-secondary me-2"><i class="bi bi-arrow-clockwise me-1"></i>重置</button>
+                                <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-chevron-double-up me-1"></i>收起筛选</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="text-muted small">
+                            <span class="me-3">合计：<strong id="esimTotal">5</strong></span>
+                            <span>可用：<strong id="esimAvailable">3</strong></span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>集成商</th>
+                                    <th>套餐名称</th>
+                                    <th>订单号</th>
+                                    <th>ICCID</th>
+                                    <th>供应商交易号</th>
+                                    <th>eSIM 状态</th>
+                                    <th>设备</th>
+                                    <th>剩余流量</th>
+                                    <th>剩余时间</th>
+                                    <th>激活时间</th>
+                                    <th>smdp 状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>环球 eSIM 科技</td>
+                                    <td>亚洲 7 天 1GB</td>
+                                    <td><a href="order-detail.html">ORD-20250227001</a></td>
+                                    <td><code>89852342022273174242</code></td>
+                                    <td><code>SUP-TXN-20250225001</code></td>
+                                    <td><span class="badge bg-success">已激活</span></td>
+                                    <td>iPhone 15</td>
+                                    <td>约 820 MB</td>
+                                    <td>5 天</td>
+                                    <td>2025-02-25 10:30</td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174242" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                                <tr>
+                                    <td>环球 eSIM 科技</td>
+                                    <td>欧洲 15 天 3GB</td>
+                                    <td><a href="order-detail.html">ORD-20250227001</a></td>
+                                    <td><code>89852342022273174243</code></td>
+                                    <td><code>SUP-TXN-20250226002</code></td>
+                                    <td><span class="badge bg-success">已激活</span></td>
+                                    <td>—</td>
+                                    <td>约 2.1 GB</td>
+                                    <td>12 天</td>
+                                    <td>2025-02-26 14:20</td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174243" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                                <tr>
+                                    <td>旅行家 eSIM</td>
+                                    <td>日本 7 天 1GB</td>
+                                    <td><a href="order-detail.html">ORD-20250227002</a></td>
+                                    <td><code>89852342022273174244</code></td>
+                                    <td><code>SUP-TXN-20250227003</code></td>
+                                    <td><span class="badge bg-success">已激活</span></td>
+                                    <td>Android</td>
+                                    <td>约 450 MB</td>
+                                    <td>3 天</td>
+                                    <td>2025-02-27 09:15</td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174244" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                                <tr>
+                                    <td>旅行家 eSIM</td>
+                                    <td>亚洲 7 天 1GB</td>
+                                    <td><a href="order-detail.html">ORD-20250228003</a></td>
+                                    <td><code>89852342022273174245</code></td>
+                                    <td><code>SUP-TXN-20250228004</code></td>
+                                    <td><span class="badge bg-secondary">待激活</span></td>
+                                    <td>—</td>
+                                    <td>1 GB</td>
+                                    <td>7 天</td>
+                                    <td>—</td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174245" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                                <tr>
+                                    <td>环球 eSIM 科技</td>
+                                    <td>欧洲 15 天 3GB</td>
+                                    <td><a href="order-detail.html">ORD-20250210001</a></td>
+                                    <td><code>89852342022273174246</code></td>
+                                    <td><code>SUP-TXN-20250210005</code></td>
+                                    <td><span class="badge bg-secondary">已过期</span></td>
+                                    <td>—</td>
+                                    <td>0</td>
+                                    <td>—</td>
+                                    <td>2025-02-10 08:00</td>
+                                    <td><span class="badge bg-success">正常</span></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174246" class="btn btn-sm btn-outline-primary">详情</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted small">
+                            显示第 1 到 5 条（原型演示）
+                        </div>
+                        <div class="text-muted small">
+                            每页
+                            <select class="form-select form-select-sm d-inline-block w-auto">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                            条
+                        </div>
+                        <nav class="ms-2">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

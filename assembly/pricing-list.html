@@ -18,12 +18,14 @@
                 </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
-                    <div class="nav-section-title">业务管理</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
                     <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
-                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
                     <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
@@ -33,12 +35,11 @@
                 <div class="page-header">
                     <div>
                         <h1><i class="bi bi-currency-dollar me-2"></i>集成商定价</h1>
-                        <small class="text-muted">从已同步的供应商套餐中为集成商配置售价、成本价、建议零售价及白名单；支持筛选、编辑、批量调整与全局模板（可选）</small>
+                        <small class="text-muted">从已同步的供应商套餐中为集成商配置售价、成本价、建议零售价；支持筛选与编辑</small>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="pricing-import.html" class="btn btn-outline-primary"><i class="bi bi-upload me-1"></i>批量导入</a>
                         <button class="btn btn-outline-secondary"><i class="bi bi-download me-1"></i>导出</button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyTemplateModal"><i class="bi bi-plus-circle me-1"></i>应用模板</button>
                     </div>
                 </div>
                 <div class="content-card">
@@ -76,19 +77,20 @@
                                 <input type="text" class="form-control" placeholder="套餐名称">
                             </div>
                             <div class="col-md-2">
+                                <label class="form-label">运营商</label>
+                                <select class="form-select" id="filterCarrier">
+                                    <option value="">全部</option>
+                                    <option value="多运营商">多运营商</option>
+                                    <option value="Vodafone">Vodafone</option>
+                                    <option value="NTT Docomo">NTT Docomo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
                                 <label class="form-label">状态</label>
                                 <select class="form-select">
                                     <option value="">全部</option>
                                     <option value="ONSALE">在售</option>
                                     <option value="DISABLED">禁售</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label">数据类型</label>
-                                <select class="form-select">
-                                    <option value="">全部</option>
-                                    <option value="DATA">流量</option>
-                                    <option value="UNLIMITED">不限量</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
@@ -217,96 +219,18 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="mt-4">
                         <div class="text-muted">显示第 1 到 3 条（原型演示）</div>
-                        <button class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square me-1"></i>批量调整</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 应用定价模板弹窗 -->
-    <div class="modal fade" id="applyTemplateModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="bi bi-file-earmark-ruled me-2"></i>应用定价模板</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-muted small mb-3">按比例或按指定额度分别设置售价、建议零售价（基于成本计算），应用到指定集成商后可在列表内继续微调。</p>
-                    <div class="mb-3">
-                        <label class="form-label">供应商</label>
-                        <select class="form-select" id="applyTemplateSupplier">
-                            <option value="">全部供应商</option>
-                            <option value="eSIM 全球供">eSIM 全球供</option>
-                            <option value="跨境 eSIM 源">跨境 eSIM 源</option>
-                        </select>
-                        <small class="text-muted">仅对所选供应商的套餐应用模板；不选则对全部供应商套餐生效。</small>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">售价</label>
-                        <div class="d-flex flex-wrap align-items-center gap-3">
-                            <div class="d-flex align-items-center gap-2">
-                                <input type="radio" name="priceMode" id="priceModeRatio" value="ratio" class="form-check-input" checked>
-                                <label class="form-check-label mb-0" for="priceModeRatio">按比例</label>
-                                <span>成本 ×</span>
-                                <input type="number" class="form-control form-control-sm" id="priceRatio" placeholder="130" step="0.01" min="0" style="width: 5rem;"> %
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <input type="radio" name="priceMode" id="priceModeAmount" value="amount" class="form-check-input">
-                                <label class="form-check-label mb-0" for="priceModeAmount">按指定额度</label>
-                                <span>成本 +</span>
-                                <input type="number" class="form-control form-control-sm" id="priceAmount" placeholder="0" step="0.01" style="width: 5rem;"> 元
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">建议零售价</label>
-                        <div class="d-flex flex-wrap align-items-center gap-3">
-                            <div class="d-flex align-items-center gap-2">
-                                <input type="radio" name="retailMode" id="retailModeRatio" value="ratio" class="form-check-input" checked>
-                                <label class="form-check-label mb-0" for="retailModeRatio">按比例</label>
-                                <span>成本 ×</span>
-                                <input type="number" class="form-control form-control-sm" id="retailRatio" placeholder="150" step="0.01" min="0" style="width: 5rem;"> %
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <input type="radio" name="retailMode" id="retailModeAmount" value="amount" class="form-check-input">
-                                <label class="form-check-label mb-0" for="retailModeAmount">按指定额度</label>
-                                <span>成本 +</span>
-                                <input type="number" class="form-control form-control-sm" id="retailAmount" placeholder="0" step="0.01" style="width: 5rem;"> 元
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">目标集成商 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="applyTemplateIntegrator">
-                            <option value="">请选择集成商</option>
-                            <option value="INT-2025001">环球 eSIM 科技</option>
-                            <option value="INT-2025002">旅行家 eSIM</option>
-                            <option value="INT-2025003">出境游 eSIM 联盟</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="applyTemplateReplace">
-                            <label class="form-check-label" for="applyTemplateReplace">存在时替换</label>
-                        </div>
-                        <small class="text-muted">勾选后，该集成商下已有定价的套餐将按模板规则覆盖；不勾选则仅对未配置的套餐应用模板。</small>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" id="btnApplyTemplateConfirm"><i class="bi bi-check-lg me-1"></i>应用</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- 编辑定价弹窗：仅可修改售价、建议零售价 -->
     <div class="modal fade" id="pricingEditModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">编辑定价</h5>
@@ -333,6 +257,30 @@
                     <div class="mb-3">
                         <label class="form-label">建议零售价 <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="editRetail" step="0.01" min="0" required>
+                    </div>
+                    <hr class="my-3">
+                    <div class="mb-3">
+                        <label class="form-label">加油包</label>
+                        <p class="text-muted small mb-2">该套餐专属的流量加油包，可设置集成商售价；与套餐主定价一并保存。更多档位可在详情页编辑。</p>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>流量</th>
+                                        <th>供应商报价</th>
+                                        <th>集成商售价</th>
+                                        <th>建议零售价</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="editAddonTbody">
+                                    <tr><td>100MB</td><td>—</td><td><input type="text" class="form-control form-control-sm" placeholder="可选"></td><td><input type="text" class="form-control form-control-sm" placeholder="可选"></td><td><select class="form-select form-select-sm"><option value="onsale">在售</option><option value="disabled">禁售</option></select></td></tr>
+                                    <tr><td>300MB</td><td>—</td><td><input type="text" class="form-control form-control-sm" placeholder="可选"></td><td><input type="text" class="form-control form-control-sm" placeholder="可选"></td><td><select class="form-select form-select-sm"><option value="onsale">在售</option><option value="disabled">禁售</option></select></td></tr>
+                                    <tr><td>1GB</td><td>$3</td><td><input type="text" class="form-control form-control-sm" placeholder="如 $4.50" value="$4.50"></td><td><input type="text" class="form-control form-control-sm" placeholder="如 $6" value="$6"></td><td><select class="form-select form-select-sm"><option value="onsale" selected>在售</option><option value="disabled">禁售</option></select></td></tr>
+                                    <tr><td>2GB</td><td>$5</td><td><input type="text" class="form-control form-control-sm" placeholder="如 $7" value="$7"></td><td><input type="text" class="form-control form-control-sm" placeholder="如 $9" value="$9"></td><td><select class="form-select form-select-sm"><option value="onsale" selected>在售</option><option value="disabled">禁售</option></select></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -364,7 +312,7 @@
             var retail = document.getElementById('editRetail').value;
             if (!price || !retail) { alert('请填写售价和建议零售价'); return; }
             bootstrap.Modal.getInstance(document.getElementById('pricingEditModal')).hide();
-            alert('已保存（原型演示）');
+            alert('已保存（含套餐定价与加油包售价，原型演示）');
         }
         function pricingEditFromRow(el, integrator, plan, cost, price, retail) {
             document.getElementById('editIntegrator').value = integrator || '';
@@ -404,22 +352,6 @@
             var row = btn.closest('tr');
             if (row) row.remove();
         }
-        document.getElementById('btnApplyTemplateConfirm').addEventListener('click', function () {
-            var integratorId = document.getElementById('applyTemplateIntegrator').value;
-            if (!integratorId) { alert('请选择目标集成商'); return; }
-            var priceByRatio = document.getElementById('priceModeRatio').checked;
-            var retailByRatio = document.getElementById('retailModeRatio').checked;
-            var priceVal = priceByRatio ? document.getElementById('priceRatio').value : document.getElementById('priceAmount').value;
-            var retailVal = retailByRatio ? document.getElementById('retailRatio').value : document.getElementById('retailAmount').value;
-            if (priceVal === '' || isNaN(parseFloat(priceVal))) { alert('请填写售价的' + (priceByRatio ? '比例' : '额度')); return; }
-            if (retailVal === '' || isNaN(parseFloat(retailVal))) { alert('请填写建议零售价的' + (retailByRatio ? '比例' : '额度')); return; }
-            var replace = document.getElementById('applyTemplateReplace').checked;
-            var supplierEl = document.getElementById('applyTemplateSupplier');
-            var supplierText = supplierEl && supplierEl.selectedOptions && supplierEl.selectedOptions[0] ? supplierEl.selectedOptions[0].text : '全部供应商';
-            var msg = '售价：' + (priceByRatio ? '成本 × ' + priceVal + '%' : '成本 + ' + priceVal + ' 元') + '\n建议零售价：' + (retailByRatio ? '成本 × ' + retailVal + '%' : '成本 + ' + retailVal + ' 元') + '\n供应商：' + supplierText + '\n集成商：' + document.getElementById('applyTemplateIntegrator').selectedOptions[0].text + '\n存在时替换：' + (replace ? '是' : '否');
-            bootstrap.Modal.getInstance(document.getElementById('applyTemplateModal')).hide();
-            alert('模板已应用（原型演示）。\n' + msg + '\n\n实际接入时请调用后端接口执行应用逻辑。');
-        });
 
         function pricingToggleStatus(btn) {
             var row = btn.closest('tr');

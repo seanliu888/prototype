@@ -18,12 +18,14 @@
                 </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
-                    <div class="nav-section-title">业务管理</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
                     <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
-                    <a class="nav-link active" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link active" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
                     <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
@@ -35,7 +37,7 @@
                         <h1><i class="bi bi-receipt me-2"></i>订单详情</h1>
                         <small class="text-muted">订单号：ORD-20250227001 · 便于客诉与对账</small>
                     </div>
-                    <a href="order-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>返回列表</a>
+                    <a href="order-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>返回套餐订单</a>
                 </div>
                 <div class="content-card mb-4">
                     <h6 class="mb-3">订单信息</h6>
@@ -48,46 +50,71 @@
                 </div>
                 <div class="content-card">
                     <h6 class="mb-3">关联 eSIM 列表及状态</h6>
+                    <p class="text-muted small mb-2">每张 eSIM 的套餐与流量使用情况。</p>
                     <div class="table-responsive">
                         <table class="table table-sm table-hover">
                             <thead class="table-light">
                                 <tr>
-                                    <th>eSIM 标识</th>
+                                    <th>ICCID</th>
                                     <th>套餐</th>
+                                    <th>套餐流量</th>
+                                    <th>已用流量</th>
+                                    <th>剩余流量</th>
                                     <th>状态</th>
                                     <th>激活码/二维码</th>
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>ESIM-001</td>
+                                    <td><code>89852342022273174242</code></td>
                                     <td>亚洲 7 天 1GB</td>
+                                    <td>1GB</td>
+                                    <td>320 MB</td>
+                                    <td>696 MB</td>
                                     <td><span class="badge bg-success">已激活</span></td>
                                     <td><code>*** *** *** 1</code> <small class="text-muted">（脱敏）</small></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174242" class="btn btn-sm btn-outline-primary">详情</a></td>
                                 </tr>
                                 <tr>
-                                    <td>ESIM-002</td>
+                                    <td><code>89852342022273174243</code></td>
                                     <td>亚洲 7 天 1GB</td>
+                                    <td>1GB</td>
+                                    <td>128 MB</td>
+                                    <td>896 MB</td>
                                     <td><span class="badge bg-success">已激活</span></td>
                                     <td><code>*** *** *** 2</code></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174243" class="btn btn-sm btn-outline-primary">详情</a></td>
                                 </tr>
                                 <tr>
-                                    <td>ESIM-003</td>
+                                    <td><code>89852342022273174244</code></td>
                                     <td>欧洲 15 天 3GB</td>
+                                    <td>3GB</td>
+                                    <td>1.2 GB</td>
+                                    <td>1.8 GB</td>
                                     <td><span class="badge bg-success">已激活</span></td>
                                     <td><code>*** *** *** 3</code></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174244" class="btn btn-sm btn-outline-primary">详情</a></td>
                                 </tr>
                                 <tr>
-                                    <td>ESIM-004</td>
+                                    <td><code>89852342022273174245</code></td>
                                     <td>亚洲 7 天 1GB</td>
+                                    <td>1GB</td>
+                                    <td>0 MB</td>
+                                    <td>1 GB</td>
                                     <td><span class="badge bg-success">已激活</span></td>
                                     <td><code>*** *** *** 4</code></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174245" class="btn btn-sm btn-outline-primary">详情</a></td>
                                 </tr>
                                 <tr>
-                                    <td>ESIM-005</td>
+                                    <td><code>89852342022273174246</code></td>
                                     <td>欧洲 15 天 3GB</td>
+                                    <td>3GB</td>
+                                    <td>2.1 GB</td>
+                                    <td>900 MB</td>
                                     <td><span class="badge bg-success">已激活</span></td>
                                     <td><code>*** *** *** 5</code></td>
+                                    <td><a href="esim-detail.html?iccid=89852342022273174246" class="btn btn-sm btn-outline-primary">详情</a></td>
                                 </tr>
                             </tbody>
                         </table>

@@ -18,12 +18,14 @@
                 </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
-                    <div class="nav-section-title">业务管理</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
                     <a class="nav-link active" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
-                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
                     <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
@@ -51,6 +53,33 @@
                     <div class="info-row"><span class="info-label">报价</span><span class="info-value">¥ 18.00</span></div>
                     <div class="info-row"><span class="info-label">最后同步时间</span><span class="info-value">2025-02-28 09:00</span></div>
                     <div class="info-row"><span class="info-label">状态</span><span class="info-value"><span class="badge bg-success">有效</span></span></div>
+                </div>
+                <div class="content-card mt-4">
+                    <h5 class="mb-3">加油包</h5>
+                    <p class="text-muted small mb-3">该套餐可选的流量加油包及供应商报价（由供应商 API 同步，只读）。</p>
+                    <div class="table-responsive" style="max-width: 640px;">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>加油包Code</th>
+                                    <th>供应商套餐ID</th>
+                                    <th>流量</th>
+                                    <th>报价</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>rfl_1001_1</code></td><td><code>RFL-AS-100M</code></td><td>100MB</td><td>—</td></tr>
+                                <tr><td><code>rfl_1001_2</code></td><td><code>RFL-AS-300M</code></td><td>300MB</td><td>—</td></tr>
+                                <tr><td><code>rfl_1001_3</code></td><td><code>RFL-AS-500M</code></td><td>500MB</td><td>—</td></tr>
+                                <tr><td><code>rfl_1001_4</code></td><td><code>RFL-AS-800M</code></td><td>800MB</td><td>—</td></tr>
+                                <tr><td><code>rfl_1001_5</code></td><td><code>RFL-AS-1G</code></td><td>1GB</td><td>$3</td></tr>
+                                <tr><td><code>rfl_1001_6</code></td><td><code>RFL-AS-2G</code></td><td>2GB</td><td>$5</td></tr>
+                                <tr><td><code>rfl_1001_7</code></td><td><code>RFL-AS-3G</code></td><td>3GB</td><td>—</td></tr>
+                                <tr><td><code>rfl_1001_8</code></td><td><code>RFL-AS-4G</code></td><td>4GB</td><td>—</td></tr>
+                                <tr><td><code>rfl_1001_9</code></td><td><code>RFL-AS-5G</code></td><td>5GB</td><td>—</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

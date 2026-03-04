@@ -18,12 +18,14 @@
                 </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
-                    <div class="nav-section-title">业务管理</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
                     <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
-                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link active" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
                     <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
@@ -33,7 +35,7 @@
                 <div class="page-header">
                     <div>
                         <h1><i class="bi bi-wallet2 me-2"></i>财务与结算 · 交易记录</h1>
-                        <small class="text-muted">按集成商、交易类型、时间、交易 ID 筛选；集成商端暂不支持自主充值，可由管理员在此进行充值或人工调账（补偿/扣减），兼容后续账户总览与账单对账</small>
+                        <small class="text-muted">按集成商、交易类型、时间、交易 ID 筛选；集成商端暂不支持自主充值，可由管理员在此进行充值或人工调账（扣减），兼容后续账户总览与账单对账</small>
                     </div>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adjustModal">
                         <i class="bi bi-wallet2 me-1"></i>充值 / 调账
@@ -148,7 +150,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">集成商端暂不支持自主充值，管理员可在此为指定集成商充值或进行补偿/扣减调账；交易将记录在下方列表中。</p>
+                    <p class="text-muted small mb-3">集成商端暂不支持自主充值，管理员可在此为指定集成商充值或进行扣减调账；交易将记录在下方列表中。</p>
                     <div class="mb-3">
                         <label class="form-label">集成商 <span class="text-danger">*</span></label>
                         <select class="form-select" id="adjustIntegrator">
@@ -162,10 +164,9 @@
                         <label class="form-label">操作类型 <span class="text-danger">*</span></label>
                         <select class="form-select" id="adjustType">
                             <option value="RECHARGE">充值</option>
-                            <option value="COMPENSATE">补偿</option>
                             <option value="DEDUCT">扣减</option>
                         </select>
-                        <small class="text-muted">充值：为账户增加余额（如对公转账、线下汇款到账后操作）；补偿/扣减：活动补偿、纠错等调账。</small>
+                        <small class="text-muted">充值：为账户增加余额（如对公转账、线下汇款到账后操作）；扣减：纠错等调账。</small>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">金额 <span class="text-danger">*</span></label>
@@ -173,7 +174,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">备注</label>
-                        <textarea class="form-control" id="adjustRemark" rows="2" placeholder="如：对公转账充值、活动补偿、扣减原因等"></textarea>
+                        <textarea class="form-control" id="adjustRemark" rows="2" placeholder="如：对公转账充值、扣减原因等"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -194,7 +195,7 @@
                 var remark = document.getElementById('adjustRemark').value;
                 if (!integrator) { alert('请选择集成商'); return; }
                 if (!amount || parseFloat(amount) <= 0) { alert('请输入有效金额'); return; }
-                var typeText = type === 'RECHARGE' ? '充值' : type === 'COMPENSATE' ? '补偿' : '扣减';
+                var typeText = type === 'RECHARGE' ? '充值' : '扣减';
                 var integratorText = document.getElementById('adjustIntegrator').selectedOptions[0].text;
                 bootstrap.Modal.getInstance(modal).hide();
                 alert('已提交（原型演示）。\n集成商：' + integratorText + '\n操作：' + typeText + '\n金额：' + amount + '\n备注：' + (remark || '—') + '\n实际接入时写入交易记录并更新账户余额。');

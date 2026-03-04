@@ -18,12 +18,14 @@
                 </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
-                    <div class="nav-section-title">业务管理</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
                     <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
-                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>订单与用量</a>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
                     <a class="nav-link active" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
@@ -35,11 +37,28 @@
                         <h1><i class="bi bi-key-fill me-2"></i>开发者与 API</h1>
                         <small class="text-muted">密钥与回调监管；支持强制重置密钥、临时禁用 API；API 版本与文档入口</small>
                     </div>
-                    <a href="#" class="btn btn-outline-primary" target="_blank"><i class="bi bi-book me-1"></i>API 版本与文档</a>
+                    <a href="api-docs.html" class="btn btn-outline-primary"><i class="bi bi-book me-1"></i>API 版本与文档</a>
                 </div>
                 <div class="content-card mb-4">
                     <h5 class="mb-3">密钥与 Webhooks 监管</h5>
                     <p class="text-muted small">管理员可查看（脱敏）各集成商的 API 密钥状态、Webhooks 配置；风控或客诉场景下可「强制重置密钥」或「临时禁用 API」。</p>
+                    <div class="filter-section mb-3">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-3">
+                                <label class="form-label">集成商</label>
+                                <select class="form-select form-select-sm" id="filterIntegrator">
+                                    <option value="">全部</option>
+                                    <option value="环球 eSIM 科技">环球 eSIM 科技</option>
+                                    <option value="旅行家 eSIM">旅行家 eSIM</option>
+                                    <option value="出境游 eSIM 联盟">出境游 eSIM 联盟</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary btn-sm" id="btnApiFilterSearch"><i class="bi bi-search me-1"></i>查询</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnApiFilterReset">重置</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
@@ -52,8 +71,8 @@
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody id="apiKeyTableBody">
+                                <tr data-integrator="环球 eSIM 科技">
                                     <td>环球 eSIM 科技</td>
                                     <td>
                                         <code class="api-key-display">ac_live_************8f2a</code>
@@ -75,7 +94,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-integrator="旅行家 eSIM">
                                     <td>旅行家 eSIM</td>
                                     <td>
                                         <code class="api-key-display">ac_live_************1b3c</code>
@@ -94,6 +113,28 @@
                                         <div class="btn-group btn-group-sm">
                                             <button class="btn btn-outline-warning">重置密钥</button>
                                             <button class="btn btn-outline-danger">禁用 API</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-integrator="出境游 eSIM 联盟">
+                                    <td>出境游 eSIM 联盟</td>
+                                    <td>
+                                        <code class="api-key-display">ac_live_************9d4e</code>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="复制 AccessCode" onclick="copyApiKey(this, 'ac_live_xxxxxxxxxxxxxxxx9d4e')"><i class="bi bi-clipboard"></i></button>
+                                    </td>
+                                    <td>
+                                        <code class="api-key-display">sk_live_************7890</code>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="复制 SecretKey" onclick="copyApiKey(this, 'sk_live_xxxxxxxxxxxxxxxx7890')"><i class="bi bi-clipboard"></i></button>
+                                    </td>
+                                    <td>
+                                        <span class="webhook-url">https://outbound-esim.com/notify</span> <span class="badge bg-success">正常</span>
+                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="编辑 Webhook" data-bs-toggle="modal" data-bs-target="#webhookEditModal" data-integrator="出境游 eSIM 联盟" data-webhook="https://outbound-esim.com/notify"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                    <td><span class="badge bg-secondary">已禁用</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-warning">重置密钥</button>
+                                            <button class="btn btn-outline-success">启用 API</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -196,6 +237,28 @@
             } catch (e) {}
             document.body.removeChild(ta);
         }
+        (function () {
+            var filterIntegrator = document.getElementById('filterIntegrator');
+            var btnSearch = document.getElementById('btnApiFilterSearch');
+            var btnReset = document.getElementById('btnApiFilterReset');
+            var tbody = document.getElementById('apiKeyTableBody');
+            if (!filterIntegrator || !tbody) return;
+            function applyFilter() {
+                var val = (filterIntegrator.value || '').trim();
+                var rows = tbody.querySelectorAll('tr[data-integrator]');
+                rows.forEach(function (tr) {
+                    var show = !val || tr.getAttribute('data-integrator') === val;
+                    tr.style.display = show ? '' : 'none';
+                });
+            }
+            if (btnSearch) btnSearch.addEventListener('click', applyFilter);
+            if (btnReset) {
+                btnReset.addEventListener('click', function () {
+                    filterIntegrator.value = '';
+                    applyFilter();
+                });
+            }
+        })();
     </script>
 </body>
 </html>
