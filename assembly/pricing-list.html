@@ -39,7 +39,15 @@
                     </div>
                     <div class="d-flex gap-2">
                         <a href="pricing-import.html" class="btn btn-outline-primary"><i class="bi bi-upload me-1"></i>批量导入</a>
-                        <button class="btn btn-outline-secondary"><i class="bi bi-download me-1"></i>导出</button>
+                        <div class="dropdown d-inline-block">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-download me-1"></i>导出
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#" id="btnExportIntegrator"><i class="bi bi-file-earmark-spreadsheet me-2"></i>集成商报价明细</a></li>
+                                <li><a class="dropdown-item" href="#" id="btnExportInternal"><i class="bi bi-file-earmark-text me-2"></i>内部定价明细</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="content-card">
@@ -227,6 +235,33 @@
         </div>
     </div>
 
+    <!-- 导出集成商报价弹窗 -->
+    <div class="modal fade" id="exportIntegratorModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">导出集成商报价明细</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">导出面向集成商的报价明细，不含成本、导入时间、状态，仅导出在售产品。</p>
+                    <div class="mb-3">
+                        <label class="form-label">选择集成商 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="exportIntegratorSelect" required>
+                            <option value="">请选择集成商</option>
+                            <option value="环球 eSIM 科技">环球 eSIM 科技</option>
+                            <option value="旅行家 eSIM">旅行家 eSIM</option>
+                            <option value="出境游 eSIM 联盟">出境游 eSIM 联盟</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="btnExportIntegratorConfirm"><i class="bi bi-download me-1"></i>导出</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 编辑定价弹窗：仅可修改售价、建议零售价 -->
     <div class="modal fade" id="pricingEditModal" tabindex="-1">
@@ -383,6 +418,127 @@
                 alert('已设为在售（原型演示）');
             }
         }
+
+        // 模拟加油包数据（与套餐关联）
+        var addonDataMap = {
+            'pkg_1001': [
+                { code: 'rfl_1001_1', traffic: '100MB', supplierQuote: '3.00', price: '5.00', retail: '8.00', status: 'onsale' },
+                { code: 'rfl_1001_2', traffic: '500MB', supplierQuote: '12.00', price: '18.00', retail: '25.00', status: 'onsale' }
+            ],
+            'pkg_1002': [
+                { code: 'rfl_1002_1', traffic: '200MB', supplierQuote: '5.00', price: '8.00', retail: '12.00', status: 'onsale' },
+                { code: 'rfl_1002_2', traffic: '1GB', supplierQuote: '18.00', price: '25.00', retail: '35.00', status: 'disabled' }
+            ],
+            'pkg_1003': [
+                { code: 'rfl_1003_1', traffic: '100MB', supplierQuote: '4.00', price: '6.00', retail: '9.00', status: 'onsale' }
+            ],
+            'pkg_2001': [
+                { code: 'rfl_2001_1', traffic: '100MB', supplierQuote: '3.50', price: '5.50', retail: '8.00', status: 'disabled' }
+            ]
+        };
+
+        // CSV 转义函数
+        function csvEscape(v) {
+            if (v == null) v = '';
+            v = String(v);
+            if (/[",\r\n]/.test(v)) return '"' + v.replace(/"/g, '""') + '"';
+            return v;
+        }
+
+        // 下载 CSV 文件
+        function downloadCsv(csvContent, filename) {
+            var blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        // 导出集成商报价明细（面向集成商）
+        var exportIntegratorModal = new bootstrap.Modal(document.getElementById('exportIntegratorModal'));
+        document.getElementById('btnExportIntegrator').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('exportIntegratorSelect').value = '';
+            exportIntegratorModal.show();
+        });
+
+        document.getElementById('btnExportIntegratorConfirm').addEventListener('click', function () {
+            var selectedIntegrator = document.getElementById('exportIntegratorSelect').value;
+            if (!selectedIntegrator) {
+                alert('请选择集成商');
+                return;
+            }
+            var rows = document.querySelectorAll('table tbody tr');
+            // 表头：产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 售价, 建议零售价
+            var csvHeader = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,售价,建议零售价';
+            var csvRows = [csvHeader];
+            rows.forEach(function (row) {
+                var integrator = row.getAttribute('data-integrator') || '';
+                var status = row.getAttribute('data-status');
+                // 仅导出指定集成商且在售的套餐
+                if (integrator !== selectedIntegrator || status !== 'onsale') return;
+                var pkgCode = row.getAttribute('data-catalog-pkg') || '';
+                var name = row.getAttribute('data-catalog-name') || '';
+                var type = row.getAttribute('data-catalog-type') || '';
+                var region = row.getAttribute('data-catalog-region') || '';
+                var carrier = row.getAttribute('data-catalog-carrier') || '';
+                var price = row.getAttribute('data-price') || '';
+                var retail = row.getAttribute('data-retail') || '';
+                // 套餐行
+                csvRows.push([pkgCode, '套餐', name, type, region, carrier, price, retail].map(csvEscape).join(','));
+                // 加油包行（仅在售）
+                var addons = addonDataMap[pkgCode] || [];
+                addons.forEach(function (addon) {
+                    if (addon.status !== 'onsale') return;
+                    csvRows.push([addon.code, '加油包', addon.traffic, '', '', '', addon.price, addon.retail].map(csvEscape).join(','));
+                });
+            });
+            if (csvRows.length <= 1) {
+                alert('该集成商没有在售的定价数据');
+                return;
+            }
+            var csv = csvRows.join('\n');
+            downloadCsv(csv, selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
+            exportIntegratorModal.hide();
+        });
+
+        // 导出内部定价明细（面向内部人员）
+        document.getElementById('btnExportInternal').addEventListener('click', function (e) {
+            e.preventDefault();
+            var rows = document.querySelectorAll('table tbody tr');
+            if (rows.length === 0) {
+                alert('没有可导出的数据');
+                return;
+            }
+            // 表头：集成商, 产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 供应商报价, 售价, 建议零售价, 导入时间, 状态
+            var csvHeader = '集成商,产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,供应商报价,售价,建议零售价,导入时间,状态';
+            var csvRows = [csvHeader];
+            rows.forEach(function (row) {
+                if (row.style.display === 'none') return;
+                var integrator = row.getAttribute('data-integrator') || '';
+                var pkgCode = row.getAttribute('data-catalog-pkg') || '';
+                var name = row.getAttribute('data-catalog-name') || '';
+                var type = row.getAttribute('data-catalog-type') || '';
+                var region = row.getAttribute('data-catalog-region') || '';
+                var carrier = row.getAttribute('data-catalog-carrier') || '';
+                var supplierQuote = row.getAttribute('data-catalog-quote') || '';
+                var price = row.getAttribute('data-price') || '';
+                var retail = row.getAttribute('data-retail') || '';
+                var importTime = row.getAttribute('data-import-time') || '';
+                var status = row.getAttribute('data-status') === 'onsale' ? '在售' : '禁售';
+                // 套餐行
+                csvRows.push([integrator, pkgCode, '套餐', name, type, region, carrier, supplierQuote, price, retail, importTime, status].map(csvEscape).join(','));
+                // 加油包行（包含在售和禁售）
+                var addons = addonDataMap[pkgCode] || [];
+                addons.forEach(function (addon) {
+                    var addonStatus = addon.status === 'onsale' ? '在售' : '禁售';
+                    csvRows.push([integrator, addon.code, '加油包', addon.traffic, '', '', '', addon.supplierQuote || '', addon.price, addon.retail, importTime, addonStatus].map(csvEscape).join(','));
+                });
+            });
+            var csv = csvRows.join('\n');
+            downloadCsv(csv, '内部定价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
+        });
     </script>
 </body>
 </html>

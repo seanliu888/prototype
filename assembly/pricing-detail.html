@@ -74,10 +74,11 @@
                     <div class="mb-3">
                         <span class="text-muted small">每个套餐可配置自己的加油包售价</span>
                     </div>
-                    <div class="table-responsive" style="max-width: 640px;">
+                    <div class="table-responsive" style="max-width: 760px;">
                         <table class="table table-sm table-hover align-middle" id="addonTable">
                             <thead class="table-light">
                                 <tr>
+                                    <th>Code</th>
                                     <th>流量</th>
                                     <th>供应商报价</th>
                                     <th>集成商售价</th>
@@ -156,15 +157,15 @@
             document.getElementById('pdStatus').innerHTML = row.status === 'onsale' ? '<span class="badge bg-success">在售</span>' : row.status === 'disabled' ? '<span class="badge bg-secondary">禁售</span>' : '—';
 
             var addonRows = [
-                { traffic: '100MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'onsale' },
-                { traffic: '300MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'onsale' },
-                { traffic: '500MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
-                { traffic: '800MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
-                { traffic: '1GB', supplierQuote: '$3', integratorPrice: '$4.50', retail: '$6', status: 'onsale' },
-                { traffic: '2GB', supplierQuote: '$5', integratorPrice: '$7', retail: '$9', status: 'onsale' },
-                { traffic: '3GB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
-                { traffic: '4GB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
-                { traffic: '5GB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' }
+                { code: 'rfl_1001_1', traffic: '100MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'onsale' },
+                { code: 'rfl_1001_2', traffic: '300MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'onsale' },
+                { code: 'rfl_1001_3', traffic: '500MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
+                { code: 'rfl_1001_4', traffic: '800MB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
+                { code: 'rfl_1001_5', traffic: '1GB', supplierQuote: '$3', integratorPrice: '$4.50', retail: '$6', status: 'onsale' },
+                { code: 'rfl_1001_6', traffic: '2GB', supplierQuote: '$5', integratorPrice: '$7', retail: '$9', status: 'onsale' },
+                { code: 'rfl_1001_7', traffic: '3GB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
+                { code: 'rfl_1001_8', traffic: '4GB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' },
+                { code: 'rfl_1001_9', traffic: '5GB', supplierQuote: '', integratorPrice: '', retail: '', status: 'disabled' }
             ];
             function parseDollar(s) {
                 if (!s || typeof s !== 'string') return NaN;
@@ -195,7 +196,7 @@
                     var integratorDisplay = formatAddonIntegratorDisplay(r.integratorPrice, r.supplierQuote);
                     var retailDisplay = r.retail || '—';
                     var statusBadge = r.status === 'onsale' ? '<span class="badge bg-success">在售</span>' : '<span class="badge bg-secondary">禁售</span>';
-                    tr.innerHTML = '<td>' + r.traffic + '</td><td>' + (r.supplierQuote || '—') + '</td><td class="addon-price-cell">' + integratorDisplay + '</td><td>' + retailDisplay + '</td><td>' + statusBadge + '</td>';
+                    tr.innerHTML = '<td><code>' + r.code + '</code></td><td>' + r.traffic + '</td><td>' + (r.supplierQuote || '—') + '</td><td class="addon-price-cell">' + integratorDisplay + '</td><td>' + retailDisplay + '</td><td>' + statusBadge + '</td>';
                     tbody.appendChild(tr);
                 });
             }
