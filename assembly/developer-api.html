@@ -67,12 +67,13 @@
                                     <th>AccessCode</th>
                                     <th>SecretKey</th>
                                     <th>Webhooks</th>
+                                    <th>IP 白名单</th>
                                     <th>API 状态</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody id="apiKeyTableBody">
-                                <tr data-integrator="环球 eSIM 科技">
+                                <tr data-integrator="环球 eSIM 科技" data-webhook="https://api.global-esim.com/webhook" data-ip-whitelist="203.0.113.10,203.0.113.11">
                                     <td>环球 eSIM 科技</td>
                                     <td>
                                         <code class="api-key-display">ac_live_************8f2a</code>
@@ -84,17 +85,20 @@
                                     </td>
                                     <td>
                                         <span class="webhook-url">https://api.global-esim.com/webhook</span> <span class="badge bg-success">正常</span>
-                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="编辑 Webhook" data-bs-toggle="modal" data-bs-target="#webhookEditModal" data-integrator="环球 eSIM 科技" data-webhook="https://api.global-esim.com/webhook"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                    <td>
+                                        <span class="ip-whitelist-display">203.0.113.10, 203.0.113.11</span>
                                     </td>
                                     <td><span class="badge bg-success">启用</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary btn-edit-config" title="编辑配置"><i class="bi bi-pencil me-1"></i>编辑</button>
                                             <button class="btn btn-outline-warning" title="重置密钥">重置密钥</button>
                                             <button class="btn btn-outline-danger" title="禁用 API">禁用 API</button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-integrator="旅行家 eSIM">
+                                <tr data-integrator="旅行家 eSIM" data-webhook="" data-ip-whitelist="">
                                     <td>旅行家 eSIM</td>
                                     <td>
                                         <code class="api-key-display">ac_live_************1b3c</code>
@@ -106,17 +110,20 @@
                                     </td>
                                     <td>
                                         <span class="webhook-url">未配置</span>
-                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="编辑 Webhook" data-bs-toggle="modal" data-bs-target="#webhookEditModal" data-integrator="旅行家 eSIM" data-webhook=""><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                    <td>
+                                        <span class="ip-whitelist-display text-muted">未配置</span>
                                     </td>
                                     <td><span class="badge bg-success">启用</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary btn-edit-config" title="编辑配置"><i class="bi bi-pencil me-1"></i>编辑</button>
                                             <button class="btn btn-outline-warning">重置密钥</button>
                                             <button class="btn btn-outline-danger">禁用 API</button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-integrator="出境游 eSIM 联盟">
+                                <tr data-integrator="出境游 eSIM 联盟" data-webhook="https://outbound-esim.com/notify" data-ip-whitelist="198.51.100.5">
                                     <td>出境游 eSIM 联盟</td>
                                     <td>
                                         <code class="api-key-display">ac_live_************9d4e</code>
@@ -128,11 +135,14 @@
                                     </td>
                                     <td>
                                         <span class="webhook-url">https://outbound-esim.com/notify</span> <span class="badge bg-success">正常</span>
-                                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" title="编辑 Webhook" data-bs-toggle="modal" data-bs-target="#webhookEditModal" data-integrator="出境游 eSIM 联盟" data-webhook="https://outbound-esim.com/notify"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                    <td>
+                                        <span class="ip-whitelist-display">198.51.100.5</span>
                                     </td>
                                     <td><span class="badge bg-secondary">已禁用</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary btn-edit-config" title="编辑配置"><i class="bi bi-pencil me-1"></i>编辑</button>
                                             <button class="btn btn-outline-warning">重置密钥</button>
                                             <button class="btn btn-outline-success">启用 API</button>
                                         </div>
@@ -146,27 +156,32 @@
         </div>
     </div>
 
-    <div class="modal fade" id="webhookEditModal" tabindex="-1">
+    <div class="modal fade" id="configEditModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">编辑 Webhook</h5>
+                    <h5 class="modal-title">编辑 Webhook 与 IP 白名单</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">集成商</label>
-                        <input type="text" class="form-control" id="webhookEditIntegrator" readonly>
+                        <input type="text" class="form-control" id="configEditIntegrator" readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Webhook 地址</label>
-                        <input type="url" class="form-control" id="webhookEditUrl" placeholder="https://">
+                        <input type="url" class="form-control" id="configEditWebhook" placeholder="https://">
                         <small class="text-muted">留空表示未配置，保存后将移除该集成商的 Webhook。</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">IP 白名单</label>
+                        <textarea class="form-control" id="configEditIpWhitelist" rows="3" placeholder="每行一个 IP 地址，如：&#10;203.0.113.10&#10;203.0.113.11"></textarea>
+                        <small class="text-muted">留空表示不限制 IP；配置后仅允许白名单内的 IP 调用 API。</small>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" id="webhookEditSave">保存</button>
+                    <button type="button" class="btn btn-primary" id="configEditSave">保存</button>
                 </div>
             </div>
         </div>
@@ -174,44 +189,74 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        var webhookEditModal = document.getElementById('webhookEditModal');
-        if (webhookEditModal) {
-            webhookEditModal.addEventListener('show.bs.modal', function (e) {
-                var btn = e.relatedTarget;
-                if (!btn) return;
-                document.getElementById('webhookEditIntegrator').value = btn.getAttribute('data-integrator') || '';
-                document.getElementById('webhookEditUrl').value = btn.getAttribute('data-webhook') || '';
-                document.getElementById('webhookEditUrl').setAttribute('data-source-btn', ''); // store ref via row
-                var row = btn.closest('tr');
-                if (row) document.getElementById('webhookEditUrl').setAttribute('data-source-row', row.rowIndex);
+        var configEditModalEl = document.getElementById('configEditModal');
+        var configEditModal = new bootstrap.Modal(configEditModalEl);
+        var currentEditRow = null;
+
+        // 点击编辑按钮打开弹窗
+        document.querySelectorAll('.btn-edit-config').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var row = this.closest('tr');
+                if (!row) return;
+                currentEditRow = row;
+                var integrator = row.getAttribute('data-integrator') || '';
+                var webhook = row.getAttribute('data-webhook') || '';
+                var ipWhitelist = row.getAttribute('data-ip-whitelist') || '';
+                document.getElementById('configEditIntegrator').value = integrator;
+                document.getElementById('configEditWebhook').value = webhook;
+                document.getElementById('configEditIpWhitelist').value = ipWhitelist.split(',').filter(function (s) { return s.trim(); }).join('\n');
+                configEditModal.show();
             });
-        }
-        document.getElementById('webhookEditSave').addEventListener('click', function () {
-            var url = document.getElementById('webhookEditUrl').value.trim();
-            var integrator = document.getElementById('webhookEditIntegrator').value;
-            var rowIndex = parseInt(document.getElementById('webhookEditUrl').getAttribute('data-source-row'), 10);
-            bootstrap.Modal.getInstance(document.getElementById('webhookEditModal')).hide();
-            var tbody = document.querySelector('.content-card table tbody');
-            var row = tbody && !isNaN(rowIndex) ? tbody.rows[rowIndex] : null;
-            if (row) {
-                var cell = row.cells[3];
-                var span = cell.querySelector('.webhook-url');
-                var btn = cell.querySelector('[data-bs-toggle="modal"]');
-                if (span) span.textContent = url || '未配置';
-                if (btn) btn.setAttribute('data-webhook', url);
-                var badge = cell.querySelector('.badge');
-                if (badge) {
-                    badge.textContent = url ? '正常' : '';
-                    badge.className = 'badge ' + (url ? 'bg-success' : '');
-                    if (!url) badge.remove();
-                } else if (url) {
-                    var b = document.createElement('span');
-                    b.className = 'badge bg-success';
-                    b.textContent = '正常';
-                    cell.insertBefore(b, cell.querySelector('button'));
+        });
+
+        // 保存配置
+        document.getElementById('configEditSave').addEventListener('click', function () {
+            var webhook = document.getElementById('configEditWebhook').value.trim();
+            var ipWhitelistText = document.getElementById('configEditIpWhitelist').value.trim();
+            var ipWhitelistArr = ipWhitelistText.split(/[\n,]+/).map(function (s) { return s.trim(); }).filter(function (s) { return s; });
+            var ipWhitelist = ipWhitelistArr.join(',');
+            var integrator = document.getElementById('configEditIntegrator').value;
+
+            configEditModal.hide();
+
+            if (currentEditRow) {
+                // 更新 data 属性
+                currentEditRow.setAttribute('data-webhook', webhook);
+                currentEditRow.setAttribute('data-ip-whitelist', ipWhitelist);
+
+                // 更新 Webhook 显示（第4列，索引3）
+                var webhookCell = currentEditRow.cells[3];
+                var webhookSpan = webhookCell.querySelector('.webhook-url');
+                if (webhookSpan) webhookSpan.textContent = webhook || '未配置';
+                var webhookBadge = webhookCell.querySelector('.badge');
+                if (webhook) {
+                    if (!webhookBadge) {
+                        webhookBadge = document.createElement('span');
+                        webhookBadge.className = 'badge bg-success';
+                        webhookCell.appendChild(document.createTextNode(' '));
+                        webhookCell.appendChild(webhookBadge);
+                    }
+                    webhookBadge.textContent = '正常';
+                    webhookBadge.className = 'badge bg-success';
+                } else if (webhookBadge) {
+                    webhookBadge.remove();
+                }
+
+                // 更新 IP 白名单显示（第5列，索引4）
+                var ipCell = currentEditRow.cells[4];
+                var ipSpan = ipCell.querySelector('.ip-whitelist-display');
+                if (ipSpan) {
+                    if (ipWhitelistArr.length > 0) {
+                        ipSpan.textContent = ipWhitelistArr.join(', ');
+                        ipSpan.classList.remove('text-muted');
+                    } else {
+                        ipSpan.textContent = '未配置';
+                        ipSpan.classList.add('text-muted');
+                    }
                 }
             }
-            alert('已保存（原型演示）。\n集成商：' + integrator + '\nWebhook：' + (url || '未配置'));
+
+            alert('已保存（原型演示）。\n集成商：' + integrator + '\nWebhook：' + (webhook || '未配置') + '\nIP 白名单：' + (ipWhitelistArr.length > 0 ? ipWhitelistArr.join(', ') : '未配置'));
         });
         function copyApiKey(btn, value) {
             if (!value) return;

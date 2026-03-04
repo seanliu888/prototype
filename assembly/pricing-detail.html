@@ -78,7 +78,7 @@
                         <table class="table table-sm table-hover align-middle" id="addonTable">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Code</th>
+                                    <th>加油包Code</th>
                                     <th>流量</th>
                                     <th>供应商报价</th>
                                     <th>集成商售价</th>
@@ -146,13 +146,13 @@
             document.getElementById('pdCap').textContent = c.cap || '—';
             document.getElementById('pdSpeed').innerHTML = c.speed ? (c.speed.indexOf('5G') !== -1 ? '<span class="badge bg-primary">5G</span> ' + c.speed : '<span class="badge bg-secondary">4G</span> ' + c.speed) : '—';
             document.getElementById('pdValidity').textContent = c.validity || '—';
-            document.getElementById('pdQuote').textContent = c.quote ? '¥ ' + c.quote : '—';
+            document.getElementById('pdQuote').textContent = c.quote ? '$ ' + c.quote : '—';
             document.getElementById('pdSync').textContent = c.sync || '—';
             document.getElementById('pdCatalogStatus').innerHTML = c.catalogStatus === '有效' ? '<span class="badge bg-success">有效</span>' : (c.catalogStatus || '—');
             document.getElementById('pdIntegrator').textContent = row.integrator || '—';
-            document.getElementById('pdCost').textContent = row.cost ? '¥ ' + row.cost : '—';
-            document.getElementById('pdPrice').textContent = row.price ? '¥ ' + row.price : '—';
-            document.getElementById('pdRetail').textContent = row.retail ? '¥ ' + row.retail : '—';
+            document.getElementById('pdCost').textContent = row.cost ? '$ ' + row.cost : '—';
+            document.getElementById('pdPrice').textContent = row.price ? '$ ' + row.price : '—';
+            document.getElementById('pdRetail').textContent = row.retail ? '$ ' + row.retail : '—';
             document.getElementById('pdImportTime').textContent = row.importTime || '—';
             document.getElementById('pdStatus').innerHTML = row.status === 'onsale' ? '<span class="badge bg-success">在售</span>' : row.status === 'disabled' ? '<span class="badge bg-secondary">禁售</span>' : '—';
 

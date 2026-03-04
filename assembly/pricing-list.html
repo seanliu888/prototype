@@ -134,9 +134,9 @@
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
-                                    <td>¥ 18.00</td>
-                                    <td>¥ 28.00 <small class="text-success">(+10.00)</small></td>
-                                    <td>¥ 35.00</td>
+                                    <td>$ 18.00</td>
+                                    <td>$ 28.00 <small class="text-success">(+10.00)</small></td>
+                                    <td>$ 35.00</td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -158,9 +158,9 @@
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>欧洲（多国）</td>
                                     <td>Vodafone</td>
-                                    <td>¥ 45.00</td>
-                                    <td>¥ 68.00 <small class="text-success">(+23.00)</small></td>
-                                    <td>¥ 88.00</td>
+                                    <td>$ 45.00</td>
+                                    <td>$ 68.00 <small class="text-success">(+23.00)</small></td>
+                                    <td>$ 88.00</td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -182,9 +182,9 @@
                                     <td><span class="badge bg-secondary">国家</span></td>
                                     <td>日本</td>
                                     <td>NTT Docomo</td>
-                                    <td>¥ 22.00</td>
-                                    <td>¥ 32.00 <small class="text-success">(+10.00)</small></td>
-                                    <td>¥ 42.00</td>
+                                    <td>$ 22.00</td>
+                                    <td>$ 32.00 <small class="text-success">(+10.00)</small></td>
+                                    <td>$ 42.00</td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -207,8 +207,8 @@
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
                                     <td>—</td>
-                                    <td>¥ 30.00</td>
-                                    <td>¥ 38.00</td>
+                                    <td>$ 30.00</td>
+                                    <td>$ 38.00</td>
                                     <td>2025-02-01 14:20</td>
                                     <td><span class="badge bg-secondary pricing-status-badge">禁售</span></td>
                                     <td>
@@ -337,7 +337,7 @@
                 document.getElementById('editIntegrator').value = btn.getAttribute('data-integrator') || '';
                 document.getElementById('editPlan').value = btn.getAttribute('data-plan') || '';
                 var cost = btn.getAttribute('data-cost');
-                document.getElementById('editCost').value = cost ? '¥ ' + cost : '—';
+                document.getElementById('editCost').value = cost ? '$ ' + cost : '—';
                 document.getElementById('editPrice').value = btn.getAttribute('data-price') || '';
                 document.getElementById('editRetail').value = btn.getAttribute('data-retail') || '';
             });
@@ -352,7 +352,7 @@
         function pricingEditFromRow(el, integrator, plan, cost, price, retail) {
             document.getElementById('editIntegrator').value = integrator || '';
             document.getElementById('editPlan').value = plan || '';
-            document.getElementById('editCost').value = cost ? '¥ ' + cost : '—';
+            document.getElementById('editCost').value = cost ? '$ ' + cost : '—';
             document.getElementById('editPrice').value = price || '';
             document.getElementById('editRetail').value = retail || '';
             bootstrap.Modal.getOrCreateInstance(document.getElementById('pricingEditModal')).show();
