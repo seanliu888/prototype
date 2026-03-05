@@ -200,6 +200,9 @@
                     <i class="bi bi-chevron-right" id="webhooks-folder-icon"></i>
                 </div>
                 <div class="nav-collapse" id="webhooks-folder">
+                    <a href="#webhook-order-status" class="doc-nav-item" data-section="webhook-order-status">
+                        <span class="method-badge method-post">POST</span>Order Status
+                    </a>
                     <a href="#webhook-profile-status" class="doc-nav-item" data-section="webhook-profile-status">
                         <span class="method-badge method-post">POST</span>Profile Status
                     </a>
@@ -216,7 +219,7 @@
                     <p>欢迎使用 eSIM Partner API。本文档提供了完整的 API 接口说明，帮助您快速集成 eSIM 服务。</p>
                     <h2>Base URL</h2>
                     <div class="endpoint-box">
-                        <code class="endpoint-url">https://api.esim-platform.com/v1</code>
+                        <code class="endpoint-url">https://api.esim-platform.com/api/v1/open</code>
                     </div>
                     <h2>认证方式</h2>
                     <p>所有 API 请求需要在 Header 中携带以下认证信息：</p>
@@ -588,6 +591,52 @@
         "countries": ["DE", "FR", "IT", "ES", "GB"]
       }
     ]
+  }
+}</pre>
+                </section>
+
+                <section id="webhook-order-status">
+                    <h1>Webhook: Order Status</h1>
+                    <p>当订单状态发生变化时，系统会向您配置的 Webhook 地址发送通知。适用于异步订购场景，当供应商处理完成后通知订单状态更新。</p>
+                    <h2>Event Types</h2>
+                    <table class="table table-bordered param-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>事件类型</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="param-name">order.delivered</span></td>
+                                <td>订单已发货（供应商异步处理 eSIM 订购成功）</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">order.failed</span></td>
+                                <td>订单处理失败</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">order.cancelled</span></td>
+                                <td>订单已取消</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Payload Example</h2>
+<pre class="code-block">{
+  "event": "order.delivered",
+  "timestamp": 1709020800000,
+  "data": {
+    "orderNo": "ORD-20250227001",
+    "merchantOrderNo": "M-20250227-001",
+    "status": "DELIVERED",
+    "profiles": [
+      {
+        "iccid": "89852342022273174242",
+        "activationCode": "LPA:1$smdp.example.com$...",
+        "qrCode": "data:image/png;base64,..."
+      }
+    ],
+    "deliveredAt": "2025-02-27T10:35:00Z"
   }
 }</pre>
                 </section>
