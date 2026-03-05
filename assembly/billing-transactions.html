@@ -37,9 +37,14 @@
                         <h1><i class="bi bi-wallet2 me-2"></i>财务与结算 · 交易记录</h1>
                         <small class="text-muted">按集成商、交易类型、时间、交易 ID 筛选；集成商端暂不支持自主充值，可由管理员在此进行充值或人工调账（扣减），兼容后续账户总览与账单对账</small>
                     </div>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adjustModal">
-                        <i class="bi bi-wallet2 me-1"></i>充值 / 调账
-                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary" id="btnExport">
+                            <i class="bi bi-download me-1"></i>导出明细
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adjustModal">
+                            <i class="bi bi-wallet2 me-1"></i>充值 / 调账
+                        </button>
+                    </div>
                 </div>
                 <div class="content-card">
                     <div class="filter-section">
@@ -128,7 +133,7 @@
                         </table>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-4">
-                        <div class="text-muted">显示第 1 到 3 条（原型演示）；后续支持分页、导出 CSV/Excel</div>
+                        <div class="text-muted">显示第 1 到 3 条（原型演示）</div>
                         <nav>
                             <ul class="pagination mb-0">
                                 <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
@@ -199,6 +204,41 @@
                 var integratorText = document.getElementById('adjustIntegrator').selectedOptions[0].text;
                 bootstrap.Modal.getInstance(modal).hide();
                 alert('已提交（原型演示）。\n集成商：' + integratorText + '\n操作：' + typeText + '\n金额：' + amount + '\n备注：' + (remark || '—') + '\n实际接入时写入交易记录并更新账户余额。');
+            });
+
+            // 导出明细功能
+            document.getElementById('btnExport').addEventListener('click', function () {
+                var rows = document.querySelectorAll('table tbody tr');
+                if (rows.length === 0) {
+                    alert('没有可导出的数据');
+                    return;
+                }
+                var csvHeader = '交易ID,集成商,金额,类型,余额快照,时间,备注';
+                var csvRows = [csvHeader];
+                rows.forEach(function (row) {
+                    if (row.style.display === 'none') return;
+                    var cells = row.querySelectorAll('td');
+                    var txnId = cells[0] ? cells[0].textContent.trim() : '';
+                    var integrator = cells[1] ? cells[1].textContent.trim() : '';
+                    var amount = cells[2] ? cells[2].textContent.trim().replace(/\s+/g, ' ') : '';
+                    var type = cells[3] ? cells[3].textContent.trim() : '';
+                    var balance = cells[4] ? cells[4].textContent.trim() : '';
+                    var time = cells[5] ? cells[5].textContent.trim() : '';
+                    var remark = cells[6] ? cells[6].textContent.trim() : '';
+                    csvRows.push([txnId, integrator, amount, type, balance, time, remark].map(function (v) {
+                        if (v == null) v = '';
+                        v = String(v);
+                        if (/[",\r\n]/.test(v)) return '"' + v.replace(/"/g, '""') + '"';
+                        return v;
+                    }).join(','));
+                });
+                var csv = csvRows.join('\n');
+                var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = '交易记录_' + new Date().toISOString().slice(0, 10) + '.csv';
+                a.click();
+                URL.revokeObjectURL(a.href);
             });
         })();
     </script>

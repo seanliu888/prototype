@@ -119,10 +119,11 @@
                                     <th>类型</th>
                                     <th>国家/覆盖范围</th>
                                     <th>运营商</th>
+                                    <th>币种</th>
                                     <th>成本 <i class="bi bi-question-circle text-muted small" style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="对集成商不可见"></i></th>
-                                    <th>售价</th>
+                                    <th>售价（浮动）</th>
                                     <th>建议零售价</th>
-                                    <th>导入时间</th>
+                                    <th>时间</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
@@ -134,6 +135,7 @@
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
+                                    <td>USD</td>
                                     <td>$ 18.00</td>
                                     <td>$ 28.00 <small class="text-success">(+10.00)</small></td>
                                     <td>$ 35.00</td>
@@ -158,6 +160,7 @@
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>欧洲（多国）</td>
                                     <td>Vodafone</td>
+                                    <td>USD</td>
                                     <td>$ 45.00</td>
                                     <td>$ 68.00 <small class="text-success">(+23.00)</small></td>
                                     <td>$ 88.00</td>
@@ -182,6 +185,7 @@
                                     <td><span class="badge bg-secondary">国家</span></td>
                                     <td>日本</td>
                                     <td>NTT Docomo</td>
+                                    <td>USD</td>
                                     <td>$ 22.00</td>
                                     <td>$ 32.00 <small class="text-success">(+10.00)</small></td>
                                     <td>$ 42.00</td>
@@ -206,6 +210,7 @@
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
+                                    <td>USD</td>
                                     <td>—</td>
                                     <td>$ 30.00</td>
                                     <td>$ 38.00</td>
@@ -244,7 +249,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">导出面向集成商的报价明细，不含成本、导入时间、状态，仅导出在售产品。</p>
+                    <p class="text-muted small mb-3">导出面向集成商的报价明细，不含成本、时间、状态，仅导出在售产品。</p>
                     <div class="mb-3">
                         <label class="form-label">选择集成商 <span class="text-danger">*</span></label>
                         <select class="form-select" id="exportIntegratorSelect" required>
@@ -253,6 +258,18 @@
                             <option value="旅行家 eSIM">旅行家 eSIM</option>
                             <option value="出境游 eSIM 联盟">出境游 eSIM 联盟</option>
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">导出方式</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exportIntegratorMode" id="exportModeLocal" value="local" checked>
+                            <label class="form-check-label" for="exportModeLocal">导出到本地</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exportIntegratorMode" id="exportModeSend" value="send">
+                            <label class="form-check-label" for="exportModeSend">发送给集成商</label>
+                            <small class="text-muted d-block ms-4">将报价明细以邮件形式发送至集成商联系人邮箱</small>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -457,11 +474,33 @@
 
         // 导出集成商报价明细（面向集成商）
         var exportIntegratorModal = new bootstrap.Modal(document.getElementById('exportIntegratorModal'));
+        var btnExportIntegratorConfirm = document.getElementById('btnExportIntegratorConfirm');
+
+        // 切换导出方式时更新按钮文字
+        document.querySelectorAll('input[name="exportIntegratorMode"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                if (this.value === 'send') {
+                    btnExportIntegratorConfirm.innerHTML = '<i class="bi bi-send me-1"></i>发送';
+                } else {
+                    btnExportIntegratorConfirm.innerHTML = '<i class="bi bi-download me-1"></i>导出';
+                }
+            });
+        });
+
         document.getElementById('btnExportIntegrator').addEventListener('click', function (e) {
             e.preventDefault();
             document.getElementById('exportIntegratorSelect').value = '';
+            document.getElementById('exportModeLocal').checked = true;
+            btnExportIntegratorConfirm.innerHTML = '<i class="bi bi-download me-1"></i>导出';
             exportIntegratorModal.show();
         });
+
+        // 集成商邮箱映射（模拟数据）
+        var integratorEmailMap = {
+            '环球 eSIM 科技': 'zhang@global-esim.com',
+            '旅行家 eSIM': 'li@travel-esim.com',
+            '出境游 eSIM 联盟': 'wang@outbound-esim.com'
+        };
 
         document.getElementById('btnExportIntegratorConfirm').addEventListener('click', function () {
             var selectedIntegrator = document.getElementById('exportIntegratorSelect').value;
@@ -469,6 +508,7 @@
                 alert('请选择集成商');
                 return;
             }
+            var exportMode = document.querySelector('input[name="exportIntegratorMode"]:checked').value;
             var rows = document.querySelectorAll('table tbody tr');
             // 表头：产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 售价, 建议零售价
             var csvHeader = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,售价,建议零售价';
@@ -499,8 +539,15 @@
                 return;
             }
             var csv = csvRows.join('\n');
-            downloadCsv(csv, selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
-            exportIntegratorModal.hide();
+
+            if (exportMode === 'send') {
+                var email = integratorEmailMap[selectedIntegrator] || '';
+                exportIntegratorModal.hide();
+                alert('已发送报价明细至集成商联系人邮箱（原型演示）\n\n集成商：' + selectedIntegrator + '\n收件人：' + email + '\n附件：' + selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
+            } else {
+                downloadCsv(csv, selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
+                exportIntegratorModal.hide();
+            }
         });
 
         // 导出内部定价明细（面向内部人员）

@@ -41,7 +41,22 @@
                 </div>
 
                 <div class="content-card mb-4">
-                    <h5 class="mb-3">第一步：选择套餐</h5>
+                    <h5 class="mb-3">第一步：选择集成商</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">导入目标集成商 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="importIntegrator" required>
+                                <option value="">请选择集成商</option>
+                                <option value="INT-2025001">环球 eSIM 科技</option>
+                                <option value="INT-2025002">旅行家 eSIM</option>
+                                <option value="INT-2025003">出境游 eSIM 联盟</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card mb-4">
+                    <h5 class="mb-3">第二步：选择套餐</h5>
                     <p class="text-muted small mb-3">先用筛选缩小范围，再通过「全选当前结果」或逐页「全选本页」勾选套餐。套餐较多时建议按供应商/类型/地区筛选后批量选择。</p>
                     <div class="filter-section mb-3">
                         <div class="row g-2">
@@ -124,23 +139,8 @@
                 </div>
 
                 <div class="content-card mb-4">
-                    <h5 class="mb-3">第二步：选择集成商</h5>
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label">导入目标集成商 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="importIntegrator" required>
-                                <option value="">请选择集成商</option>
-                                <option value="INT-2025001">环球 eSIM 科技</option>
-                                <option value="INT-2025002">旅行家 eSIM</option>
-                                <option value="INT-2025003">出境游 eSIM 联盟</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-card mb-4">
                     <h5 class="mb-3">第三步：设置定价</h5>
-                    <p class="text-muted small mb-3">选择以下任一方式为第一步选中的套餐设置定价。</p>
+                    <p class="text-muted small mb-3">选择以下任一方式为第二步选中的套餐设置定价。</p>
 
                     <!-- 应用定价模板 -->
                     <div class="border rounded p-3 mb-3" id="methodTemplate">

@@ -53,6 +53,7 @@
                     <div class="info-row"><span class="info-label">流量规格</span><span class="info-value" id="pdCap">—</span></div>
                     <div class="info-row"><span class="info-label">速度</span><span class="info-value" id="pdSpeed">—</span></div>
                     <div class="info-row"><span class="info-label">有效期</span><span class="info-value" id="pdValidity">—</span></div>
+                    <div class="info-row"><span class="info-label">币种</span><span class="info-value" id="pdCurrency">—</span></div>
                     <div class="info-row"><span class="info-label">报价</span><span class="info-value" id="pdQuote">—</span></div>
                     <div class="info-row"><span class="info-label">最后同步时间</span><span class="info-value" id="pdSync">—</span></div>
                     <div class="info-row"><span class="info-label">状态</span><span class="info-value" id="pdCatalogStatus">—</span></div>
@@ -146,6 +147,7 @@
             document.getElementById('pdCap').textContent = c.cap || '—';
             document.getElementById('pdSpeed').innerHTML = c.speed ? (c.speed.indexOf('5G') !== -1 ? '<span class="badge bg-primary">5G</span> ' + c.speed : '<span class="badge bg-secondary">4G</span> ' + c.speed) : '—';
             document.getElementById('pdValidity').textContent = c.validity || '—';
+            document.getElementById('pdCurrency').textContent = 'USD';
             document.getElementById('pdQuote').textContent = c.quote ? '$ ' + c.quote : '—';
             document.getElementById('pdSync').textContent = c.sync || '—';
             document.getElementById('pdCatalogStatus').innerHTML = c.catalogStatus === '有效' ? '<span class="badge bg-success">有效</span>' : (c.catalogStatus || '—');

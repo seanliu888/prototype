@@ -444,43 +444,50 @@
 
                 <section id="balance-query">
                     <h1>Balance Query</h1>
-                    <p>查询指定 Profile 的流量余额。</p>
+                    <p>查询集成商账户可用余额，用于确认下单前的账户资金是否充足。</p>
                     <div class="endpoint-box">
                         <span class="endpoint-method method-post">POST</span>
-                        <code class="endpoint-url">/profiles/balance</code>
+                        <code class="endpoint-url">/account/balance</code>
                     </div>
                     <h2>Request Parameters</h2>
-                    <table class="table table-bordered param-table">
-                        <thead class="table-light">
-                            <tr>
-                                <th>参数</th>
-                                <th>类型</th>
-                                <th>必填</th>
-                                <th>说明</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="param-name">iccid</span></td>
-                                <td><span class="param-type">string</span></td>
-                                <td><span class="param-required">是</span></td>
-                                <td>Profile ICCID</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <p class="text-muted small">无需额外参数，系统根据请求头中的 AccessCode 识别集成商身份。</p>
                     <h2>Response Example</h2>
 <pre class="code-block">{
   "code": 0,
   "message": "success",
   "data": {
-    "iccid": "89852342022273174242",
-    "totalData": "1GB",
-    "usedData": "320MB",
-    "remainingData": "704MB",
-    "remainingDays": 5,
-    "status": "ACTIVE"
+    "currency": "USD",
+    "balance": 125680.00,
+    "creditLimit": 50000.00
   }
 }</pre>
+                    <h2>Response Fields</h2>
+                    <table class="table table-bordered param-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>字段</th>
+                                <th>类型</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="param-name">currency</span></td>
+                                <td><span class="param-type">string</span></td>
+                                <td>币种</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">balance</span></td>
+                                <td><span class="param-type">number</span></td>
+                                <td>可用余额</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">creditLimit</span></td>
+                                <td><span class="param-type">number</span></td>
+                                <td>信用额度</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
 
                 <section id="top-up">
