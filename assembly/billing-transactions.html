@@ -94,6 +94,7 @@
                                 <tr>
                                     <th>交易 ID</th>
                                     <th>集成商</th>
+                                    <th>币种</th>
                                     <th>金额</th>
                                     <th>类型</th>
                                     <th>余额快照</th>
@@ -105,6 +106,7 @@
                                 <tr>
                                     <td><code>TXN-202502280001</code></td>
                                     <td>环球 eSIM 科技</td>
+                                    <td>USD</td>
                                     <td class="text-success">+ $ 50,000.00</td>
                                     <td><span class="badge bg-success">充值</span></td>
                                     <td>125,680.00</td>
@@ -114,6 +116,7 @@
                                 <tr>
                                     <td><code>TXN-202502270012</code></td>
                                     <td>环球 eSIM 科技</td>
+                                    <td>USD</td>
                                     <td class="text-danger">- $ 1,320.00</td>
                                     <td><span class="badge bg-primary">消费</span></td>
                                     <td>75,680.00</td>
@@ -123,6 +126,7 @@
                                 <tr>
                                     <td><code>TXN-202502250003</code></td>
                                     <td>环球 eSIM 科技</td>
+                                    <td>USD</td>
                                     <td class="text-info">+ $ 500.00</td>
                                     <td><span class="badge bg-info">调账</span></td>
                                     <td>76,980.00</td>
@@ -213,19 +217,20 @@
                     alert('没有可导出的数据');
                     return;
                 }
-                var csvHeader = '交易ID,集成商,金额,类型,余额快照,时间,备注';
+                var csvHeader = '交易ID,集成商,币种,金额,类型,余额快照,时间,备注';
                 var csvRows = [csvHeader];
                 rows.forEach(function (row) {
                     if (row.style.display === 'none') return;
                     var cells = row.querySelectorAll('td');
                     var txnId = cells[0] ? cells[0].textContent.trim() : '';
                     var integrator = cells[1] ? cells[1].textContent.trim() : '';
-                    var amount = cells[2] ? cells[2].textContent.trim().replace(/\s+/g, ' ') : '';
-                    var type = cells[3] ? cells[3].textContent.trim() : '';
-                    var balance = cells[4] ? cells[4].textContent.trim() : '';
-                    var time = cells[5] ? cells[5].textContent.trim() : '';
-                    var remark = cells[6] ? cells[6].textContent.trim() : '';
-                    csvRows.push([txnId, integrator, amount, type, balance, time, remark].map(function (v) {
+                    var currency = cells[2] ? cells[2].textContent.trim() : '';
+                    var amount = cells[3] ? cells[3].textContent.trim().replace(/\s+/g, ' ') : '';
+                    var type = cells[4] ? cells[4].textContent.trim() : '';
+                    var balance = cells[5] ? cells[5].textContent.trim() : '';
+                    var time = cells[6] ? cells[6].textContent.trim() : '';
+                    var remark = cells[7] ? cells[7].textContent.trim() : '';
+                    csvRows.push([txnId, integrator, currency, amount, type, balance, time, remark].map(function (v) {
                         if (v == null) v = '';
                         v = String(v);
                         if (/[",\r\n]/.test(v)) return '"' + v.replace(/"/g, '""') + '"';

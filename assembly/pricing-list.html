@@ -242,7 +242,7 @@
 
     <!-- 导出集成商报价弹窗 -->
     <div class="modal fade" id="exportIntegratorModal" tabindex="-1">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">导出集成商报价明细</h5>
@@ -268,8 +268,12 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="exportIntegratorMode" id="exportModeSend" value="send">
                             <label class="form-check-label" for="exportModeSend">发送给集成商</label>
-                            <small class="text-muted d-block ms-4">将报价明细以邮件形式发送至集成商联系人邮箱</small>
                         </div>
+                    </div>
+                    <div class="mb-3" id="sendEmailGroup" style="display: none;">
+                        <label class="form-label">收件邮箱</label>
+                        <input type="email" class="form-control" id="exportSendEmail" placeholder="留空使用注册邮箱">
+                        <small class="text-muted">默认邮箱：<span id="exportDefaultEmail">—</span>；如需发送到其他邮箱可在此覆盖。</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -487,20 +491,47 @@
             });
         });
 
-        document.getElementById('btnExportIntegrator').addEventListener('click', function (e) {
-            e.preventDefault();
-            document.getElementById('exportIntegratorSelect').value = '';
-            document.getElementById('exportModeLocal').checked = true;
-            btnExportIntegratorConfirm.innerHTML = '<i class="bi bi-download me-1"></i>导出';
-            exportIntegratorModal.show();
-        });
-
         // 集成商邮箱映射（模拟数据）
         var integratorEmailMap = {
             '环球 eSIM 科技': 'zhang@global-esim.com',
             '旅行家 eSIM': 'li@travel-esim.com',
             '出境游 eSIM 联盟': 'wang@outbound-esim.com'
         };
+
+        var sendEmailGroup = document.getElementById('sendEmailGroup');
+        var exportDefaultEmail = document.getElementById('exportDefaultEmail');
+        var exportSendEmail = document.getElementById('exportSendEmail');
+
+        // 切换导出方式时显示/隐藏邮箱输入框
+        document.querySelectorAll('input[name="exportIntegratorMode"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                if (this.value === 'send') {
+                    btnExportIntegratorConfirm.innerHTML = '<i class="bi bi-send me-1"></i>发送';
+                    sendEmailGroup.style.display = 'block';
+                } else {
+                    btnExportIntegratorConfirm.innerHTML = '<i class="bi bi-download me-1"></i>导出';
+                    sendEmailGroup.style.display = 'none';
+                }
+            });
+        });
+
+        // 选择集成商时更新默认邮箱显示
+        document.getElementById('exportIntegratorSelect').addEventListener('change', function () {
+            var selectedIntegrator = this.value;
+            var defaultEmail = integratorEmailMap[selectedIntegrator] || '—';
+            exportDefaultEmail.textContent = defaultEmail;
+        });
+
+        document.getElementById('btnExportIntegrator').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('exportIntegratorSelect').value = '';
+            document.getElementById('exportModeLocal').checked = true;
+            exportSendEmail.value = '';
+            exportDefaultEmail.textContent = '—';
+            sendEmailGroup.style.display = 'none';
+            btnExportIntegratorConfirm.innerHTML = '<i class="bi bi-download me-1"></i>导出';
+            exportIntegratorModal.show();
+        });
 
         document.getElementById('btnExportIntegratorConfirm').addEventListener('click', function () {
             var selectedIntegrator = document.getElementById('exportIntegratorSelect').value;
@@ -541,9 +572,15 @@
             var csv = csvRows.join('\n');
 
             if (exportMode === 'send') {
-                var email = integratorEmailMap[selectedIntegrator] || '';
+                var defaultEmail = integratorEmailMap[selectedIntegrator] || '';
+                var customEmail = exportSendEmail.value.trim();
+                var targetEmail = customEmail || defaultEmail;
+                if (!targetEmail) {
+                    alert('请输入收件邮箱');
+                    return;
+                }
                 exportIntegratorModal.hide();
-                alert('已发送报价明细至集成商联系人邮箱（原型演示）\n\n集成商：' + selectedIntegrator + '\n收件人：' + email + '\n附件：' + selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
+                alert('已发送报价明细（原型演示）\n\n集成商：' + selectedIntegrator + '\n收件人：' + targetEmail + '\n附件：' + selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
             } else {
                 downloadCsv(csv, selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
                 exportIntegratorModal.hide();

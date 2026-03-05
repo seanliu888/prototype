@@ -93,6 +93,7 @@
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <button class="btn btn-outline-primary btn-edit-config" title="编辑配置"><i class="bi bi-pencil me-1"></i>编辑</button>
+                                            <button class="btn btn-outline-info btn-send-keys" title="发送密钥" data-email="zhang@global-esim.com"><i class="bi bi-send me-1"></i>发送</button>
                                             <button class="btn btn-outline-warning" title="重置密钥">重置密钥</button>
                                             <button class="btn btn-outline-danger" title="禁用 API">禁用 API</button>
                                         </div>
@@ -118,6 +119,7 @@
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <button class="btn btn-outline-primary btn-edit-config" title="编辑配置"><i class="bi bi-pencil me-1"></i>编辑</button>
+                                            <button class="btn btn-outline-info btn-send-keys" title="发送密钥" data-email="li@travel-esim.com"><i class="bi bi-send me-1"></i>发送</button>
                                             <button class="btn btn-outline-warning">重置密钥</button>
                                             <button class="btn btn-outline-danger">禁用 API</button>
                                         </div>
@@ -143,6 +145,7 @@
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <button class="btn btn-outline-primary btn-edit-config" title="编辑配置"><i class="bi bi-pencil me-1"></i>编辑</button>
+                                            <button class="btn btn-outline-info btn-send-keys" title="发送密钥" data-email="wang@outbound-esim.com"><i class="bi bi-send me-1"></i>发送</button>
                                             <button class="btn btn-outline-warning">重置密钥</button>
                                             <button class="btn btn-outline-success">启用 API</button>
                                         </div>
@@ -182,6 +185,34 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" id="configEditSave">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发送密钥弹窗 -->
+    <div class="modal fade" id="sendKeysModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">发送 API 密钥</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">将集成商的 AccessCode 和 SecretKey 通过邮件发送给指定收件人。</p>
+                    <div class="mb-3">
+                        <label class="form-label">集成商</label>
+                        <input type="text" class="form-control" id="sendKeysIntegrator" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">收件邮箱 <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="sendKeysEmail" placeholder="留空使用默认邮箱">
+                        <small class="text-muted">默认邮箱：<span id="sendKeysDefaultEmail">—</span>；如需发送到其他邮箱可在此覆盖。</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="sendKeysConfirm"><i class="bi bi-send me-1"></i>发送</button>
                 </div>
             </div>
         </div>
@@ -258,6 +289,39 @@
 
             alert('已保存（原型演示）。\n集成商：' + integrator + '\nWebhook：' + (webhook || '未配置') + '\nIP 白名单：' + (ipWhitelistArr.length > 0 ? ipWhitelistArr.join(', ') : '未配置'));
         });
+
+        // 发送密钥功能
+        var sendKeysModalEl = document.getElementById('sendKeysModal');
+        var sendKeysModal = new bootstrap.Modal(sendKeysModalEl);
+        var currentSendRow = null;
+
+        document.querySelectorAll('.btn-send-keys').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var row = this.closest('tr');
+                if (!row) return;
+                currentSendRow = row;
+                var integrator = row.getAttribute('data-integrator') || '';
+                var defaultEmail = this.getAttribute('data-email') || '';
+                document.getElementById('sendKeysIntegrator').value = integrator;
+                document.getElementById('sendKeysEmail').value = '';
+                document.getElementById('sendKeysDefaultEmail').textContent = defaultEmail || '—';
+                sendKeysModal.show();
+            });
+        });
+
+        document.getElementById('sendKeysConfirm').addEventListener('click', function () {
+            var integrator = document.getElementById('sendKeysIntegrator').value;
+            var email = document.getElementById('sendKeysEmail').value.trim();
+            var defaultEmail = document.getElementById('sendKeysDefaultEmail').textContent;
+            var targetEmail = email || defaultEmail;
+            if (!targetEmail || targetEmail === '—') {
+                alert('请输入收件邮箱');
+                return;
+            }
+            sendKeysModal.hide();
+            alert('已发送 API 密钥（原型演示）\n\n集成商：' + integrator + '\n收件邮箱：' + targetEmail + '\n\n邮件内容包含 AccessCode 和 SecretKey。');
+        });
+
         function copyApiKey(btn, value) {
             if (!value) return;
             if (navigator.clipboard && navigator.clipboard.writeText) {
