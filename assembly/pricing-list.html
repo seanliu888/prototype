@@ -124,7 +124,6 @@
                                     <th>国家/覆盖范围</th>
                                     <th>运营商</th>
                                     <th>供应商计费</th>
-                                    <th>指导价计费</th>
                                     <th>币种</th>
                                     <th>成本 <i class="bi bi-question-circle text-muted small" style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="对集成商不可见"></i></th>
                                     <th>指导价（浮动）</th>
@@ -141,7 +140,6 @@
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
-                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>$ 18.00</td>
@@ -169,7 +167,6 @@
                                     <td>欧洲（多国）</td>
                                     <td>Vodafone</td>
                                     <td><span class="badge bg-info">每GB</span></td>
-                                    <td><span class="badge bg-info">每GB</span></td>
                                     <td>USD</td>
                                     <td>$ 45.00</td>
                                     <td>$ 68.00 <small class="text-success">(+23.00)</small></td>
@@ -195,7 +192,6 @@
                                     <td><span class="badge bg-secondary">国家</span></td>
                                     <td>日本</td>
                                     <td>NTT Docomo</td>
-                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>$ 22.00</td>
@@ -223,7 +219,6 @@
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
                                     <td><span class="badge bg-info">每GB</span></td>
-                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>—</td>
                                     <td>$ 30.00</td>
@@ -323,13 +318,6 @@
                                 <input type="text" class="form-control" id="editSupplierBilling" readonly placeholder="—">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">指导价计费</label>
-                                <input type="text" class="form-control" id="editGuideBilling" readonly placeholder="—">
-                            </div>
-                        </div>
-                    </div>
                     <div class="mb-3">
                         <label class="form-label">成本 <span class="text-muted small fw-normal">(对集成商不可见)</span></label>
                         <input type="text" class="form-control" id="editCost" readonly placeholder="—">
@@ -390,7 +378,6 @@
                 document.getElementById('editPrice').value = btn.getAttribute('data-price') || '';
                 document.getElementById('editRetail').value = btn.getAttribute('data-retail') || '';
                 document.getElementById('editSupplierBilling').value = btn.getAttribute('data-supplier-billing') || '—';
-                document.getElementById('editGuideBilling').value = btn.getAttribute('data-guide-billing') || '—';
             });
         }
         function pricingSave() {
@@ -403,11 +390,9 @@
         function pricingEditFromRow(el, integrator, plan, cost, price, retail) {
             var row = el && el.closest ? el.closest('tr') : null;
             var supplierBilling = row ? (row.getAttribute('data-supplier-billing') || '—') : '—';
-            var guideBilling = row ? (row.getAttribute('data-guide-billing') || '—') : '—';
             document.getElementById('editIntegrator').value = integrator || '';
             document.getElementById('editPlan').value = plan || '';
             document.getElementById('editSupplierBilling').value = supplierBilling;
-            document.getElementById('editGuideBilling').value = guideBilling;
             document.getElementById('editCost').value = cost ? '$ ' + cost : '—';
             document.getElementById('editPrice').value = price || '';
             document.getElementById('editRetail').value = retail || '';

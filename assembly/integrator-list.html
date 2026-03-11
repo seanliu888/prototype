@@ -49,8 +49,8 @@
                     <div class="filter-section">
                         <div class="row g-3">
                             <div class="col-md-2">
-                                <label class="form-label">集成商名称/编号</label>
-                                <input type="text" class="form-control" placeholder="名称或编号">
+                                <label class="form-label">关键词</label>
+                                <input type="text" class="form-control" placeholder="名称、编号、邮箱或手机">
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">状态</label>
@@ -60,18 +60,6 @@
                                     <option value="DISABLED">停用</option>
                                     <option value="PENDING">待审核</option>
                                 </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label">创建时间起</label>
-                                <input type="date" class="form-control">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label">创建时间止</label>
-                                <input type="date" class="form-control">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label">联系人邮箱/手机</label>
-                                <input type="text" class="form-control" placeholder="邮箱或手机">
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
@@ -90,7 +78,8 @@
                                     <th>编号</th>
                                     <th>状态</th>
                                     <th>联系人</th>
-                                    <th>兜底指导报价</th>
+                                    <th>计费方式</th>
+                                    <th>指导报价</th>
                                     <th>结算方式</th>
                                     <th>账户余额</th>
                                     <th>信用额度</th>
@@ -109,6 +98,7 @@
                                     <td>INT-2025001</td>
                                     <td><span class="badge bg-success">正常</span></td>
                                     <td>张经理<br><small class="text-muted">zhang@global-esim.com / 138****8001</small></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>—</td>
                                     <td><span class="badge bg-primary">预付</span></td>
                                     <td>$ 125,680.00</td>
@@ -132,6 +122,7 @@
                                     <td>INT-2025002</td>
                                     <td><span class="badge bg-success">正常</span></td>
                                     <td>李小姐<br><small class="text-muted">li@travel-esim.com / 139****9002</small></td>
+                                    <td><span class="badge bg-info">每GB</span></td>
                                     <td><a href="guide-pricing-detail.html?id=TPL-SILVER" class="text-decoration-none">银牌合作伙伴</a></td>
                                     <td><span class="badge bg-info">后付</span></td>
                                     <td>$ 58,200.00</td>
@@ -155,6 +146,7 @@
                                     <td>INT-2025003</td>
                                     <td><span class="badge bg-warning text-dark">待审核</span></td>
                                     <td>王总<br><small class="text-muted">wang@outbound-esim.com / 136****7003</small></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>—</td>
                                     <td><span class="badge bg-primary">预付</span></td>
                                     <td>$ 0.00</td>
@@ -178,6 +170,7 @@
                                     <td>INT-2024008</td>
                                     <td><span class="badge bg-danger">停用</span></td>
                                     <td class="text-muted">陈经理 / chen@old-partner.com</td>
+                                    <td class="text-muted"><span class="badge bg-secondary">套餐</span></td>
                                     <td class="text-muted">默认指导价</td>
                                     <td><span class="badge bg-secondary">预付</span></td>
                                     <td class="text-muted">$ 0.00</td>
