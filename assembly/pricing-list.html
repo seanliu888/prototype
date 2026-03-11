@@ -24,7 +24,7 @@
                     <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
                     <div class="collapse show nav-sub" id="navPricingCollapse">
-                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
                         <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
                         <a class="nav-link nav-sub-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
                     </div>
@@ -32,7 +32,7 @@
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
-                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>API 管理</a>
                 </nav>
             </div>
             <div class="col-md-10 main-content">
@@ -119,9 +119,10 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>集成商</th>
+                                    <th>集成商计费</th>
                                     <th>套餐</th>
-                                    <th>类型</th>
-                                    <th>国家/覆盖范围</th>
+                                    <th>套餐Code</th>
+                                    <th>类型/覆盖范围</th>
                                     <th>运营商</th>
                                     <th>供应商计费</th>
                                     <th>币种</th>
@@ -136,9 +137,10 @@
                             <tbody>
                                 <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="18.00" data-price="28.00" data-retail="35.00" data-supplier-billing="套餐" data-guide-billing="套餐" data-catalog-pkg="pkg_1001" data-catalog-supplier-id="PKG-AS-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="亚洲 7 天 1GB" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="18.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>亚洲 7 天 1GB</td>
-                                    <td><span class="badge bg-info">区域</span></td>
-                                    <td>亚洲（多国）</td>
+                                    <td><code>pkg_1001</code></td>
+                                    <td><span class="badge bg-info">区域</span> 亚洲（多国）</td>
                                     <td>多运营商</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
@@ -162,9 +164,10 @@
                                 </tr>
                                 <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="45.00" data-price="68.00" data-retail="88.00" data-supplier-billing="每GB" data-guide-billing="每GB" data-catalog-pkg="pkg_1002" data-catalog-supplier-id="PKG-EU-15D-3G" data-catalog-supplier="eSIM 全球供" data-catalog-name="欧洲 15 天 3GB" data-catalog-type="区域" data-catalog-region="欧洲（多国可用）" data-catalog-carrier="Vodafone" data-catalog-cap="3GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="15 天" data-catalog-quote="45.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>欧洲 15 天 3GB</td>
-                                    <td><span class="badge bg-info">区域</span></td>
-                                    <td>欧洲（多国）</td>
+                                    <td><code>pkg_1002</code></td>
+                                    <td><span class="badge bg-info">区域</span> 欧洲（多国）</td>
                                     <td>Vodafone</td>
                                     <td><span class="badge bg-info">每GB</span></td>
                                     <td>USD</td>
@@ -188,9 +191,10 @@
                                 </tr>
                                 <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="22.00" data-price="32.00" data-retail="42.00" data-supplier-billing="套餐" data-guide-billing="套餐" data-catalog-pkg="pkg_1003" data-catalog-supplier-id="PKG-JP-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="日本 7 天 1GB" data-catalog-type="国家" data-catalog-region="日本" data-catalog-carrier="NTT Docomo" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="22.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>日本 7 天 1GB</td>
-                                    <td><span class="badge bg-secondary">国家</span></td>
-                                    <td>日本</td>
+                                    <td><code>pkg_1003</code></td>
+                                    <td><span class="badge bg-secondary">国家</span> 日本</td>
                                     <td>NTT Docomo</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
@@ -214,9 +218,10 @@
                                 </tr>
                                 <tr data-status="disabled" data-integrator="旅行家 eSIM" data-import-time="2025-02-01 14:20" data-cost="" data-price="30.00" data-retail="38.00" data-supplier-billing="每GB" data-guide-billing="套餐" data-catalog-pkg="pkg_2001" data-catalog-supplier-id="PKG-AS-7D-1G-B" data-catalog-supplier="跨境 eSIM 源" data-catalog-name="亚洲 7 日 1G 流量" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="4G 网速" data-catalog-validity="7 天" data-catalog-quote="16.50" data-catalog-sync="2025-02-27 14:00" data-catalog-status="有效">
                                     <td>旅行家 eSIM</td>
+                                    <td><span class="badge bg-info">每GB</span></td>
                                     <td>亚洲 7 天 1GB</td>
-                                    <td><span class="badge bg-info">区域</span></td>
-                                    <td>亚洲（多国）</td>
+                                    <td><code>pkg_2001</code></td>
+                                    <td><span class="badge bg-info">区域</span> 亚洲（多国）</td>
                                     <td>多运营商</td>
                                     <td><span class="badge bg-info">每GB</span></td>
                                     <td>USD</td>

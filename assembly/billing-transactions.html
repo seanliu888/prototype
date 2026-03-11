@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>财务与结算 - 交易记录 - eSIM 集成商管理平台</title>
+    <title>财务与结算 - eSIM 集成商管理平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -24,7 +24,7 @@
                     <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="false" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
                     <div class="collapse nav-sub" id="navPricingCollapse">
-                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
                         <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
                         <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
                     </div>
@@ -32,25 +32,84 @@
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link active" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
-                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>API 管理</a>
                 </nav>
             </div>
             <div class="col-md-10 main-content">
                 <div class="page-header">
                     <div>
-                        <h1><i class="bi bi-wallet2 me-2"></i>财务与结算 · 交易记录</h1>
-                        <small class="text-muted">按集成商、交易类型、时间、交易 ID 筛选；集成商端暂不支持自主充值，可由管理员在此进行充值或人工调账（扣减），兼容后续账户总览与账单对账</small>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-outline-secondary" id="btnExport">
-                            <i class="bi bi-download me-1"></i>导出明细
-                        </button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adjustModal">
-                            <i class="bi bi-wallet2 me-1"></i>充值 / 调账
-                        </button>
+                        <h1><i class="bi bi-wallet2 me-2"></i>财务与结算</h1>
+                        <small class="text-muted">结算规则说明、与集成商/供应商结算汇总及交易记录</small>
                     </div>
                 </div>
+
+                <!-- 结算规则说明 -->
+                <div class="content-card mb-4">
+                    <h6 class="text-muted mb-3"><i class="bi bi-info-circle me-1"></i>结算规则说明</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-person-gear text-primary me-2" style="font-size: 1.25rem;"></i>
+                                    <strong>1. 计费方式（集成商设置）</strong>
+                                </div>
+                                <p class="text-muted small mb-0">计费方式为<strong>按 GB</strong>或<strong>按套餐</strong>，在「<a href="integrator-list.html">集成商管理</a>」中为每个集成商配置。按 GB 仅支持后付；按套餐可选择预付或后付。</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-tags text-success me-2" style="font-size: 1.25rem;"></i>
+                                    <strong>2. 集成商侧看到的价格</strong>
+                                </div>
+                                <p class="text-muted small mb-0">集成商看到的是<strong>指导报价</strong>与<strong>特殊报价</strong>。同一套餐若存在特殊报价，则<strong>特殊报价优先</strong>于指导报价。</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-currency-exchange text-info me-2" style="font-size: 1.25rem;"></i>
+                                    <strong>3. 与集成商结算</strong>
+                                </div>
+                                <p class="text-muted small mb-0">按该集成商配置的<strong>计费方式</strong>（按 GB 或 按套餐）计算其总消费金额，据此与集成商结算。</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-truck text-secondary me-2" style="font-size: 1.25rem;"></i>
+                                    <strong>4. 与供应商结算</strong>
+                                </div>
+                                <p class="text-muted small mb-0">从<strong>订单对应的成本价</strong>汇总成本，据此与供应商结算。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 标签：交易记录 | 与集成商结算 | 与供应商结算 -->
+                <ul class="nav nav-tabs mb-3" id="billingTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tab-transactions" data-bs-toggle="tab" data-bs-target="#panel-transactions" type="button" role="tab">交易记录</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-integrator" data-bs-toggle="tab" data-bs-target="#panel-integrator" type="button" role="tab">与集成商结算</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-supplier" data-bs-toggle="tab" data-bs-target="#panel-supplier" type="button" role="tab">与供应商结算</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="billingTabContent">
+                    <!-- 交易记录 -->
+                    <div class="tab-pane fade show active" id="panel-transactions" role="tabpanel">
                 <div class="content-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted small">按集成商、交易类型、时间筛选；支持充值/调账</span>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btnExport"><i class="bi bi-download me-1"></i>导出明细</button>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#adjustModal"><i class="bi bi-wallet2 me-1"></i>充值 / 调账</button>
+                        </div>
+                    </div>
                     <div class="filter-section">
                         <div class="row g-3">
                             <div class="col-md-2">
@@ -151,9 +210,224 @@
                         </nav>
                     </div>
                 </div>
+                    </div>
+                    <!-- 与集成商结算 -->
+                    <div class="tab-pane fade" id="panel-integrator" role="tabpanel">
+                        <div class="content-card">
+                            <p class="text-muted small mb-3">按集成商配置的计费方式（按 GB / 按套餐）汇总消费，用于与集成商对账与结算。</p>
+                            <div class="filter-section mb-3">
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-3">
+                                        <label class="form-label">集成商</label>
+                                        <select class="form-select form-select-sm" id="integratorFilter">
+                                            <option value="">全部</option>
+                                            <option value="INT-2025001">环球 eSIM 科技</option>
+                                            <option value="INT-2025002">旅行家 eSIM</option>
+                                            <option value="INT-2025003">出境游 eSIM 联盟</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">结算周期</label>
+                                        <select class="form-select form-select-sm" id="periodFilter">
+                                            <option value="">全部</option>
+                                            <option value="2025-02" selected>2025-02</option>
+                                            <option value="2025-01">2025-01</option>
+                                            <option value="2024-12">2024-12</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary btn-sm" id="integratorFilterBtn"><i class="bi bi-search me-1"></i>查询</button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="integratorFilterReset">重置</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>集成商</th>
+                                            <th>计费方式</th>
+                                            <th>结算周期</th>
+                                            <th>消费金额</th>
+                                            <th>币种</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="integratorSettlementTbody">
+                                        <tr data-integrator-id="INT-2025001" data-integrator-name="环球 eSIM 科技" data-period="2025-02" data-amount="12350.00" data-billing-type="套餐">
+                                            <td>环球 eSIM 科技</td>
+                                            <td><span class="badge bg-secondary">套餐</span></td>
+                                            <td>2025-02</td>
+                                            <td>12,350.00</td>
+                                            <td>USD</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary integrator-view-detail" title="查看明细"><i class="bi bi-list-ul"></i> 明细</button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary integrator-export-period" title="导出本周期明细"><i class="bi bi-download"></i> 导出</button>
+                                            </td>
+                                        </tr>
+                                        <tr data-integrator-id="INT-2025002" data-integrator-name="旅行家 eSIM" data-period="2025-02" data-amount="8620.00" data-billing-type="每GB">
+                                            <td>旅行家 eSIM</td>
+                                            <td><span class="badge bg-info">每GB</span></td>
+                                            <td>2025-02</td>
+                                            <td>8,620.00</td>
+                                            <td>USD</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary integrator-view-detail" title="查看明细"><i class="bi bi-list-ul"></i> 明细</button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary integrator-export-period" title="导出本周期明细"><i class="bi bi-download"></i> 导出</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-muted small mt-2 mb-0">消费金额按该集成商的计费方式从订单与用量汇总得出（原型演示）。</p>
+                        </div>
+                    </div>
+                    <!-- 与供应商结算 -->
+                    <div class="tab-pane fade" id="panel-supplier" role="tabpanel">
+                        <div class="content-card">
+                            <p class="text-muted small mb-3">从订单对应的成本价汇总成本，用于与供应商对账与结算。</p>
+                            <div class="filter-section mb-3">
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-3">
+                                        <label class="form-label">供应商</label>
+                                        <select class="form-select form-select-sm" id="supplierFilter">
+                                            <option value="">全部</option>
+                                            <option value="SUP-001">eSIM 全球供</option>
+                                            <option value="SUP-002">跨境 eSIM 源</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">结算周期</label>
+                                        <select class="form-select form-select-sm" id="supplierPeriodFilter">
+                                            <option value="">全部</option>
+                                            <option value="2025-02" selected>2025-02</option>
+                                            <option value="2025-01">2025-01</option>
+                                            <option value="2024-12">2024-12</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary btn-sm" id="supplierFilterBtn"><i class="bi bi-search me-1"></i>查询</button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="supplierFilterReset">重置</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>供应商</th>
+                                            <th>结算周期</th>
+                                            <th>成本金额</th>
+                                            <th>币种</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="supplierSettlementTbody">
+                                        <tr data-supplier-id="SUP-001" data-supplier-name="eSIM 全球供" data-period="2025-02" data-amount="6820.00">
+                                            <td>eSIM 全球供</td>
+                                            <td>2025-02</td>
+                                            <td>6,820.00</td>
+                                            <td>USD</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary supplier-view-detail" title="查看明细"><i class="bi bi-list-ul"></i> 明细</button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary supplier-export-period" title="导出本周期明细"><i class="bi bi-download"></i> 导出</button>
+                                            </td>
+                                        </tr>
+                                        <tr data-supplier-id="SUP-002" data-supplier-name="跨境 eSIM 源" data-period="2025-02" data-amount="2150.00">
+                                            <td>跨境 eSIM 源</td>
+                                            <td>2025-02</td>
+                                            <td>2,150.00</td>
+                                            <td>USD</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary supplier-view-detail" title="查看明细"><i class="bi bi-list-ul"></i> 明细</button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary supplier-export-period" title="导出本周期明细"><i class="bi bi-download"></i> 导出</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-muted small mt-2 mb-0">成本金额由订单关联的成本价汇总得出（原型演示）。</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <!-- 与集成商结算 - 查看明细弹窗 -->
+    <div class="modal fade" id="integratorDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="integratorDetailModalTitle">结算明细</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-2" id="integratorDetailSubtitle">—</p>
+                    <p class="text-muted small mb-2" id="integratorDetailDesc">每GB 计费：明细仅展示流量；套餐计费：明细仅展示数量。</p>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="integratorDetailExportBtn"><i class="bi bi-download me-1"></i>导出本周期明细</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                                <tr id="integratorDetailThead">
+                                    <th>订单号</th>
+                                    <th>套餐</th>
+                                    <th id="integratorDetailQtyTh">数量</th>
+                                    <th>单价</th>
+                                    <th>金额</th>
+                                    <th>时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="integratorDetailTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 与供应商结算 - 查看明细弹窗 -->
+    <div class="modal fade" id="supplierDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="supplierDetailModalTitle">成本结算明细</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-2" id="supplierDetailSubtitle">—</p>
+                    <p class="text-muted small mb-2">明细按订单对应的成本价列出，用于与供应商对账。</p>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="supplierDetailExportBtn"><i class="bi bi-download me-1"></i>导出本周期明细</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>订单号</th>
+                                    <th>套餐</th>
+                                    <th>计费方式</th>
+                                    <th>成本单价</th>
+                                    <th>数量/流量</th>
+                                    <th>成本金额</th>
+                                    <th>时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="supplierDetailTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 充值 / 人工调账 弹窗（统一入口） -->
     <div class="modal fade" id="adjustModal" tabindex="-1">
         <div class="modal-dialog">
@@ -200,6 +474,205 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         (function () {
+            // 与集成商结算：筛选
+            var tbody = document.getElementById('integratorSettlementTbody');
+            var integratorFilter = document.getElementById('integratorFilter');
+            var periodFilter = document.getElementById('periodFilter');
+            function filterIntegratorRows() {
+                var integratorVal = integratorFilter ? integratorFilter.value : '';
+                var periodVal = periodFilter ? periodFilter.value : '';
+                if (!tbody) return;
+                var rows = tbody.querySelectorAll('tr');
+                rows.forEach(function (tr) {
+                    var id = tr.getAttribute('data-integrator-id');
+                    var period = tr.getAttribute('data-period');
+                    var show = (!integratorVal || id === integratorVal) && (!periodVal || period === periodVal);
+                    tr.style.display = show ? '' : 'none';
+                });
+            }
+            if (document.getElementById('integratorFilterBtn')) {
+                document.getElementById('integratorFilterBtn').addEventListener('click', function () {
+                    filterIntegratorRows();
+                });
+            }
+            if (document.getElementById('integratorFilterReset')) {
+                document.getElementById('integratorFilterReset').addEventListener('click', function () {
+                    if (integratorFilter) integratorFilter.value = '';
+                    if (periodFilter) periodFilter.value = '';
+                    if (tbody) tbody.querySelectorAll('tr').forEach(function (tr) { tr.style.display = ''; });
+                });
+            }
+
+            // 与集成商结算：查看明细
+            var detailModal = document.getElementById('integratorDetailModal');
+            var detailTbody = document.getElementById('integratorDetailTbody');
+            var detailTitle = document.getElementById('integratorDetailModalTitle');
+            var detailSubtitle = document.getElementById('integratorDetailSubtitle');
+            var detailQtyTh = document.getElementById('integratorDetailQtyTh');
+            var currentDetailData = { name: '', period: '', billingType: '', rows: [] };
+            function buildDetailRows(integratorName, period, billingType) {
+                var isPerGb = billingType === '每GB';
+                var qtyLabel = isPerGb ? '流量' : '数量';
+                if (detailQtyTh) detailQtyTh.textContent = qtyLabel;
+                var sample;
+                if (isPerGb) {
+                    sample = [
+                        { orderId: 'ORD-20250227001', plan: '亚洲 7 天 1GB', qty: '1.2 GB', unitPrice: '15.00', amount: '18.00', time: '2025-02-27 10:20' },
+                        { orderId: 'ORD-20250226002', plan: '欧洲 15 天 3GB', qty: '2.3 GB', unitPrice: '15.00', amount: '34.50', time: '2025-02-26 14:30' },
+                        { orderId: 'ORD-20250225003', plan: '日本 7 天 1GB', qty: '0.8 GB', unitPrice: '15.00', amount: '12.00', time: '2025-02-25 09:15' }
+                    ];
+                } else {
+                    sample = [
+                        { orderId: 'ORD-20250227001', plan: '亚洲 7 天 1GB', qty: '1', unitPrice: '28.00', amount: '28.00', time: '2025-02-27 10:20' },
+                        { orderId: 'ORD-20250226002', plan: '欧洲 15 天 3GB', qty: '1', unitPrice: '68.00', amount: '68.00', time: '2025-02-26 14:30' },
+                        { orderId: 'ORD-20250225003', plan: '日本 7 天 1GB', qty: '2', unitPrice: '32.00', amount: '64.00', time: '2025-02-25 09:15' }
+                    ];
+                }
+                currentDetailData = { name: integratorName, period: period, billingType: billingType, rows: sample };
+                if (!detailTbody) return;
+                detailTbody.innerHTML = sample.map(function (r) {
+                    return '<tr><td><code>' + r.orderId + '</code></td><td>' + r.plan + '</td><td>' + r.qty + '</td><td>' + r.unitPrice + '</td><td>' + r.amount + '</td><td>' + r.time + '</td></tr>';
+                }).join('');
+            }
+            function exportIntegratorPeriodCsv() {
+                var d = currentDetailData;
+                if (!d.rows.length) { alert('暂无明细可导出'); return; }
+                var qtyLabel = d.billingType === '每GB' ? '流量' : '数量';
+                var header = '订单号,套餐,' + qtyLabel + ',单价,金额,时间';
+                var csvRows = [header].concat(d.rows.map(function (r) {
+                    return [r.orderId, r.plan, r.qty, r.unitPrice, r.amount, r.time].join(',');
+                }));
+                var csv = '\ufeff' + csvRows.join('\r\n');
+                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = '集成商结算明细_' + (d.name || '') + '_' + (d.period || '') + '.csv';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            }
+            if (tbody) {
+                tbody.addEventListener('click', function (e) {
+                    var btn = e.target.closest('.integrator-view-detail');
+                    if (btn) {
+                        var row = btn.closest('tr');
+                        var name = row.getAttribute('data-integrator-name') || '';
+                        var period = row.getAttribute('data-period') || '';
+                        var billingType = row.getAttribute('data-billing-type') || '套餐';
+                        if (detailTitle) detailTitle.textContent = '结算明细';
+                        if (detailSubtitle) detailSubtitle.textContent = '集成商：' + name + '　结算周期：' + period + '　计费方式：' + billingType;
+                        buildDetailRows(name, period, billingType);
+                        if (detailModal) bootstrap.Modal.getOrCreateInstance(detailModal).show();
+                        return;
+                    }
+                    var exportBtn = e.target.closest('.integrator-export-period');
+                    if (exportBtn) {
+                        var row = exportBtn.closest('tr');
+                        var name = row.getAttribute('data-integrator-name') || '';
+                        var period = row.getAttribute('data-period') || '';
+                        var billingType = row.getAttribute('data-billing-type') || '套餐';
+                        buildDetailRows(name, period, billingType);
+                        exportIntegratorPeriodCsv();
+                        alert('已导出本周期明细（原型演示）：' + name + ' ' + period);
+                    }
+                });
+            }
+            if (document.getElementById('integratorDetailExportBtn')) {
+                document.getElementById('integratorDetailExportBtn').addEventListener('click', function () {
+                    exportIntegratorPeriodCsv();
+                    alert('已导出本周期明细（原型演示）');
+                });
+            }
+
+            // 与供应商结算：筛选
+            var supplierTbody = document.getElementById('supplierSettlementTbody');
+            var supplierFilter = document.getElementById('supplierFilter');
+            var supplierPeriodFilter = document.getElementById('supplierPeriodFilter');
+            function filterSupplierRows() {
+                var supplierVal = supplierFilter ? supplierFilter.value : '';
+                var periodVal = supplierPeriodFilter ? supplierPeriodFilter.value : '';
+                if (!supplierTbody) return;
+                var rows = supplierTbody.querySelectorAll('tr');
+                rows.forEach(function (tr) {
+                    var id = tr.getAttribute('data-supplier-id');
+                    var period = tr.getAttribute('data-period');
+                    var show = (!supplierVal || id === supplierVal) && (!periodVal || period === periodVal);
+                    tr.style.display = show ? '' : 'none';
+                });
+            }
+            if (document.getElementById('supplierFilterBtn')) {
+                document.getElementById('supplierFilterBtn').addEventListener('click', filterSupplierRows);
+            }
+            if (document.getElementById('supplierFilterReset')) {
+                document.getElementById('supplierFilterReset').addEventListener('click', function () {
+                    if (supplierFilter) supplierFilter.value = '';
+                    if (supplierPeriodFilter) supplierPeriodFilter.value = '';
+                    if (supplierTbody) supplierTbody.querySelectorAll('tr').forEach(function (tr) { tr.style.display = ''; });
+                });
+            }
+
+            // 与供应商结算：查看明细与导出
+            var supplierDetailModal = document.getElementById('supplierDetailModal');
+            var supplierDetailTbody = document.getElementById('supplierDetailTbody');
+            var supplierDetailSubtitle = document.getElementById('supplierDetailSubtitle');
+            var currentSupplierDetailData = { name: '', period: '', rows: [] };
+            function buildSupplierDetailRows(supplierName, period) {
+                var sample = [
+                    { orderId: 'ORD-20250227001', plan: '亚洲 7 天 1GB', billingType: '套餐', unitPrice: '18.00', qty: '1', amount: '18.00', time: '2025-02-27 10:20' },
+                    { orderId: 'ORD-20250226002', plan: '欧洲 15 天 3GB', billingType: '每GB', unitPrice: '15.00', qty: '2.3 GB', amount: '34.50', time: '2025-02-26 14:30' },
+                    { orderId: 'ORD-20250225003', plan: '日本 7 天 1GB', billingType: '套餐', unitPrice: '22.00', qty: '2', amount: '44.00', time: '2025-02-25 09:15' }
+                ];
+                currentSupplierDetailData = { name: supplierName, period: period, rows: sample };
+                if (!supplierDetailTbody) return;
+                supplierDetailTbody.innerHTML = sample.map(function (r) {
+                    var badge = r.billingType === '每GB' ? '<span class="badge bg-info">每GB</span>' : '<span class="badge bg-secondary">套餐</span>';
+                    return '<tr><td><code>' + r.orderId + '</code></td><td>' + r.plan + '</td><td>' + badge + '</td><td>' + r.unitPrice + '</td><td>' + r.qty + '</td><td>' + r.amount + '</td><td>' + r.time + '</td></tr>';
+                }).join('');
+            }
+            function exportSupplierPeriodCsv() {
+                var d = currentSupplierDetailData;
+                if (!d.rows.length) { alert('暂无明细可导出'); return; }
+                var header = '订单号,套餐,计费方式,成本单价,数量/流量,成本金额,时间';
+                var csvRows = [header].concat(d.rows.map(function (r) {
+                    return [r.orderId, r.plan, r.billingType || '', r.unitPrice, r.qty, r.amount, r.time].join(',');
+                }));
+                var csv = '\ufeff' + csvRows.join('\r\n');
+                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = '供应商成本结算明细_' + (d.name || '') + '_' + (d.period || '') + '.csv';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            }
+            if (supplierTbody) {
+                supplierTbody.addEventListener('click', function (e) {
+                    var btn = e.target.closest('.supplier-view-detail');
+                    if (btn) {
+                        var row = btn.closest('tr');
+                        var name = row.getAttribute('data-supplier-name') || '';
+                        var period = row.getAttribute('data-period') || '';
+                        if (supplierDetailSubtitle) supplierDetailSubtitle.textContent = '供应商：' + name + '　结算周期：' + period;
+                        buildSupplierDetailRows(name, period);
+                        if (supplierDetailModal) bootstrap.Modal.getOrCreateInstance(supplierDetailModal).show();
+                        return;
+                    }
+                    var exportBtn = e.target.closest('.supplier-export-period');
+                    if (exportBtn) {
+                        var row = exportBtn.closest('tr');
+                        var name = row.getAttribute('data-supplier-name') || '';
+                        var period = row.getAttribute('data-period') || '';
+                        buildSupplierDetailRows(name, period);
+                        exportSupplierPeriodCsv();
+                        alert('已导出本周期明细（原型演示）：' + name + ' ' + period);
+                    }
+                });
+            }
+            if (document.getElementById('supplierDetailExportBtn')) {
+                document.getElementById('supplierDetailExportBtn').addEventListener('click', function () {
+                    exportSupplierPeriodCsv();
+                    alert('已导出本周期明细（原型演示）');
+                });
+            }
+
             var modal = document.getElementById('adjustModal');
             document.getElementById('adjustConfirm').addEventListener('click', function () {
                 var integrator = document.getElementById('adjustIntegrator').value;

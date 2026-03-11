@@ -24,7 +24,7 @@
                     <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
                     <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
                     <div class="collapse show nav-sub" id="navPricingCollapse">
-                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
                         <a class="nav-link nav-sub-link active" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
                         <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
                     </div>
@@ -32,7 +32,7 @@
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
-                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>API 管理</a>
                 </nav>
             </div>
             <div class="col-md-10 main-content">
@@ -169,6 +169,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>套餐</th>
+                                    <th>套餐Code</th>
                                     <th>类型</th>
                                     <th>国家/覆盖范围</th>
                                     <th>运营商</th>
@@ -183,10 +184,8 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        <div><strong>日本 7天 1GB</strong></div>
-                                        <small class="text-muted">PKG-JP-7D-1G</small>
-                                    </td>
+                                    <td><strong>日本 7天 1GB</strong></td>
+                                    <td><code>PKG-JP-7D-1G</code></td>
                                     <td><span class="badge bg-primary">单国</span></td>
                                     <td>日本</td>
                                     <td>NTT Docomo</td>
@@ -201,10 +200,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <div><strong>韩国 5天 2GB</strong></div>
-                                        <small class="text-muted">PKG-KR-5D-2G</small>
-                                    </td>
+                                    <td><strong>韩国 5天 2GB</strong></td>
+                                    <td><code>PKG-KR-5D-2G</code></td>
                                     <td><span class="badge bg-primary">单国</span></td>
                                     <td>韩国</td>
                                     <td>SK Telecom</td>
@@ -219,10 +216,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <div><strong>亚洲 10天 3GB</strong></div>
-                                        <small class="text-muted">PKG-ASIA-10D-3G</small>
-                                    </td>
+                                    <td><strong>亚洲 10天 3GB</strong></td>
+                                    <td><code>PKG-ASIA-10D-3G</code></td>
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>亚洲 12国</td>
                                     <td>多运营商</td>
@@ -237,10 +232,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <div><strong>全球 30天 5GB</strong></div>
-                                        <small class="text-muted">PKG-GLOBAL-30D-5G</small>
-                                    </td>
+                                    <td><strong>全球 30天 5GB</strong></td>
+                                    <td><code>PKG-GLOBAL-30D-5G</code></td>
                                     <td><span class="badge bg-success">全球</span></td>
                                     <td>全球 80+国</td>
                                     <td>多运营商</td>
@@ -277,6 +270,7 @@
                                 <tr>
                                     <th>集成商名称</th>
                                     <th>联系人</th>
+                                    <th>计费方式</th>
                                     <th>绑定时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -285,12 +279,14 @@
                                 <tr>
                                     <td><strong>环球 eSIM 科技</strong></td>
                                     <td>张经理</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>2025-01-15 10:00</td>
                                     <td><a href="integrator-detail.html?id=INT-2025001" class="btn btn-sm btn-outline-primary">查看</a></td>
                                 </tr>
                                 <tr>
                                     <td><strong>出境游 eSIM 联盟</strong></td>
                                     <td>王总</td>
+                                    <td><span class="badge bg-info">每GB</span></td>
                                     <td>2025-02-01 14:30</td>
                                     <td><a href="integrator-detail.html?id=INT-2025003" class="btn btn-sm btn-outline-primary">查看</a></td>
                                 </tr>
@@ -336,7 +332,7 @@
                     <div class="mb-3">
                             <label class="form-label">供应商计费</label>
                             <input type="text" class="form-control" value="套餐" readonly>
-                            <small class="text-muted">来自成本价格目录，不可修改</small>
+                            <small class="text-muted">来自成本报价目录，不可修改</small>
                         </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -486,6 +482,7 @@
                                 <tr>
                                     <th><input type="checkbox" class="form-check-input" id="addPackageCheckAll" title="全选本页"></th>
                                     <th>套餐</th>
+                                    <th>套餐Code</th>
                                     <th>类型</th>
                                     <th>国家/地区</th>
                                     <th>供应商计费</th>
@@ -496,6 +493,7 @@
                                 <tr>
                                     <td><input type="checkbox" class="form-check-input add-pkg-row"></td>
                                     <td>泰国 7天 2GB</td>
+                                    <td><code>PKG-TH-7D-2G</code></td>
                                     <td><span class="badge bg-primary">单国</span></td>
                                     <td>泰国</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
@@ -504,6 +502,7 @@
                                 <tr>
                                     <td><input type="checkbox" class="form-check-input add-pkg-row"></td>
                                     <td>美国 15天 5GB</td>
+                                    <td><code>PKG-US-15D-5G</code></td>
                                     <td><span class="badge bg-primary">单国</span></td>
                                     <td>美国</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
@@ -512,6 +511,7 @@
                                 <tr>
                                     <td><input type="checkbox" class="form-check-input add-pkg-row"></td>
                                     <td>欧洲 14天 3GB</td>
+                                    <td><code>PKG-EU-14D-3G</code></td>
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>欧洲 30国</td>
                                     <td><span class="badge bg-info">每GB</span></td>
