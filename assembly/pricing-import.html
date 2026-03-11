@@ -20,10 +20,14 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
                     <div class="nav-section-title">集成商</div>
                     <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
-                    <a class="nav-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
+                    <div class="collapse show nav-sub" id="navPricingCollapse">
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
+                        <a class="nav-link nav-sub-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
+                    </div>
                     <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
@@ -135,7 +139,7 @@
                             <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
                         </nav>
                     </div>
-                    <p class="text-muted small mt-2 mb-0">选择的套餐可在第三步通过「应用定价模板」快速批量设置售价，或导出 CSV 后手动填写再上传。</p>
+                    <p class="text-muted small mt-2 mb-0">选择的套餐可在第三步通过「应用定价模板」快速批量设置指导价，或导出 CSV 后手动填写再上传。</p>
                 </div>
 
                 <div class="content-card mb-4">
@@ -147,12 +151,12 @@
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="radio" name="importMethod" id="methodTemplateRadio" value="template" checked>
                             <label class="form-check-label fw-bold" for="methodTemplateRadio">应用定价模板</label>
-                            <span class="text-muted small ms-2">根据供应商报价按比例或指定金额自动计算售价</span>
+                            <span class="text-muted small ms-2">根据供应商报价按比例或指定金额自动计算指导价</span>
                         </div>
                         <div id="templateOptions">
                             <div class="row g-3 mb-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">售价</label>
+                                    <label class="form-label">指导价</label>
                                     <div class="d-flex flex-wrap align-items-center gap-2">
                                         <div class="form-check form-check-inline mb-0">
                                             <input type="radio" name="priceMode" id="priceModeRatio" value="ratio" class="form-check-input" checked>
@@ -219,14 +223,14 @@
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="radio" name="importMethod" id="methodCsvRadio" value="csv">
                             <label class="form-check-label fw-bold" for="methodCsvRadio">上传 CSV 文件</label>
-                            <span class="text-muted small ms-2">先导出模板，手动填写售价后上传</span>
+                            <span class="text-muted small ms-2">先导出模板，手动填写指导价后上传</span>
                         </div>
                         <div id="csvOptions" class="d-none">
                             <div class="mb-3">
                                 <button type="button" class="btn btn-outline-secondary btn-sm me-2" id="btnExportSelected">
                                     <i class="bi bi-download me-1"></i>导出已选套餐为 CSV 模板
                                 </button>
-                                <span class="text-muted small">导出后填写「售价」「建议零售价」列，再上传。</span>
+                                <span class="text-muted small">导出后填写「指导价」「建议零售价」列，再上传。</span>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">选择 CSV 文件</label>
@@ -268,7 +272,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         (function () {
-            var CSV_EXPORT_HEADER = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,流量,供应商报价,售价,建议零售价,状态';
+            var CSV_EXPORT_HEADER = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,流量,供应商报价,指导价,建议零售价,状态';
             var PAGE_SIZE = 10;
 
             var catalogData = [
@@ -498,7 +502,7 @@
                 var priceVal = priceByRatio ? document.getElementById('priceRatio').value : document.getElementById('priceAmount').value;
                 var retailVal = retailByRatio ? document.getElementById('retailRatio').value : document.getElementById('retailAmount').value;
                 if (priceVal === '' || isNaN(parseFloat(priceVal))) {
-                    alert('请填写售价的' + (priceByRatio ? '比例' : '金额'));
+                    alert('请填写指导价的' + (priceByRatio ? '比例' : '金额'));
                     return;
                 }
                 if (retailVal === '' || isNaN(parseFloat(retailVal))) {
@@ -514,7 +518,7 @@
                 document.getElementById('resultContent').innerHTML =
                     '<p class="text-success"><i class="bi bi-check-circle me-2"></i>模板应用完成（原型演示）</p>' +
                     '<p>集成商：<strong>' + integratorName + '</strong></p>' +
-                    '<p>售价规则：<strong>' + (priceByRatio ? '报价 + ' + priceVal + '% 利润' : '报价 + $' + priceVal) + '</strong></p>' +
+                    '<p>指导价规则：<strong>' + (priceByRatio ? '报价 + ' + priceVal + '% 利润' : '报价 + $' + priceVal) + '</strong></p>' +
                     '<p>建议零售价规则：<strong>' + (retailByRatio ? '报价 + ' + retailVal + '% 利润' : '报价 + $' + retailVal) + '</strong></p>' +
                     '<p>存在时替换：<strong>' + (replaceWhenExists ? '是' : '否（跳过已存在）') + '</strong></p>' +
                     '<p>成功：<strong>' + selectedCodes.size + '</strong> 条，失败：<strong>0</strong> 条。</p>';

@@ -92,3 +92,11 @@ body {
 .info-row:last-child { border-bottom: none; }
 .info-label { width: 140px; color: #7f8c8d; font-weight: 500; }
 .info-value { flex: 1; color: #2c3e50; }
+
+/* 侧栏折叠父菜单与子菜单 */
+.sidebar .nav-parent { cursor: pointer; }
+.sidebar .nav-parent .nav-parent-chevron { transition: transform 0.2s; font-size: 0.85em; margin-right: 0; }
+.sidebar .nav-parent[aria-expanded="true"] .nav-parent-chevron { transform: rotate(180deg); }
+.sidebar .nav-sub { padding-left: 0; margin: 0 10px; border-radius: 8px; overflow: hidden; }
+.sidebar .nav-sub-link { padding: 10px 20px 10px 2.5rem; margin: 0; font-size: 0.95em; }
+.sidebar .nav-sub-link i { font-size: 1em; }

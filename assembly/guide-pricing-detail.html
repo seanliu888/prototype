@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指导报价详情 - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">供应商</div>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
+                    <div class="collapse show nav-sub" id="navPricingCollapse">
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link active" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
+                        <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
+                    </div>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-1">
+                                <li class="breadcrumb-item"><a href="guide-pricing-list.html">指导报价</a></li>
+                                <li class="breadcrumb-item active" id="breadcrumbName">默认指导价</li>
+                            </ol>
+                        </nav>
+                        <h1><i class="bi bi-tags me-2"></i><span id="templateTitle">默认指导价</span></h1>
+                        <small class="text-muted">查看和编辑此价格模板下各套餐的报价设置</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addPackageModal"><i class="bi bi-plus-circle me-1"></i>添加套餐</button>
+                        <button class="btn btn-outline-secondary" id="btnExport"><i class="bi bi-download me-1"></i>导出</button>
+                    </div>
+                </div>
+
+                <div class="content-card mb-4">
+                    <h6 class="text-muted mb-3">模板信息</h6>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="info-row">
+                                <span class="info-label">模板名称</span>
+                                <span class="info-value" id="infoName">默认指导价</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-row">
+                                <span class="info-label">模板编码</span>
+                                <span class="info-value"><code id="infoCode">TPL-DEFAULT</code></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="info-row">
+                                <span class="info-label">类型</span>
+                                <span class="info-value" id="infoType"><span class="badge bg-primary">系统默认</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="info-row">
+                                <span class="info-label">状态</span>
+                                <span class="info-value" id="infoStatus"><span class="badge bg-success">启用</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="info-row">
+                                <span class="info-label">兜底使用集成商数</span>
+                                <span class="info-value" id="infoIntegratorCount">2</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="info-row">
+                                <span class="info-label">指导价计费</span>
+                                <span class="info-value" id="infoGuideBilling"><span class="badge bg-secondary">套餐</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <div class="info-row">
+                                <span class="info-label">备注</span>
+                                <span class="info-value text-muted" id="infoRemark">面向一般集成商的标准报价，新集成商默认使用此模板</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-row">
+                                <span class="info-label">创建时间</span>
+                                <span class="info-value" id="infoCreateTime">2025-01-01 00:00</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="info-row">
+                                <span class="info-label">更新时间</span>
+                                <span class="info-value" id="infoUpdateTime">2025-02-25 16:30</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted mb-0">筛选条件</h6>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-2">
+                            <label class="form-label">供应商</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">全部</option>
+                                <option>eSIM Global</option>
+                                <option>AirHub</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">套餐类型</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">全部</option>
+                                <option>单国</option>
+                                <option>区域</option>
+                                <option>全球</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">国家/地区</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">全部</option>
+                                <option>日本</option>
+                                <option>韩国</option>
+                                <option>泰国</option>
+                                <option>美国</option>
+                                <option>欧洲</option>
+                                <option>亚洲</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">状态</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">全部</option>
+                                <option>在售</option>
+                                <option>禁售</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">套餐名称</label>
+                            <input type="text" class="form-control form-control-sm" placeholder="搜索套餐">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary btn-sm me-2"><i class="bi bi-search me-1"></i>查询</button>
+                            <button class="btn btn-outline-secondary btn-sm">重置</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h6 class="text-muted mb-3">报价列表</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>套餐</th>
+                                    <th>类型</th>
+                                    <th>国家/覆盖范围</th>
+                                    <th>运营商</th>
+                                    <th>供应商计费</th>
+                                    <th>币种</th>
+                                    <th>成本</th>
+                                    <th>指导价</th>
+                                    <th>建议零售价</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div><strong>日本 7天 1GB</strong></div>
+                                        <small class="text-muted">PKG-JP-7D-1G</small>
+                                    </td>
+                                    <td><span class="badge bg-primary">单国</span></td>
+                                    <td>日本</td>
+                                    <td>NTT Docomo</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>USD</td>
+                                    <td>$3.50</td>
+                                    <td><strong>$5.25</strong></td>
+                                    <td>$8.99</td>
+                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div><strong>韩国 5天 2GB</strong></div>
+                                        <small class="text-muted">PKG-KR-5D-2G</small>
+                                    </td>
+                                    <td><span class="badge bg-primary">单国</span></td>
+                                    <td>韩国</td>
+                                    <td>SK Telecom</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>USD</td>
+                                    <td>$4.00</td>
+                                    <td><strong>$6.00</strong></td>
+                                    <td>$9.99</td>
+                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div><strong>亚洲 10天 3GB</strong></div>
+                                        <small class="text-muted">PKG-ASIA-10D-3G</small>
+                                    </td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>亚洲 12国</td>
+                                    <td>多运营商</td>
+                                    <td><span class="badge bg-info">每GB</span></td>
+                                    <td>USD</td>
+                                    <td>$8.00</td>
+                                    <td><strong>$12.00</strong></td>
+                                    <td>$19.99</td>
+                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div><strong>全球 30天 5GB</strong></div>
+                                        <small class="text-muted">PKG-GLOBAL-30D-5G</small>
+                                    </td>
+                                    <td><span class="badge bg-success">全球</span></td>
+                                    <td>全球 80+国</td>
+                                    <td>多运营商</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>USD</td>
+                                    <td>$25.00</td>
+                                    <td><strong>$37.50</strong></td>
+                                    <td>$59.99</td>
+                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">显示第 1 到 4 条（原型演示）</div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="content-card mt-4">
+                    <h6 class="text-muted mb-3">使用此模板作为兜底报价的集成商</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" style="max-width: 800px;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>集成商名称</th>
+                                    <th>联系人</th>
+                                    <th>绑定时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="integratorList">
+                                <tr>
+                                    <td><strong>环球 eSIM 科技</strong></td>
+                                    <td>张经理</td>
+                                    <td>2025-01-15 10:00</td>
+                                    <td><a href="integrator-detail.html?id=INT-2025001" class="btn btn-sm btn-outline-primary">查看</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>出境游 eSIM 联盟</strong></td>
+                                    <td>王总</td>
+                                    <td>2025-02-01 14:30</td>
+                                    <td><a href="integrator-detail.html?id=INT-2025003" class="btn btn-sm btn-outline-primary">查看</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑报价弹窗 -->
+    <div class="modal fade" id="editPricingModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑套餐报价</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">套餐</label>
+                        <input type="text" class="form-control" value="日本 7天 1GB (PKG-JP-7D-1G)" readonly>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">成本（供应商报价）</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="text" class="form-control" value="3.50" readonly>
+                                </div>
+                                <small class="text-muted">来自供应商目录，不可修改</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">币种</label>
+                                <input type="text" class="form-control" value="USD" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                            <label class="form-label">供应商计费</label>
+                            <input type="text" class="form-control" value="套餐" readonly>
+                            <small class="text-muted">来自成本价格目录，不可修改</small>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">指导价 <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="editGuidePrice" value="5.25" step="0.01">
+                                </div>
+                                <small class="text-muted">面向集成商的销售价格</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">建议零售价</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="editRetailPrice" value="8.99" step="0.01">
+                                </div>
+                                <small class="text-muted">建议集成商对终端用户的售价</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">状态</label>
+                        <select class="form-select" id="editStatus">
+                            <option value="active" selected>在售</option>
+                            <option value="disabled">禁售</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="editPricingSave">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加套餐弹窗 -->
+    <div class="modal fade" id="addPackageModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加套餐到模板</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">从供应商套餐目录中选择套餐添加到此价格模板，可筛选供应商计费方式等条件，再设置涨幅或利润规则，添加时将批量应用指导价与建议零售价。</p>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-2">
+                            <label class="form-label">供应商计费方式</label>
+                            <select class="form-select form-select-sm" id="addPackageSupplierBilling">
+                                <option value="">全部</option>
+                                <option value="套餐">套餐</option>
+                                <option value="每GB">每GB</option>
+                            </select>
+                            <small class="text-muted">可筛选该计费方式的套餐</small>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">供应商</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">全部</option>
+                                <option>eSIM Global</option>
+                                <option>AirHub</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">套餐类型</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">全部</option>
+                                <option>单国</option>
+                                <option>区域</option>
+                                <option>全球</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">国家/地区</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">全部</option>
+                                <option>日本</option>
+                                <option>韩国</option>
+                                <option>泰国</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary btn-sm" id="addPackageSearch"><i class="bi bi-search me-1"></i>查询</button>
+                        </div>
+                    </div>
+                    <div class="border rounded p-3 mb-3 bg-light">
+                        <h6 class="text-muted mb-2">批量设置指导价</h6>
+                        <p class="text-muted small mb-2">添加选中套餐时，将按以下规则批量计算指导价与建议零售价（基于成本报价）。</p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">指导价</label>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addGuidePriceMode" id="addGuidePriceRatio" value="ratio" class="form-check-input" checked>
+                                        <label class="form-check-label" for="addGuidePriceRatio">按利润率</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 +</span>
+                                        <input type="number" class="form-control form-control-sm" id="addGuidePriceRatioVal" placeholder="30" step="0.01" min="0" style="width: 4.5rem;">
+                                        <span>%</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addGuidePriceMode" id="addGuidePriceAmount" value="amount" class="form-check-input">
+                                        <label class="form-check-label" for="addGuidePriceAmount">按固定金额</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 + $</span>
+                                        <input type="number" class="form-control form-control-sm" id="addGuidePriceAmountVal" placeholder="2" step="0.01" style="width: 4.5rem;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">建议零售价</label>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addRetailPriceMode" id="addRetailPriceRatio" value="ratio" class="form-check-input" checked>
+                                        <label class="form-check-label" for="addRetailPriceRatio">按利润率</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 +</span>
+                                        <input type="number" class="form-control form-control-sm" id="addRetailPriceRatioVal" placeholder="50" step="0.01" min="0" style="width: 4.5rem;">
+                                        <span>%</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addRetailPriceMode" id="addRetailPriceAmount" value="amount" class="form-check-input">
+                                        <label class="form-check-label" for="addRetailPriceAmount">按固定金额</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 + $</span>
+                                        <input type="number" class="form-control form-control-sm" id="addRetailPriceAmountVal" placeholder="5" step="0.01" style="width: 4.5rem;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+                        <table class="table table-hover align-middle table-sm">
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th><input type="checkbox" class="form-check-input" id="addPackageCheckAll" title="全选本页"></th>
+                                    <th>套餐</th>
+                                    <th>类型</th>
+                                    <th>国家/地区</th>
+                                    <th>供应商计费</th>
+                                    <th>成本</th>
+                                </tr>
+                            </thead>
+                            <tbody id="addPackageTableBody">
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input add-pkg-row"></td>
+                                    <td>泰国 7天 2GB</td>
+                                    <td><span class="badge bg-primary">单国</span></td>
+                                    <td>泰国</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>$3.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input add-pkg-row"></td>
+                                    <td>美国 15天 5GB</td>
+                                    <td><span class="badge bg-primary">单国</span></td>
+                                    <td>美国</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>$8.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="form-check-input add-pkg-row"></td>
+                                    <td>欧洲 14天 3GB</td>
+                                    <td><span class="badge bg-info">区域</span></td>
+                                    <td>欧洲 30国</td>
+                                    <td><span class="badge bg-info">每GB</span></td>
+                                    <td>$10.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="addPackageSubmit">添加选中套餐</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('editPricingSave').addEventListener('click', function () {
+            bootstrap.Modal.getInstance(document.getElementById('editPricingModal')).hide();
+            alert('已保存报价设置（原型演示）');
+        });
+
+        document.getElementById('btnExport').addEventListener('click', function () {
+            alert('已导出价格模板报价明细（原型演示）');
+        });
+
+        (function () {
+            var addModal = document.getElementById('addPackageModal');
+            var billingSelect = document.getElementById('addPackageSupplierBilling');
+            var addSubmit = document.getElementById('addPackageSubmit');
+            var addSearch = document.getElementById('addPackageSearch');
+            var checkAll = document.getElementById('addPackageCheckAll');
+            var tableBody = document.getElementById('addPackageTableBody');
+
+            addSearch.addEventListener('click', function () {
+                var billing = billingSelect.value;
+                alert('已查询（原型演示）' + (billing ? '，供应商计费方式：' + billing : ''));
+            });
+
+            addSubmit.addEventListener('click', function () {
+                var billing = billingSelect.value;
+                var rows = tableBody.querySelectorAll('.add-pkg-row:checked');
+                if (!rows.length) {
+                    alert('请至少勾选一个套餐');
+                    return;
+                }
+                var guideByRatio = document.getElementById('addGuidePriceRatio').checked;
+                var guideVal = guideByRatio ? (document.getElementById('addGuidePriceRatioVal').value || '0') + '%' : '$' + (document.getElementById('addGuidePriceAmountVal').value || '0');
+                var retailByRatio = document.getElementById('addRetailPriceRatio').checked;
+                var retailVal = retailByRatio ? (document.getElementById('addRetailPriceRatioVal').value || '0') + '%' : '$' + (document.getElementById('addRetailPriceAmountVal').value || '0');
+                bootstrap.Modal.getInstance(addModal).hide();
+                alert('已添加 ' + rows.length + ' 个套餐（原型演示）\n供应商计费：' + (billing || '未筛选') + '\n指导价规则：报价 + ' + guideVal + '\n建议零售价规则：报价 + ' + retailVal);
+            });
+
+            if (checkAll && tableBody) {
+                checkAll.addEventListener('change', function () {
+                    tableBody.querySelectorAll('.add-pkg-row').forEach(function (cb) { cb.checked = checkAll.checked; });
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

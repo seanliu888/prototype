@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>集成商定价 - eSIM 集成商管理平台</title>
+    <title>特殊报价 - eSIM 集成商管理平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -20,10 +20,14 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
                     <div class="nav-section-title">集成商</div>
                     <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
-                    <a class="nav-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
+                    <div class="collapse show nav-sub" id="navPricingCollapse">
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
+                        <a class="nav-link nav-sub-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
+                    </div>
                     <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
@@ -34,8 +38,8 @@
             <div class="col-md-10 main-content">
                 <div class="page-header">
                     <div>
-                        <h1><i class="bi bi-currency-dollar me-2"></i>集成商定价</h1>
-                        <small class="text-muted">从已同步的供应商套餐中为集成商配置售价、成本价、建议零售价；支持筛选与编辑</small>
+                        <h1><i class="bi bi-currency-dollar me-2"></i>特殊报价</h1>
+                        <small class="text-muted">从已同步的供应商套餐中为集成商配置指导价、成本价、建议零售价；支持筛选与编辑</small>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="pricing-import.html" class="btn btn-outline-primary"><i class="bi bi-upload me-1"></i>批量导入</a>
@@ -119,9 +123,11 @@
                                     <th>类型</th>
                                     <th>国家/覆盖范围</th>
                                     <th>运营商</th>
+                                    <th>供应商计费</th>
+                                    <th>指导价计费</th>
                                     <th>币种</th>
                                     <th>成本 <i class="bi bi-question-circle text-muted small" style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="对集成商不可见"></i></th>
-                                    <th>售价（浮动）</th>
+                                    <th>指导价（浮动）</th>
                                     <th>建议零售价</th>
                                     <th>时间</th>
                                     <th>状态</th>
@@ -129,12 +135,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="18.00" data-price="28.00" data-retail="35.00" data-catalog-pkg="pkg_1001" data-catalog-supplier-id="PKG-AS-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="亚洲 7 天 1GB" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="18.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
+                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="18.00" data-price="28.00" data-retail="35.00" data-supplier-billing="套餐" data-guide-billing="套餐" data-catalog-pkg="pkg_1001" data-catalog-supplier-id="PKG-AS-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="亚洲 7 天 1GB" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="18.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
                                     <td>亚洲 7 天 1GB</td>
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>$ 18.00</td>
                                     <td>$ 28.00 <small class="text-success">(+10.00)</small></td>
@@ -154,12 +162,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="45.00" data-price="68.00" data-retail="88.00" data-catalog-pkg="pkg_1002" data-catalog-supplier-id="PKG-EU-15D-3G" data-catalog-supplier="eSIM 全球供" data-catalog-name="欧洲 15 天 3GB" data-catalog-type="区域" data-catalog-region="欧洲（多国可用）" data-catalog-carrier="Vodafone" data-catalog-cap="3GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="15 天" data-catalog-quote="45.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
+                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="45.00" data-price="68.00" data-retail="88.00" data-supplier-billing="每GB" data-guide-billing="每GB" data-catalog-pkg="pkg_1002" data-catalog-supplier-id="PKG-EU-15D-3G" data-catalog-supplier="eSIM 全球供" data-catalog-name="欧洲 15 天 3GB" data-catalog-type="区域" data-catalog-region="欧洲（多国可用）" data-catalog-carrier="Vodafone" data-catalog-cap="3GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="15 天" data-catalog-quote="45.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
                                     <td>欧洲 15 天 3GB</td>
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>欧洲（多国）</td>
                                     <td>Vodafone</td>
+                                    <td><span class="badge bg-info">每GB</span></td>
+                                    <td><span class="badge bg-info">每GB</span></td>
                                     <td>USD</td>
                                     <td>$ 45.00</td>
                                     <td>$ 68.00 <small class="text-success">(+23.00)</small></td>
@@ -179,12 +189,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="22.00" data-price="32.00" data-retail="42.00" data-catalog-pkg="pkg_1003" data-catalog-supplier-id="PKG-JP-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="日本 7 天 1GB" data-catalog-type="国家" data-catalog-region="日本" data-catalog-carrier="NTT Docomo" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="22.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
+                                <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="22.00" data-price="32.00" data-retail="42.00" data-supplier-billing="套餐" data-guide-billing="套餐" data-catalog-pkg="pkg_1003" data-catalog-supplier-id="PKG-JP-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="日本 7 天 1GB" data-catalog-type="国家" data-catalog-region="日本" data-catalog-carrier="NTT Docomo" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="22.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
                                     <td>日本 7 天 1GB</td>
                                     <td><span class="badge bg-secondary">国家</span></td>
                                     <td>日本</td>
                                     <td>NTT Docomo</td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>$ 22.00</td>
                                     <td>$ 32.00 <small class="text-success">(+10.00)</small></td>
@@ -204,12 +216,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-status="disabled" data-integrator="旅行家 eSIM" data-import-time="2025-02-01 14:20" data-cost="" data-price="30.00" data-retail="38.00" data-catalog-pkg="pkg_2001" data-catalog-supplier-id="PKG-AS-7D-1G-B" data-catalog-supplier="跨境 eSIM 源" data-catalog-name="亚洲 7 日 1G 流量" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="4G 网速" data-catalog-validity="7 天" data-catalog-quote="16.50" data-catalog-sync="2025-02-27 14:00" data-catalog-status="有效">
+                                <tr data-status="disabled" data-integrator="旅行家 eSIM" data-import-time="2025-02-01 14:20" data-cost="" data-price="30.00" data-retail="38.00" data-supplier-billing="每GB" data-guide-billing="套餐" data-catalog-pkg="pkg_2001" data-catalog-supplier-id="PKG-AS-7D-1G-B" data-catalog-supplier="跨境 eSIM 源" data-catalog-name="亚洲 7 日 1G 流量" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="4G 网速" data-catalog-validity="7 天" data-catalog-quote="16.50" data-catalog-sync="2025-02-27 14:00" data-catalog-status="有效">
                                     <td>旅行家 eSIM</td>
                                     <td>亚洲 7 天 1GB</td>
                                     <td><span class="badge bg-info">区域</span></td>
                                     <td>亚洲（多国）</td>
                                     <td>多运营商</td>
+                                    <td><span class="badge bg-info">每GB</span></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>—</td>
                                     <td>$ 30.00</td>
@@ -284,7 +298,7 @@
         </div>
     </div>
 
-    <!-- 编辑定价弹窗：仅可修改售价、建议零售价 -->
+    <!-- 编辑定价弹窗：仅可修改指导价、建议零售价 -->
     <div class="modal fade" id="pricingEditModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -293,7 +307,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">仅支持修改售价与建议零售价，其余信息仅作展示。</p>
+                    <p class="text-muted small mb-3">仅支持修改指导价与建议零售价，其余信息仅作展示。</p>
                     <div class="mb-3">
                         <label class="form-label">集成商</label>
                         <input type="text" class="form-control" id="editIntegrator" readonly>
@@ -302,12 +316,26 @@
                         <label class="form-label">套餐</label>
                         <input type="text" class="form-control" id="editPlan" readonly>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">供应商计费</label>
+                                <input type="text" class="form-control" id="editSupplierBilling" readonly placeholder="—">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">指导价计费</label>
+                                <input type="text" class="form-control" id="editGuideBilling" readonly placeholder="—">
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">成本 <span class="text-muted small fw-normal">(对集成商不可见)</span></label>
                         <input type="text" class="form-control" id="editCost" readonly placeholder="—">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">售价 <span class="text-danger">*</span></label>
+                        <label class="form-label">指导价 <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="editPrice" step="0.01" min="0" required>
                     </div>
                     <div class="mb-3">
@@ -317,14 +345,14 @@
                     <hr class="my-3">
                     <div class="mb-3">
                         <label class="form-label">加油包</label>
-                        <p class="text-muted small mb-2">该套餐专属的流量加油包，可设置集成商售价；与套餐主定价一并保存。更多档位可在详情页编辑。</p>
+                        <p class="text-muted small mb-2">该套餐专属的流量加油包，可设置指导价；与套餐主定价一并保存。更多档位可在详情页编辑。</p>
                         <div class="table-responsive">
                             <table class="table table-sm align-middle">
                                 <thead class="table-light">
                                     <tr>
                                         <th>流量</th>
                                         <th>供应商报价</th>
-                                        <th>集成商售价</th>
+                                        <th>指导价</th>
                                         <th>建议零售价</th>
                                         <th>状态</th>
                                     </tr>
@@ -361,18 +389,25 @@
                 document.getElementById('editCost').value = cost ? '$ ' + cost : '—';
                 document.getElementById('editPrice').value = btn.getAttribute('data-price') || '';
                 document.getElementById('editRetail').value = btn.getAttribute('data-retail') || '';
+                document.getElementById('editSupplierBilling').value = btn.getAttribute('data-supplier-billing') || '—';
+                document.getElementById('editGuideBilling').value = btn.getAttribute('data-guide-billing') || '—';
             });
         }
         function pricingSave() {
             var price = document.getElementById('editPrice').value;
             var retail = document.getElementById('editRetail').value;
-            if (!price || !retail) { alert('请填写售价和建议零售价'); return; }
+            if (!price || !retail) { alert('请填写指导价和建议零售价'); return; }
             bootstrap.Modal.getInstance(document.getElementById('pricingEditModal')).hide();
-            alert('已保存（含套餐定价与加油包售价，原型演示）');
+            alert('已保存（含套餐定价与加油包指导价，原型演示）');
         }
         function pricingEditFromRow(el, integrator, plan, cost, price, retail) {
+            var row = el && el.closest ? el.closest('tr') : null;
+            var supplierBilling = row ? (row.getAttribute('data-supplier-billing') || '—') : '—';
+            var guideBilling = row ? (row.getAttribute('data-guide-billing') || '—') : '—';
             document.getElementById('editIntegrator').value = integrator || '';
             document.getElementById('editPlan').value = plan || '';
+            document.getElementById('editSupplierBilling').value = supplierBilling;
+            document.getElementById('editGuideBilling').value = guideBilling;
             document.getElementById('editCost').value = cost ? '$ ' + cost : '—';
             document.getElementById('editPrice').value = price || '';
             document.getElementById('editRetail').value = retail || '';
@@ -541,8 +576,8 @@
             }
             var exportMode = document.querySelector('input[name="exportIntegratorMode"]:checked').value;
             var rows = document.querySelectorAll('table tbody tr');
-            // 表头：产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 售价, 建议零售价
-            var csvHeader = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,售价,建议零售价';
+            // 表头：产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 指导价, 建议零售价
+            var csvHeader = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,指导价,建议零售价';
             var csvRows = [csvHeader];
             rows.forEach(function (row) {
                 var integrator = row.getAttribute('data-integrator') || '';
@@ -595,8 +630,8 @@
                 alert('没有可导出的数据');
                 return;
             }
-            // 表头：集成商, 产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 供应商报价, 售价, 建议零售价, 导入时间, 状态
-            var csvHeader = '集成商,产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,供应商报价,售价,建议零售价,导入时间,状态';
+            // 表头：集成商, 产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 供应商报价, 指导价, 建议零售价, 导入时间, 状态
+            var csvHeader = '集成商,产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,供应商报价,指导价,建议零售价,导入时间,状态';
             var csvRows = [csvHeader];
             rows.forEach(function (row) {
                 if (row.style.display === 'none') return;

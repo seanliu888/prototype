@@ -30,10 +30,14 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
                     <div class="nav-section-title">集成商</div>
                     <a class="nav-link active" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
-                    <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="false" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
+                    <div class="collapse nav-sub" id="navPricingCollapse">
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
+                        <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
+                    </div>
                     <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
@@ -84,6 +88,16 @@
                                 <label class="form-label">信用额度（可选）</label>
                                 <input type="number" class="form-control" id="creditLimit" placeholder="不填则不限制" min="0" step="0.01">
                                 <small class="text-muted">预付、后付均可设置，留空表示不限制</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">兜底指导报价</label>
+                                <select class="form-select" id="priceTemplate">
+                                    <option value="" selected>不指定</option>
+                                    <option value="TPL-DEFAULT">默认指导价</option>
+                                    <option value="TPL-SILVER">银牌合作伙伴</option>
+                                    <option value="TPL-GOLD">金牌合作伙伴</option>
+                                </select>
+                                <small class="text-muted">可选，未单独定价的套餐将使用此模板的指导价</small>
                             </div>
                         </div>
                         <div class="form-section-title">状态与备注（编辑时可见）</div>

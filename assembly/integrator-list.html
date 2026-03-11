@@ -20,10 +20,14 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <a class="nav-link" href="catalog-list.html"><i class="bi bi-collection"></i>套餐目录</a>
                     <div class="nav-section-title">集成商</div>
                     <a class="nav-link active" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
-                    <a class="nav-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>集成商定价</a>
+                    <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="false" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
+                    <div class="collapse nav-sub" id="navPricingCollapse">
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
+                        <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
+                    </div>
                     <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
@@ -86,6 +90,7 @@
                                     <th>编号</th>
                                     <th>状态</th>
                                     <th>联系人</th>
+                                    <th>兜底指导报价</th>
                                     <th>结算方式</th>
                                     <th>账户余额</th>
                                     <th>信用额度</th>
@@ -104,6 +109,7 @@
                                     <td>INT-2025001</td>
                                     <td><span class="badge bg-success">正常</span></td>
                                     <td>张经理<br><small class="text-muted">zhang@global-esim.com / 138****8001</small></td>
+                                    <td>—</td>
                                     <td><span class="badge bg-primary">预付</span></td>
                                     <td>$ 125,680.00</td>
                                     <td>$ 50,000</td>
@@ -126,6 +132,7 @@
                                     <td>INT-2025002</td>
                                     <td><span class="badge bg-success">正常</span></td>
                                     <td>李小姐<br><small class="text-muted">li@travel-esim.com / 139****9002</small></td>
+                                    <td><a href="guide-pricing-detail.html?id=TPL-SILVER" class="text-decoration-none">银牌合作伙伴</a></td>
                                     <td><span class="badge bg-info">后付</span></td>
                                     <td>$ 58,200.00</td>
                                     <td>不限制</td>
@@ -148,6 +155,7 @@
                                     <td>INT-2025003</td>
                                     <td><span class="badge bg-warning text-dark">待审核</span></td>
                                     <td>王总<br><small class="text-muted">wang@outbound-esim.com / 136****7003</small></td>
+                                    <td>—</td>
                                     <td><span class="badge bg-primary">预付</span></td>
                                     <td>$ 0.00</td>
                                     <td>—</td>
@@ -170,6 +178,7 @@
                                     <td>INT-2024008</td>
                                     <td><span class="badge bg-danger">停用</span></td>
                                     <td class="text-muted">陈经理 / chen@old-partner.com</td>
+                                    <td class="text-muted">默认指导价</td>
                                     <td><span class="badge bg-secondary">预付</span></td>
                                     <td class="text-muted">$ 0.00</td>
                                     <td class="text-muted">—</td>

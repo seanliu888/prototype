@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指导报价 - eSIM 集成商管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">供应商</div>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <div class="nav-section-title">集成商</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
+                    <div class="collapse show nav-sub" id="navPricingCollapse">
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本价格</a>
+                        <a class="nav-link nav-sub-link active" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
+                        <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
+                    </div>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>开发者与 API</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-tags me-2"></i>指导报价</h1>
+                        <small class="text-muted">管理价格模板，为不同级别的集成商设置标准报价方案；集成商可绑定模板或使用特殊报价</small>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#templateCreateModal">
+                        <i class="bi bi-plus-circle me-1"></i>新建模板
+                    </button>
+                </div>
+
+                <div class="content-card mb-4">
+                    <h6 class="text-muted mb-3">价格模板说明</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-shield-check text-primary me-2" style="font-size: 1.5rem;"></i>
+                                    <strong>默认指导价</strong>
+                                    <span class="badge bg-primary ms-2">系统默认</span>
+                                </div>
+                                <p class="text-muted small mb-0">面向一般集成商的标准报价，新集成商默认使用此模板。基于供应商成本加成一定利润率。</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-star text-warning me-2" style="font-size: 1.5rem;"></i>
+                                    <strong>特殊报价模板</strong>
+                                </div>
+                                <p class="text-muted small mb-0">针对特定集成商协商的优惠价格方案，可创建多个模板（如：银牌、金牌、战略合作）。</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-person-gear text-info me-2" style="font-size: 1.5rem;"></i>
+                                    <strong>兜底报价</strong>
+                                </div>
+                                <p class="text-muted small mb-0">在集成商管理中可选择兜底指导报价模板，未单独定价的套餐将使用该模板的指导价。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h6 class="text-muted mb-3">价格模板列表</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>模板ID</th>
+                                    <th>模板名称</th>
+                                    <th>类型</th>
+                                    <th>指导价计费</th>
+                                    <th>套餐数</th>
+                                    <th>兜底使用数</th>
+                                    <th>创建时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>TPL-DEFAULT</code></td>
+                                    <td>
+                                        <strong>默认指导价</strong>
+                                        <span class="badge bg-primary ms-1">默认</span>
+                                    </td>
+                                    <td><span class="badge bg-secondary">系统</span></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>4</td>
+                                    <td>2</td>
+                                    <td>2025-01-01 00:00</td>
+                                    <td><span class="badge bg-success">启用</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="guide-pricing-detail.html?id=TPL-DEFAULT" class="btn btn-outline-primary" title="查看详情"><i class="bi bi-eye"></i></a>
+                                            <button type="button" class="btn btn-outline-warning guide-edit-btn" title="编辑" data-bs-toggle="modal" data-bs-target="#templateEditModal" data-template-code="TPL-DEFAULT" data-template-name="默认指导价" data-template-remark="面向一般集成商的标准报价，新集成商默认使用此模板" data-template-status="启用" data-template-guide-billing="套餐" data-is-default="1"><i class="bi bi-pencil"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>TPL-SILVER</code></td>
+                                    <td><strong>银牌合作伙伴</strong></td>
+                                    <td><span class="badge bg-info">自定义</span></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>4</td>
+                                    <td>1</td>
+                                    <td>2025-02-01 10:00</td>
+                                    <td><span class="badge bg-success">启用</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="guide-pricing-detail.html?id=TPL-SILVER" class="btn btn-outline-primary" title="查看详情"><i class="bi bi-eye"></i></a>
+                                            <button type="button" class="btn btn-outline-warning guide-edit-btn" title="编辑" data-bs-toggle="modal" data-bs-target="#templateEditModal" data-template-code="TPL-SILVER" data-template-name="银牌合作伙伴" data-template-remark="银牌级集成商专用优惠价" data-template-status="启用" data-template-guide-billing="套餐" data-is-default="0"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-outline-danger" title="删除"><i class="bi bi-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>TPL-GOLD</code></td>
+                                    <td><strong>金牌合作伙伴</strong></td>
+                                    <td><span class="badge bg-info">自定义</span></td>
+                                    <td><span class="badge bg-info">每GB</span></td>
+                                    <td>4</td>
+                                    <td>0</td>
+                                    <td>2025-02-15 14:30</td>
+                                    <td><span class="badge bg-success">启用</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="guide-pricing-detail.html?id=TPL-GOLD" class="btn btn-outline-primary" title="查看详情"><i class="bi bi-eye"></i></a>
+                                            <button type="button" class="btn btn-outline-warning guide-edit-btn" title="编辑" data-bs-toggle="modal" data-bs-target="#templateEditModal" data-template-code="TPL-GOLD" data-template-name="金牌合作伙伴" data-template-remark="金牌级集成商专用优惠价" data-template-status="启用" data-template-guide-billing="每GB" data-is-default="0"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-outline-danger" title="删除"><i class="bi bi-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="table-secondary">
+                                    <td><code>TPL-TEST</code></td>
+                                    <td><strong class="text-muted">测试模板</strong></td>
+                                    <td><span class="badge bg-info">自定义</span></td>
+                                    <td><span class="badge bg-secondary">套餐</span></td>
+                                    <td>2</td>
+                                    <td>0</td>
+                                    <td>2025-02-20 09:00</td>
+                                    <td><span class="badge bg-secondary">停用</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="guide-pricing-detail.html?id=TPL-TEST" class="btn btn-outline-primary" title="查看详情"><i class="bi bi-eye"></i></a>
+                                            <button type="button" class="btn btn-outline-warning guide-edit-btn" title="编辑" data-bs-toggle="modal" data-bs-target="#templateEditModal" data-template-code="TPL-TEST" data-template-name="测试模板" data-template-remark="仅用于测试" data-template-status="停用" data-template-guide-billing="套餐" data-is-default="0"><i class="bi bi-pencil"></i></button>
+                                            <button class="btn btn-outline-success" title="启用"><i class="bi bi-play-circle"></i></button>
+                                            <button class="btn btn-outline-danger" title="删除"><i class="bi bi-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">显示第 1 到 4 条（原型演示）</div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑模板弹窗 -->
+    <div class="modal fade" id="templateEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑价格模板</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editTemplateCode">
+                    <div class="mb-3">
+                        <label class="form-label">模板名称 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editTemplateName" placeholder="如：银牌合作伙伴">
+                        <small class="text-muted" id="editTemplateNameHint" style="display: none;">系统默认模板名称可微调，不建议大改</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">计费方式</label>
+                        <div class="form-control-plaintext py-0" id="editTemplateGuideBillingDisplay">
+                            <span class="badge bg-secondary" id="editTemplateGuideBillingBadge">套餐</span>
+                        </div>
+                        <small class="text-muted">新增后固定，不可修改</small>
+                    </div>
+                    <div class="mb-3" id="editStatusGroup">
+                        <label class="form-label">状态</label>
+                        <select class="form-select" id="editTemplateStatus">
+                            <option value="启用">启用</option>
+                            <option value="停用">停用</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">备注</label>
+                        <textarea class="form-control" id="editTemplateRemark" rows="2" placeholder="模板说明或适用场景"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="templateEditSave"><i class="bi bi-check-lg me-1"></i>保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建模板弹窗 -->
+    <div class="modal fade" id="templateCreateModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">新建价格模板</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">创建新的价格模板后，可在详情页为各套餐设置报价，然后在集成商管理中绑定给对应集成商。</p>
+                    <div class="mb-3">
+                        <label class="form-label">模板名称 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="templateName" placeholder="如：银牌合作伙伴">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">模板编码 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="templateCode" placeholder="如：TPL-SILVER">
+                        <small class="text-muted">唯一标识，创建后不可修改</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">计费方式</label>
+                        <select class="form-select" id="templateGuideBilling">
+                            <option value="套餐">套餐</option>
+                            <option value="每GB">每GB</option>
+                        </select>
+                        <small class="text-muted">指导价计费方式，同一模板下统一</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">基于模板</label>
+                        <select class="form-select" id="templateBase">
+                            <option value="">从空白创建</option>
+                            <option value="TPL-DEFAULT">复制自：默认指导价</option>
+                            <option value="TPL-SILVER">复制自：银牌合作伙伴</option>
+                            <option value="TPL-GOLD">复制自：金牌合作伙伴</option>
+                        </select>
+                        <small class="text-muted">可选择复制现有模板的报价作为起点</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">备注</label>
+                        <textarea class="form-control" id="templateRemark" rows="2" placeholder="模板说明或适用场景"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="templateCreateConfirm">创建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            var editModal = document.getElementById('templateEditModal');
+            if (editModal) {
+                editModal.addEventListener('show.bs.modal', function (e) {
+                    var btn = e.relatedTarget;
+                    if (!btn || !btn.classList.contains('guide-edit-btn')) return;
+                    var code = btn.getAttribute('data-template-code') || '';
+                    var name = btn.getAttribute('data-template-name') || '';
+                    var remark = btn.getAttribute('data-template-remark') || '';
+                    var status = btn.getAttribute('data-template-status') || '启用';
+                    var guideBilling = btn.getAttribute('data-template-guide-billing') || '套餐';
+                    var isDefault = btn.getAttribute('data-is-default') === '1';
+                    document.getElementById('editTemplateCode').value = code;
+                    document.getElementById('editTemplateName').value = name;
+                    document.getElementById('editTemplateName').readOnly = false;
+                    document.getElementById('editTemplateRemark').value = remark;
+                    document.getElementById('editTemplateStatus').value = status;
+                    document.getElementById('editTemplateGuideBillingBadge').textContent = (guideBilling === '每GB' ? '每GB' : '套餐');
+                    document.getElementById('editTemplateGuideBillingBadge').className = 'badge ' + (guideBilling === '每GB' ? 'bg-info' : 'bg-secondary');
+                    var statusGroup = document.getElementById('editStatusGroup');
+                    var nameHint = document.getElementById('editTemplateNameHint');
+                    if (isDefault) {
+                        statusGroup.style.display = 'none';
+                        nameHint.style.display = 'block';
+                    } else {
+                        statusGroup.style.display = 'block';
+                        nameHint.style.display = 'none';
+                    }
+                });
+            }
+            document.getElementById('templateEditSave').addEventListener('click', function () {
+                var name = document.getElementById('editTemplateName').value.trim();
+                if (!name) { alert('请输入模板名称'); return; }
+                var code = document.getElementById('editTemplateCode').value;
+                var status = document.getElementById('editTemplateStatus').value;
+                var guideBilling = document.getElementById('editTemplateGuideBillingBadge').textContent;
+                var remark = document.getElementById('editTemplateRemark').value.trim();
+                bootstrap.Modal.getInstance(editModal).hide();
+                alert('已保存（原型演示）\n\n模板编码：' + code + '\n模板名称：' + name + '\n计费方式：' + guideBilling + '\n状态：' + status + (remark ? '\n备注：' + remark : ''));
+            });
+            document.getElementById('templateCreateConfirm').addEventListener('click', function () {
+                var name = document.getElementById('templateName').value.trim();
+                var code = document.getElementById('templateCode').value.trim();
+                if (!name) { alert('请输入模板名称'); return; }
+                if (!code) { alert('请输入模板编码'); return; }
+                var guideBilling = document.getElementById('templateGuideBilling').value;
+                bootstrap.Modal.getInstance(document.getElementById('templateCreateModal')).hide();
+                alert('已创建价格模板（原型演示）\n\n模板名称：' + name + '\n模板编码：' + code + '\n计费方式：' + guideBilling + '\n\n请前往详情页设置各套餐报价。');
+            });
+        })();
+    </script>
+</body>
+</html>
