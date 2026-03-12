@@ -76,13 +76,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="info-row">
-                                <span class="info-label">状态</span>
-                                <span class="info-value" id="infoStatus"><span class="badge bg-success">启用</span></span>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="info-row">
-                                <span class="info-label">兜底使用集成商数</span>
+                                <span class="info-label">集成商引用数</span>
                                 <span class="info-value" id="infoIntegratorCount">2</span>
                             </div>
                         </div>
@@ -163,11 +157,15 @@
                 </div>
 
                 <div class="content-card">
-                    <h6 class="text-muted mb-3">报价列表</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted mb-0">报价列表</h6>
+                        <button type="button" class="btn btn-sm btn-outline-danger" id="btnDeleteSelectedPricing" title="删除选中的报价"><i class="bi bi-trash me-1"></i>删除选中</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
+                                    <th style="width: 2.5rem;"><input type="checkbox" class="form-check-input" id="pricingListCheckAll" title="全选本页"></th>
                                     <th>套餐</th>
                                     <th>套餐Code</th>
                                     <th>类型</th>
@@ -176,14 +174,15 @@
                                     <th>供应商计费</th>
                                     <th>币种</th>
                                     <th>成本</th>
-                                    <th>指导价</th>
+                                    <th>指导价（浮动）</th>
                                     <th>建议零售价</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody id="pricingListBody">
+                                <tr data-pricing-status="onsale">
+                                    <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>日本 7天 1GB</strong></td>
                                     <td><code>PKG-JP-7D-1G</code></td>
                                     <td><span class="badge bg-primary">单国</span></td>
@@ -192,14 +191,16 @@
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>$3.50</td>
-                                    <td><strong>$5.25</strong></td>
+                                    <td><strong>$5.25</strong> <small class="text-success">(+1.75)</small></td>
                                     <td>$8.99</td>
-                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td class="pricing-status-cell"><span class="badge bg-success">在售</span></td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-warning guide-pricing-edit-btn" data-bs-toggle="modal" data-bs-target="#editPricingModal" data-pkg-code="PKG-JP-7D-1G" data-pricing-status="onsale" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-pricing-status="onsale">
+                                    <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>韩国 5天 2GB</strong></td>
                                     <td><code>PKG-KR-5D-2G</code></td>
                                     <td><span class="badge bg-primary">单国</span></td>
@@ -208,14 +209,16 @@
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>$4.00</td>
-                                    <td><strong>$6.00</strong></td>
+                                    <td><strong>$6.00</strong> <small class="text-success">(+2.00)</small></td>
                                     <td>$9.99</td>
-                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td class="pricing-status-cell"><span class="badge bg-success">在售</span></td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-warning guide-pricing-edit-btn" data-bs-toggle="modal" data-bs-target="#editPricingModal" data-pkg-code="PKG-KR-5D-2G" data-pricing-status="onsale" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-pricing-status="onsale">
+                                    <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>亚洲 10天 3GB</strong></td>
                                     <td><code>PKG-ASIA-10D-3G</code></td>
                                     <td><span class="badge bg-info">区域</span></td>
@@ -224,14 +227,16 @@
                                     <td><span class="badge bg-info">每GB</span></td>
                                     <td>USD</td>
                                     <td>$8.00</td>
-                                    <td><strong>$12.00</strong></td>
+                                    <td><strong>$12.00</strong> <small class="text-success">(+4.00)</small></td>
                                     <td>$19.99</td>
-                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td class="pricing-status-cell"><span class="badge bg-success">在售</span></td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-warning guide-pricing-edit-btn" data-bs-toggle="modal" data-bs-target="#editPricingModal" data-pkg-code="PKG-ASIA-10D-3G" data-pricing-status="onsale" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-pricing-status="disabled">
+                                    <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>全球 30天 5GB</strong></td>
                                     <td><code>PKG-GLOBAL-30D-5G</code></td>
                                     <td><span class="badge bg-success">全球</span></td>
@@ -240,11 +245,12 @@
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
                                     <td>$25.00</td>
-                                    <td><strong>$37.50</strong></td>
+                                    <td><strong>$37.50</strong> <small class="text-success">(+12.50)</small></td>
                                     <td>$59.99</td>
-                                    <td><span class="badge bg-success">在售</span></td>
+                                    <td class="pricing-status-cell"><span class="badge bg-secondary">禁售</span></td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editPricingModal" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-warning guide-pricing-edit-btn" data-bs-toggle="modal" data-bs-target="#editPricingModal" data-pkg-code="PKG-GLOBAL-30D-5G" data-pricing-status="disabled" title="编辑报价"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -281,14 +287,20 @@
                                     <td>张经理</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>2025-01-15 10:00</td>
-                                    <td><a href="integrator-detail.html?id=INT-2025001" class="btn btn-sm btn-outline-primary">查看</a></td>
+                                    <td>
+                                        <a href="integrator-detail.html?id=INT-2025001" class="btn btn-sm btn-outline-primary">查看</a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" title="移除">移除</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><strong>出境游 eSIM 联盟</strong></td>
                                     <td>王总</td>
                                     <td><span class="badge bg-info">每GB</span></td>
                                     <td>2025-02-01 14:30</td>
-                                    <td><a href="integrator-detail.html?id=INT-2025003" class="btn btn-sm btn-outline-primary">查看</a></td>
+                                    <td>
+                                        <a href="integrator-detail.html?id=INT-2025003" class="btn btn-sm btn-outline-primary">查看</a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" title="移除">移除</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -358,12 +370,12 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">状态</label>
-                        <select class="form-select" id="editStatus">
-                            <option value="active" selected>在售</option>
+                        <select class="form-select" id="editPricingStatus">
+                            <option value="onsale">在售</option>
                             <option value="disabled">禁售</option>
                         </select>
                     </div>
-                </div>
+                    </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" id="editPricingSave">保存</button>
@@ -531,7 +543,31 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        var currentEditPricingBtn = null;
+        var editPricingModalEl = document.getElementById('editPricingModal');
+        if (editPricingModalEl) {
+            editPricingModalEl.addEventListener('show.bs.modal', function (e) {
+                var btn = e.relatedTarget;
+                currentEditPricingBtn = btn && btn.classList.contains('guide-pricing-edit-btn') ? btn : null;
+                if (currentEditPricingBtn) {
+                    var status = currentEditPricingBtn.getAttribute('data-pricing-status') || 'onsale';
+                    document.getElementById('editPricingStatus').value = status === 'disabled' ? 'disabled' : 'onsale';
+                }
+            });
+        }
         document.getElementById('editPricingSave').addEventListener('click', function () {
+            var status = document.getElementById('editPricingStatus').value;
+            if (currentEditPricingBtn) {
+                var tr = currentEditPricingBtn.closest('tr');
+                if (tr) {
+                    tr.setAttribute('data-pricing-status', status);
+                    var statusCell = tr.querySelector('.pricing-status-cell');
+                    if (statusCell) {
+                        statusCell.innerHTML = status === 'disabled' ? '<span class="badge bg-secondary">禁售</span>' : '<span class="badge bg-success">在售</span>';
+                    }
+                    currentEditPricingBtn.setAttribute('data-pricing-status', status);
+                }
+            }
             bootstrap.Modal.getInstance(document.getElementById('editPricingModal')).hide();
             alert('已保存报价设置（原型演示）');
         });
@@ -539,6 +575,32 @@
         document.getElementById('btnExport').addEventListener('click', function () {
             alert('已导出价格模板报价明细（原型演示）');
         });
+
+        (function () {
+            var pricingListBody = document.getElementById('pricingListBody');
+            var pricingCheckAll = document.getElementById('pricingListCheckAll');
+            if (pricingCheckAll && pricingListBody) {
+                pricingCheckAll.addEventListener('change', function () {
+                    pricingListBody.querySelectorAll('.pricing-row-check').forEach(function (cb) { cb.checked = pricingCheckAll.checked; });
+                });
+            }
+            document.getElementById('btnDeleteSelectedPricing').addEventListener('click', function () {
+                var checked = pricingListBody.querySelectorAll('.pricing-row-check:checked');
+                if (!checked.length) { alert('请先勾选要删除的报价'); return; }
+                if (!confirm('确定删除选中的 ' + checked.length + ' 条报价？')) return;
+                checked.forEach(function (cb) { cb.closest('tr').remove(); });
+                if (pricingCheckAll) pricingCheckAll.checked = false;
+            });
+            if (pricingListBody) {
+                pricingListBody.addEventListener('click', function (e) {
+                    if (e.target.closest('.pricing-delete-one')) {
+                        var tr = e.target.closest('tr');
+                        if (!tr || !confirm('确定删除该条报价？')) return;
+                        tr.remove();
+                    }
+                });
+            }
+        })();
 
         (function () {
             var addModal = document.getElementById('addPackageModal');

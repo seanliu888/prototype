@@ -42,8 +42,8 @@
                         <small class="text-muted">套餐基础信息由供应商 API 同步；<strong>仅报价与计费方式</strong>可在此编辑或导入</small>
                     </div>
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#catalogBatchImportModal"><i class="bi bi-upload me-1"></i>导入</button>
-                        <button type="button" class="btn btn-outline-secondary" id="btnDownloadCatalogTemplate"><i class="bi bi-download me-1"></i>下载模板</button>
+                        <button type="button" class="btn btn-outline-secondary" id="btnExportCatalog"><i class="bi bi-download me-1"></i>导出</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#catalogBatchImportModal"><i class="bi bi-upload me-1"></i>批量更新</button>
                         <a href="supplier-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>去同步</a>
                     </div>
                 </div>
@@ -127,100 +127,85 @@
                                     <th>套餐Code</th>
                                     <th>供应商套餐ID</th>
                                     <th>套餐名称</th>
-                                    <th>类型</th>
-                                    <th>国家/覆盖范围</th>
+                                    <th>类型/覆盖范围</th>
                                     <th>运营商</th>
-                                    <th>流量规格</th>
+                                    <th>流量/有效期</th>
                                     <th>计费方式</th>
-                                    <th>有效期</th>
-                                    <th>币种</th>
-                                    <th>报价</th>
+                                    <th>币种/报价</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody id="catalogTableBody">
+                                <tr data-supplier-name="亚洲 7 天 1GB" data-custom-name="亚洲7天1G（主推）" data-type="区域" data-region="亚洲（多国可用）" data-cap="1GB" data-quote="18.00">
                                     <td>eSIM 全球供</td>
                                     <td><code>pkg_1001</code></td>
                                     <td><code>PKG-AS-7D-1G</code></td>
-                                    <td>亚洲 7 天 1GB</td>
-                                    <td><span class="badge bg-info">区域</span></td>
-                                    <td>亚洲（多国可用）</td>
+                                    <td class="catalog-name-cell"><div class="catalog-name-display">亚洲7天1G（主推）</div><small class="text-muted catalog-name-supplier">供应商：亚洲 7 天 1GB</small></td>
+                                    <td><span class="badge bg-info">区域</span> 亚洲（多国可用）</td>
                                     <td>多运营商</td>
-                                    <td>1GB</td>
+                                    <td>1GB/7天</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
-                                    <td>7 天</td>
-                                    <td>USD</td>
-                                    <td>$ 18.00</td>
+                                    <td>USD $ 18.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <a href="catalog-detail.html?id=pkg_1001" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1001" data-pkg-name="亚洲 7 天 1GB" data-price="18.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1001" data-pkg-supplier-name="亚洲 7 天 1GB" data-pkg-custom-name="亚洲7天1G（主推）" data-price="18.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-supplier-name="欧洲 15 天 3GB" data-custom-name="欧洲 15 天 3GB" data-type="区域" data-region="欧洲（多国可用）" data-cap="3GB" data-quote="45.00">
                                     <td>eSIM 全球供</td>
                                     <td><code>pkg_1002</code></td>
                                     <td><code>PKG-EU-15D-3G</code></td>
-                                    <td>欧洲 15 天 3GB</td>
-                                    <td><span class="badge bg-info">区域</span></td>
-                                    <td>欧洲（多国可用）</td>
+                                    <td class="catalog-name-cell"><div class="catalog-name-display">欧洲 15 天 3GB</div><small class="text-muted catalog-name-supplier">供应商：欧洲 15 天 3GB</small></td>
+                                    <td><span class="badge bg-info">区域</span> 欧洲（多国可用）</td>
                                     <td>Vodafone</td>
-                                    <td>3GB</td>
+                                    <td>3GB/15天</td>
                                     <td><span class="badge bg-info">每GB</span></td>
-                                    <td>15 天</td>
-                                    <td>USD</td>
-                                    <td>$ 45.00</td>
+                                    <td>USD $ 45.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <a href="catalog-detail.html?id=pkg_1002" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1002" data-pkg-name="欧洲 15 天 3GB" data-price="45.00" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1002" data-pkg-supplier-name="欧洲 15 天 3GB" data-pkg-custom-name="欧洲 15 天 3GB" data-price="45.00" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-supplier-name="日本 7 天 1GB" data-custom-name="日本 7 天 1GB" data-type="国家" data-region="日本" data-cap="1GB" data-quote="22.00">
                                     <td>eSIM 全球供</td>
                                     <td><code>pkg_1003</code></td>
                                     <td><code>PKG-JP-7D-1G</code></td>
-                                    <td>日本 7 天 1GB</td>
-                                    <td><span class="badge bg-secondary">国家</span></td>
-                                    <td>日本</td>
+                                    <td class="catalog-name-cell"><div class="catalog-name-display">日本 7 天 1GB</div><small class="text-muted catalog-name-supplier">供应商：日本 7 天 1GB</small></td>
+                                    <td><span class="badge bg-secondary">国家</span> 日本</td>
                                     <td>NTT Docomo</td>
-                                    <td>1GB</td>
+                                    <td>1GB/7天</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
-                                    <td>7 天</td>
-                                    <td>USD</td>
-                                    <td>$ 22.00</td>
+                                    <td>USD $ 22.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <a href="catalog-detail.html?id=pkg_1003" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1003" data-pkg-name="日本 7 天 1GB" data-price="22.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1003" data-pkg-supplier-name="日本 7 天 1GB" data-pkg-custom-name="日本 7 天 1GB" data-price="22.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-supplier-name="亚洲 7 日 1G 流量" data-custom-name="亚洲 7 日 1G 流量" data-type="区域" data-region="亚洲（多国可用）" data-cap="1GB" data-quote="16.50">
                                     <td>跨境 eSIM 源</td>
                                     <td><code>pkg_2001</code></td>
                                     <td><code>PLAN-AS-7D-1G</code></td>
-                                    <td>亚洲 7 日 1G 流量</td>
-                                    <td><span class="badge bg-info">区域</span></td>
-                                    <td>亚洲（多国可用）</td>
+                                    <td class="catalog-name-cell"><div class="catalog-name-display">亚洲 7 日 1G 流量</div><small class="text-muted catalog-name-supplier">供应商：亚洲 7 日 1G 流量</small></td>
+                                    <td><span class="badge bg-info">区域</span> 亚洲（多国可用）</td>
                                     <td>多运营商</td>
-                                    <td>1GB</td>
+                                    <td>1GB/7天</td>
                                     <td><span class="badge bg-info">每GB</span></td>
-                                    <td>7 天</td>
-                                    <td>USD</td>
-                                    <td>$ 16.50</td>
+                                    <td>USD $ 16.50</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             <a href="catalog-detail.html?id=pkg_2001" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_2001" data-pkg-name="亚洲 7 日 1G 流量" data-price="16.50" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_2001" data-pkg-supplier-name="亚洲 7 日 1G 流量" data-pkg-custom-name="亚洲 7 日 1G 流量" data-price="16.50" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -241,14 +226,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">仅允许修改<strong>报价</strong>与<strong>计费方式</strong>，其余字段只读。</p>
+                    <p class="text-muted small mb-3">可修改<strong>套餐名称</strong>、<strong>报价</strong>与<strong>计费方式</strong>，供应商套餐名称等由同步生成只读。</p>
                     <div class="mb-3">
                         <label class="form-label">套餐Code</label>
                         <input type="text" class="form-control" id="catalogEditPkgCode" readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">套餐名称</label>
-                        <input type="text" class="form-control" id="catalogEditPkgName" readonly>
+                        <label class="form-label">套餐名称 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="catalogEditCustomName" placeholder="同步时默认与供应商套餐名称一致，可修改" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">供应商套餐名称</label>
+                        <input type="text" class="form-control" id="catalogEditSupplierName" readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">报价（USD） <span class="text-danger">*</span></label>
@@ -283,7 +272,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">模板中已列出产品信息（产品Code、类型、套餐名称、覆盖范围、运营商、流量等），<strong>只需在表格中编辑最后两列「计费方式」「报价」</strong>后上传。按<strong>产品Code</strong>匹配更新，未匹配的将跳过。</p>
+                    <p class="text-muted small mb-3">模板中已列出产品信息（供应商、产品Code、供应商套餐名称、套餐名称等），<strong>可编辑「套餐名称」「计费方式」「报价」</strong>后上传。按<strong>产品Code</strong>匹配更新，未匹配的将跳过。</p>
                     <div class="mb-3">
                         <label class="form-label">CSV 文件</label>
                         <input type="file" class="form-control" id="catalogImportFile" accept=".csv">
@@ -291,7 +280,7 @@
                     <div class="alert alert-light border small mb-0">
                         <strong>CSV 列（首行为表头）：</strong>
                         <ul class="mb-0 mt-2">
-                            <li><code>产品Code</code>、<code>产品类型</code>、<code>套餐名称</code>、<code>类型</code>、<code>国家/覆盖范围</code>、<code>运营商</code>、<code>流量</code> — 产品信息（供参考，导入时按产品Code 匹配）</li>
+                            <li><code>供应商</code>、<code>产品Code</code>、<code>产品类型</code>、<code>供应商套餐名称</code>、<code>套餐名称</code>（必填，同步时默认与供应商套餐名称一致）、<code>类型</code>、<code>国家/覆盖范围</code>、<code>运营商</code>、<code>流量</code> — 产品信息（按产品Code 匹配）</li>
                             <li><code>计费方式</code> — 必填，仅允许：<code>套餐</code> 或 <code>每GB</code></li>
                             <li><code>报价</code> — 必填，数字，单位 USD</li>
                         </ul>
@@ -315,7 +304,8 @@
                     var btn = e.relatedTarget;
                     if (!btn || !btn.classList.contains('catalog-edit-btn')) return;
                     document.getElementById('catalogEditPkgCode').value = btn.getAttribute('data-pkg-code') || '';
-                    document.getElementById('catalogEditPkgName').value = btn.getAttribute('data-pkg-name') || '';
+                    document.getElementById('catalogEditSupplierName').value = btn.getAttribute('data-pkg-supplier-name') || '';
+                    document.getElementById('catalogEditCustomName').value = btn.getAttribute('data-pkg-custom-name') || '';
                     document.getElementById('catalogEditPrice').value = btn.getAttribute('data-price') || '';
                     var billing = btn.getAttribute('data-billing') || '套餐';
                     document.getElementById('catalogEditBilling').value = (billing === '每GB') ? '每GB' : '套餐';
@@ -323,11 +313,27 @@
             }
             document.getElementById('catalogEditSave').addEventListener('click', function () {
                 var code = document.getElementById('catalogEditPkgCode').value;
+                var customName = document.getElementById('catalogEditCustomName').value.trim();
                 var price = document.getElementById('catalogEditPrice').value;
                 var billing = document.getElementById('catalogEditBilling').value;
+                if (!customName) { alert('请填写套餐名称'); return; }
                 if (!price || isNaN(parseFloat(price))) { alert('请填写有效报价'); return; }
+                var btn = document.querySelector('.catalog-edit-btn[data-pkg-code="' + code + '"]');
+                if (btn) {
+                    var tr = btn.closest('tr');
+                    var supplierName = tr.getAttribute('data-supplier-name') || '';
+                    tr.setAttribute('data-custom-name', customName);
+                    btn.setAttribute('data-pkg-custom-name', customName);
+                    var nameCell = tr.querySelector('.catalog-name-cell');
+                    if (nameCell) {
+                        var displayEl = nameCell.querySelector('.catalog-name-display');
+                        var supplierEl = nameCell.querySelector('.catalog-name-supplier');
+                        if (displayEl) displayEl.textContent = customName;
+                        if (supplierEl) supplierEl.textContent = '供应商：' + supplierName;
+                    }
+                }
                 bootstrap.Modal.getInstance(editModal).hide();
-                alert('已保存（原型演示）\n套餐Code：' + code + '\n报价：$' + price + '\n计费方式：' + billing);
+                alert('已保存（原型演示）\n套餐Code：' + code + '\n套餐名称：' + customName + '\n报价：$' + price + '\n计费方式：' + billing);
             });
             function downloadCsv(filename, content) {
                 var blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
@@ -337,9 +343,41 @@
                 a.click();
                 URL.revokeObjectURL(a.href);
             }
-            var catalogTemplateCsv = '\uFEFF产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,流量,计费方式,报价\npkg_1001,套餐,亚洲 7天 1GB,区域,亚洲 (多国可用),多运营商,1GB,套餐,18.00\nrfl_1001_1,加油包,,,,,2GB,套餐,\npkg_1002,套餐,欧洲 15天 3GB,区域,欧洲 (多国可用),Vodafone,3GB,每GB,45.00\nrfl_1002_1,加油包,,,,,1GB,每GB,\nrfl_1002_2,加油包,,,,,3GB,每GB,\n';
-            document.getElementById('btnDownloadCatalogTemplate').addEventListener('click', function () { downloadCsv('catalog-quote-import-template.csv', catalogTemplateCsv); });
+            var catalogTemplateCsv = '\uFEFF供应商,产品Code,产品类型,供应商套餐名称,套餐名称,类型,国家/覆盖范围,运营商,流量,计费方式,报价\neSIM 全球供,pkg_1001,套餐,亚洲 7天 1GB,亚洲7天1G（主推）,区域,亚洲 (多国可用),多运营商,1GB,套餐,18.00\neSIM 全球供,rfl_1001_1,加油包,,,,,2GB,套餐,\neSIM 全球供,pkg_1002,套餐,欧洲 15天 3GB,,区域,欧洲 (多国可用),Vodafone,3GB,每GB,45.00\neSIM 全球供,rfl_1002_1,加油包,,,,,1GB,每GB,\neSIM 全球供,rfl_1002_2,加油包,,,,,3GB,每GB,\n';
             document.getElementById('catalogDownloadTemplate').addEventListener('click', function (e) { e.preventDefault(); downloadCsv('catalog-quote-import-template.csv', catalogTemplateCsv); });
+            var catalogRefillsByPkg = {
+                pkg_1001: [{ code: 'rfl_1001_1', cap: '2GB', billing: '套餐', quote: '' }],
+                pkg_1002: [{ code: 'rfl_1002_1', cap: '1GB', billing: '每GB', quote: '' }, { code: 'rfl_1002_2', cap: '3GB', billing: '每GB', quote: '' }],
+                pkg_1003: [],
+                pkg_2001: []
+            };
+            document.getElementById('btnExportCatalog').addEventListener('click', function () {
+                var tbody = document.getElementById('catalogTableBody');
+                if (!tbody) return;
+                function csvEscape(s) { return /[",\n\r]/.test(s) ? '"' + String(s).replace(/"/g, '""') + '"' : s; }
+                var header = '\uFEFF供应商,产品Code,产品类型,供应商套餐名称,套餐名称,类型,国家/覆盖范围,运营商,流量,计费方式,报价\n';
+                var rows = [];
+                [].slice.call(tbody.querySelectorAll('tr')).forEach(function (tr) {
+                    var tds = tr.querySelectorAll('td');
+                    if (tds.length < 9) return;
+                    var supplier = tds[0].innerText.trim();
+                    var pkgCode = (tds[1].querySelector('code') || tds[1]).innerText.trim();
+                    var supplierName = tr.getAttribute('data-supplier-name') || '';
+                    var customName = tr.getAttribute('data-custom-name') || '';
+                    var type = tr.getAttribute('data-type') || '';
+                    var region = tr.getAttribute('data-region') || '';
+                    var carrier = tds[5].innerText.trim();
+                    var cap = tr.getAttribute('data-cap') || '';
+                    var billing = tds[7].innerText.trim();
+                    var quote = tr.getAttribute('data-quote') || '';
+                    rows.push([supplier, pkgCode, '套餐', supplierName, customName, type, region, carrier, cap, billing, quote].map(csvEscape).join(','));
+                    var refills = catalogRefillsByPkg[pkgCode] || [];
+                    refills.forEach(function (r) {
+                        rows.push([supplier, r.code, '加油包', '', '', '', '', '', r.cap, r.billing, r.quote || ''].map(csvEscape).join(','));
+                    });
+                });
+                downloadCsv('catalog-quote-export-' + (new Date().toISOString().slice(0, 10)) + '.csv', header + rows.join('\n'));
+            });
             document.getElementById('catalogImportConfirm').addEventListener('click', function () {
                 var fileInput = document.getElementById('catalogImportFile');
                 if (!fileInput.files || !fileInput.files.length) { alert('请选择 CSV 文件'); return; }
