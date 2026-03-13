@@ -59,7 +59,7 @@
                         <div class="row g-3">
                             <div class="col-md-2">
                                 <label class="form-label">集成商</label>
-                                <select class="form-select">
+                                <select class="form-select" id="filterIntegrator">
                                     <option value="">全部</option>
                                     <option value="INT-2025001">环球 eSIM 科技</option>
                                     <option value="INT-2025002">旅行家 eSIM</option>
@@ -105,11 +105,18 @@
                                     <option value="DISABLED">禁售</option>
                                 </select>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="filterShowFullQuote" aria-describedby="filterShowFullQuoteHelp">
+                                    <label class="form-check-label" for="filterShowFullQuote">显示完整报价</label>
+                                    <div class="form-text" id="filterShowFullQuoteHelp">勾选后需先选择集成商，列表将展示该集成商关联的<strong>指导价模板下全部套餐</strong>；若某套餐存在特殊价，则该条显示特殊价并标注「特殊价（覆盖）」</div>
+                                </div>
+                            </div>
                             <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
                                 <div class="d-flex gap-2">
-                                    <button class="btn btn-primary flex-grow-1"><i class="bi bi-search me-1"></i>查询</button>
-                                    <button class="btn btn-outline-secondary"><i class="bi bi-arrow-clockwise"></i></button>
+                                    <button class="btn btn-primary flex-grow-1" id="btnQuery"><i class="bi bi-search me-1"></i>查询</button>
+                                    <button class="btn btn-outline-secondary" id="btnReset" type="button"><i class="bi bi-arrow-clockwise"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -119,6 +126,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>集成商</th>
+                                    <th>报价类型</th>
                                     <th>计费方式</th>
                                     <th>套餐</th>
                                     <th>套餐Code</th>
@@ -126,10 +134,9 @@
                                     <th>运营商</th>
                                     <th>币种</th>
                                     <th>成本 <i class="bi bi-question-circle text-muted small" style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="对集成商不可见"></i></th>
-                                    <th>原指导报价</th>
-                                    <th>现指导报价(浮动)</th>
-                                    <th>建议零售价</th>
-                                    <th>时间</th>
+                                    <th>指导报价（现/原）</th>
+                                    <th>建议零售价（现/原）</th>
+                                    <th>创建时间</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
@@ -137,6 +144,7 @@
                             <tbody>
                                 <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="18.00" data-price="28.00" data-retail="35.00" data-supplier-billing="套餐" data-guide-billing="套餐" data-catalog-pkg="pkg_1001" data-catalog-supplier-id="PKG-AS-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="亚洲 7 天 1GB" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="18.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
+                                    <td><span class="badge bg-warning text-dark">特殊价（覆盖）</span></td>
                                     <td><span class="badge bg-secondary">套餐</span><br><small class="text-muted">供应商：套餐</small></td>
                                     <td>亚洲 7 天 1GB</td>
                                     <td><code>pkg_1001</code></td>
@@ -144,9 +152,8 @@
                                     <td>多运营商</td>
                                     <td>USD</td>
                                     <td>$ 18.00</td>
-                                    <td>$ 30.00</td>
-                                    <td>$ 28.00 <small class="text-success">(+10.00)</small></td>
-                                    <td>$ 35.00</td>
+                                    <td><strong>$ 28.00</strong> <small class="text-success">(+10.00)</small><br><small class="text-muted">原：$ 30.00</small></td>
+                                    <td><strong>$ 35.00</strong><br><small class="text-muted">原：$ 38.00</small></td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -162,8 +169,37 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <!-- 完整报价示例：仅指导价（无特殊价覆盖） -->
+                                <tr data-quote-type="guide-only" data-integrator="环球 eSIM 科技">
+                                    <td>环球 eSIM 科技</td>
+                                    <td><span class="badge bg-primary">指导价</span></td>
+                                    <td><span class="badge bg-secondary">套餐</span><br><small class="text-muted">供应商：套餐</small></td>
+                                    <td>全球 30天 5GB</td>
+                                    <td><code>pkg_1010</code></td>
+                                    <td><span class="badge bg-info">区域</span> 全球</td>
+                                    <td>多运营商</td>
+                                    <td>USD</td>
+                                    <td>$ 35.00</td>
+                                    <td>$ 52.00</td>
+                                    <td>$ 65.00</td>
+                                    <td>2025-01-10 09:00</td>
+                                    <td><span class="badge bg-success pricing-status-badge">在售</span></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="pricing-detail.html?id=0"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="pricingEditFromRow(this, '环球 eSIM 科技', '全球 30天 5GB', '35.00', '52.00', '65.00'); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                <li><a class="dropdown-item pricing-menu-status" href="#"><i class="bi bi-pause-circle me-2"></i>设为禁售</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="45.00" data-price="68.00" data-retail="88.00" data-supplier-billing="每GB" data-guide-billing="每GB" data-catalog-pkg="pkg_1002" data-catalog-supplier-id="PKG-EU-15D-3G" data-catalog-supplier="eSIM 全球供" data-catalog-name="欧洲 15 天 3GB" data-catalog-type="区域" data-catalog-region="欧洲（多国可用）" data-catalog-carrier="Vodafone" data-catalog-cap="3GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="15 天" data-catalog-quote="45.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
+                                    <td><span class="badge bg-warning text-dark">特殊价（覆盖）</span></td>
                                     <td><span class="badge bg-secondary">套餐</span><br><small class="text-muted">供应商：每GB</small></td>
                                     <td>欧洲 15 天 3GB</td>
                                     <td><code>pkg_1002</code></td>
@@ -171,9 +207,8 @@
                                     <td>Vodafone</td>
                                     <td>USD</td>
                                     <td>$ 45.00</td>
-                                    <td>—</td>
-                                    <td>$ 68.00 <small class="text-success">(+23.00)</small></td>
-                                    <td>$ 88.00</td>
+                                    <td><strong>$ 68.00</strong> <small class="text-success">(+23.00)</small><br><small class="text-muted">原：$ 72.00</small></td>
+                                    <td><strong>$ 88.00</strong><br><small class="text-muted">原：$ 95.00</small></td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -191,6 +226,7 @@
                                 </tr>
                                 <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="22.00" data-price="32.00" data-retail="42.00" data-supplier-billing="套餐" data-guide-billing="套餐" data-catalog-pkg="pkg_1003" data-catalog-supplier-id="PKG-JP-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="日本 7 天 1GB" data-catalog-type="国家" data-catalog-region="日本" data-catalog-carrier="NTT Docomo" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="22.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技</td>
+                                    <td><span class="badge bg-warning text-dark">特殊价（覆盖）</span></td>
                                     <td><span class="badge bg-secondary">套餐</span><br><small class="text-muted">供应商：套餐</small></td>
                                     <td>日本 7 天 1GB</td>
                                     <td><code>pkg_1003</code></td>
@@ -198,9 +234,8 @@
                                     <td>NTT Docomo</td>
                                     <td>USD</td>
                                     <td>$ 22.00</td>
-                                    <td>—</td>
-                                    <td>$ 32.00 <small class="text-success">(+10.00)</small></td>
-                                    <td>$ 42.00</td>
+                                    <td><strong>$ 32.00</strong> <small class="text-success">(+10.00)</small><br><small class="text-muted">原：—</small></td>
+                                    <td><strong>$ 42.00</strong><br><small class="text-muted">原：—</small></td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -218,6 +253,7 @@
                                 </tr>
                                 <tr data-status="disabled" data-integrator="旅行家 eSIM" data-import-time="2025-02-01 14:20" data-cost="" data-price="30.00" data-retail="38.00" data-supplier-billing="每GB" data-guide-billing="套餐" data-catalog-pkg="pkg_2001" data-catalog-supplier-id="PKG-AS-7D-1G-B" data-catalog-supplier="跨境 eSIM 源" data-catalog-name="亚洲 7 日 1G 流量" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="4G 网速" data-catalog-validity="7 天" data-catalog-quote="16.50" data-catalog-sync="2025-02-27 14:00" data-catalog-status="有效">
                                     <td>旅行家 eSIM</td>
+                                    <td><span class="badge bg-warning text-dark">特殊价（覆盖）</span></td>
                                     <td><span class="badge bg-info">每GB</span><br><small class="text-muted">供应商：每GB</small></td>
                                     <td>亚洲 7 天 1GB</td>
                                     <td><code>pkg_2001</code></td>
@@ -225,9 +261,8 @@
                                     <td>多运营商</td>
                                     <td>USD</td>
                                     <td>—</td>
-                                    <td>$ 28.00</td>
-                                    <td>$ 30.00 <small class="text-success">(+2.00)</small></td>
-                                    <td>$ 38.00</td>
+                                    <td><strong>$ 30.00</strong> <small class="text-success">(+2.00)</small><br><small class="text-muted">原：$ 28.00</small></td>
+                                    <td><strong>$ 38.00</strong><br><small class="text-muted">原：$ 35.00</small></td>
                                     <td>2025-02-01 14:20</td>
                                     <td><span class="badge bg-secondary pricing-status-badge">禁售</span></td>
                                     <td>
@@ -371,6 +406,55 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) { new bootstrap.Tooltip(el); });
+
+        // 显示完整报价：仅当选择具体集成商时才允许勾选，勾选后展示「仅指导价」行
+        (function () {
+            var filterShowFullQuote = document.getElementById('filterShowFullQuote');
+            var filterIntegrator = document.getElementById('filterIntegrator');
+            var btnQuery = document.getElementById('btnQuery');
+            var btnReset = document.getElementById('btnReset');
+            function setGuideOnlyRowsVisible(show) {
+                var integratorName = filterIntegrator && filterIntegrator.selectedIndex >= 0 ? filterIntegrator.options[filterIntegrator.selectedIndex].text : '';
+                document.querySelectorAll('tr[data-quote-type="guide-only"]').forEach(function (tr) {
+                    var rowIntegrator = tr.getAttribute('data-integrator');
+                    var match = !integratorName || rowIntegrator === integratorName;
+                    tr.style.display = show && match ? '' : 'none';
+                });
+            }
+            function onFilterChange() {
+                var show = filterShowFullQuote && filterShowFullQuote.checked;
+                var hasIntegrator = filterIntegrator && filterIntegrator.value;
+                setGuideOnlyRowsVisible(show && !!hasIntegrator);
+            }
+            function updateFullQuoteCheckboxState() {
+                var hasIntegrator = filterIntegrator && filterIntegrator.value;
+                if (filterShowFullQuote) {
+                    filterShowFullQuote.disabled = !hasIntegrator;
+                    filterShowFullQuote.title = hasIntegrator ? '' : '请先选择集成商';
+                    if (!hasIntegrator && filterShowFullQuote.checked) {
+                        filterShowFullQuote.checked = false;
+                        setGuideOnlyRowsVisible(false);
+                    }
+                }
+            }
+            if (filterShowFullQuote) filterShowFullQuote.addEventListener('change', onFilterChange);
+            if (filterIntegrator) {
+                filterIntegrator.addEventListener('change', function () {
+                    updateFullQuoteCheckboxState();
+                    onFilterChange();
+                });
+            }
+            if (btnQuery) btnQuery.addEventListener('click', onFilterChange);
+            if (btnReset) {
+                btnReset.addEventListener('click', function () {
+                    if (filterShowFullQuote) filterShowFullQuote.checked = false;
+                    setGuideOnlyRowsVisible(false);
+                });
+            }
+            updateFullQuoteCheckboxState();
+            setGuideOnlyRowsVisible(false);
+        })();
+
         var pricingEditModal = document.getElementById('pricingEditModal');
         if (pricingEditModal) {
             pricingEditModal.addEventListener('show.bs.modal', function (e) {
