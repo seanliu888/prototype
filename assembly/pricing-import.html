@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>批量导入定价 - eSIM 集成商管理平台</title>
+    <title>批量导入定价 - eSIM 客户管理平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -20,8 +20,8 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <div class="nav-section-title">集成商</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">客户</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>客户管理</a>
                     <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
                     <div class="collapse show nav-sub" id="navPricingCollapse">
                         <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
@@ -39,18 +39,18 @@
                 <div class="page-header">
                     <div>
                         <h1><i class="bi bi-upload me-2"></i>批量导入定价</h1>
-                        <small class="text-muted">先从套餐目录勾选要定价的套餐，再选择集成商，通过模板或 CSV 文件设置定价</small>
+                        <small class="text-muted">先从套餐目录勾选要定价的套餐，再选择客户，通过模板或 CSV 文件设置定价</small>
                     </div>
                     <a href="pricing-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>返回定价列表</a>
                 </div>
 
                 <div class="content-card mb-4">
-                    <h5 class="mb-3">第一步：选择集成商</h5>
+                    <h5 class="mb-3">第一步：选择客户</h5>
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="form-label">导入目标集成商 <span class="text-danger">*</span></label>
+                            <label class="form-label">导入目标客户 <span class="text-danger">*</span></label>
                             <select class="form-select" id="importIntegrator" required>
-                                <option value="">请选择集成商</option>
+                                <option value="">请选择客户</option>
                                 <option value="INT-2025001">环球 eSIM 科技</option>
                                 <option value="INT-2025002">旅行家 eSIM</option>
                                 <option value="INT-2025003">出境游 eSIM 联盟</option>
@@ -209,7 +209,7 @@
                                     <input type="checkbox" class="form-check-input" id="replaceWhenExistsTemplate">
                                     <label class="form-check-label" for="replaceWhenExistsTemplate">存在时替换</label>
                                 </div>
-                                <small class="text-muted">勾选后，若该集成商下已有同套餐定价则覆盖更新；不勾选则跳过已存在记录。</small>
+                                <small class="text-muted">勾选后，若该客户下已有同套餐定价则覆盖更新；不勾选则跳过已存在记录。</small>
                             </div>
                             <button type="button" class="btn btn-primary" id="btnApplyTemplate">
                                 <i class="bi bi-check-lg me-1"></i>应用模板并导入
@@ -250,7 +250,7 @@
                                         <input type="checkbox" class="form-check-input" id="replaceWhenExists">
                                         <label class="form-check-label" for="replaceWhenExists">存在时替换</label>
                                     </div>
-                                    <small class="text-muted">勾选后，若该集成商下已有同套餐定价则覆盖更新；不勾选则跳过已存在记录。</small>
+                                    <small class="text-muted">勾选后，若该客户下已有同套餐定价则覆盖更新；不勾选则跳过已存在记录。</small>
                                 </div>
                                 <button type="button" class="btn btn-primary" id="btnConfirmImport" disabled>
                                     <i class="bi bi-check-lg me-1"></i>确认导入
@@ -490,7 +490,7 @@
             document.getElementById('btnApplyTemplate').addEventListener('click', function () {
                 var integrator = document.getElementById('importIntegrator').value;
                 if (!integrator) {
-                    alert('请先在第二步选择集成商');
+                    alert('请先在第二步选择客户');
                     return;
                 }
                 if (selectedCodes.size === 0) {
@@ -517,7 +517,7 @@
                 resultSection.classList.remove('d-none');
                 document.getElementById('resultContent').innerHTML =
                     '<p class="text-success"><i class="bi bi-check-circle me-2"></i>模板应用完成（原型演示）</p>' +
-                    '<p>集成商：<strong>' + integratorName + '</strong></p>' +
+                    '<p>客户：<strong>' + integratorName + '</strong></p>' +
                     '<p>指导价规则：<strong>' + (priceByRatio ? '报价 + ' + priceVal + '% 利润' : '报价 + $' + priceVal) + '</strong></p>' +
                     '<p>建议零售价规则：<strong>' + (retailByRatio ? '报价 + ' + retailVal + '% 利润' : '报价 + $' + retailVal) + '</strong></p>' +
                     '<p>存在时替换：<strong>' + (replaceWhenExists ? '是' : '否（跳过已存在）') + '</strong></p>' +
@@ -632,7 +632,7 @@
             document.getElementById('btnConfirmImport').addEventListener('click', function () {
                 var integrator = document.getElementById('importIntegrator').value;
                 if (!integrator) {
-                    alert('请选择集成商');
+                    alert('请选择客户');
                     return;
                 }
                 if (parsedRows.length === 0) {
@@ -645,7 +645,7 @@
                 var replaceWhenExists = document.getElementById('replaceWhenExists').checked;
                 document.getElementById('resultContent').innerHTML =
                     '<p class="text-success"><i class="bi bi-check-circle me-2"></i>导入完成（原型演示）</p>' +
-                    '<p>集成商：<strong>' + (integrator === 'INT-2025001' ? '环球 eSIM 科技' : integrator === 'INT-2025002' ? '旅行家 eSIM' : '出境游 eSIM 联盟') + '</strong></p>' +
+                    '<p>客户：<strong>' + (integrator === 'INT-2025001' ? '环球 eSIM 科技' : integrator === 'INT-2025002' ? '旅行家 eSIM' : '出境游 eSIM 联盟') + '</strong></p>' +
                     '<p>存在时替换：<strong>' + (replaceWhenExists ? '是' : '否（跳过已存在）') + '</strong></p>' +
                     '<p>成功：<strong>' + parsedRows.length + '</strong> 条，失败：<strong>0</strong> 条。</p>';
             });

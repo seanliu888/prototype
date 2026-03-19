@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API 版本与文档 - eSIM 集成商管理平台</title>
+    <title>API 版本与文档 - eSIM 客户管理平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -447,13 +447,13 @@
 
                 <section id="balance-query">
                     <h1>Balance Query</h1>
-                    <p>查询集成商账户可用余额，用于确认下单前的账户资金是否充足。</p>
+                    <p>查询客户账户可用余额，用于确认下单前的账户资金是否充足。</p>
                     <div class="endpoint-box">
                         <span class="endpoint-method method-post">POST</span>
                         <code class="endpoint-url">/account/balance</code>
                     </div>
                     <h2>Request Parameters</h2>
-                    <p class="text-muted small">无需额外参数，系统根据请求头中的 AccessCode 识别集成商身份。</p>
+                    <p class="text-muted small">无需额外参数，系统根据请求头中的 AccessCode 识别客户身份。</p>
                     <h2>Response Example</h2>
 <pre class="code-block">{
   "code": 0,

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>指导报价详情 - eSIM 集成商管理平台</title>
+    <title>指导报价详情 - eSIM 客户管理平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -20,8 +20,8 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <div class="nav-section-title">集成商</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">客户</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>客户管理</a>
                     <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
                     <div class="collapse show nav-sub" id="navPricingCollapse">
                         <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="info-row">
-                                <span class="info-label">集成商引用数</span>
+                                <span class="info-label">客户引用数</span>
                                 <span class="info-value" id="infoIntegratorCount">2</span>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="col-md-6">
                             <div class="info-row">
                                 <span class="info-label">备注</span>
-                                <span class="info-value text-muted" id="infoRemark">面向一般集成商的标准报价，新集成商默认使用此模板</span>
+                                <span class="info-value text-muted" id="infoRemark">面向一般客户的标准报价，新客户默认使用此模板</span>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -273,12 +273,12 @@
                 </div>
 
                 <div class="content-card mt-4">
-                    <h6 class="text-muted mb-3">使用此模板作为兜底报价的集成商</h6>
+                    <h6 class="text-muted mb-3">使用此模板作为兜底报价的客户</h6>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle" style="max-width: 800px;">
                             <thead class="table-light">
                                 <tr>
-                                    <th>集成商名称</th>
+                                    <th>客户名称</th>
                                     <th>联系人</th>
                                     <th>计费方式</th>
                                     <th>绑定时间</th>
@@ -419,7 +419,7 @@
                                     <span class="input-group-text">$</span>
                                     <input type="number" class="form-control" id="editGuidePrice" value="5.25" step="0.01">
                                 </div>
-                                <small class="text-muted">面向集成商的销售价格</small>
+                                <small class="text-muted">面向客户的销售价格</small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -429,7 +429,7 @@
                                     <span class="input-group-text">$</span>
                                     <input type="number" class="form-control" id="editRetailPrice" value="8.99" step="0.01">
                                 </div>
-                                <small class="text-muted">建议集成商对终端用户的售价</small>
+                                <small class="text-muted">建议客户对终端用户的售价</small>
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>财务与结算 - eSIM 集成商管理平台</title>
+    <title>财务与结算 - eSIM 客户管理平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -20,8 +20,8 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <div class="nav-section-title">集成商</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">客户</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>客户管理</a>
                     <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="false" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
                     <div class="collapse nav-sub" id="navPricingCollapse">
                         <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
@@ -39,7 +39,7 @@
                 <div class="page-header">
                     <div>
                         <h1><i class="bi bi-wallet2 me-2"></i>财务与结算</h1>
-                        <small class="text-muted">结算规则说明、与集成商/供应商结算汇总及交易记录</small>
+                        <small class="text-muted">结算规则说明、与客户/供应商结算汇总及交易记录</small>
                     </div>
                 </div>
 
@@ -51,27 +51,27 @@
                             <div class="border rounded p-3 h-100">
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="bi bi-person-gear text-primary me-2" style="font-size: 1.25rem;"></i>
-                                    <strong>1. 计费方式（集成商设置）</strong>
+                                    <strong>1. 计费方式（客户设置）</strong>
                                 </div>
-                                <p class="text-muted small mb-0">计费方式为<strong>按 GB</strong>或<strong>按套餐</strong>，在「<a href="integrator-list.html">集成商管理</a>」中为每个集成商配置。按 GB 仅支持后付；按套餐可选择预付或后付。</p>
+                                <p class="text-muted small mb-0">计费方式为<strong>按 GB</strong>或<strong>按套餐</strong>，在「<a href="integrator-list.html">客户管理</a>」中为每个客户配置。按 GB 仅支持后付；按套餐可选择预付或后付。</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="border rounded p-3 h-100">
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="bi bi-tags text-success me-2" style="font-size: 1.25rem;"></i>
-                                    <strong>2. 集成商侧看到的价格</strong>
+                                    <strong>2. 客户侧看到的价格</strong>
                                 </div>
-                                <p class="text-muted small mb-0">集成商看到的是<strong>指导报价</strong>与<strong>特殊报价</strong>。同一套餐若存在特殊报价，则<strong>特殊报价优先</strong>于指导报价。</p>
+                                <p class="text-muted small mb-0">客户看到的是<strong>指导报价</strong>与<strong>特殊报价</strong>。同一套餐若存在特殊报价，则<strong>特殊报价优先</strong>于指导报价。</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="border rounded p-3 h-100">
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="bi bi-currency-exchange text-info me-2" style="font-size: 1.25rem;"></i>
-                                    <strong>3. 与集成商结算</strong>
+                                    <strong>3. 与客户结算</strong>
                                 </div>
-                                <p class="text-muted small mb-0">按该集成商配置的<strong>计费方式</strong>（按 GB 或 按套餐）计算其总消费金额，据此与集成商结算。</p>
+                                <p class="text-muted small mb-0">按该客户配置的<strong>计费方式</strong>（按 GB 或 按套餐）计算其总消费金额，据此与客户结算。</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -86,13 +86,13 @@
                     </div>
                 </div>
 
-                <!-- 标签：交易记录 | 与集成商结算 | 与供应商结算 -->
+                <!-- 标签：交易记录 | 与客户结算 | 与供应商结算 -->
                 <ul class="nav nav-tabs mb-3" id="billingTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="tab-transactions" data-bs-toggle="tab" data-bs-target="#panel-transactions" type="button" role="tab">交易记录</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="tab-integrator" data-bs-toggle="tab" data-bs-target="#panel-integrator" type="button" role="tab">与集成商结算</button>
+                        <button class="nav-link" id="tab-integrator" data-bs-toggle="tab" data-bs-target="#panel-integrator" type="button" role="tab">与客户结算</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="tab-supplier" data-bs-toggle="tab" data-bs-target="#panel-supplier" type="button" role="tab">与供应商结算</button>
@@ -104,7 +104,7 @@
                     <div class="tab-pane fade show active" id="panel-transactions" role="tabpanel">
                 <div class="content-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-muted small">按集成商、交易类型、时间筛选；支持充值/调账</span>
+                        <span class="text-muted small">按客户、交易类型、时间筛选；支持充值/调账</span>
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-outline-secondary btn-sm" id="btnExport"><i class="bi bi-download me-1"></i>导出明细</button>
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#adjustModal"><i class="bi bi-wallet2 me-1"></i>充值 / 调账</button>
@@ -113,7 +113,7 @@
                     <div class="filter-section">
                         <div class="row g-3">
                             <div class="col-md-2">
-                                <label class="form-label">集成商</label>
+                                <label class="form-label">客户</label>
                                 <select class="form-select">
                                     <option value="">全部</option>
                                     <option value="INT-2025001">环球 eSIM 科技</option>
@@ -156,7 +156,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>交易 ID</th>
-                                    <th>集成商</th>
+                                    <th>客户</th>
                                     <th>币种</th>
                                     <th>金额</th>
                                     <th>类型</th>
@@ -211,14 +211,14 @@
                     </div>
                 </div>
                     </div>
-                    <!-- 与集成商结算 -->
+                    <!-- 与客户结算 -->
                     <div class="tab-pane fade" id="panel-integrator" role="tabpanel">
                         <div class="content-card">
-                            <p class="text-muted small mb-3">按集成商配置的计费方式（按 GB / 按套餐）汇总消费，用于与集成商对账与结算。</p>
+                            <p class="text-muted small mb-3">按客户配置的计费方式（按 GB / 按套餐）汇总消费，用于与客户对账与结算。</p>
                             <div class="filter-section mb-3">
                                 <div class="row g-3 align-items-end">
                                     <div class="col-md-3">
-                                        <label class="form-label">集成商</label>
+                                        <label class="form-label">客户</label>
                                         <select class="form-select form-select-sm" id="integratorFilter">
                                             <option value="">全部</option>
                                             <option value="INT-2025001">环球 eSIM 科技</option>
@@ -245,7 +245,7 @@
                                 <table class="table table-hover align-middle">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>集成商</th>
+                                            <th>客户</th>
                                             <th>计费方式</th>
                                             <th>结算周期</th>
                                             <th>消费金额</th>
@@ -279,7 +279,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <p class="text-muted small mt-2 mb-0">消费金额按该集成商的计费方式从订单与用量汇总得出（原型演示）。</p>
+                            <p class="text-muted small mt-2 mb-0">消费金额按该客户的计费方式从订单与用量汇总得出（原型演示）。</p>
                         </div>
                     </div>
                     <!-- 与供应商结算 -->
@@ -353,7 +353,7 @@
             </div>
         </div>
     </div>
-    <!-- 与集成商结算 - 查看明细弹窗 -->
+    <!-- 与客户结算 - 查看明细弹窗 -->
     <div class="modal fade" id="integratorDetailModal" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -459,11 +459,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">集成商端暂不支持自主充值，管理员可在此为指定集成商充值或进行扣减调账；交易将记录在下方列表中。</p>
+                    <p class="text-muted small mb-3">客户端暂不支持自主充值，管理员可在此为指定客户充值或进行扣减调账；交易将记录在下方列表中。</p>
                     <div class="mb-3">
-                        <label class="form-label">集成商 <span class="text-danger">*</span></label>
+                        <label class="form-label">客户 <span class="text-danger">*</span></label>
                         <select class="form-select" id="adjustIntegrator">
-                            <option value="">请选择集成商</option>
+                            <option value="">请选择客户</option>
                             <option value="INT-2025001">环球 eSIM 科技</option>
                             <option value="INT-2025002">旅行家 eSIM</option>
                             <option value="INT-2025003">出境游 eSIM 联盟</option>
@@ -496,7 +496,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         (function () {
-            // 与集成商结算：筛选
+            // 与客户结算：筛选
             var tbody = document.getElementById('integratorSettlementTbody');
             var integratorFilter = document.getElementById('integratorFilter');
             var periodFilter = document.getElementById('periodFilter');
@@ -525,7 +525,7 @@
                 });
             }
 
-            // 与集成商结算：查看明细
+            // 与客户结算：查看明细
             var detailModal = document.getElementById('integratorDetailModal');
             var detailTbody = document.getElementById('integratorDetailTbody');
             var detailTitle = document.getElementById('integratorDetailModalTitle');
@@ -568,7 +568,7 @@
                 var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
                 var a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
-                a.download = '集成商结算明细_' + (d.name || '') + '_' + (d.period || '') + '.csv';
+                a.download = '客户结算明细_' + (d.name || '') + '_' + (d.period || '') + '.csv';
                 a.click();
                 URL.revokeObjectURL(a.href);
             }
@@ -581,7 +581,7 @@
                         var period = row.getAttribute('data-period') || '';
                         var billingType = row.getAttribute('data-billing-type') || '套餐';
                         if (detailTitle) detailTitle.textContent = '结算明细';
-                        if (detailSubtitle) detailSubtitle.textContent = '集成商：' + name + '　结算周期：' + period + '　计费方式：' + billingType;
+                        if (detailSubtitle) detailSubtitle.textContent = '客户：' + name + '　结算周期：' + period + '　计费方式：' + billingType;
                         buildDetailRows(name, period, billingType);
                         if (detailModal) bootstrap.Modal.getOrCreateInstance(detailModal).show();
                         return;
@@ -701,12 +701,12 @@
                 var type = document.getElementById('adjustType').value;
                 var amount = document.getElementById('adjustAmount').value;
                 var remark = document.getElementById('adjustRemark').value;
-                if (!integrator) { alert('请选择集成商'); return; }
+                if (!integrator) { alert('请选择客户'); return; }
                 if (!amount || parseFloat(amount) <= 0) { alert('请输入有效金额'); return; }
                 var typeText = type === 'RECHARGE' ? '充值' : '扣减';
                 var integratorText = document.getElementById('adjustIntegrator').selectedOptions[0].text;
                 bootstrap.Modal.getInstance(modal).hide();
-                alert('已提交（原型演示）。\n集成商：' + integratorText + '\n操作：' + typeText + '\n金额：' + amount + '\n备注：' + (remark || '—') + '\n实际接入时写入交易记录并更新账户余额。');
+                alert('已提交（原型演示）。\n客户：' + integratorText + '\n操作：' + typeText + '\n金额：' + amount + '\n备注：' + (remark || '—') + '\n实际接入时写入交易记录并更新账户余额。');
             });
 
             // 导出明细功能
@@ -716,7 +716,7 @@
                     alert('没有可导出的数据');
                     return;
                 }
-                var csvHeader = '交易ID,集成商,币种,金额,类型,余额快照,时间,备注';
+                var csvHeader = '交易ID,客户,币种,金额,类型,余额快照,时间,备注';
                 var csvRows = [csvHeader];
                 rows.forEach(function (row) {
                     if (row.style.display === 'none') return;

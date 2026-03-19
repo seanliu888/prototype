@@ -20,8 +20,8 @@
                     <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
                     <div class="nav-section-title">供应商</div>
                     <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
-                    <div class="nav-section-title">集成商</div>
-                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>集成商管理</a>
+                    <div class="nav-section-title">客户</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>客户管理</a>
                     <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
                     <div class="collapse show nav-sub" id="navPricingCollapse">
                         <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
@@ -39,7 +39,7 @@
                 <div class="page-header">
                     <div>
                         <h1><i class="bi bi-currency-dollar me-2"></i>特殊报价</h1>
-                        <small class="text-muted">从已同步的供应商套餐中为集成商配置指导价、成本价、建议零售价；支持筛选与编辑</small>
+                        <small class="text-muted">从已同步的供应商套餐中为客户配置指导价、成本价、建议零售价；支持筛选与编辑</small>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="pricing-import.html" class="btn btn-outline-primary"><i class="bi bi-upload me-1"></i>批量导入</a>
@@ -48,7 +48,7 @@
                                 <i class="bi bi-download me-1"></i>导出
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#" id="btnExportIntegrator"><i class="bi bi-file-earmark-spreadsheet me-2"></i>集成商报价明细</a></li>
+                                <li><a class="dropdown-item" href="#" id="btnExportIntegrator"><i class="bi bi-file-earmark-spreadsheet me-2"></i>客户报价明细</a></li>
                                 <li><a class="dropdown-item" href="#" id="btnExportInternal"><i class="bi bi-file-earmark-text me-2"></i>内部定价明细</a></li>
                             </ul>
                         </div>
@@ -58,7 +58,7 @@
                     <div class="filter-section">
                         <div class="row g-3">
                             <div class="col-md-2">
-                                <label class="form-label">集成商</label>
+                                <label class="form-label">客户</label>
                                 <select class="form-select" id="filterIntegrator">
                                     <option value="">全部</option>
                                     <option value="INT-2025001">环球 eSIM 科技</option>
@@ -109,7 +109,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="filterShowFullQuote" aria-describedby="filterShowFullQuoteHelp">
                                     <label class="form-check-label" for="filterShowFullQuote">显示完整报价</label>
-                                    <div class="form-text" id="filterShowFullQuoteHelp">勾选后需先选择集成商，列表将展示该集成商关联的<strong>指导价模板下全部套餐</strong>；若某套餐存在特殊价，则该条显示特殊价并标注「特殊价（覆盖）」</div>
+                                    <div class="form-text" id="filterShowFullQuoteHelp">勾选后需先选择客户，列表将展示该客户关联的<strong>指导价模板下全部套餐</strong>；若某套餐存在特殊价，则该条显示特殊价并标注「特殊价（覆盖）」</div>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -125,15 +125,15 @@
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
-                                    <th>集成商</th>
+                                    <th>客户</th>
                                     <th>计费方式</th>
                                     <th>套餐</th>
                                     <th>套餐Code</th>
                                     <th>类型/覆盖范围</th>
                                     <th>运营商</th>
                                     <th>币种</th>
-                                    <th>成本 <i class="bi bi-question-circle text-muted small" style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="对集成商不可见"></i></th>
-                                    <th>指导报价（现/原）</th>
+                                    <th>成本 <i class="bi bi-question-circle text-muted small" style="cursor: help;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="对客户不可见"></i></th>
+                                    <th>特殊报价（现/原）</th>
                                     <th>建议零售价（现/原）</th>
                                     <th>创建时间</th>
                                     <th>状态</th>
@@ -283,20 +283,20 @@
         </div>
     </div>
 
-    <!-- 导出集成商报价弹窗 -->
+    <!-- 导出客户报价弹窗 -->
     <div class="modal fade" id="exportIntegratorModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">导出集成商报价明细</h5>
+                    <h5 class="modal-title">导出客户报价明细</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">导出面向集成商的报价明细，不含成本、时间、状态，仅导出在售产品。</p>
+                    <p class="text-muted small mb-3">导出面向客户的报价明细，不含成本、时间、状态，仅导出在售产品。</p>
                     <div class="mb-3">
-                        <label class="form-label">选择集成商 <span class="text-danger">*</span></label>
+                        <label class="form-label">选择客户 <span class="text-danger">*</span></label>
                         <select class="form-select" id="exportIntegratorSelect" required>
-                            <option value="">请选择集成商</option>
+                            <option value="">请选择客户</option>
                             <option value="环球 eSIM 科技">环球 eSIM 科技</option>
                             <option value="旅行家 eSIM">旅行家 eSIM</option>
                             <option value="出境游 eSIM 联盟">出境游 eSIM 联盟</option>
@@ -310,7 +310,7 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="exportIntegratorMode" id="exportModeSend" value="send">
-                            <label class="form-check-label" for="exportModeSend">发送给集成商</label>
+                            <label class="form-check-label" for="exportModeSend">发送给客户</label>
                         </div>
                     </div>
                     <div class="mb-3" id="sendEmailGroup" style="display: none;">
@@ -336,9 +336,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">仅支持修改指导价与建议零售价，其余信息仅作展示。</p>
+                    <p class="text-muted small mb-3">仅支持修改特殊报价与建议零售价，其余信息仅作展示。</p>
                     <div class="mb-3">
-                        <label class="form-label">集成商</label>
+                        <label class="form-label">客户</label>
                         <input type="text" class="form-control" id="editIntegrator" readonly>
                     </div>
                     <div class="mb-3">
@@ -353,11 +353,11 @@
                             </div>
                         </div>
                     <div class="mb-3">
-                        <label class="form-label">成本 <span class="text-muted small fw-normal">(对集成商不可见)</span></label>
+                        <label class="form-label">成本 <span class="text-muted small fw-normal">(对客户不可见)</span></label>
                         <input type="text" class="form-control" id="editCost" readonly placeholder="—">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">指导价 <span class="text-danger">*</span></label>
+                        <label class="form-label">特殊报价 <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="editPrice" step="0.01" min="0" required>
                     </div>
                     <div class="mb-3">
@@ -367,14 +367,14 @@
                     <hr class="my-3">
                     <div class="mb-3">
                         <label class="form-label">加油包</label>
-                        <p class="text-muted small mb-2">该套餐专属的流量加油包，可设置指导价；与套餐主定价一并保存。更多档位可在详情页编辑。</p>
+                        <p class="text-muted small mb-2">该套餐专属的流量加油包，可设置特殊报价；与套餐主定价一并保存。更多档位可在详情页编辑。</p>
                         <div class="table-responsive">
                             <table class="table table-sm align-middle">
                                 <thead class="table-light">
                                     <tr>
                                         <th>流量</th>
                                         <th>供应商报价</th>
-                                        <th>指导价</th>
+                                        <th>特殊报价</th>
                                         <th>建议零售价</th>
                                         <th>状态</th>
                                     </tr>
@@ -401,7 +401,7 @@
     <script>
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) { new bootstrap.Tooltip(el); });
 
-        // 显示完整报价：仅当选择具体集成商时才允许勾选，勾选后展示「仅指导价」行
+        // 显示完整报价：仅当选择具体客户时才允许勾选，勾选后展示「仅指导价」行
         (function () {
             var filterShowFullQuote = document.getElementById('filterShowFullQuote');
             var filterIntegrator = document.getElementById('filterIntegrator');
@@ -424,7 +424,7 @@
                 var hasIntegrator = filterIntegrator && filterIntegrator.value;
                 if (filterShowFullQuote) {
                     filterShowFullQuote.disabled = !hasIntegrator;
-                    filterShowFullQuote.title = hasIntegrator ? '' : '请先选择集成商';
+                    filterShowFullQuote.title = hasIntegrator ? '' : '请先选择客户';
                     if (!hasIntegrator && filterShowFullQuote.checked) {
                         filterShowFullQuote.checked = false;
                         setGuideOnlyRowsVisible(false);
@@ -488,7 +488,7 @@
             var badge = row.querySelector('.pricing-status-badge');
             var menuItem = row.querySelector('.pricing-menu-status');
             if (status === 'onsale') {
-                if (!confirm('确定将该条定价设为禁售？禁售后集成商侧将不可见。')) return;
+                if (!confirm('确定将该条定价设为禁售？禁售后客户侧将不可见。')) return;
                 row.setAttribute('data-status', 'disabled');
                 if (badge) { badge.className = 'badge bg-secondary pricing-status-badge'; badge.textContent = '禁售'; }
                 if (menuItem) { menuItem.innerHTML = '<i class="bi bi-play-circle me-2"></i>设为在售'; }
@@ -519,7 +519,7 @@
             var badge = row.querySelector('.pricing-status-badge');
             var statusBtn = row.querySelector('.pricing-status-btn');
             if (status === 'onsale') {
-                if (!confirm('确定将该条定价设为禁售？禁售后集成商侧将不可见。')) return;
+                if (!confirm('确定将该条定价设为禁售？禁售后客户侧将不可见。')) return;
                 row.setAttribute('data-status', 'disabled');
                 if (badge) { badge.className = 'badge bg-secondary pricing-status-badge'; badge.textContent = '禁售'; }
                 if (statusBtn) {
@@ -579,7 +579,7 @@
             URL.revokeObjectURL(a.href);
         }
 
-        // 导出集成商报价明细（面向集成商）
+        // 导出客户报价明细（面向客户）
         var exportIntegratorModal = new bootstrap.Modal(document.getElementById('exportIntegratorModal'));
         var btnExportIntegratorConfirm = document.getElementById('btnExportIntegratorConfirm');
 
@@ -594,7 +594,7 @@
             });
         });
 
-        // 集成商邮箱映射（模拟数据）
+        // 客户邮箱映射（模拟数据）
         var integratorEmailMap = {
             '环球 eSIM 科技': 'zhang@global-esim.com',
             '旅行家 eSIM': 'li@travel-esim.com',
@@ -618,7 +618,7 @@
             });
         });
 
-        // 选择集成商时更新默认邮箱显示
+        // 选择客户时更新默认邮箱显示
         document.getElementById('exportIntegratorSelect').addEventListener('change', function () {
             var selectedIntegrator = this.value;
             var defaultEmail = integratorEmailMap[selectedIntegrator] || '—';
@@ -639,7 +639,7 @@
         document.getElementById('btnExportIntegratorConfirm').addEventListener('click', function () {
             var selectedIntegrator = document.getElementById('exportIntegratorSelect').value;
             if (!selectedIntegrator) {
-                alert('请选择集成商');
+                alert('请选择客户');
                 return;
             }
             var exportMode = document.querySelector('input[name="exportIntegratorMode"]:checked').value;
@@ -650,7 +650,7 @@
             rows.forEach(function (row) {
                 var integrator = row.getAttribute('data-integrator') || '';
                 var status = row.getAttribute('data-status');
-                // 仅导出指定集成商且在售的套餐
+                // 仅导出指定客户且在售的套餐
                 if (integrator !== selectedIntegrator || status !== 'onsale') return;
                 var pkgCode = row.getAttribute('data-catalog-pkg') || '';
                 var name = row.getAttribute('data-catalog-name') || '';
@@ -669,7 +669,7 @@
                 });
             });
             if (csvRows.length <= 1) {
-                alert('该集成商没有在售的定价数据');
+                alert('该客户没有在售的定价数据');
                 return;
             }
             var csv = csvRows.join('\n');
@@ -683,7 +683,7 @@
                     return;
                 }
                 exportIntegratorModal.hide();
-                alert('已发送报价明细（原型演示）\n\n集成商：' + selectedIntegrator + '\n收件人：' + targetEmail + '\n附件：' + selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
+                alert('已发送报价明细（原型演示）\n\n客户：' + selectedIntegrator + '\n收件人：' + targetEmail + '\n附件：' + selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
             } else {
                 downloadCsv(csv, selectedIntegrator + '_报价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
                 exportIntegratorModal.hide();
@@ -698,8 +698,8 @@
                 alert('没有可导出的数据');
                 return;
             }
-            // 表头：集成商, 产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 供应商报价, 指导价, 建议零售价, 导入时间, 状态
-            var csvHeader = '集成商,产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,供应商报价,指导价,建议零售价,导入时间,状态';
+            // 表头：客户, 产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 供应商报价, 指导价, 建议零售价, 导入时间, 状态
+            var csvHeader = '客户,产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,供应商报价,指导价,建议零售价,导入时间,状态';
             var csvRows = [csvHeader];
             rows.forEach(function (row) {
                 if (row.style.display === 'none') return;
