@@ -83,7 +83,7 @@
                                     <option value="PER_GB">每GB</option>
                                     <option value="PACKAGE">套餐</option>
                                 </select>
-                                <small class="text-muted" id="billingTypeHint">每GB 仅支持后付</small>
+                                <small class="text-muted" id="billingTypeHint">请按客户合作方式选择计费方式</small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">结算方式 <span class="text-danger">*</span></label>
@@ -92,7 +92,7 @@
                                     <option value="PREPAID">预付</option>
                                     <option value="POSTPAID">后付</option>
                                 </select>
-                                <small class="text-muted" id="settlementTypeHint" style="display: none;">每GB 的计算方式只能是后付</small>
+                                <small class="text-muted" id="settlementTypeHint" style="display: none;"></small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">信用额度（可选）</label>
@@ -155,15 +155,8 @@
             var settlementType = document.getElementById('settlementType');
             var settlementTypeHint = document.getElementById('settlementTypeHint');
             function syncSettlementByBilling() {
-                var isPerGb = billingType.value === 'PER_GB';
-                if (isPerGb) {
-                    settlementType.value = 'POSTPAID';
-                    settlementType.disabled = true;
-                    if (settlementTypeHint) settlementTypeHint.style.display = 'block';
-                } else {
-                    settlementType.disabled = false;
-                    if (settlementTypeHint) settlementTypeHint.style.display = 'none';
-                }
+                settlementType.disabled = false;
+                if (settlementTypeHint) settlementTypeHint.style.display = 'none';
             }
             if (billingType) billingType.addEventListener('change', syncSettlementByBilling);
             syncSettlementByBilling();
