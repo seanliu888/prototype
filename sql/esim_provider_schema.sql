@@ -1,36 +1,40 @@
 ﻿begin;
 
 create table if not exists esim_provider (
-  id       bigserial primary key,
-  code     varchar(64) not null unique,
-  name     varchar(128) not null,
-  status            varchar(16) not null,
-  create_time        timestamp not null default now(),
-  update_time        timestamp not null default now()
+  id                    bigserial primary key,
+  code                  varchar(64) not null unique,
+  name                  varchar(128) not null,
+  status                varchar(16) not null,
+  callback_ip_whitelist text,
+  create_time           timestamp not null default now(),
+  update_time           timestamp not null default now()
 );
 comment on table esim_provider is '供应商主表';
 comment on column esim_provider.id is '主键ID';
-comment on column esim_provider.code is '业务编码 供应商编码';
-comment on column esim_provider.name is '名称 供应商名称';
+comment on column esim_provider.code is '业务编码，供应商编码';
+comment on column esim_provider.name is '名称，供应商名称';
 comment on column esim_provider.status is '状态：ENABLED=启用，DISABLED=禁用';
+comment on column esim_provider.callback_ip_whitelist is '回调IP白名单，多个IP用逗号分隔';
 comment on column esim_provider.create_time is '创建时间';
 comment on column esim_provider.update_time is '更新时间';
 
 create table if not exists esim_provider_sync (
-  id                bigserial primary key,
-  provider_id       bigint not null,
-  trigger_type      varchar(16) not null,
-  result            varchar(16) not null,
-  error_message     text,
-  started_time        timestamp,
-  finished_time       timestamp,
-  create_time        timestamp not null default now()
+  id             bigserial primary key,
+  provider_id    bigint not null,
+  trigger_type   varchar(16) not null,
+  result         varchar(16) not null,
+  sync_count     integer not null default 0,
+  error_message  text,
+  started_time   timestamp,
+  finished_time  timestamp,
+  create_time    timestamp not null default now()
 );
 comment on table esim_provider_sync is '供应商同步';
 comment on column esim_provider_sync.id is '主键ID';
 comment on column esim_provider_sync.provider_id is '关联ID 供应商ID';
-comment on column esim_provider_sync.trigger_type is '触发类型：SCHEDULE=定时，MANUAL=手动';
-comment on column esim_provider_sync.result is '执行结果：SUCCESS=成功，FAILED=失败，PARTIAL=部分成功';
+comment on column esim_provider_sync.trigger_type is '触发类型：SCHEDULE=定时，MANUAL=手动，RETRY=重试';
+comment on column esim_provider_sync.result is '执行结果：PROCESSING=同步中，SUCCESS=成功，FAILED=失败，PARTIAL=部分成功';
+comment on column esim_provider_sync.sync_count is '同步数量';
 comment on column esim_provider_sync.error_message is '错误信息';
 comment on column esim_provider_sync.started_time is '开始时间';
 comment on column esim_provider_sync.finished_time is '结束时间';
@@ -42,21 +46,21 @@ create index if not exists idx_provider_sync_result
   on esim_provider_sync(result, create_time desc);
 
 create table if not exists esim_provider_operator (
-  id                   bigserial primary key,
-  provider_id          bigint not null,
-  code_raw    varchar(64) not null,
-  code        varchar(64) not null,
-  name        varchar(128),
-  create_time           timestamp not null default now(),
-  update_time           timestamp not null default now(),
-  unique(provider_id, code)
+  id            bigserial primary key,
+  provider_id   bigint not null,
+  code_raw      varchar(64) not null,
+  code          varchar(64) not null,
+  name          varchar(128),
+  create_time   timestamp not null default now(),
+  update_time   timestamp not null default now(),
+  unique(provider_id, code_raw)
 );
 comment on table esim_provider_operator is '供应商运营商字典';
 comment on column esim_provider_operator.id is '主键ID';
-comment on column esim_provider_operator.provider_id is '关联ID 供应商ID';
-comment on column esim_provider_operator.code_raw is '业务编码 运营商原始编码';
-comment on column esim_provider_operator.code is '业务编码 运营商编码';
-comment on column esim_provider_operator.name is '运营商展示名称 运营商展示名称';
+comment on column esim_provider_operator.provider_id is '关联ID，供应商ID';
+comment on column esim_provider_operator.code_raw is '业务编码，运营商原始编码';
+comment on column esim_provider_operator.code is '业务编码，运营商标准编码';
+comment on column esim_provider_operator.name is '运营商展示名称';
 comment on column esim_provider_operator.create_time is '创建时间';
 comment on column esim_provider_operator.update_time is '更新时间';
 
@@ -64,32 +68,42 @@ create table if not exists esim_provider_esim (
   id                bigserial primary key,
   provider_id       bigint not null,
   iccid             varchar(64) not null unique,
-  msisdn            varchar(32),
+  msisdn            varchar(64),
   imsi              varchar(64),
   operator_code_raw varchar(64),
   eid               varchar(64),
+  smdp_status       varchar(64),
+  install_count     integer,
+  install_device    varchar(128),
+  install_time      timestamp,
   activation_code   text,
   pin               varchar(12),
   puk               varchar(12),
-  status  varchar(16) not null,
-  allocated_time      timestamp,
-  activated_time      timestamp,
-  expired_time        timestamp,
-  last_sync_time      timestamp,
-  create_time        timestamp not null default now(),
-  update_time        timestamp not null default now()
+  allocable         integer not null default 1,
+  status            varchar(16) not null,
+  allocated_time    timestamp,
+  activated_time    timestamp,
+  expired_time      timestamp,
+  last_sync_time    timestamp,
+  create_time       timestamp not null default now(),
+  update_time       timestamp not null default now()
 );
 comment on table esim_provider_esim is '供应商eSIM号池';
 comment on column esim_provider_esim.id is '主键ID';
-comment on column esim_provider_esim.provider_id is '关联ID 供应商ID';
+comment on column esim_provider_esim.provider_id is '关联ID，供应商ID';
 comment on column esim_provider_esim.iccid is 'ICCID';
 comment on column esim_provider_esim.msisdn is 'MSISDN号码';
 comment on column esim_provider_esim.imsi is 'IMSI';
 comment on column esim_provider_esim.operator_code_raw is '供应商原始运营商编码';
 comment on column esim_provider_esim.eid is 'EID';
+comment on column esim_provider_esim.smdp_status is 'SMDP状态';
+comment on column esim_provider_esim.install_count is '安装次数';
+comment on column esim_provider_esim.install_device is '安装设备';
+comment on column esim_provider_esim.install_time is '安装时间';
 comment on column esim_provider_esim.activation_code is 'Activation Code字符串';
 comment on column esim_provider_esim.pin is 'PIN码';
 comment on column esim_provider_esim.puk is 'PUK码';
+comment on column esim_provider_esim.allocable is '是否可分配使用';
 comment on column esim_provider_esim.status is '库存状态：AVAILABLE=可用，ALLOCATED=已分配，ACTIVATED=已激活，EXPIRED=已过期，SUSPENDED=已暂停';
 comment on column esim_provider_esim.allocated_time is '分配时间';
 comment on column esim_provider_esim.activated_time is '激活时间';
