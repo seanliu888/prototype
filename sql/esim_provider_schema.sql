@@ -140,10 +140,11 @@ comment on column esim_provider_webhook_event.process_status is '处理状态：
 comment on column esim_provider_webhook_event.received_time is '接收时间';
 comment on column esim_provider_webhook_event.processed_time is '处理时间';
 
-create table if not exists esim_integrator (
+create table if not exists esim_partner (
   id                    bigserial primary key,
-  integrator_code       varchar(64) not null unique,
-  company_name          varchar(128) not null,
+  partner_code          varchar(64) not null unique,
+  name                  varchar(128) not null,
+  region                varchar(64),
   contact_name          varchar(64) not null,
   email                 varchar(128) not null,
   phone                 varchar(32) not null,
@@ -157,27 +158,28 @@ create table if not exists esim_integrator (
   create_time            timestamp not null default now(),
   update_time            timestamp not null default now()
 );
-comment on table esim_integrator is '集成商主表';
-comment on column esim_integrator.id is '主键ID';
-comment on column esim_integrator.integrator_code is '业务编码 集成商编码';
-comment on column esim_integrator.company_name is '名称 企业名称';
-comment on column esim_integrator.contact_name is '名称 联系人';
-comment on column esim_integrator.email is '邮箱';
-comment on column esim_integrator.phone is '手机号';
-comment on column esim_integrator.status is '状态：ENABLED=启用，DISABLED=禁用，PENDING=待审核';
-comment on column esim_integrator.billing_mode is '计费模式：PACKAGE=按套餐，PER_GB=按GB';
-comment on column esim_integrator.settlement_mode is '结算方式：PREPAID=预付，POSTPAID=后付';
-comment on column esim_integrator.credit_limit is '信用额度';
-comment on column esim_integrator.balance is '当前余额';
-comment on column esim_integrator.default_guide_plan_id is '关联ID 默认指导价模板ID';
-comment on column esim_integrator.remark is '备注';
-comment on column esim_integrator.create_time is '创建时间';
-comment on column esim_integrator.update_time is '更新时间';
+comment on table esim_partner is '合作方主表';
+comment on column esim_partner.id is '主键ID';
+comment on column esim_partner.partner_code is '业务编码 合作方编码';
+comment on column esim_partner.name is '名称 名称';
+comment on column esim_partner.region is '归属地区域';
+comment on column esim_partner.contact_name is '名称 联系人';
+comment on column esim_partner.email is '邮箱';
+comment on column esim_partner.phone is '手机号';
+comment on column esim_partner.status is '状态：ENABLED=启用，DISABLED=禁用，PENDING=待审核';
+comment on column esim_partner.billing_mode is '计费模式：PACKAGE=按套餐，PER_GB=按GB';
+comment on column esim_partner.settlement_mode is '结算方式：PREPAID=预付，POSTPAID=后付';
+comment on column esim_partner.credit_limit is '信用额度';
+comment on column esim_partner.balance is '当前余额';
+comment on column esim_partner.default_guide_plan_id is '关联ID 默认指导价模板ID';
+comment on column esim_partner.remark is '备注';
+comment on column esim_partner.create_time is '创建时间';
+comment on column esim_partner.update_time is '更新时间';
 
-create index if not exists idx_integrator_status on esim_integrator(status);
+create index if not exists idx_partner_status on esim_partner(status);
 
-create table if not exists esim_integrator_api_config (
-  integrator_id      bigint primary key,
+create table if not exists esim_partner_api_config (
+  partner_id         bigint primary key,
   access_code        varchar(128) not null unique,
   secret_key_enc     text not null,
   api_status         varchar(16) not null,
@@ -187,20 +189,20 @@ create table if not exists esim_integrator_api_config (
   version            integer not null default 1,
   update_time         timestamp not null default now()
 );
-comment on table esim_integrator_api_config is '集成商API配置';
-comment on column esim_integrator_api_config.integrator_id is '关联ID 集成商ID';
-comment on column esim_integrator_api_config.access_code is '业务编码 访问凭证';
-comment on column esim_integrator_api_config.secret_key_enc is '加密密钥';
-comment on column esim_integrator_api_config.api_status is 'API状态：ENABLED=启用，DISABLED=禁用';
-comment on column esim_integrator_api_config.webhook_url is 'Webhook地址';
-comment on column esim_integrator_api_config.webhook_enabled is '是否启用Webhook';
-comment on column esim_integrator_api_config.ip_whitelist is 'IP白名单(JSON数组)';
-comment on column esim_integrator_api_config.version is '配置版本号';
-comment on column esim_integrator_api_config.update_time is '更新时间';
+comment on table esim_partner_api_config is '合作方API配置';
+comment on column esim_partner_api_config.partner_id is '关联ID 合作方ID';
+comment on column esim_partner_api_config.access_code is '业务编码 访问凭证';
+comment on column esim_partner_api_config.secret_key_enc is '加密密钥';
+comment on column esim_partner_api_config.api_status is 'API状态：ENABLED=启用，DISABLED=禁用';
+comment on column esim_partner_api_config.webhook_url is 'Webhook地址';
+comment on column esim_partner_api_config.webhook_enabled is '是否启用Webhook';
+comment on column esim_partner_api_config.ip_whitelist is 'IP白名单(JSON数组)';
+comment on column esim_partner_api_config.version is '配置版本号';
+comment on column esim_partner_api_config.update_time is '更新时间';
 
-create table if not exists esim_integrator_webhook_delivery (
+create table if not exists esim_partner_webhook_delivery (
   id                bigserial primary key,
-  integrator_id     bigint not null,
+  partner_id        bigint not null,
   event_type        varchar(64) not null,
   event_key         varchar(128),
   target_url        text not null,
@@ -212,66 +214,76 @@ create table if not exists esim_integrator_webhook_delivery (
   last_error        text,
   create_time        timestamp not null default now()
 );
-comment on table esim_integrator_webhook_delivery is '集成商Webhook投递记录';
-comment on column esim_integrator_webhook_delivery.id is '主键ID';
-comment on column esim_integrator_webhook_delivery.integrator_id is '关联ID 集成商ID';
-comment on column esim_integrator_webhook_delivery.event_type is '事件类型';
-comment on column esim_integrator_webhook_delivery.event_key is '事件业务键';
-comment on column esim_integrator_webhook_delivery.target_url is '目标回调地址';
-comment on column esim_integrator_webhook_delivery.request_body is '请求体(JSON)';
-comment on column esim_integrator_webhook_delivery.http_status is '状态 HTTP状态码';
-comment on column esim_integrator_webhook_delivery.delivery_status is '投递状态：PENDING=待投递，SUCCESS=成功，FAILED=失败';
-comment on column esim_integrator_webhook_delivery.retry_count is '重试次数';
-comment on column esim_integrator_webhook_delivery.next_retry_time is '下次重试时间';
-comment on column esim_integrator_webhook_delivery.last_error is '最后一次错误信息';
-comment on column esim_integrator_webhook_delivery.create_time is '创建时间';
+comment on table esim_partner_webhook_delivery is '合作方Webhook投递记录';
+comment on column esim_partner_webhook_delivery.id is '主键ID';
+comment on column esim_partner_webhook_delivery.partner_id is '关联ID 合作方ID';
+comment on column esim_partner_webhook_delivery.event_type is '事件类型';
+comment on column esim_partner_webhook_delivery.event_key is '事件业务键';
+comment on column esim_partner_webhook_delivery.target_url is '目标回调地址';
+comment on column esim_partner_webhook_delivery.request_body is '请求体(JSON)';
+comment on column esim_partner_webhook_delivery.http_status is '状态 HTTP状态码';
+comment on column esim_partner_webhook_delivery.delivery_status is '投递状态：PENDING=待投递，SUCCESS=成功，FAILED=失败';
+comment on column esim_partner_webhook_delivery.retry_count is '重试次数';
+comment on column esim_partner_webhook_delivery.next_retry_time is '下次重试时间';
+comment on column esim_partner_webhook_delivery.last_error is '最后一次错误信息';
+comment on column esim_partner_webhook_delivery.create_time is '创建时间';
 
-create index if not exists idx_webhook_delivery_integrator
-  on esim_integrator_webhook_delivery(integrator_id, create_time desc);
+create index if not exists idx_webhook_delivery_partner
+  on esim_partner_webhook_delivery(partner_id, create_time desc);
 
-create table if not exists esim_product_package (
+create table if not exists esim_package (
   id                   bigserial primary key,
-  package_code         varchar(64) not null unique,
+  code                 varchar(64) not null unique,
   provider_id          bigint not null,
-  provider_package_id  varchar(128) not null,
-  package_name         varchar(256) not null,
-  package_type         varchar(16) not null,
-  coverage_json        jsonb,
+  code_raw     varchar(128) not null,
+  name_raw             varchar(256),
+  name                 varchar(256) not null,
+  type                 varchar(16) not null,
+  coverage             jsonb,
   operator_code        varchar(64),
-  traffic_mb           integer,
-  validity_days        integer,
-  speed_level          varchar(16),
+  mcc                  varchar(8),
+  mnc                  varchar(8),
+  data                 bigint,
+  data_unit            varchar(16),
+  duration             integer,
+  duration_unit        varchar(16),
+  speed                varchar(16),
   billing_mode         varchar(16) not null,
   currency             varchar(8) not null,
-  cost_price           numeric(18, 6) not null,
+  price                numeric(18, 6) not null,
   status               varchar(16) not null,
   last_sync_time         timestamp,
   create_time           timestamp not null default now(),
   update_time           timestamp not null default now(),
-  unique(provider_id, provider_package_id)
+  unique(provider_id, code_raw)
 );
-comment on table esim_product_package is '套餐目录';
-comment on column esim_product_package.id is '主键ID';
-comment on column esim_product_package.package_code is '业务编码 套餐编码';
-comment on column esim_product_package.provider_id is '关联ID 供应商ID';
-comment on column esim_product_package.provider_package_id is '关联ID 供应商套餐ID';
-comment on column esim_product_package.package_name is '名称 套餐名称';
-comment on column esim_product_package.package_type is '套餐类型：COUNTRY=国家包，REGION=区域包，GLOBAL=全球包';
-comment on column esim_product_package.coverage_json is '覆盖范围(JSON)';
-comment on column esim_product_package.operator_code is '业务编码 运营商编码';
-comment on column esim_product_package.traffic_mb is '流量(MB)';
-comment on column esim_product_package.validity_days is '有效期(天)';
-comment on column esim_product_package.speed_level is '速率等级';
-comment on column esim_product_package.billing_mode is '计费模式：PACKAGE=按套餐，PER_GB=按GB';
-comment on column esim_product_package.currency is '币种';
-comment on column esim_product_package.cost_price is '成本价';
-comment on column esim_product_package.status is '状态：ON_SALE=在售，OFF_SALE=下架';
-comment on column esim_product_package.last_sync_time is '最近同步时间';
-comment on column esim_product_package.create_time is '创建时间';
-comment on column esim_product_package.update_time is '更新时间';
+comment on table esim_package is '套餐目录';
+comment on column esim_package.id is '主键ID';
+comment on column esim_package.code is '业务编码 套餐编码';
+comment on column esim_package.provider_id is '关联ID 供应商ID';
+comment on column esim_package.code_raw is '关联ID 供应商原始套餐ID';
+comment on column esim_package.name_raw is '供应商原始套餐名称';
+comment on column esim_package.name is '名称 套餐名称';
+comment on column esim_package.type is '套餐类型：COUNTRY=国家包，REGION=区域包，GLOBAL=全球包';
+comment on column esim_package.coverage is '覆盖范围(JSON)';
+comment on column esim_package.operator_code is '业务编码 运营商编码';
+comment on column esim_package.mcc is 'MCC';
+comment on column esim_package.mnc is 'MNC';
+comment on column esim_package.data is '流量';
+comment on column esim_package.data_unit is '流量单位：MB=兆，GB=千兆';
+comment on column esim_package.duration is '周期数值';
+comment on column esim_package.duration_unit is '周期单位：24HOURS=24小时，DAY=日，MONTH=月';
+comment on column esim_package.speed is '速率等级';
+comment on column esim_package.billing_mode is '计费模式：PACKAGE=按套餐，PER_GB=按GB';
+comment on column esim_package.currency is '币种';
+comment on column esim_package.price is '价格';
+comment on column esim_package.status is '状态：ON_SALE=在售，OFF_SALE=停售';
+comment on column esim_package.last_sync_time is '最近同步时间';
+comment on column esim_package.create_time is '创建时间';
+comment on column esim_package.update_time is '更新时间';
 
-create index if not exists idx_product_package_provider on esim_product_package(provider_id, status);
-create index if not exists idx_product_package_coverage on esim_product_package using gin(coverage_json);
+create index if not exists idx_package_provider on esim_package(provider_id, status);
+create index if not exists idx_package_coverage on esim_package using gin(coverage);
 
 create table if not exists esim_product_refill (
   id                bigserial primary key,
@@ -280,7 +292,7 @@ create table if not exists esim_product_refill (
   refill_name       varchar(128),
   traffic_mb        integer not null,
   currency          varchar(8) not null,
-  cost_price        numeric(18, 6) not null,
+  price             numeric(18, 6) not null,
   status            varchar(16) not null,
   last_sync_time      timestamp,
   create_time        timestamp not null default now(),
@@ -294,7 +306,7 @@ comment on column esim_product_refill.refill_code is '业务编码';
 comment on column esim_product_refill.refill_name is '名称';
 comment on column esim_product_refill.traffic_mb is '流量(MB)';
 comment on column esim_product_refill.currency is '币种';
-comment on column esim_product_refill.cost_price is '成本价';
+comment on column esim_product_refill.price is '价格';
 comment on column esim_product_refill.status is '状态：ON_SALE=在售，OFF_SALE=下架';
 comment on column esim_product_refill.last_sync_time is '最近同步时间';
 comment on column esim_product_refill.create_time is '创建时间';
@@ -353,7 +365,7 @@ create index if not exists idx_price_item_lookup
   on esim_price_item(product_type, product_id, price_scope, owner_id);
 
 create table if not exists esim_price_effective_cache (
-  integrator_id       bigint not null,
+  partner_id          bigint not null,
   product_type        varchar(16) not null,
   product_id          bigint not null,
   final_cost_price    numeric(18, 6),
@@ -363,10 +375,10 @@ create table if not exists esim_price_effective_cache (
   price_source        varchar(16) not null,
   source_id           bigint not null,
   refreshed_time        timestamp not null default now(),
-  primary key (integrator_id, product_type, product_id)
+  primary key (partner_id, product_type, product_id)
 );
 comment on table esim_price_effective_cache is '生效价格缓存';
-comment on column esim_price_effective_cache.integrator_id is '关联ID 集成商ID';
+comment on column esim_price_effective_cache.partner_id is '关联ID 合作方ID';
 comment on column esim_price_effective_cache.product_type is '产品类型：PACKAGE=套餐，REFILL=加油包';
 comment on column esim_price_effective_cache.product_id is '关联ID 产品ID(按product_type解释)';
 comment on column esim_price_effective_cache.final_cost_price is '生效成本价';
@@ -378,13 +390,13 @@ comment on column esim_price_effective_cache.source_id is '关联ID 来源记录
 comment on column esim_price_effective_cache.refreshed_time is '缓存刷新时间';
 
 create index if not exists idx_price_effective_status
-  on esim_price_effective_cache(integrator_id, final_sale_status);
+  on esim_price_effective_cache(partner_id, final_sale_status);
 
 create table if not exists esim_order_main (
   id                 bigserial primary key,
   order_no           varchar(64) not null unique,
   merchant_order_no  varchar(64) not null,
-  integrator_id      bigint not null,
+  partner_id         bigint not null,
   provider_id        bigint not null,
   supplier_txn_no    varchar(64),
   order_type         varchar(16) not null,
@@ -394,13 +406,13 @@ create table if not exists esim_order_main (
   order_status       varchar(16) not null,
   create_time         timestamp not null default now(),
   paid_time            timestamp,
-  unique(integrator_id, merchant_order_no)
+  unique(partner_id, merchant_order_no)
 );
 comment on table esim_order_main is '订单主表';
 comment on column esim_order_main.id is '主键ID';
 comment on column esim_order_main.order_no is '平台订单号';
 comment on column esim_order_main.merchant_order_no is '商户订单号';
-comment on column esim_order_main.integrator_id is '关联ID 集成商ID';
+comment on column esim_order_main.partner_id is '关联ID 合作方ID';
 comment on column esim_order_main.provider_id is '关联ID 供应商ID';
 comment on column esim_order_main.supplier_txn_no is '上游交易号';
 comment on column esim_order_main.order_type is '订单类型：PACKAGE=套餐下单，TOPUP=流量充值';
@@ -411,8 +423,8 @@ comment on column esim_order_main.order_status is '订单状态：CREATED=已创
 comment on column esim_order_main.create_time is '创建时间';
 comment on column esim_order_main.paid_time is '支付时间';
 
-create index if not exists idx_order_main_integrator_time
-  on esim_order_main(integrator_id, create_time desc);
+create index if not exists idx_order_main_partner_time
+  on esim_order_main(partner_id, create_time desc);
 create index if not exists idx_order_main_status_time
   on esim_order_main(order_status, create_time desc);
 
@@ -445,7 +457,7 @@ create table if not exists esim_esim_profile (
   eid                    varchar(64),
   order_id               bigint,
   order_item_id          bigint,
-  integrator_id          bigint not null,
+  partner_id             bigint not null,
   provider_id            bigint not null,
   package_id             bigint,
   profile_status         varchar(16) not null,
@@ -464,7 +476,7 @@ comment on column esim_esim_profile.imsi is 'IMSI';
 comment on column esim_esim_profile.eid is 'EID';
 comment on column esim_esim_profile.order_id is '关联ID 订单ID';
 comment on column esim_esim_profile.order_item_id is '关联ID 订单明细ID';
-comment on column esim_esim_profile.integrator_id is '关联ID 集成商ID';
+comment on column esim_esim_profile.partner_id is '关联ID 合作方ID';
 comment on column esim_esim_profile.provider_id is '关联ID 供应商ID';
 comment on column esim_esim_profile.package_id is '关联ID 套餐ID';
 comment on column esim_esim_profile.profile_status is 'Profile状态：PENDING=待激活，ACTIVATED=已激活，EXPIRED=已过期，SUSPENDED=已暂停，DISABLED=已禁用';
@@ -476,8 +488,8 @@ comment on column esim_esim_profile.expired_time is '过期时间';
 comment on column esim_esim_profile.create_time is '创建时间';
 comment on column esim_esim_profile.update_time is '更新时间';
 
-create index if not exists idx_esim_profile_integrator_status
-  on esim_esim_profile(integrator_id, profile_status);
+create index if not exists idx_esim_profile_partner_status
+  on esim_esim_profile(partner_id, profile_status);
 
 create table if not exists esim_esim_usage_snapshot (
   id                bigserial primary key,
@@ -539,7 +551,7 @@ create table if not exists esim_wallet_ledger (
 );
 comment on table esim_wallet_ledger is '资金流水';
 comment on column esim_wallet_ledger.id is '主键ID';
-comment on column esim_wallet_ledger.party_type is '主体类型：INTEGRATOR=集成商，PROVIDER=供应商';
+comment on column esim_wallet_ledger.party_type is '主体类型：PARTNER=合作方，PROVIDER=供应商';
 comment on column esim_wallet_ledger.party_id is '关联ID 主体ID';
 comment on column esim_wallet_ledger.txn_type is '交易类型：RECHARGE=充值，CONSUME=消费，ADJUST=调账，REFUND=退款，SETTLE=结算';
 comment on column esim_wallet_ledger.currency is '币种';
@@ -570,7 +582,7 @@ create table if not exists esim_settlement_batch (
 );
 comment on table esim_settlement_batch is '结算单主表';
 comment on column esim_settlement_batch.id is '主键ID';
-comment on column esim_settlement_batch.party_type is '主体类型：INTEGRATOR=集成商，PROVIDER=供应商';
+comment on column esim_settlement_batch.party_type is '主体类型：PARTNER=合作方，PROVIDER=供应商';
 comment on column esim_settlement_batch.party_id is '关联ID 主体ID';
 comment on column esim_settlement_batch.settlement_direction is '结算方向：RECEIVABLE=应收，PAYABLE=应付';
 comment on column esim_settlement_batch.period_start is '账期开始日期';
