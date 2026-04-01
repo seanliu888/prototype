@@ -141,28 +141,29 @@ comment on column esim_provider_webhook_event.received_time is '接收时间';
 comment on column esim_provider_webhook_event.processed_time is '处理时间';
 
 create table if not exists esim_partner (
-  id                    bigserial primary key,
-  partner_code          varchar(64) not null unique,
-  name                  varchar(128) not null,
-  region                varchar(64),
-  contact_name          varchar(64) not null,
-  email                 varchar(128) not null,
-  phone                 varchar(32) not null,
-  status                varchar(16) not null,
-  billing_mode          varchar(16) not null,
-  settlement_mode       varchar(16) not null,
-  credit_limit          numeric(18, 6),
-  balance               numeric(18, 6) not null default 0,
-  default_guide_plan_id bigint,
-  remark                text,
-  create_time            timestamp not null default now(),
-  update_time            timestamp not null default now()
+  id             bigserial primary key,
+  code           varchar(64) not null unique,
+  name           varchar(128) not null,
+  region         varchar(64),
+  contact_name   varchar(64) not null,
+  email          varchar(128) not null,
+  phone          varchar(32) not null,
+  status         varchar(16) not null,
+  billing_mode   varchar(16) not null,
+  settlement_mode varchar(16) not null,
+  credit_limit   numeric(18, 6),
+  balance        numeric(18, 6) not null default 0,
+  guide_plan_id  bigint,
+  remark         text,
+  search_text    text,
+  create_time    timestamp not null default now(),
+  update_time    timestamp not null default now()
 );
-comment on table esim_partner is '合作方主表';
+comment on table esim_partner is '客户主表';
 comment on column esim_partner.id is '主键ID';
-comment on column esim_partner.partner_code is '业务编码 合作方编码';
-comment on column esim_partner.name is '名称 名称';
-comment on column esim_partner.region is '归属地区域';
+comment on column esim_partner.code is '业务编码 客户编码';
+comment on column esim_partner.name is '名称 客户名称';
+comment on column esim_partner.region is '所属地区';
 comment on column esim_partner.contact_name is '名称 联系人';
 comment on column esim_partner.email is '邮箱';
 comment on column esim_partner.phone is '手机号';
@@ -171,8 +172,9 @@ comment on column esim_partner.billing_mode is '计费模式：PACKAGE=按套餐
 comment on column esim_partner.settlement_mode is '结算方式：PREPAID=预付，POSTPAID=后付';
 comment on column esim_partner.credit_limit is '信用额度';
 comment on column esim_partner.balance is '当前余额';
-comment on column esim_partner.default_guide_plan_id is '关联ID 默认指导价模板ID';
+comment on column esim_partner.guide_plan_id is '关联ID 导购价模板ID';
 comment on column esim_partner.remark is '备注';
+comment on column esim_partner.search_text is '搜索文本';
 comment on column esim_partner.create_time is '创建时间';
 comment on column esim_partner.update_time is '更新时间';
 
