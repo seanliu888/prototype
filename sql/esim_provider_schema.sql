@@ -237,14 +237,11 @@ create table if not exists esim_package (
   id                   bigserial primary key,
   code                 varchar(64) not null unique,
   provider_id          bigint not null,
-  code_raw     varchar(128) not null,
+  code_raw             varchar(128) not null,
   name_raw             varchar(256),
   name                 varchar(256) not null,
   type                 varchar(16) not null,
-  coverage             jsonb,
-  operator_code        varchar(64),
-  mcc                  varchar(8),
-  mnc                  varchar(8),
+  coverage             text[],
   data                 bigint,
   data_unit            varchar(16),
   duration             integer,
@@ -253,10 +250,11 @@ create table if not exists esim_package (
   billing_mode         varchar(16) not null,
   currency             varchar(8) not null,
   price                numeric(18, 6) not null,
+  source_status        varchar(16),
   status               varchar(16) not null,
-  last_sync_time         timestamp,
-  create_time           timestamp not null default now(),
-  update_time           timestamp not null default now(),
+  last_sync_time       timestamp,
+  create_time          timestamp not null default now(),
+  update_time          timestamp not null default now(),
   unique(provider_id, code_raw)
 );
 comment on table esim_package is '套餐目录';
@@ -267,10 +265,7 @@ comment on column esim_package.code_raw is '关联ID 供应商原始套餐ID';
 comment on column esim_package.name_raw is '供应商原始套餐名称';
 comment on column esim_package.name is '名称 套餐名称';
 comment on column esim_package.type is '套餐类型：COUNTRY=国家包，REGION=区域包，GLOBAL=全球包';
-comment on column esim_package.coverage is '覆盖范围(JSON)';
-comment on column esim_package.operator_code is '业务编码 运营商编码';
-comment on column esim_package.mcc is 'MCC';
-comment on column esim_package.mnc is 'MNC';
+comment on column esim_package.coverage is '覆盖范围数组';
 comment on column esim_package.data is '流量';
 comment on column esim_package.data_unit is '流量单位：MB=兆，GB=千兆';
 comment on column esim_package.duration is '周期数值';
@@ -279,6 +274,7 @@ comment on column esim_package.speed is '速率等级';
 comment on column esim_package.billing_mode is '计费模式：PACKAGE=按套餐，PER_GB=按GB';
 comment on column esim_package.currency is '币种';
 comment on column esim_package.price is '价格';
+comment on column esim_package.source_status is '源状态：状态：ENABLED=启用，DISABLED=禁用。供应商套餐是否存在、可用等原始状态';
 comment on column esim_package.status is '状态：ON_SALE=在售，OFF_SALE=停售';
 comment on column esim_package.last_sync_time is '最近同步时间';
 comment on column esim_package.create_time is '创建时间';
@@ -286,6 +282,29 @@ comment on column esim_package.update_time is '更新时间';
 
 create index if not exists idx_package_provider on esim_package(provider_id, status);
 create index if not exists idx_package_coverage on esim_package using gin(coverage);
+
+create table if not exists esim_package_country_operator (
+  id                   bigserial primary key,
+  provider_id          bigint not null,
+  package_id           bigint not null,
+  country_iso2         varchar(8) not null,
+  operator_id          bigint not null,
+  regions              text[],
+  mcc                  varchar(8),
+  mnc                  varchar(8)
+);
+comment on table esim_package_country_operator is '套餐国家运营商映射';
+comment on column esim_package_country_operator.id is '主键ID';
+comment on column esim_package_country_operator.provider_id is '关联ID 供应商ID';
+comment on column esim_package_country_operator.package_id is '关联ID 套餐ID';
+comment on column esim_package_country_operator.country_iso2 is '国家ISO2编码';
+comment on column esim_package_country_operator.operator_id is '关联ID 运营商ID';
+comment on column esim_package_country_operator.regions is '所属区域数组';
+comment on column esim_package_country_operator.mcc is 'MCC';
+comment on column esim_package_country_operator.mnc is 'MNC';
+
+create unique index if not exists idx_package_country_operator_lookup
+  on esim_package_country_operator(package_id, country_iso2, operator_id);
 
 create table if not exists esim_product_refill (
   id                bigserial primary key,
