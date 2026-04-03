@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalog Pricing</title>
+    <title>成本报价 - eSIM 客户管理平台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -112,8 +112,15 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <label class="form-label">有效期</label>
-                                <input type="text" class="form-control" placeholder="如 7天">
+                                <label class="form-label">有效周期</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="数值" min="0" step="1">
+                                    <select class="form-select" style="max-width: 7rem;">
+                                        <option value="24H">24小时</option>
+                                        <option value="DAY" selected>自然日</option>
+                                        <option value="MONTH">自然月</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <button class="btn btn-primary me-2"><i class="bi bi-search me-1"></i>查询</button>
@@ -121,6 +128,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
@@ -150,12 +158,7 @@
                                     <td class="catalog-billing-cell"><span class="badge bg-secondary">套餐</span></td>
                                     <td class="catalog-quote-cell">USD $ 18.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="catalog-detail.html?id=pkg_1001" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1001" data-pkg-supplier-name="亚洲 7 天 1GB" data-pkg-custom-name="亚洲7天1G（主推）" data-price="18.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
-                                        </div>
-                                    </td>
+                                    <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_1001" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1001" data-pkg-supplier-name="亚洲 7 天 1GB" data-pkg-custom-name="亚洲7天1G（主推）" data-price="18.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button></div></td>
                                 </tr>
                                 <tr data-supplier-name="欧洲 15 天 3GB" data-custom-name="欧洲 15 天 3GB" data-type="区域" data-region="欧洲（多国可用）" data-cap="3GB" data-quote="45.00">
                                     <td>eSIM 全球供</td>
@@ -168,12 +171,7 @@
                                     <td class="catalog-billing-cell"><span class="badge bg-info">每GB</span></td>
                                     <td class="catalog-quote-cell">USD $ 45.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="catalog-detail.html?id=pkg_1002" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1002" data-pkg-supplier-name="欧洲 15 天 3GB" data-pkg-custom-name="欧洲 15 天 3GB" data-price="45.00" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
-                                        </div>
-                                    </td>
+                                    <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_1002" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1002" data-pkg-supplier-name="欧洲 15 天 3GB" data-pkg-custom-name="欧洲 15 天 3GB" data-price="45.00" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button></div></td>
                                 </tr>
                                 <tr data-supplier-name="日本 7 天 1GB" data-custom-name="日本 7 天 1GB" data-type="国家" data-region="日本" data-cap="1GB" data-quote="22.00">
                                     <td>eSIM 全球供</td>
@@ -186,12 +184,7 @@
                                     <td class="catalog-billing-cell"><span class="badge bg-secondary">套餐</span></td>
                                     <td class="catalog-quote-cell">USD $ 22.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="catalog-detail.html?id=pkg_1003" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1003" data-pkg-supplier-name="日本 7 天 1GB" data-pkg-custom-name="日本 7 天 1GB" data-price="22.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
-                                        </div>
-                                    </td>
+                                    <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_1003" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1003" data-pkg-supplier-name="日本 7 天 1GB" data-pkg-custom-name="日本 7 天 1GB" data-price="22.00" data-billing="套餐" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button></div></td>
                                 </tr>
                                 <tr data-supplier-name="亚洲 7 日 1G 流量" data-custom-name="亚洲 7 日 1G 流量" data-type="区域" data-region="亚洲（多国可用）" data-cap="1GB" data-quote="16.50">
                                     <td>跨境 eSIM 源</td>
@@ -204,12 +197,7 @@
                                     <td class="catalog-billing-cell"><span class="badge bg-info">每GB</span></td>
                                     <td class="catalog-quote-cell">USD $ 16.50</td>
                                     <td><span class="badge bg-success">有效</span></td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="catalog-detail.html?id=pkg_2001" class="btn btn-outline-primary">详情</a>
-                                            <button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_2001" data-pkg-supplier-name="亚洲 7 日 1G 流量" data-pkg-custom-name="亚洲 7 日 1G 流量" data-price="16.50" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button>
-                                        </div>
-                                    </td>
+                                    <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_2001" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_2001" data-pkg-supplier-name="亚洲 7 日 1G 流量" data-pkg-custom-name="亚洲 7 日 1G 流量" data-price="16.50" data-billing="每GB" title="编辑报价与计费方式"><i class="bi bi-pencil"></i></button></div></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -219,6 +207,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="catalogEditModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -294,6 +283,7 @@
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         (function () {
