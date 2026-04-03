@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>成本报价 - eSIM 客户管理平台</title>
+    <title>Catalog Pricing</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../chrome-compatibility.css">
@@ -29,17 +29,18 @@
                         <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
                     </div>
                     <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
-                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM 管理</a>
                     <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
                     <div class="nav-section-title">开放能力</div>
                     <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>API 管理</a>
                 </nav>
             </div>
+
             <div class="col-md-10 main-content">
                 <div class="page-header">
                     <div>
                         <h1><i class="bi bi-collection me-2"></i>成本报价</h1>
-                        <small class="text-muted">套餐基础信息由供应商 API 同步；<strong>仅报价与计费方式</strong>可在此编辑或导入</small>
+                        <small class="text-muted">套餐基础信息由供应商 API 同步，仅报价与计费方式可在此编辑或导入。</small>
                     </div>
                     <div class="d-flex gap-2">
                         <button type="button" class="btn btn-outline-secondary" id="btnExportCatalog"><i class="bi bi-download me-1"></i>导出</button>
@@ -47,6 +48,7 @@
                         <a href="supplier-list.html" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>去同步</a>
                     </div>
                 </div>
+
                 <div class="content-card">
                     <div class="filter-section">
                         <div class="row g-3">
@@ -124,8 +126,8 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>供应商</th>
-                                    <th>套餐Code</th>
-                                    <th>供应商套餐ID</th>
+                                    <th>套餐 Code</th>
+                                    <th>供应商套餐 ID</th>
                                     <th>套餐名称</th>
                                     <th>类型/覆盖范围</th>
                                     <th>运营商</th>
@@ -145,8 +147,8 @@
                                     <td><span class="badge bg-info">区域</span> 亚洲（多国可用）</td>
                                     <td>多运营商</td>
                                     <td>1GB/7天</td>
-                                    <td><span class="badge bg-secondary">套餐</span></td>
-                                    <td>USD $ 18.00</td>
+                                    <td class="catalog-billing-cell"><span class="badge bg-secondary">套餐</span></td>
+                                    <td class="catalog-quote-cell">USD $ 18.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
@@ -163,8 +165,8 @@
                                     <td><span class="badge bg-info">区域</span> 欧洲（多国可用）</td>
                                     <td>Vodafone</td>
                                     <td>3GB/15天</td>
-                                    <td><span class="badge bg-info">每GB</span></td>
-                                    <td>USD $ 45.00</td>
+                                    <td class="catalog-billing-cell"><span class="badge bg-info">每GB</span></td>
+                                    <td class="catalog-quote-cell">USD $ 45.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
@@ -181,8 +183,8 @@
                                     <td><span class="badge bg-secondary">国家</span> 日本</td>
                                     <td>NTT Docomo</td>
                                     <td>1GB/7天</td>
-                                    <td><span class="badge bg-secondary">套餐</span></td>
-                                    <td>USD $ 22.00</td>
+                                    <td class="catalog-billing-cell"><span class="badge bg-secondary">套餐</span></td>
+                                    <td class="catalog-quote-cell">USD $ 22.00</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
@@ -199,8 +201,8 @@
                                     <td><span class="badge bg-info">区域</span> 亚洲（多国可用）</td>
                                     <td>多运营商</td>
                                     <td>1GB/7天</td>
-                                    <td><span class="badge bg-info">每GB</span></td>
-                                    <td>USD $ 16.50</td>
+                                    <td class="catalog-billing-cell"><span class="badge bg-info">每GB</span></td>
+                                    <td class="catalog-quote-cell">USD $ 16.50</td>
                                     <td><span class="badge bg-success">有效</span></td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
@@ -212,47 +214,54 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="text-muted small mt-3 mb-0"><strong>说明：</strong>套餐Code 与供应商套餐ID 等基础信息由同步生成，不可在此修改。<strong>报价</strong>与<strong>计费方式</strong>可通过行内「编辑」或「导入」统一修改，导入前请先「下载模板」填写后上传。为客户配置指导价请前往「<a href="pricing-list.html">特殊报价</a>」。</p>
+                    <p class="text-muted small mt-3 mb-0"><strong>说明：</strong>主套餐与加油包报价都支持在编辑弹窗中维护，导出模板会一并带出加油包行。</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- 编辑报价与计费类型（仅此两项可改） -->
     <div class="modal fade" id="catalogEditModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">编辑报价与计费方式</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">可修改<strong>套餐名称</strong>、<strong>报价</strong>与<strong>计费方式</strong>，供应商套餐名称等由同步生成只读。</p>
-                    <div class="mb-3">
-                        <label class="form-label">套餐Code</label>
-                        <input type="text" class="form-control" id="catalogEditPkgCode" readonly>
+                    <div class="alert alert-light border small py-2 mb-3">
+                        <strong>说明：</strong>带 <span class="text-danger">*</span> 的字段为必填项；标记“只读”的字段不可编辑。
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">套餐名称 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="catalogEditCustomName" placeholder="同步时默认与供应商套餐名称一致，可修改" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">供应商套餐名称</label>
-                        <input type="text" class="form-control" id="catalogEditSupplierName" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">报价（USD） <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="catalogEditPrice" min="0" step="0.01" required>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">套餐 Code <span class="badge text-bg-light border">只读</span></label>
+                            <input type="text" class="form-control" id="catalogEditPkgCode" readonly>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">计费方式 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="catalogEditBilling" required>
-                            <option value="套餐">套餐</option>
-                            <option value="每GB">每GB</option>
-                        </select>
-                        <small class="text-muted">套餐：按套餐一口价；每GB：按流量单价等计费</small>
+                        <div class="col-md-6">
+                            <label class="form-label">供应商套餐名称 <span class="badge text-bg-light border">只读</span></label>
+                            <input type="text" class="form-control" id="catalogEditSupplierName" readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">套餐名称 <span class="text-danger">*</span> <span class="badge text-bg-primary">可编辑</span></label>
+                            <input type="text" class="form-control" id="catalogEditCustomName" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">主套餐报价（USD） <span class="text-danger">*</span> <span class="badge text-bg-primary">可编辑</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="catalogEditPrice" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">主套餐计费方式 <span class="text-danger">*</span> <span class="badge text-bg-primary">可编辑</span></label>
+                            <select class="form-select" id="catalogEditBilling" required>
+                                <option value="套餐">套餐</option>
+                                <option value="每GB">每GB</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">加油包报价 <span class="badge text-bg-primary">可编辑</span></label>
+                            <div id="catalogEditRefills" class="d-grid gap-2"></div>
+                            <small class="text-muted">可在此维护各加油包的报价。</small>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -263,7 +272,6 @@
         </div>
     </div>
 
-    <!-- 导入：统一更新报价与计费方式 -->
     <div class="modal fade" id="catalogBatchImportModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -272,20 +280,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small mb-3">模板中已列出产品信息（供应商、产品Code、供应商套餐名称、套餐名称等），<strong>可编辑「套餐名称」「计费方式」「报价」</strong>后上传。按<strong>产品Code</strong>匹配更新，未匹配的将跳过。</p>
+                    <p class="text-muted small mb-3">模板包含主套餐和加油包行，可统一维护后导入。</p>
                     <div class="mb-3">
                         <label class="form-label">CSV 文件</label>
                         <input type="file" class="form-control" id="catalogImportFile" accept=".csv">
                     </div>
-                    <div class="alert alert-light border small mb-0">
-                        <strong>CSV 列（首行为表头）：</strong>
-                        <ul class="mb-0 mt-2">
-                            <li><code>供应商</code>、<code>产品Code</code>、<code>产品类型</code>、<code>供应商套餐名称</code>、<code>套餐名称</code>（必填，同步时默认与供应商套餐名称一致）、<code>类型</code>、<code>国家/覆盖范围</code>、<code>运营商</code>、<code>流量</code> — 产品信息（按产品Code 匹配）</li>
-                            <li><code>计费方式</code> — 必填，仅允许：<code>套餐</code> 或 <code>每GB</code></li>
-                            <li><code>报价</code> — 必填，数字，单位 USD</li>
-                        </ul>
-                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="catalogDownloadTemplate"><i class="bi bi-download me-1"></i>下载模板</button>
-                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="catalogDownloadTemplate"><i class="bi bi-download me-1"></i>下载模板</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -294,74 +294,138 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         (function () {
-            var editModal = document.getElementById('catalogEditModal');
-            if (editModal) {
-                editModal.addEventListener('show.bs.modal', function (e) {
-                    var btn = e.relatedTarget;
-                    if (!btn || !btn.classList.contains('catalog-edit-btn')) return;
-                    document.getElementById('catalogEditPkgCode').value = btn.getAttribute('data-pkg-code') || '';
-                    document.getElementById('catalogEditSupplierName').value = btn.getAttribute('data-pkg-supplier-name') || '';
-                    document.getElementById('catalogEditCustomName').value = btn.getAttribute('data-pkg-custom-name') || '';
-                    document.getElementById('catalogEditPrice').value = btn.getAttribute('data-price') || '';
-                    var billing = btn.getAttribute('data-billing') || '套餐';
-                    document.getElementById('catalogEditBilling').value = (billing === '每GB') ? '每GB' : '套餐';
-                });
-            }
-            document.getElementById('catalogEditSave').addEventListener('click', function () {
-                var code = document.getElementById('catalogEditPkgCode').value;
-                var customName = document.getElementById('catalogEditCustomName').value.trim();
-                var price = document.getElementById('catalogEditPrice').value;
-                var billing = document.getElementById('catalogEditBilling').value;
-                if (!customName) { alert('请填写套餐名称'); return; }
-                if (!price || isNaN(parseFloat(price))) { alert('请填写有效报价'); return; }
-                var btn = document.querySelector('.catalog-edit-btn[data-pkg-code="' + code + '"]');
-                if (btn) {
-                    var tr = btn.closest('tr');
-                    var supplierName = tr.getAttribute('data-supplier-name') || '';
-                    tr.setAttribute('data-custom-name', customName);
-                    btn.setAttribute('data-pkg-custom-name', customName);
-                    var nameCell = tr.querySelector('.catalog-name-cell');
-                    if (nameCell) {
-                        var displayEl = nameCell.querySelector('.catalog-name-display');
-                        var supplierEl = nameCell.querySelector('.catalog-name-supplier');
-                        if (displayEl) displayEl.textContent = customName;
-                        if (supplierEl) supplierEl.textContent = '供应商：' + supplierName;
-                    }
-                }
-                bootstrap.Modal.getInstance(editModal).hide();
-                alert('已保存（原型演示）\n套餐Code：' + code + '\n套餐名称：' + customName + '\n报价：$' + price + '\n计费方式：' + billing);
-            });
-            function downloadCsv(filename, content) {
-                var blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
-                var a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = filename;
-                a.click();
-                URL.revokeObjectURL(a.href);
-            }
-            var catalogTemplateCsv = '\uFEFF供应商,产品Code,产品类型,供应商套餐名称,套餐名称,类型,国家/覆盖范围,运营商,流量,计费方式,报价\neSIM 全球供,pkg_1001,套餐,亚洲 7天 1GB,亚洲7天1G（主推）,区域,亚洲 (多国可用),多运营商,1GB,套餐,18.00\neSIM 全球供,rfl_1001_1,加油包,,,,,2GB,套餐,\neSIM 全球供,pkg_1002,套餐,欧洲 15天 3GB,,区域,欧洲 (多国可用),Vodafone,3GB,每GB,45.00\neSIM 全球供,rfl_1002_1,加油包,,,,,1GB,每GB,\neSIM 全球供,rfl_1002_2,加油包,,,,,3GB,每GB,\n';
-            document.getElementById('catalogDownloadTemplate').addEventListener('click', function (e) { e.preventDefault(); downloadCsv('catalog-quote-import-template.csv', catalogTemplateCsv); });
             var catalogRefillsByPkg = {
                 pkg_1001: [{ code: 'rfl_1001_1', cap: '2GB', billing: '套餐', quote: '' }],
-                pkg_1002: [{ code: 'rfl_1002_1', cap: '1GB', billing: '每GB', quote: '' }, { code: 'rfl_1002_2', cap: '3GB', billing: '每GB', quote: '' }],
+                pkg_1002: [
+                    { code: 'rfl_1002_1', cap: '1GB', billing: '每GB', quote: '' },
+                    { code: 'rfl_1002_2', cap: '3GB', billing: '每GB', quote: '' }
+                ],
                 pkg_1003: [],
                 pkg_2001: []
             };
+
+            var editModal = document.getElementById('catalogEditModal');
+            var refillContainer = document.getElementById('catalogEditRefills');
+
+            function escapeHtml(value) {
+                return String(value || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function normalizeQuote(value) {
+                var number = parseFloat(value);
+                return Number.isFinite(number) ? number.toFixed(2) : '';
+            }
+
+            function renderRefills(pkgCode) {
+                var refills = catalogRefillsByPkg[pkgCode] || [];
+                if (!refills.length) {
+                    refillContainer.innerHTML = '<div class="border rounded p-3 bg-light text-muted small">当前套餐未配置加油包。</div>';
+                    return;
+                }
+
+                refillContainer.innerHTML = refills.map(function (item, index) {
+                    return '' +
+                        '<div class="border rounded p-3">' +
+                            '<div class="row g-2 align-items-end">' +
+                                '<div class="col-md-4"><label class="form-label">加油包编码</label><input type="text" class="form-control" value="' + escapeHtml(item.code) + '" readonly></div>' +
+                                '<div class="col-md-2"><label class="form-label">流量</label><input type="text" class="form-control" value="' + escapeHtml(item.cap) + '" readonly></div>' +
+                                '<div class="col-md-6"><label class="form-label">报价（USD）</label><div class="input-group"><span class="input-group-text">$</span><input type="number" class="form-control catalog-refill-quote" data-refill-index="' + index + '" min="0" step="0.01" value="' + escapeHtml(item.quote) + '" placeholder="选填"></div></div>' +
+                            '</div>' +
+                        '</div>';
+                }).join('');
+            }
+
+            editModal.addEventListener('show.bs.modal', function (event) {
+                var btn = event.relatedTarget;
+                if (!btn || !btn.classList.contains('catalog-edit-btn')) return;
+
+                var pkgCode = btn.getAttribute('data-pkg-code') || '';
+                document.getElementById('catalogEditPkgCode').value = pkgCode;
+                document.getElementById('catalogEditSupplierName').value = btn.getAttribute('data-pkg-supplier-name') || '';
+                document.getElementById('catalogEditCustomName').value = btn.getAttribute('data-pkg-custom-name') || '';
+                document.getElementById('catalogEditPrice').value = btn.getAttribute('data-price') || '';
+                document.getElementById('catalogEditBilling').value = btn.getAttribute('data-billing') || '套餐';
+                renderRefills(pkgCode);
+            });
+
+            document.getElementById('catalogEditSave').addEventListener('click', function () {
+                var code = document.getElementById('catalogEditPkgCode').value;
+                var customName = document.getElementById('catalogEditCustomName').value.trim();
+                var price = document.getElementById('catalogEditPrice').value.trim();
+                var billing = document.getElementById('catalogEditBilling').value;
+                var refills = catalogRefillsByPkg[code] || [];
+
+                if (!customName) return alert('请填写套餐名称');
+                if (!price || !normalizeQuote(price)) return alert('请填写有效报价');
+
+                var refillQuoteInputs = [].slice.call(document.querySelectorAll('#catalogEditRefills .catalog-refill-quote'));
+                var invalidRefill = refillQuoteInputs.find(function (input) {
+                    return input.value.trim() && !normalizeQuote(input.value.trim());
+                });
+                if (invalidRefill) {
+                    invalidRefill.focus();
+                    return alert('请填写有效的加油包报价');
+                }
+
+                refillQuoteInputs.forEach(function (input) {
+                    var index = parseInt(input.getAttribute('data-refill-index'), 10);
+                    if (!Number.isInteger(index) || !refills[index]) return;
+                    refills[index].quote = input.value.trim() ? normalizeQuote(input.value.trim()) : '';
+                });
+
+                var btn = document.querySelector('.catalog-edit-btn[data-pkg-code="' + code + '"]');
+                var tr = btn ? btn.closest('tr') : null;
+                var quoteText = normalizeQuote(price);
+
+                if (tr) {
+                    tr.setAttribute('data-custom-name', customName);
+                    tr.setAttribute('data-quote', quoteText);
+                    btn.setAttribute('data-pkg-custom-name', customName);
+                    btn.setAttribute('data-price', quoteText);
+                    btn.setAttribute('data-billing', billing);
+                    tr.querySelector('.catalog-name-display').textContent = customName;
+                    tr.querySelector('.catalog-quote-cell').textContent = 'USD $ ' + quoteText;
+                    tr.querySelector('.catalog-billing-cell').innerHTML = billing === '每GB' ? '<span class="badge bg-info">每GB</span>' : '<span class="badge bg-secondary">套餐</span>';
+                }
+
+                bootstrap.Modal.getInstance(editModal).hide();
+                alert('已保存（原型演示）');
+            });
+
+            function downloadCsv(filename, content) {
+                var blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }
+
+            function csvEscape(value) {
+                var text = String(value == null ? '' : value);
+                return /[",\n\r]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+            }
+
+            var catalogTemplateCsv = '\uFEFF供应商,产品Code,产品类型,供应商套餐名称,套餐名称,类型,国家/覆盖范围,运营商,流量,计费方式,报价\neSIM 全球供,pkg_1001,套餐,亚洲 7天 1GB,亚洲7天1G（主推）,区域,亚洲（多国可用）,多运营商,1GB,套餐,18.00\neSIM 全球供,rfl_1001_1,加油包,,,,,2GB,套餐,\neSIM 全球供,pkg_1002,套餐,欧洲 15天 3GB,欧洲 15 天 3GB,区域,欧洲（多国可用）,Vodafone,3GB,每GB,45.00\neSIM 全球供,rfl_1002_1,加油包,,,,,1GB,每GB,\neSIM 全球供,rfl_1002_2,加油包,,,,,3GB,每GB,\n';
+            document.getElementById('catalogDownloadTemplate').addEventListener('click', function () {
+                downloadCsv('catalog-quote-import-template.csv', catalogTemplateCsv);
+            });
+
             document.getElementById('btnExportCatalog').addEventListener('click', function () {
-                var tbody = document.getElementById('catalogTableBody');
-                if (!tbody) return;
-                function csvEscape(s) { return /[",\n\r]/.test(s) ? '"' + String(s).replace(/"/g, '""') + '"' : s; }
-                var header = '\uFEFF供应商,产品Code,产品类型,供应商套餐名称,套餐名称,类型,国家/覆盖范围,运营商,流量,计费方式,报价\n';
-                var rows = [];
-                [].slice.call(tbody.querySelectorAll('tr')).forEach(function (tr) {
+                var rows = ['\uFEFF供应商,产品Code,产品类型,供应商套餐名称,套餐名称,类型,国家/覆盖范围,运营商,流量,计费方式,报价'];
+
+                [].slice.call(document.querySelectorAll('#catalogTableBody tr')).forEach(function (tr) {
                     var tds = tr.querySelectorAll('td');
-                    if (tds.length < 9) return;
                     var supplier = tds[0].innerText.trim();
-                    var pkgCode = (tds[1].querySelector('code') || tds[1]).innerText.trim();
+                    var pkgCode = tds[1].innerText.trim();
                     var supplierName = tr.getAttribute('data-supplier-name') || '';
                     var customName = tr.getAttribute('data-custom-name') || '';
                     var type = tr.getAttribute('data-type') || '';
@@ -370,19 +434,22 @@
                     var cap = tr.getAttribute('data-cap') || '';
                     var billing = tds[7].innerText.trim();
                     var quote = tr.getAttribute('data-quote') || '';
+
                     rows.push([supplier, pkgCode, '套餐', supplierName, customName, type, region, carrier, cap, billing, quote].map(csvEscape).join(','));
-                    var refills = catalogRefillsByPkg[pkgCode] || [];
-                    refills.forEach(function (r) {
-                        rows.push([supplier, r.code, '加油包', '', '', '', '', '', r.cap, r.billing, r.quote || ''].map(csvEscape).join(','));
+
+                    (catalogRefillsByPkg[pkgCode] || []).forEach(function (item) {
+                        rows.push([supplier, item.code, '加油包', '', '', '', '', '', item.cap, item.billing, item.quote || ''].map(csvEscape).join(','));
                     });
                 });
-                downloadCsv('catalog-quote-export-' + (new Date().toISOString().slice(0, 10)) + '.csv', header + rows.join('\n'));
+
+                downloadCsv('catalog-quote-export-' + new Date().toISOString().slice(0, 10) + '.csv', rows.join('\n'));
             });
+
             document.getElementById('catalogImportConfirm').addEventListener('click', function () {
                 var fileInput = document.getElementById('catalogImportFile');
-                if (!fileInput.files || !fileInput.files.length) { alert('请选择 CSV 文件'); return; }
+                if (!fileInput.files || !fileInput.files.length) return alert('请选择 CSV 文件');
                 bootstrap.Modal.getInstance(document.getElementById('catalogBatchImportModal')).hide();
-                alert('已提交导入（原型演示）\n文件：' + fileInput.files[0].name + '\n将统一更新报价与计费方式。');
+                alert('已提交导入（原型演示）\n文件：' + fileInput.files[0].name + '\n将统一更新主套餐与加油包报价。');
                 fileInput.value = '';
             });
         })();
