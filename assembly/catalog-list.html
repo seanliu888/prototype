@@ -26,7 +26,7 @@
                     <div class="collapse show nav-sub" id="navPricingCollapse">
                         <a class="nav-link nav-sub-link active" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
                         <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
-                        <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>特殊报价</a>
+                        <a class="nav-link nav-sub-link" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>客户报价</a>
                     </div>
                     <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
                     <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM 管理</a>
@@ -248,6 +248,14 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2">
+                                        <label class="form-label">区域</label>
+                                        <select class="form-select" id="operatorFilterRegion">
+                                            <option value="">全部</option>
+                                            <option value="欧洲">欧洲</option>
+                                            <option value="亚洲">亚洲</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
                                         <label class="form-label">地区/国家</label>
                                         <select class="form-select" id="operatorFilterArea">
                                             <option value="">全部</option>
@@ -256,7 +264,7 @@
                                             <option value="泰国">泰国</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label class="form-label">关键字</label>
                                         <input type="text" class="form-control" id="operatorFilterKeyword" placeholder="搜索运营商名称 / MCC / MNC / 网络状态">
                                     </div>
@@ -290,6 +298,7 @@
                                             <th>供应商</th>
                                             <th>编码</th>
                                             <th>名称</th>
+                                            <th>区域</th>
                                             <th>地区/国家</th>
                                             <th>MCC/MNC</th>
                                             <th>网络类型</th>
@@ -299,10 +308,11 @@
                                         </tr>
                                     </thead>
                                     <tbody id="operatorTableBody">
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc01" data-name="France-Orange" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-price="43.50" data-status="有效" data-remark="法国 Orange 主线路，优先 5G。">
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc01" data-name="France-Orange" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-price="43.50" data-status="有效" data-remark="法国 Orange 主线路，优先 5G。">
                                             <td>eSIM 全球供</td>
                                             <td><code>mcc208_mnc01</code></td>
                                             <td>France-Orange</td>
+                                            <td>欧洲</td>
                                             <td>法国</td>
                                             <td><code>208/01</code></td>
                                             <td>5G</td>
@@ -315,10 +325,11 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc10" data-name="France-SFR" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-price="44.20" data-status="有效" data-remark="SFR 备用线路。">
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc10" data-name="France-SFR" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-price="44.20" data-status="有效" data-remark="SFR 备用线路。">
                                             <td>eSIM 全球供</td>
                                             <td><code>mcc208_mnc10</code></td>
                                             <td>France-SFR</td>
+                                            <td>欧洲</td>
                                             <td>法国</td>
                                             <td><code>208/10</code></td>
                                             <td>4G/5G</td>
@@ -331,10 +342,11 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc262_mnc02" data-name="Germany-Vodafone" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-price="45.00" data-status="有效" data-remark="">
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc262_mnc02" data-name="Germany-Vodafone" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-price="45.00" data-status="有效" data-remark="">
                                             <td>eSIM 全球供</td>
                                             <td><code>mcc262_mnc02</code></td>
                                             <td>Germany-Vodafone</td>
+                                            <td>欧洲</td>
                                             <td>德国</td>
                                             <td><code>262/02</code></td>
                                             <td>5G</td>
@@ -347,10 +359,11 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc01" data-name="Thailand-AIS" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-price="16.50" data-status="有效" data-remark="">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc01" data-name="Thailand-AIS" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-price="16.50" data-status="有效" data-remark="">
                                             <td>跨境 eSIM 源</td>
                                             <td><code>mcc520_mnc01</code></td>
                                             <td>Thailand-AIS</td>
+                                            <td>亚洲</td>
                                             <td>泰国</td>
                                             <td><code>520/01</code></td>
                                             <td>4G</td>
@@ -363,10 +376,11 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc05" data-name="Thailand-dtac" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-price="17.20" data-status="停用" data-remark="暂停供货，待恢复。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc05" data-name="Thailand-dtac" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-price="17.20" data-status="停用" data-remark="暂停供货，待恢复。">
                                             <td>跨境 eSIM 源</td>
                                             <td><code>mcc520_mnc05</code></td>
                                             <td>Thailand-dtac</td>
+                                            <td>亚洲</td>
                                             <td>泰国</td>
                                             <td><code>520/05</code></td>
                                             <td>4G</td>
@@ -421,7 +435,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">主套餐计费方式</label>
+                            <label class="form-label">主套餐计费方式 <span class="text-danger">*</span> <span class="badge text-bg-primary">可编辑</span></label>
                             <select class="form-select" id="catalogEditBilling" required>
                                 <option value="套餐">套餐</option>
                                 <option value="每GB">每GB</option>
@@ -431,6 +445,21 @@
                             <label class="form-label">加油包报价 <span class="badge text-bg-primary">可编辑</span></label>
                             <div id="catalogEditRefills" class="d-grid gap-2"></div>
                             <small class="text-muted">可在此维护各加油包的报价。</small>
+                            <div id="catalogEditOperatorRatesWrap" class="mt-3 d-none">
+                                <label class="form-label mb-2">运营商报价列表</label>
+                                <div class="table-responsive border rounded">
+                                    <table class="table table-sm align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>国家</th>
+                                                <th>运营商</th>
+                                                <th>报价(/G)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="catalogEditOperatorRatesBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -517,6 +546,28 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="operatorEditCode">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">供应商</label>
+                            <input type="text" class="form-control bg-light" id="operatorEditSupplier" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">编码</label>
+                            <input type="text" class="form-control bg-light" id="operatorEditCodeView" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">名称</label>
+                            <input type="text" class="form-control bg-light" id="operatorEditName" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">地区/国家</label>
+                            <input type="text" class="form-control bg-light" id="operatorEditArea" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">MCC/MNC</label>
+                            <input type="text" class="form-control bg-light" id="operatorEditMccMnc" readonly>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">报价(/G) <span class="text-danger">*</span></label>
                         <div class="input-group">
@@ -561,7 +612,9 @@
                 pkg_2001: []
             };
             var perGbRatesByPkg = {
+                pkg_1001: ['Japan / NTT Docomo / $18.80', 'Japan / KDDI / $19.10'],
                 pkg_1002: ['France / Orange / $43.50', 'France / SFR / $44.20', 'Germany / Vodafone / $45.00'],
+                pkg_1003: ['Japan / NTT Docomo / $22.00', 'Japan / SoftBank / $22.50'],
                 pkg_2001: ['Thailand / AIS / $16.50', 'Thailand / dtac / $17.20', 'Vietnam / Viettel / $15.90']
             };
 
@@ -579,54 +632,82 @@
                     .replace(/'/g, '&#39;');
             }
 
+            function collectOperatorRatesForPackage(row) {
+                if (!row) return [];
+                var supplier = row.children[0] ? row.children[0].textContent.trim() : '';
+                var areaText = row.children[4] ? row.children[4].textContent.replace(/\s+/g, ' ').trim() : '';
+                var rates = [];
+
+                [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (opRow) {
+                    var opSupplier = opRow.getAttribute('data-supplier') || '';
+                    var opArea = opRow.getAttribute('data-area') || '';
+                    if (supplier && opSupplier !== supplier) return;
+                    if (opArea && areaText.indexOf(opArea) === -1) return;
+
+                    var name = opRow.getAttribute('data-name') || '';
+                    var price = opRow.getAttribute('data-price') || '';
+                    if (!name || !price) return;
+                    rates.push(name + ' / $' + normalizeQuote(price));
+                });
+
+                return rates;
+            }
+
+            function renderPerGbQuoteCell(tr) {
+                if (!tr) return;
+                var pkgCode = tr.getAttribute('data-pkg-code') || '';
+                var rates = (perGbRatesByPkg[pkgCode] || []).slice();
+                var quoteCell = tr.querySelector('.catalog-quote-cell');
+                if (!quoteCell) return;
+
+                quoteCell.innerHTML = '';
+                if (!rates.length) {
+                    quoteCell.textContent = '暂无运营商报价';
+                    return;
+                }
+
+                var first = document.createElement('div');
+                first.className = 'small text-truncate';
+                first.style.maxWidth = '190px';
+                first.title = rates[0];
+                first.textContent = rates[0];
+                quoteCell.appendChild(first);
+
+                if (rates.length > 1) {
+                    var toggle = document.createElement('button');
+                    toggle.type = 'button';
+                    toggle.className = 'btn btn-link btn-sm p-0';
+                    toggle.textContent = '+' + (rates.length - 1);
+                    toggle.style.lineHeight = '1';
+                    quoteCell.appendChild(toggle);
+
+                    var detail = document.createElement('div');
+                    detail.className = 'mt-1 d-none';
+                    rates.slice(1).forEach(function (text) {
+                        var line = document.createElement('div');
+                        line.className = 'small';
+                        line.textContent = text;
+                        detail.appendChild(line);
+                    });
+                    quoteCell.appendChild(detail);
+
+                    toggle.addEventListener('click', function () {
+                        var hidden = detail.classList.toggle('d-none');
+                        toggle.textContent = hidden ? '+' + (rates.length - 1) : '收起';
+                    });
+                }
+            }
+
             function initPerGbDisplay() {
                 [].slice.call(document.querySelectorAll('#catalogTableBody tr[data-type="PER_GB"]')).forEach(function (tr) {
-                    var pkgCode = tr.getAttribute('data-pkg-code') || '';
-                    var rates = (perGbRatesByPkg[pkgCode] || []).slice();
-                    var quoteCell = tr.querySelector('.catalog-quote-cell');
-                    if (!quoteCell) return;
-
-                    quoteCell.innerHTML = '';
-                    if (!rates.length) {
-                        quoteCell.textContent = '-';
-                        return;
-                    }
-
-                    var first = document.createElement('div');
-                    first.className = 'small text-truncate';
-                    first.style.maxWidth = '190px';
-                    first.title = rates[0];
-                    first.textContent = rates[0];
-                    quoteCell.appendChild(first);
-
-                    if (rates.length > 1) {
-                        var toggle = document.createElement('button');
-                        toggle.type = 'button';
-                        toggle.className = 'btn btn-link btn-sm p-0';
-                        toggle.textContent = '+' + (rates.length - 1);
-                        toggle.style.lineHeight = '1';
-                        quoteCell.appendChild(toggle);
-
-                        var detail = document.createElement('div');
-                        detail.className = 'mt-1 d-none';
-                        rates.slice(1).forEach(function (text) {
-                            var line = document.createElement('div');
-                            line.className = 'small';
-                            line.textContent = text;
-                            detail.appendChild(line);
-                        });
-                        quoteCell.appendChild(detail);
-
-                        toggle.addEventListener('click', function () {
-                            var hidden = detail.classList.toggle('d-none');
-                            toggle.textContent = hidden ? '+' + (rates.length - 1) : '收起';
-                        });
-                    }
+                    renderPerGbQuoteCell(tr);
                 });
             }
 
             var editModal = document.getElementById('catalogEditModal');
             var refillContainer = document.getElementById('catalogEditRefills');
+            var operatorRatesWrap = document.getElementById('catalogEditOperatorRatesWrap');
+            var operatorRatesBody = document.getElementById('catalogEditOperatorRatesBody');
             var supplierNameInput = document.getElementById('catalogEditSupplierName');
             var customNameInput = document.getElementById('catalogEditCustomName');
             var priceInput = document.getElementById('catalogEditPrice');
@@ -650,14 +731,35 @@
                 }).join('');
             }
 
+            function renderOperatorRates(pkgCode) {
+                var rates = (perGbRatesByPkg[pkgCode] || []).slice();
+                if (!rates.length) {
+                    operatorRatesBody.innerHTML = '<tr><td colspan="3" class="text-muted small">暂无运营商报价</td></tr>';
+                    return;
+                }
+
+                operatorRatesBody.innerHTML = rates.map(function (item) {
+                    var parts = String(item).split(' / ');
+                    var country = parts[0] || '-';
+                    var operator = parts[1] || '-';
+                    var price = parts[2] || '-';
+                    return '<tr>' +
+                        '<td>' + escapeHtml(country) + '</td>' +
+                        '<td>' + escapeHtml(operator) + '</td>' +
+                        '<td>' + escapeHtml(price) + '</td>' +
+                    '</tr>';
+                }).join('');
+            }
+
             function applyModalMode(billing) {
                 var perGb = billing === '每GB';
                 customNameInput.readOnly = false;
                 priceInput.disabled = perGb;
-                billingSelect.disabled = true;
+                billingSelect.disabled = false;
                 [].slice.call(document.querySelectorAll('#catalogEditRefills .catalog-refill-quote')).forEach(function (input) {
                     input.disabled = perGb;
                 });
+                operatorRatesWrap.classList.toggle('d-none', !perGb);
             }
 
             editModal.addEventListener('show.bs.modal', function (event) {
@@ -671,16 +773,21 @@
                 priceInput.value = btn.getAttribute('data-price') || '';
                 billingSelect.value = billing;
                 renderRefills(pkgCode);
+                renderOperatorRates(pkgCode);
                 applyModalMode(billing);
+            });
+            billingSelect.addEventListener('change', function () {
+                renderOperatorRates(document.getElementById('catalogEditPkgCode').value);
+                applyModalMode(this.value);
             });
 
             document.getElementById('catalogEditSave').addEventListener('click', function () {
                 var code = document.getElementById('catalogEditPkgCode').value;
                 var customName = customNameInput.value.trim();
                 var price = priceInput.value.trim();
+                var billing = billingSelect.value;
                 var row = document.querySelector('#catalogTableBody tr[data-pkg-code="' + code + '"]');
                 if (!row) return;
-                var rowType = row.getAttribute('data-type') || 'PACKAGE';
 
                 if (!customName) return alert('请填写套餐名称');
 
@@ -688,13 +795,20 @@
                 row.querySelector('.catalog-name-display').textContent = customName;
                 if (editBtn) editBtn.setAttribute('data-pkg-custom-name', customName);
 
-                if (rowType === 'PER_GB') {
+                if (billing === '每GB') {
+                    row.setAttribute('data-type', 'PER_GB');
+                    row.querySelector('.catalog-billing-cell').innerHTML = '<span class="badge bg-info">每GB</span>';
+                    if (editBtn) editBtn.setAttribute('data-billing', '每GB');
+                    var dynamicRates = collectOperatorRatesForPackage(row);
+                    if (dynamicRates.length) perGbRatesByPkg[code] = dynamicRates;
+                    renderPerGbQuoteCell(row);
                     bootstrap.Modal.getInstance(editModal).hide();
                     return;
                 }
 
                 if (!price || !normalizeQuote(price)) return alert('请填写有效报价');
                 var quoteText = normalizeQuote(price);
+                row.setAttribute('data-type', 'PACKAGE');
                 row.setAttribute('data-quote', quoteText);
                 row.querySelector('.catalog-quote-cell').textContent = 'USD $ ' + quoteText;
                 row.querySelector('.catalog-billing-cell').innerHTML = '<span class="badge bg-secondary">套餐</span>';
@@ -763,6 +877,11 @@
                 if (editBtn) {
                     editBtn.addEventListener('click', function () {
                         document.getElementById('operatorEditCode').value = row.getAttribute('data-code') || '';
+                        document.getElementById('operatorEditSupplier').value = row.getAttribute('data-supplier') || '';
+                        document.getElementById('operatorEditCodeView').value = row.getAttribute('data-code') || '';
+                        document.getElementById('operatorEditName').value = row.getAttribute('data-name') || '';
+                        document.getElementById('operatorEditArea').value = row.getAttribute('data-area') || '';
+                        document.getElementById('operatorEditMccMnc').value = (row.getAttribute('data-mcc') || '-') + '/' + (row.getAttribute('data-mnc') || '-');
                         document.getElementById('operatorEditPrice').value = row.getAttribute('data-price') || '';
                         document.getElementById('operatorEditStatus').value = row.getAttribute('data-status') || '有效';
                         document.getElementById('operatorEditNetwork').value = row.getAttribute('data-network') || '';
@@ -792,7 +911,7 @@
 
                 var priceCell = row.querySelector('.operator-price-cell');
                 var statusCell = row.querySelector('.operator-status-cell');
-                var networkCell = row.children[5];
+                var networkCell = row.children[6];
                 if (priceCell) priceCell.textContent = 'USD $ ' + priceText;
                 if (statusCell) statusCell.innerHTML = operatorStatusBadge(statusValue);
                 if (networkCell) networkCell.textContent = networkValue;
@@ -803,12 +922,14 @@
 
             function applyOperatorFilter() {
                 var supplier = (document.getElementById('operatorFilterSupplier').value || '').trim();
+                var region = (document.getElementById('operatorFilterRegion').value || '').trim();
                 var area = (document.getElementById('operatorFilterArea').value || '').trim();
                 var keyword = (document.getElementById('operatorFilterKeyword').value || '').trim().toLowerCase();
                 var status = (document.getElementById('operatorFilterStatus').value || '').trim();
 
                 [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
                     var rowSupplier = row.getAttribute('data-supplier') || '';
+                    var rowRegion = row.getAttribute('data-region') || '';
                     var rowArea = row.getAttribute('data-area') || '';
                     var rowName = (row.getAttribute('data-name') || '').toLowerCase();
                     var rowMcc = (row.getAttribute('data-mcc') || '').toLowerCase();
@@ -818,6 +939,7 @@
 
                     var visible = true;
                     if (supplier && rowSupplier !== supplier) visible = false;
+                    if (region && rowRegion !== region) visible = false;
                     if (area && rowArea !== area) visible = false;
                     if (status && rowStatus !== status) visible = false;
                     if (keyword) {
@@ -832,6 +954,7 @@
             document.getElementById('btnOperatorSearch').addEventListener('click', applyOperatorFilter);
             document.getElementById('btnOperatorReset').addEventListener('click', function () {
                 document.getElementById('operatorFilterSupplier').value = '';
+                document.getElementById('operatorFilterRegion').value = '';
                 document.getElementById('operatorFilterArea').value = '';
                 document.getElementById('operatorFilterKeyword').value = '';
                 document.getElementById('operatorFilterStatus').value = '';
@@ -843,3 +966,4 @@
     </script>
 </body>
 </html>
+
