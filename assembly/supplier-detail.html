@@ -118,30 +118,65 @@
                         <div class="content-card">
                             <h6 class="mb-3">运营商字典</h6>
                             <p class="text-muted small mb-3">该供应商从 API 获取到的运营商代码与名称映射，可编辑名称用于展示。</p>
+                            <div class="filter-section mb-3">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-md-8">
+                                        <label class="form-label">关键字</label>
+                                        <input type="text" class="form-control form-control-sm" id="carrierFilterKeyword" placeholder="运营商名称 / MCC / MNC">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-primary btn-sm" id="btnCarrierSearch"><i class="bi bi-search me-1"></i>查询</button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnCarrierReset">重置</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="btnCarrierAutoMatch">自动匹配</button>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover align-middle">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>供应商代码</th>
                                             <th>名称</th>
+                                            <th>MCC</th>
+                                            <th>MNC</th>
                                             <th style="width: 100px;">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody id="carrierListBody">
-                                        <tr data-code="MNO_001">
-                                            <td><code>MNO_001</code></td>
-                                            <td class="carrier-name-cell">多运营商</td>
-                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="MNO_001" data-name="多运营商">编辑</button></td>
+                                        <tr data-code="mcc202" data-name="希腊（mcc202）" data-mcc="202" data-mnc="-">
+                                            <td class="carrier-name-cell">希腊（mcc202）</td>
+                                            <td><code>202</code></td>
+                                            <td><code>-</code></td>
+                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="mcc202" data-name="希腊（mcc202）">编辑</button></td>
                                         </tr>
-                                        <tr data-code="VODAFONE">
-                                            <td><code>VODAFONE</code></td>
-                                            <td class="carrier-name-cell">Vodafone</td>
-                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="VODAFONE" data-name="Vodafone">编辑</button></td>
+                                        <tr data-code="mcc204" data-name="荷兰（mcc204）" data-mcc="203" data-mnc="-">
+                                            <td class="carrier-name-cell">荷兰（mcc204）</td>
+                                            <td><code>203</code></td>
+                                            <td><code>-</code></td>
+                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="mcc204" data-name="荷兰（mcc204）">编辑</button></td>
                                         </tr>
-                                        <tr data-code="NTT_DOCOMO">
-                                            <td><code>NTT_DOCOMO</code></td>
-                                            <td class="carrier-name-cell">NTT Docomo</td>
-                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="NTT_DOCOMO" data-name="NTT Docomo">编辑</button></td>
+                                        <tr data-code="mcc340" data-name="马提尼岛（mcc340）" data-mcc="340" data-mnc="-">
+                                            <td class="carrier-name-cell">马提尼岛（mcc340）</td>
+                                            <td><code>340</code></td>
+                                            <td><code>-</code></td>
+                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="mcc340" data-name="马提尼岛（mcc340）">编辑</button></td>
+                                        </tr>
+                                        <tr data-code="mcc340gf" data-name="法属圭亚那（mcc340gf）" data-mcc="340" data-mnc="-">
+                                            <td class="carrier-name-cell">法属圭亚那（mcc340gf）</td>
+                                            <td><code>340</code></td>
+                                            <td><code>-</code></td>
+                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="mcc340gf" data-name="法属圭亚那（mcc340gf）">编辑</button></td>
+                                        </tr>
+                                        <tr data-code="mcc310_mnc070" data-name="美国-AT&T Wireless Inc.（mcc310_mnc070）" data-mcc="310" data-mnc="070">
+                                            <td class="carrier-name-cell">美国-AT&T Wireless Inc.（mcc310_mnc070）</td>
+                                            <td><code>310</code></td>
+                                            <td><code>070</code></td>
+                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="mcc310_mnc070" data-name="美国-AT&T Wireless Inc.（mcc310_mnc070）">编辑</button></td>
+                                        </tr>
+                                        <tr data-code="mcc310_mnc012" data-name="美国-Cellco Partnership（mcc310_mnc012）" data-mcc="310" data-mnc="012">
+                                            <td class="carrier-name-cell">美国-Cellco Partnership（mcc310_mnc012）</td>
+                                            <td><code>310</code></td>
+                                            <td><code>012</code></td>
+                                            <td><button type="button" class="btn btn-link btn-sm p-0 carrier-edit-btn" data-code="mcc310_mnc012" data-name="美国-Cellco Partnership（mcc310_mnc012）">编辑</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -293,6 +328,62 @@
                 alert('已触发同步（原型演示）');
             });
 
+            function applyCarrierFilter() {
+                var keyword = (document.getElementById('carrierFilterKeyword').value || '').trim().toLowerCase();
+
+                document.querySelectorAll('#carrierListBody tr').forEach(function (row) {
+                    var rowName = (row.getAttribute('data-name') || '').toLowerCase();
+                    var rowMcc = (row.getAttribute('data-mcc') || '').toLowerCase();
+                    var rowMnc = (row.getAttribute('data-mnc') || '').toLowerCase();
+
+                    if (!keyword) {
+                        row.style.display = '';
+                        return;
+                    }
+                    var allText = [rowName, rowMcc, rowMnc].join(' ');
+                    row.style.display = allText.indexOf(keyword) >= 0 ? '' : 'none';
+                });
+            }
+
+            document.getElementById('btnCarrierSearch').addEventListener('click', applyCarrierFilter);
+            document.getElementById('btnCarrierReset').addEventListener('click', function () {
+                document.getElementById('carrierFilterKeyword').value = '';
+                applyCarrierFilter();
+            });
+            document.getElementById('btnCarrierAutoMatch').addEventListener('click', function () {
+                var matchedCount = 0;
+                document.querySelectorAll('#carrierListBody tr').forEach(function (row) {
+                    var code = (row.getAttribute('data-code') || '').toLowerCase();
+                    var mcc = row.getAttribute('data-mcc') || '';
+                    var mnc = row.getAttribute('data-mnc') || '';
+
+                    // 优先匹配 mccXXX_mncYYY，其次匹配 mccXXX
+                    var fullMatch = /mcc(\d{3})_mnc(\d{2,3})/.exec(code);
+                    var onlyMccMatch = /mcc(\d{3})/.exec(code);
+
+                    var nextMcc = mcc;
+                    var nextMnc = mnc;
+                    if (fullMatch) {
+                        nextMcc = fullMatch[1];
+                        nextMnc = fullMatch[2];
+                    } else if (onlyMccMatch) {
+                        nextMcc = onlyMccMatch[1];
+                        nextMnc = '-';
+                    }
+
+                    if (nextMcc !== mcc || nextMnc !== mnc) {
+                        row.setAttribute('data-mcc', nextMcc);
+                        row.setAttribute('data-mnc', nextMnc);
+                        var cells = row.querySelectorAll('td');
+                        if (cells[1]) cells[1].innerHTML = '<code>' + nextMcc + '</code>';
+                        if (cells[2]) cells[2].innerHTML = '<code>' + nextMnc + '</code>';
+                        matchedCount += 1;
+                    }
+                });
+                applyCarrierFilter();
+                alert('自动匹配完成，更新 ' + matchedCount + ' 条');
+            });
+
             document.querySelectorAll('.carrier-edit-btn').forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     var code = this.getAttribute('data-code');
@@ -313,6 +404,7 @@
                     var cell = row.querySelector('.carrier-name-cell');
                     var btn = row.querySelector('.carrier-edit-btn');
                     if (cell) cell.textContent = name;
+                    row.setAttribute('data-name', name);
                     if (btn) btn.setAttribute('data-name', name);
                 }
                 bootstrap.Modal.getInstance(document.getElementById('editCarrierModal')).hide();

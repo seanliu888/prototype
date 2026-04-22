@@ -237,7 +237,151 @@
 
                     <div class="tab-pane fade" id="catalog-operator-pane" role="tabpanel" aria-labelledby="catalog-operator-tab" tabindex="0">
                         <div class="content-card">
-                            <div class="text-muted py-4">运营商内容待补充</div>
+                            <div class="filter-section mb-3">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label">供应商</label>
+                                        <select class="form-select" id="operatorFilterSupplier">
+                                            <option value="">全部</option>
+                                            <option value="eSIM 全球供">eSIM 全球供</option>
+                                            <option value="跨境 eSIM 源">跨境 eSIM 源</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">地区/国家</label>
+                                        <select class="form-select" id="operatorFilterArea">
+                                            <option value="">全部</option>
+                                            <option value="法国">法国</option>
+                                            <option value="德国">德国</option>
+                                            <option value="泰国">泰国</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">关键字</label>
+                                        <input type="text" class="form-control" id="operatorFilterKeyword" placeholder="搜索运营商名称 / MCC / MNC / 网络状态">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">状态</label>
+                                        <select class="form-select" id="operatorFilterStatus">
+                                            <option value="">全部</option>
+                                            <option value="有效">有效</option>
+                                            <option value="停用">停用</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                            <div>
+                                                <button type="button" class="btn btn-primary me-2" id="btnOperatorSearch"><i class="bi bi-search me-1"></i>查询</button>
+                                                <button type="button" class="btn btn-outline-secondary" id="btnOperatorReset"><i class="bi bi-arrow-clockwise"></i></button>
+                                            </div>
+                                            <div class="d-flex gap-2 ms-md-auto">
+                                                <button type="button" class="btn btn-outline-secondary" id="btnOperatorExport"><i class="bi bi-download me-1"></i>导出</button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#catalogOperatorBatchImportModal"><i class="bi bi-upload me-1"></i>批量更新</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>供应商</th>
+                                            <th>编码</th>
+                                            <th>名称</th>
+                                            <th>地区/国家</th>
+                                            <th>MCC/MNC</th>
+                                            <th>网络类型</th>
+                                            <th>报价(/G)</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="operatorTableBody">
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc01" data-name="France-Orange" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-price="43.50" data-status="有效" data-remark="法国 Orange 主线路，优先 5G。">
+                                            <td>eSIM 全球供</td>
+                                            <td><code>mcc208_mnc01</code></td>
+                                            <td>France-Orange</td>
+                                            <td>法国</td>
+                                            <td><code>208/01</code></td>
+                                            <td>5G</td>
+                                            <td class="operator-price-cell">USD $ 43.50</td>
+                                            <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
+                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc10" data-name="France-SFR" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-price="44.20" data-status="有效" data-remark="SFR 备用线路。">
+                                            <td>eSIM 全球供</td>
+                                            <td><code>mcc208_mnc10</code></td>
+                                            <td>France-SFR</td>
+                                            <td>法国</td>
+                                            <td><code>208/10</code></td>
+                                            <td>4G/5G</td>
+                                            <td class="operator-price-cell">USD $ 44.20</td>
+                                            <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
+                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc262_mnc02" data-name="Germany-Vodafone" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-price="45.00" data-status="有效" data-remark="">
+                                            <td>eSIM 全球供</td>
+                                            <td><code>mcc262_mnc02</code></td>
+                                            <td>Germany-Vodafone</td>
+                                            <td>德国</td>
+                                            <td><code>262/02</code></td>
+                                            <td>5G</td>
+                                            <td class="operator-price-cell">USD $ 45.00</td>
+                                            <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
+                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc01" data-name="Thailand-AIS" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-price="16.50" data-status="有效" data-remark="">
+                                            <td>跨境 eSIM 源</td>
+                                            <td><code>mcc520_mnc01</code></td>
+                                            <td>Thailand-AIS</td>
+                                            <td>泰国</td>
+                                            <td><code>520/01</code></td>
+                                            <td>4G</td>
+                                            <td class="operator-price-cell">USD $ 16.50</td>
+                                            <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
+                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc05" data-name="Thailand-dtac" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-price="17.20" data-status="停用" data-remark="暂停供货，待恢复。">
+                                            <td>跨境 eSIM 源</td>
+                                            <td><code>mcc520_mnc05</code></td>
+                                            <td>Thailand-dtac</td>
+                                            <td>泰国</td>
+                                            <td><code>520/05</code></td>
+                                            <td>4G</td>
+                                            <td class="operator-price-cell">USD $ 17.20</td>
+                                            <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
+                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,6 +458,91 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" id="catalogImportConfirm"><i class="bi bi-upload me-1"></i>开始导入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="catalogOperatorBatchImportModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">运营商批量更新</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">CSV 文件</label>
+                        <input type="file" class="form-control" id="operatorImportFile" accept=".csv">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="operatorImportConfirm"><i class="bi bi-upload me-1"></i>开始导入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="operatorDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">运营商详情</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">供应商</label><div id="operatorDetailSupplier"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">编码</label><div><code id="operatorDetailCode"></code></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">名称</label><div id="operatorDetailName"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">地区/国家</label><div id="operatorDetailArea"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">MCC/MNC</label><div id="operatorDetailMccMnc"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">网络类型</label><div id="operatorDetailNetwork"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">报价(/G)</label><div id="operatorDetailPrice"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">状态</label><div id="operatorDetailStatus"></div></div>
+                        <div class="col-12"><label class="form-label text-muted small mb-1">备注</label><div id="operatorDetailRemark" class="text-break"></div></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="operatorEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑运营商</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="operatorEditCode">
+                    <div class="mb-3">
+                        <label class="form-label">报价(/G) <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text">USD $</span>
+                            <input type="number" class="form-control" id="operatorEditPrice" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">状态 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="operatorEditStatus">
+                            <option value="有效">有效</option>
+                            <option value="停用">停用</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">网络类型</label>
+                        <input type="text" class="form-control" id="operatorEditNetwork" placeholder="例如：4G / 5G / 4G/5G">
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label">备注</label>
+                        <textarea class="form-control" id="operatorEditRemark" rows="3" placeholder="请输入备注"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="operatorEditSave"><i class="bi bi-check-lg me-1"></i>保存</button>
                 </div>
             </div>
         </div>
@@ -494,6 +723,119 @@
                 bootstrap.Modal.getInstance(document.getElementById('catalogBatchImportModal')).hide();
                 alert('已提交导入：' + fileInput.files[0].name);
                 fileInput.value = '';
+            });
+            document.getElementById('btnOperatorExport').addEventListener('click', function () {
+                alert('运营商导出功能演示');
+            });
+            document.getElementById('operatorImportConfirm').addEventListener('click', function () {
+                var fileInput = document.getElementById('operatorImportFile');
+                if (!fileInput.files || !fileInput.files.length) return alert('请选择 CSV 文件');
+                bootstrap.Modal.getInstance(document.getElementById('catalogOperatorBatchImportModal')).hide();
+                alert('已提交运营商导入：' + fileInput.files[0].name);
+                fileInput.value = '';
+            });
+
+            function operatorStatusBadge(status) {
+                return status === '有效'
+                    ? '<span class="badge bg-success">有效</span>'
+                    : '<span class="badge bg-secondary">停用</span>';
+            }
+
+            [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
+                var detailBtn = row.querySelector('.operator-detail-btn');
+                var editBtn = row.querySelector('.operator-edit-btn');
+
+                if (detailBtn) {
+                    detailBtn.addEventListener('click', function () {
+                        document.getElementById('operatorDetailSupplier').textContent = row.getAttribute('data-supplier') || '-';
+                        document.getElementById('operatorDetailCode').textContent = row.getAttribute('data-code') || '-';
+                        document.getElementById('operatorDetailName').textContent = row.getAttribute('data-name') || '-';
+                        document.getElementById('operatorDetailArea').textContent = row.getAttribute('data-area') || '-';
+                        document.getElementById('operatorDetailMccMnc').textContent = (row.getAttribute('data-mcc') || '-') + '/' + (row.getAttribute('data-mnc') || '-');
+                        document.getElementById('operatorDetailNetwork').textContent = row.getAttribute('data-network') || '-';
+                        document.getElementById('operatorDetailPrice').textContent = 'USD $ ' + ((row.getAttribute('data-price') || '0'));
+                        document.getElementById('operatorDetailStatus').innerHTML = operatorStatusBadge(row.getAttribute('data-status') || '停用');
+                        document.getElementById('operatorDetailRemark').textContent = row.getAttribute('data-remark') || '-';
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('operatorDetailModal')).show();
+                    });
+                }
+
+                if (editBtn) {
+                    editBtn.addEventListener('click', function () {
+                        document.getElementById('operatorEditCode').value = row.getAttribute('data-code') || '';
+                        document.getElementById('operatorEditPrice').value = row.getAttribute('data-price') || '';
+                        document.getElementById('operatorEditStatus').value = row.getAttribute('data-status') || '有效';
+                        document.getElementById('operatorEditNetwork').value = row.getAttribute('data-network') || '';
+                        document.getElementById('operatorEditRemark').value = row.getAttribute('data-remark') || '';
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('operatorEditModal')).show();
+                    });
+                }
+            });
+
+            document.getElementById('operatorEditSave').addEventListener('click', function () {
+                var code = document.getElementById('operatorEditCode').value;
+                var priceValue = (document.getElementById('operatorEditPrice').value || '').trim();
+                var statusValue = document.getElementById('operatorEditStatus').value;
+                var networkValue = (document.getElementById('operatorEditNetwork').value || '').trim();
+                var remarkValue = (document.getElementById('operatorEditRemark').value || '').trim();
+
+                if (!priceValue || !normalizeQuote(priceValue)) return alert('请填写有效报价');
+
+                var row = document.querySelector('#operatorTableBody tr[data-code="' + code + '"]');
+                if (!row) return;
+
+                var priceText = normalizeQuote(priceValue);
+                row.setAttribute('data-price', priceText);
+                row.setAttribute('data-status', statusValue);
+                row.setAttribute('data-network', networkValue);
+                row.setAttribute('data-remark', remarkValue);
+
+                var priceCell = row.querySelector('.operator-price-cell');
+                var statusCell = row.querySelector('.operator-status-cell');
+                var networkCell = row.children[5];
+                if (priceCell) priceCell.textContent = 'USD $ ' + priceText;
+                if (statusCell) statusCell.innerHTML = operatorStatusBadge(statusValue);
+                if (networkCell) networkCell.textContent = networkValue;
+
+                bootstrap.Modal.getInstance(document.getElementById('operatorEditModal')).hide();
+                applyOperatorFilter();
+            });
+
+            function applyOperatorFilter() {
+                var supplier = (document.getElementById('operatorFilterSupplier').value || '').trim();
+                var area = (document.getElementById('operatorFilterArea').value || '').trim();
+                var keyword = (document.getElementById('operatorFilterKeyword').value || '').trim().toLowerCase();
+                var status = (document.getElementById('operatorFilterStatus').value || '').trim();
+
+                [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
+                    var rowSupplier = row.getAttribute('data-supplier') || '';
+                    var rowArea = row.getAttribute('data-area') || '';
+                    var rowName = (row.getAttribute('data-name') || '').toLowerCase();
+                    var rowMcc = (row.getAttribute('data-mcc') || '').toLowerCase();
+                    var rowMnc = (row.getAttribute('data-mnc') || '').toLowerCase();
+                    var rowNetwork = (row.getAttribute('data-network') || '').toLowerCase();
+                    var rowStatus = row.getAttribute('data-status') || '';
+
+                    var visible = true;
+                    if (supplier && rowSupplier !== supplier) visible = false;
+                    if (area && rowArea !== area) visible = false;
+                    if (status && rowStatus !== status) visible = false;
+                    if (keyword) {
+                        var keywordText = [rowName, rowMcc, rowMnc, rowNetwork, rowStatus.toLowerCase()].join(' ');
+                        if (keywordText.indexOf(keyword) === -1) visible = false;
+                    }
+
+                    row.style.display = visible ? '' : 'none';
+                });
+            }
+
+            document.getElementById('btnOperatorSearch').addEventListener('click', applyOperatorFilter);
+            document.getElementById('btnOperatorReset').addEventListener('click', function () {
+                document.getElementById('operatorFilterSupplier').value = '';
+                document.getElementById('operatorFilterArea').value = '';
+                document.getElementById('operatorFilterKeyword').value = '';
+                document.getElementById('operatorFilterStatus').value = '';
+                applyOperatorFilter();
             });
 
             initPerGbDisplay();
