@@ -47,10 +47,7 @@
                         <h1><i class="bi bi-tags me-2"></i><span id="templateTitle">默认指导价</span></h1>
                         <small class="text-muted">查看和编辑此价格模板下各套餐的报价设置</small>
                     </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addPackageModal"><i class="bi bi-plus-circle me-1"></i>添加套餐</button>
-                        <button class="btn btn-outline-secondary" id="btnExport"><i class="bi bi-download me-1"></i>导出</button>
-                    </div>
+                    <div></div>
                 </div>
 
                 <div class="content-card mb-4">
@@ -103,84 +100,99 @@
                     </div>
                 </div>
 
-                <div class="content-card mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="text-muted mb-0">筛选条件</h6>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-2">
-                            <label class="form-label">供应商</label>
-                            <select class="form-select form-select-sm">
-                                <option value="">全部</option>
-                                <option>eSIM Global</option>
-                                <option>AirHub</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">套餐类型</label>
-                            <select class="form-select form-select-sm">
-                                <option value="">全部</option>
-                                <option>单国</option>
-                                <option>区域</option>
-                                <option>全球</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">国家/地区</label>
-                            <select class="form-select form-select-sm">
-                                <option value="">全部</option>
-                                <option>日本</option>
-                                <option>韩国</option>
-                                <option>泰国</option>
-                                <option>美国</option>
-                                <option>欧洲</option>
-                                <option>亚洲</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">状态</label>
-                            <select class="form-select form-select-sm">
-                                <option value="">全部</option>
-                                <option>在售</option>
-                                <option>禁售</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">套餐名称</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="搜索套餐">
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button class="btn btn-primary btn-sm me-2"><i class="bi bi-search me-1"></i>查询</button>
-                            <button class="btn btn-outline-secondary btn-sm">重置</button>
-                        </div>
-                    </div>
-                </div>
+                <ul class="nav nav-tabs mb-3" id="guidePricingDetailTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="guide-package-tab" data-bs-toggle="tab" data-bs-target="#guide-package-pane" type="button" role="tab" aria-controls="guide-package-pane" aria-selected="true">套餐</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="guide-operator-tab" data-bs-toggle="tab" data-bs-target="#guide-operator-pane" type="button" role="tab" aria-controls="guide-operator-pane" aria-selected="false">运营商</button>
+                    </li>
+                </ul>
 
-                <div class="content-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="text-muted mb-0">报价列表</h6>
-                        <button type="button" class="btn btn-sm btn-outline-danger" id="btnDeleteSelectedPricing" title="删除选中的报价"><i class="bi bi-trash me-1"></i>删除选中</button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th style="width: 2.5rem;"><input type="checkbox" class="form-check-input" id="pricingListCheckAll" title="全选本页"></th>
-                                    <th>套餐</th>
-                                    <th>套餐Code</th>
-                                    <th>类型</th>
-                                    <th>国家/覆盖范围</th>
-                                    <th>运营商</th>
-                                    <th>供应商计费</th>
-                                    <th>币种</th>
-                                    <th>成本</th>
-                                    <th>指导价（浮动）</th>
-                                    <th>建议零售价</th>
-                                    <th>状态</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pricingListBody">
+                <div class="tab-content" id="guidePricingDetailTabsContent">
+                    <div class="tab-pane fade show active" id="guide-package-pane" role="tabpanel" aria-labelledby="guide-package-tab">
+                        <div class="content-card mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="text-muted mb-0">筛选条件</h6>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-2">
+                                    <label class="form-label">供应商</label>
+                                    <select class="form-select form-select-sm">
+                                        <option value="">全部</option>
+                                        <option>eSIM Global</option>
+                                        <option>AirHub</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">套餐类型</label>
+                                    <select class="form-select form-select-sm">
+                                        <option value="">全部</option>
+                                        <option>单国</option>
+                                        <option>区域</option>
+                                        <option>全球</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">国家/地区</label>
+                                    <select class="form-select form-select-sm">
+                                        <option value="">全部</option>
+                                        <option>日本</option>
+                                        <option>韩国</option>
+                                        <option>泰国</option>
+                                        <option>美国</option>
+                                        <option>欧洲</option>
+                                        <option>亚洲</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">状态</label>
+                                    <select class="form-select form-select-sm">
+                                        <option value="">全部</option>
+                                        <option>在售</option>
+                                        <option>禁售</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">套餐名称</label>
+                                    <input type="text" class="form-control form-control-sm" placeholder="搜索套餐">
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button class="btn btn-primary btn-sm me-2"><i class="bi bi-search me-1"></i>查询</button>
+                                    <button class="btn btn-outline-secondary btn-sm">重置</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="text-muted mb-0">报价列表</h6>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addPackageModal"><i class="bi bi-plus-circle me-1"></i>添加套餐</button>
+                                    <button class="btn btn-sm btn-outline-secondary" id="btnExport"><i class="bi bi-download me-1"></i>导出</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" id="btnDeleteSelectedPricing" title="删除选中的报价"><i class="bi bi-trash me-1"></i>删除选中</button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 2.5rem;"><input type="checkbox" class="form-check-input" id="pricingListCheckAll" title="全选本页"></th>
+                                            <th>套餐</th>
+                                            <th>套餐Code</th>
+                                            <th>类型</th>
+                                            <th>国家/覆盖范围</th>
+                                            <th>运营商</th>
+                                            <th>供应商计费</th>
+                                            <th>币种</th>
+                                            <th>成本</th>
+                                            <th>指导价（浮动）</th>
+                                            <th>建议零售价</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pricingListBody">
                                 <tr data-pricing-status="onsale">
                                     <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>日本 7天 1GB</strong></td>
@@ -257,18 +269,27 @@
                                         <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="text-muted">显示第 1 到 4 条（原型演示）</div>
+                                <nav>
+                                    <ul class="pagination mb-0">
+                                        <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <div class="text-muted">显示第 1 到 4 条（原型演示）</div>
-                        <nav>
-                            <ul class="pagination mb-0">
-                                <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
-                            </ul>
-                        </nav>
+
+                    <div class="tab-pane fade" id="guide-operator-pane" role="tabpanel" aria-labelledby="guide-operator-tab">
+                        <div class="content-card">
+                            <h6 class="text-muted mb-3">运营商</h6>
+                            <div class="text-muted">运营商报价内容待补充</div>
+                        </div>
                     </div>
                 </div>
 
