@@ -42,7 +42,6 @@
                         <small class="text-muted">从已同步的供应商套餐中为客户配置指导价、成本价、建议零售价；支持筛选与编辑</small>
                     </div>
                     <div class="d-flex gap-2">
-                        <a href="pricing-import.html" class="btn btn-outline-primary"><i class="bi bi-upload me-1"></i>批量导入</a>
                         <div class="dropdown d-inline-block">
                             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-download me-1"></i>导出
@@ -54,7 +53,20 @@
                         </div>
                     </div>
                 </div>
+                <ul class="nav nav-tabs mb-3" id="pricingTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pricing-package-tab" data-bs-toggle="tab" data-bs-target="#pricing-package-pane" type="button" role="tab" aria-controls="pricing-package-pane" aria-selected="true">套餐</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pricing-operator-tab" data-bs-toggle="tab" data-bs-target="#pricing-operator-pane" type="button" role="tab" aria-controls="pricing-operator-pane" aria-selected="false">运营商</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pricingTabsContent">
+                    <div class="tab-pane fade show active" id="pricing-package-pane" role="tabpanel" aria-labelledby="pricing-package-tab">
                 <div class="content-card">
+                    <div class="d-flex justify-content-end mb-3">
+                        <a href="pricing-import.html" class="btn btn-outline-primary"><i class="bi bi-upload me-1"></i>批量导入</a>
+                    </div>
                     <div class="filter-section">
                         <div class="row g-3">
                             <div class="col-md-2">
@@ -140,7 +152,7 @@
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="pricingPackageTableBody">
                                 <tr data-status="onsale" data-integrator="环球 eSIM 科技" data-import-time="2025-01-15 10:30" data-cost="18.00" data-price="28.00" data-retail="35.00" data-supplier-billing="套餐" data-guide-billing="套餐" data-catalog-pkg="pkg_1001" data-catalog-supplier-id="PKG-AS-7D-1G" data-catalog-supplier="eSIM 全球供" data-catalog-name="亚洲 7 天 1GB" data-catalog-type="区域" data-catalog-region="亚洲（多国可用）" data-catalog-carrier="多运营商" data-catalog-cap="1GB" data-catalog-speed="5G/4G 网速" data-catalog-validity="7 天" data-catalog-quote="18.00" data-catalog-sync="2025-02-28 09:00" data-catalog-status="有效">
                                     <td>环球 eSIM 科技<br><small><span class="badge bg-warning text-dark">特殊价（覆盖）</span></small></td>
                                     <td><span class="badge bg-secondary">套餐</span><br><small class="text-muted">供应商：套餐</small></td>
@@ -279,6 +291,217 @@
                         <div class="text-muted">显示第 1 到 3 条（原型演示）</div>
                     </div>
                 </div>
+                    </div>
+                    <div class="tab-pane fade" id="pricing-operator-pane" role="tabpanel" aria-labelledby="pricing-operator-tab">
+                        <div class="content-card">
+                            <div class="filter-section">
+                                <div class="row g-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label">客户</label>
+                                        <select class="form-select" id="pricingOperatorFilterIntegrator">
+                                            <option value="">全部</option>
+                                            <option value="环球 eSIM 科技">环球 eSIM 科技</option>
+                                            <option value="旅行家 eSIM">旅行家 eSIM</option>
+                                            <option value="出境游 eSIM 联盟">出境游 eSIM 联盟</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">区域</label>
+                                        <select class="form-select" id="pricingOperatorFilterRegion">
+                                            <option value="">全部</option>
+                                            <option value="欧洲">欧洲</option>
+                                            <option value="亚洲">亚洲</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">地区/国家</label>
+                                        <select class="form-select" id="pricingOperatorFilterArea">
+                                            <option value="">全部</option>
+                                            <option value="法国">法国</option>
+                                            <option value="德国">德国</option>
+                                            <option value="泰国">泰国</option>
+                                            <option value="越南">越南</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">覆盖质量</label>
+                                        <select class="form-select" id="pricingOperatorFilterQuality">
+                                            <option value="">全部</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">状态</label>
+                                        <select class="form-select" id="pricingOperatorFilterStatus">
+                                            <option value="">全部</option>
+                                            <option value="onsale">在售</option>
+                                            <option value="disabled">禁售</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">关键字</label>
+                                        <input type="text" class="form-control" id="pricingOperatorFilterKeyword" placeholder="名称 / MCC / MNC / 网络">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="pricingOperatorShowFullQuote" aria-describedby="pricingOperatorShowFullQuoteHelp">
+                                            <label class="form-check-label" for="pricingOperatorShowFullQuote">显示完整报价</label>
+                                            <div class="form-text" id="pricingOperatorShowFullQuoteHelp">勾选后需先选择客户，列表将展示该客户关联指导价模板下全部运营商；若某运营商存在特殊价，则显示特殊价并标注「特殊价（覆盖）」</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-primary flex-grow-1" id="btnPricingOperatorQuery"><i class="bi bi-search me-1"></i>查询</button>
+                                            <button class="btn btn-outline-secondary" id="btnPricingOperatorReset" type="button"><i class="bi bi-arrow-clockwise"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>客户</th>
+                                            <th>供应商</th>
+                                            <th>编码</th>
+                                            <th>名称</th>
+                                            <th>区域</th>
+                                            <th>地区/国家</th>
+                                            <th>MCC/MNC</th>
+                                            <th>网络类型</th>
+                                            <th>覆盖质量</th>
+                                            <th>成本(/G)</th>
+                                            <th>指导价（浮动）(/G)</th>
+                                            <th>建议零售价(/G)</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pricingOperatorTableBody">
+                                        <tr data-quote-type="override" data-integrator="环球 eSIM 科技" data-supplier="eSIM 全球供" data-code="OPR-7F3A9C1D2B" data-name="France-Orange (mcc208_mnc01)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-quality="9" data-cost="43.50" data-guide="56.55" data-retail="65.25" data-status="onsale">
+                                            <td>环球 eSIM 科技<br><small><span class="badge bg-warning text-dark">特殊价（覆盖）</span></small></td>
+                                            <td>eSIM 全球供</td>
+                                            <td><code>OPR-7F3A9C1D2B</code></td>
+                                            <td>France-Orange (mcc208_mnc01)</td>
+                                            <td>欧洲</td>
+                                            <td>法国</td>
+                                            <td><code>208/01</code></td>
+                                            <td>5G</td>
+                                            <td>9</td>
+                                            <td class="pricing-operator-cost-cell">$43.50</td>
+                                            <td class="pricing-operator-guide-cell"><strong>$56.55</strong> <small class="text-success">(+13.05)</small></td>
+                                            <td class="pricing-operator-retail-cell"><strong>$65.25</strong> <small class="text-success">(+21.75)</small></td>
+                                            <td class="pricing-operator-status-cell"><span class="badge bg-success">在售</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item pricing-operator-detail-btn" href="#" onclick="pricingOperatorDetailFromBtn(this); return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-edit-btn" href="#" onclick="pricingOperatorEditFromBtn(this); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-menu-status" href="#" onclick="pricingOperatorToggleStatusFromBtn(this); return false;"><i class="bi bi-pause-circle me-2"></i>设为禁售</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" onclick="pricingOperatorDeleteFromBtn(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-quote-type="guide-only" data-integrator="环球 eSIM 科技" data-supplier="eSIM 全球供" data-code="OPR-9A1E4B6C8D" data-name="France-SFR (mcc208_mnc10)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-quality="8" data-cost="44.20" data-guide="57.46" data-retail="66.30" data-status="onsale">
+                                            <td>环球 eSIM 科技<br><small><span class="badge bg-primary">指导价</span></small></td>
+                                            <td>eSIM 全球供</td>
+                                            <td><code>OPR-9A1E4B6C8D</code></td>
+                                            <td>France-SFR (mcc208_mnc10)</td>
+                                            <td>欧洲</td>
+                                            <td>法国</td>
+                                            <td><code>208/10</code></td>
+                                            <td>4G/5G</td>
+                                            <td>8</td>
+                                            <td class="pricing-operator-cost-cell">$44.20</td>
+                                            <td class="pricing-operator-guide-cell"><strong>$57.46</strong> <small class="text-success">(+13.26)</small></td>
+                                            <td class="pricing-operator-retail-cell"><strong>$66.30</strong> <small class="text-success">(+22.10)</small></td>
+                                            <td class="pricing-operator-status-cell"><span class="badge bg-success">在售</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item pricing-operator-detail-btn" href="#" onclick="pricingOperatorDetailFromBtn(this); return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-edit-btn" href="#" onclick="pricingOperatorEditFromBtn(this); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-menu-status" href="#" onclick="pricingOperatorToggleStatusFromBtn(this); return false;"><i class="bi bi-pause-circle me-2"></i>设为禁售</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" onclick="pricingOperatorDeleteFromBtn(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-quote-type="override" data-integrator="旅行家 eSIM" data-supplier="跨境 eSIM 源" data-code="OPR-6B4D1A8C3E" data-name="Thailand-AIS (mcc520_mnc01)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-quality="7" data-cost="16.50" data-guide="21.45" data-retail="24.75" data-status="disabled">
+                                            <td>旅行家 eSIM<br><small><span class="badge bg-warning text-dark">特殊价（覆盖）</span></small></td>
+                                            <td>跨境 eSIM 源</td>
+                                            <td><code>OPR-6B4D1A8C3E</code></td>
+                                            <td>Thailand-AIS (mcc520_mnc01)</td>
+                                            <td>亚洲</td>
+                                            <td>泰国</td>
+                                            <td><code>520/01</code></td>
+                                            <td>4G</td>
+                                            <td>7</td>
+                                            <td class="pricing-operator-cost-cell">$16.50</td>
+                                            <td class="pricing-operator-guide-cell"><strong>$21.45</strong> <small class="text-success">(+4.95)</small></td>
+                                            <td class="pricing-operator-retail-cell"><strong>$24.75</strong> <small class="text-success">(+8.25)</small></td>
+                                            <td class="pricing-operator-status-cell"><span class="badge bg-secondary">禁售</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item pricing-operator-detail-btn" href="#" onclick="pricingOperatorDetailFromBtn(this); return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-edit-btn" href="#" onclick="pricingOperatorEditFromBtn(this); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-menu-status" href="#" onclick="pricingOperatorToggleStatusFromBtn(this); return false;"><i class="bi bi-play-circle me-2"></i>设为在售</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" onclick="pricingOperatorDeleteFromBtn(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-quote-type="guide-only" data-integrator="旅行家 eSIM" data-supplier="跨境 eSIM 源" data-code="OPR-1E7C9B4A6D" data-name="Thailand-dtac (mcc520_mnc05)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-quality="6" data-cost="17.20" data-guide="22.36" data-retail="25.80" data-status="onsale">
+                                            <td>旅行家 eSIM<br><small><span class="badge bg-primary">指导价</span></small></td>
+                                            <td>跨境 eSIM 源</td>
+                                            <td><code>OPR-1E7C9B4A6D</code></td>
+                                            <td>Thailand-dtac (mcc520_mnc05)</td>
+                                            <td>亚洲</td>
+                                            <td>泰国</td>
+                                            <td><code>520/05</code></td>
+                                            <td>4G</td>
+                                            <td>6</td>
+                                            <td class="pricing-operator-cost-cell">$17.20</td>
+                                            <td class="pricing-operator-guide-cell"><strong>$22.36</strong> <small class="text-success">(+5.16)</small></td>
+                                            <td class="pricing-operator-retail-cell"><strong>$25.80</strong> <small class="text-success">(+8.60)</small></td>
+                                            <td class="pricing-operator-status-cell"><span class="badge bg-success">在售</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item pricing-operator-detail-btn" href="#" onclick="pricingOperatorDetailFromBtn(this); return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-edit-btn" href="#" onclick="pricingOperatorEditFromBtn(this); return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item pricing-operator-menu-status" href="#" onclick="pricingOperatorToggleStatusFromBtn(this); return false;"><i class="bi bi-pause-circle me-2"></i>设为禁售</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#" onclick="pricingOperatorDeleteFromBtn(this); return false;"><i class="bi bi-trash me-2"></i>删除</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -352,9 +575,12 @@
                                 <input type="text" class="form-control" id="editSupplierBilling" readonly placeholder="—">
                             </div>
                         </div>
-                    <div class="mb-3">
-                        <label class="form-label">成本 <span class="text-muted small fw-normal">(对客户不可见)</span></label>
-                        <input type="text" class="form-control" id="editCost" readonly placeholder="—">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">成本 <span class="text-muted small fw-normal">(对客户不可见)</span></label>
+                                <input type="text" class="form-control" id="editCost" readonly placeholder="—">
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">特殊报价 <span class="text-danger">*</span></label>
@@ -397,9 +623,97 @@
         </div>
     </div>
 
+    <div class="modal fade" id="pricingOperatorDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">运营商报价详情</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">客户</label><div id="pricingOperatorDetailIntegrator">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">供应商</label><div id="pricingOperatorDetailSupplier">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">编码</label><div><code id="pricingOperatorDetailCode">-</code></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">名称</label><div id="pricingOperatorDetailName">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">区域</label><div id="pricingOperatorDetailRegion">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">地区/国家</label><div id="pricingOperatorDetailArea">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">覆盖质量</label><div id="pricingOperatorDetailQuality">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">MCC/MNC</label><div><code id="pricingOperatorDetailMccMnc">-</code></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">网络类型</label><div id="pricingOperatorDetailNetwork">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">成本(/G)</label><div id="pricingOperatorDetailCost">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">指导价（浮动）(/G)</label><div id="pricingOperatorDetailGuide">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">建议零售价(/G)</label><div id="pricingOperatorDetailRetail">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">状态</label><div id="pricingOperatorDetailStatus">-</div></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pricingOperatorEditModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑运营商报价</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="pricingOperatorEditCode">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">客户</label>
+                            <input type="text" class="form-control bg-light" id="pricingOperatorEditIntegrator" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">供应商</label>
+                            <input type="text" class="form-control bg-light" id="pricingOperatorEditSupplier" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">编码</label>
+                            <input type="text" class="form-control bg-light" id="pricingOperatorEditCodeView" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">名称</label>
+                            <input type="text" class="form-control bg-light" id="pricingOperatorEditName" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">成本(/G)</label>
+                            <input type="text" class="form-control bg-light" id="pricingOperatorEditCost" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">指导价（浮动）(/G) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="pricingOperatorEditGuide" min="0" step="0.01">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">建议零售价(/G) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="pricingOperatorEditRetail" min="0" step="0.01">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">状态 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="pricingOperatorEditStatus">
+                                <option value="onsale">在售</option>
+                                <option value="disabled">禁售</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="pricingOperatorEditSave">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) { new bootstrap.Tooltip(el); });
+        if (window.bootstrap && bootstrap.Tooltip) {
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) { new bootstrap.Tooltip(el); });
+        }
 
         // 显示完整报价：仅当选择具体客户时才允许勾选，勾选后展示「仅指导价」行
         (function () {
@@ -543,6 +857,231 @@
             }
         }
 
+        (function () {
+            var tableBody = document.getElementById('pricingOperatorTableBody');
+            var detailModalEl = document.getElementById('pricingOperatorDetailModal');
+            var editModalEl = document.getElementById('pricingOperatorEditModal');
+            var editSaveBtn = document.getElementById('pricingOperatorEditSave');
+            if (!tableBody) return;
+
+            var detailModal = (window.bootstrap && detailModalEl) ? bootstrap.Modal.getOrCreateInstance(detailModalEl) : null;
+            var editModal = (window.bootstrap && editModalEl) ? bootstrap.Modal.getOrCreateInstance(editModalEl) : null;
+            var editingRow = null;
+
+            function toNum(v) {
+                var n = parseFloat(v);
+                return Number.isFinite(n) ? n : 0;
+            }
+
+            function money(v) {
+                if (v === null || v === undefined || v === '') return '—';
+                return '$' + toNum(v).toFixed(2);
+            }
+
+            function diffHtml(value, cost) {
+                if (value === null || value === undefined || value === '') return '—';
+                var val = toNum(value);
+                var c = toNum(cost);
+                var diff = val - c;
+                var cls = diff >= 0 ? 'text-success' : 'text-danger';
+                var sign = diff >= 0 ? '+' : '';
+                return '<strong>$' + val.toFixed(2) + '</strong> <small class="' + cls + '">(' + sign + diff.toFixed(2) + ')</small>';
+            }
+
+            function statusBadgeHtml(status) {
+                return status === 'onsale' ? '<span class="badge bg-success">在售</span>' : '<span class="badge bg-secondary">禁售</span>';
+            }
+
+            function statusText(status) {
+                return status === 'onsale' ? '在售' : '禁售';
+            }
+            function updateOperatorStatusUi(row, status) {
+                if (!row) return;
+                var statusCell = row.querySelector('.pricing-operator-status-cell');
+                var menuStatus = row.querySelector('.pricing-operator-menu-status');
+                if (statusCell) statusCell.innerHTML = statusBadgeHtml(status);
+                if (menuStatus) {
+                    if (status === 'onsale') {
+                        menuStatus.innerHTML = '<i class="bi bi-pause-circle me-2"></i>设为禁售';
+                    } else {
+                        menuStatus.innerHTML = '<i class="bi bi-play-circle me-2"></i>设为在售';
+                    }
+                }
+            }
+
+            function setText(id, value) {
+                var el = document.getElementById(id);
+                if (el) el.textContent = value;
+            }
+
+            function readRow(row) {
+                return {
+                    integrator: row.getAttribute('data-integrator') || '-',
+                    supplier: row.getAttribute('data-supplier') || '-',
+                    code: row.getAttribute('data-code') || '-',
+                    name: row.getAttribute('data-name') || '-',
+                    region: row.getAttribute('data-region') || '-',
+                    area: row.getAttribute('data-area') || '-',
+                    mcc: row.getAttribute('data-mcc') || '',
+                    mnc: row.getAttribute('data-mnc') || '',
+                    network: row.getAttribute('data-network') || '-',
+                    quality: row.getAttribute('data-quality') || '-',
+                    cost: row.getAttribute('data-cost') || '',
+                    guide: row.getAttribute('data-guide') || '',
+                    retail: row.getAttribute('data-retail') || '',
+                    status: row.getAttribute('data-status') || 'onsale'
+                };
+            }
+
+            function openDetail(row) {
+                var data = readRow(row);
+                setText('pricingOperatorDetailIntegrator', data.integrator);
+                setText('pricingOperatorDetailSupplier', data.supplier);
+                setText('pricingOperatorDetailCode', data.code);
+                setText('pricingOperatorDetailName', data.name);
+                setText('pricingOperatorDetailRegion', data.region);
+                setText('pricingOperatorDetailArea', data.area);
+                setText('pricingOperatorDetailQuality', data.quality);
+                setText('pricingOperatorDetailMccMnc', (data.mcc && data.mnc) ? (data.mcc + '/' + data.mnc) : '-');
+                setText('pricingOperatorDetailNetwork', data.network);
+                setText('pricingOperatorDetailCost', money(data.cost));
+                setText('pricingOperatorDetailGuide', money(data.guide));
+                setText('pricingOperatorDetailRetail', money(data.retail));
+                setText('pricingOperatorDetailStatus', statusText(data.status));
+                if (detailModal) {
+                    detailModal.show();
+                } else if (detailModalEl) {
+                    detailModalEl.style.display = 'block';
+                    detailModalEl.classList.add('show');
+                }
+            }
+
+            function openEdit(row) {
+                var data = readRow(row);
+                editingRow = row;
+                document.getElementById('pricingOperatorEditCode').value = data.code;
+                document.getElementById('pricingOperatorEditIntegrator').value = data.integrator;
+                document.getElementById('pricingOperatorEditSupplier').value = data.supplier;
+                document.getElementById('pricingOperatorEditCodeView').value = data.code;
+                document.getElementById('pricingOperatorEditName').value = data.name;
+                document.getElementById('pricingOperatorEditCost').value = money(data.cost);
+                document.getElementById('pricingOperatorEditGuide').value = data.guide ? toNum(data.guide).toFixed(2) : '';
+                document.getElementById('pricingOperatorEditRetail').value = data.retail ? toNum(data.retail).toFixed(2) : '';
+                document.getElementById('pricingOperatorEditStatus').value = data.status === 'disabled' ? 'disabled' : 'onsale';
+                if (editModal) {
+                    editModal.show();
+                } else if (editModalEl) {
+                    editModalEl.style.display = 'block';
+                    editModalEl.classList.add('show');
+                }
+            }
+
+            window.pricingOperatorDetailFromBtn = function (btn) {
+                var row = btn && btn.closest ? btn.closest('tr') : null;
+                if (row) openDetail(row);
+            };
+            window.pricingOperatorEditFromBtn = function (btn) {
+                var row = btn && btn.closest ? btn.closest('tr') : null;
+                if (row) openEdit(row);
+            };
+            window.pricingOperatorToggleStatusFromBtn = function (btn) {
+                var row = btn && btn.closest ? btn.closest('tr') : null;
+                if (!row) return;
+                var status = row.getAttribute('data-status') || 'onsale';
+                if (status === 'onsale') {
+                    if (!confirm('确定将该条运营商报价设为禁售？')) return;
+                    row.setAttribute('data-status', 'disabled');
+                    updateOperatorStatusUi(row, 'disabled');
+                    alert('已设为禁售（原型演示）');
+                } else {
+                    if (!confirm('确定将该条运营商报价设为在售？')) return;
+                    row.setAttribute('data-status', 'onsale');
+                    updateOperatorStatusUi(row, 'onsale');
+                    alert('已设为在售（原型演示）');
+                }
+            };
+            window.pricingOperatorDeleteFromBtn = function (btn) {
+                if (!confirm('确定要删除该条运营商报价吗？')) return;
+                var row = btn && btn.closest ? btn.closest('tr') : null;
+                if (row) row.remove();
+            };
+
+            function resolveTargetElement(e) {
+                if (!e) return null;
+                if (e.target && e.target.nodeType === 1) return e.target;
+                if (e.target && e.target.parentElement) return e.target.parentElement;
+                return null;
+            }
+
+            tableBody.addEventListener('click', function (e) {
+                var targetEl = resolveTargetElement(e);
+                if (!targetEl) return;
+                var detailBtn = targetEl.closest('.pricing-operator-detail-btn');
+                if (detailBtn) {
+                    var detailRow = detailBtn.closest('tr');
+                    if (detailRow) openDetail(detailRow);
+                    return;
+                }
+                var editBtn = targetEl.closest('.pricing-operator-edit-btn');
+                if (editBtn) {
+                    var editRow = editBtn.closest('tr');
+                    if (editRow) openEdit(editRow);
+                }
+            });
+
+            tableBody.querySelectorAll('.pricing-operator-detail-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (evt) {
+                    if (evt && evt.stopPropagation) evt.stopPropagation();
+                    var row = btn.closest('tr');
+                    if (row) openDetail(row);
+                });
+            });
+            tableBody.querySelectorAll('.pricing-operator-edit-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (evt) {
+                    if (evt && evt.stopPropagation) evt.stopPropagation();
+                    var row = btn.closest('tr');
+                    if (row) openEdit(row);
+                });
+            });
+
+            if (!editSaveBtn) return;
+            editSaveBtn.addEventListener('click', function () {
+                if (!editingRow) return;
+                var guideVal = (document.getElementById('pricingOperatorEditGuide').value || '').trim();
+                var retailVal = (document.getElementById('pricingOperatorEditRetail').value || '').trim();
+                var statusVal = (document.getElementById('pricingOperatorEditStatus').value || 'onsale').trim();
+                if (guideVal === '' || retailVal === '') {
+                    alert('请填写指导价和建议零售价');
+                    return;
+                }
+                var guideNum = parseFloat(guideVal);
+                var retailNum = parseFloat(retailVal);
+                if (!Number.isFinite(guideNum) || guideNum < 0 || !Number.isFinite(retailNum) || retailNum < 0) {
+                    alert('指导价和建议零售价必须为不小于 0 的数字');
+                    return;
+                }
+
+                editingRow.setAttribute('data-guide', guideNum.toFixed(2));
+                editingRow.setAttribute('data-retail', retailNum.toFixed(2));
+                editingRow.setAttribute('data-status', statusVal === 'disabled' ? 'disabled' : 'onsale');
+
+                var cost = editingRow.getAttribute('data-cost') || '0';
+                var guideCell = editingRow.querySelector('.pricing-operator-guide-cell');
+                var retailCell = editingRow.querySelector('.pricing-operator-retail-cell');
+                if (guideCell) guideCell.innerHTML = diffHtml(guideNum, cost);
+                if (retailCell) retailCell.innerHTML = diffHtml(retailNum, cost);
+                updateOperatorStatusUi(editingRow, statusVal === 'disabled' ? 'disabled' : 'onsale');
+
+                if (editModal) {
+                    editModal.hide();
+                } else if (editModalEl) {
+                    editModalEl.style.display = 'none';
+                    editModalEl.classList.remove('show');
+                }
+                alert('运营商报价已保存（原型演示）');
+            });
+        })();
+
         // 模拟加油包数据（与套餐关联）
         var addonDataMap = {
             'pkg_1001': [
@@ -643,7 +1182,7 @@
                 return;
             }
             var exportMode = document.querySelector('input[name="exportIntegratorMode"]:checked').value;
-            var rows = document.querySelectorAll('table tbody tr');
+            var rows = document.querySelectorAll('#pricingPackageTableBody tr');
             // 表头：产品Code, 产品类型, 套餐名称, 类型, 国家/覆盖范围, 运营商, 指导价, 建议零售价
             var csvHeader = '产品Code,产品类型,套餐名称,类型,国家/覆盖范围,运营商,指导价,建议零售价';
             var csvRows = [csvHeader];
@@ -693,7 +1232,7 @@
         // 导出内部定价明细（面向内部人员）
         document.getElementById('btnExportInternal').addEventListener('click', function (e) {
             e.preventDefault();
-            var rows = document.querySelectorAll('table tbody tr');
+            var rows = document.querySelectorAll('#pricingPackageTableBody tr');
             if (rows.length === 0) {
                 alert('没有可导出的数据');
                 return;
@@ -726,6 +1265,76 @@
             var csv = csvRows.join('\n');
             downloadCsv(csv, '内部定价明细_' + new Date().toISOString().slice(0, 10) + '.csv');
         });
+
+        (function () {
+            var showFullQuoteCb = document.getElementById('pricingOperatorShowFullQuote');
+            var integratorSelect = document.getElementById('pricingOperatorFilterIntegrator');
+
+            function updateShowFullQuoteState() {
+                if (!showFullQuoteCb || !integratorSelect) return;
+                var hasIntegrator = !!integratorSelect.value;
+                showFullQuoteCb.disabled = !hasIntegrator;
+                showFullQuoteCb.title = hasIntegrator ? '' : '请先选择客户';
+                if (!hasIntegrator && showFullQuoteCb.checked) {
+                    showFullQuoteCb.checked = false;
+                }
+            }
+
+            function applyPricingOperatorFilter() {
+                var integrator = (document.getElementById('pricingOperatorFilterIntegrator').value || '').trim();
+                var region = (document.getElementById('pricingOperatorFilterRegion').value || '').trim();
+                var area = (document.getElementById('pricingOperatorFilterArea').value || '').trim();
+                var quality = (document.getElementById('pricingOperatorFilterQuality').value || '').trim();
+                var status = (document.getElementById('pricingOperatorFilterStatus').value || '').trim();
+                var keyword = (document.getElementById('pricingOperatorFilterKeyword').value || '').trim().toLowerCase();
+                var showFull = !!(showFullQuoteCb && showFullQuoteCb.checked && integrator);
+                document.querySelectorAll('#pricingOperatorTableBody tr').forEach(function (row) {
+                    var rowIntegrator = row.getAttribute('data-integrator') || '';
+                    var rowRegion = row.getAttribute('data-region') || '';
+                    var rowArea = row.getAttribute('data-area') || '';
+                    var rowQuality = row.getAttribute('data-quality') || '';
+                    var rowStatus = row.getAttribute('data-status') || '';
+                    var rowQuoteType = row.getAttribute('data-quote-type') || 'override';
+                    var rowName = (row.getAttribute('data-name') || '').toLowerCase();
+                    var rowMcc = (row.getAttribute('data-mcc') || '').toLowerCase();
+                    var rowMnc = (row.getAttribute('data-mnc') || '').toLowerCase();
+                    var rowNetwork = (row.getAttribute('data-network') || '').toLowerCase();
+                    var visible = true;
+                    if (integrator && rowIntegrator !== integrator) visible = false;
+                    if (rowQuoteType === 'guide-only' && !showFull) visible = false;
+                    if (region && rowRegion !== region) visible = false;
+                    if (area && rowArea !== area) visible = false;
+                    if (quality && rowQuality !== quality) visible = false;
+                    if (status && rowStatus !== status) visible = false;
+                    if (keyword) {
+                        var text = [rowName, rowMcc, rowMnc, rowNetwork, rowQuality, rowStatus].join(' ');
+                        if (text.indexOf(keyword) === -1) visible = false;
+                    }
+                    row.style.display = visible ? '' : 'none';
+                });
+            }
+            var btnQ = document.getElementById('btnPricingOperatorQuery');
+            var btnR = document.getElementById('btnPricingOperatorReset');
+            if (btnQ) btnQ.addEventListener('click', applyPricingOperatorFilter);
+            if (showFullQuoteCb) showFullQuoteCb.addEventListener('change', applyPricingOperatorFilter);
+            if (integratorSelect) integratorSelect.addEventListener('change', function () {
+                updateShowFullQuoteState();
+                applyPricingOperatorFilter();
+            });
+            if (btnR) btnR.addEventListener('click', function () {
+                document.getElementById('pricingOperatorFilterIntegrator').value = '';
+                document.getElementById('pricingOperatorFilterRegion').value = '';
+                document.getElementById('pricingOperatorFilterArea').value = '';
+                document.getElementById('pricingOperatorFilterQuality').value = '';
+                document.getElementById('pricingOperatorFilterStatus').value = '';
+                document.getElementById('pricingOperatorFilterKeyword').value = '';
+                if (showFullQuoteCb) showFullQuoteCb.checked = false;
+                updateShowFullQuoteState();
+                applyPricingOperatorFilter();
+            });
+            updateShowFullQuoteState();
+            applyPricingOperatorFilter();
+        })();
     </script>
 </body>
 </html>
