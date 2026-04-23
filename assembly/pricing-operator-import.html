@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量导入运营商价格 - eSIM 客户管理平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo"><i class="bi bi-building-gear me-2"></i>集成商管理</div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door-fill"></i>首页概览</a>
+                    <div class="nav-section-title">供应商</div>
+                    <a class="nav-link" href="supplier-list.html"><i class="bi bi-truck"></i>供应商管理</a>
+                    <div class="nav-section-title">客户</div>
+                    <a class="nav-link" href="integrator-list.html"><i class="bi bi-people-fill"></i>客户管理</a>
+                    <a class="nav-link nav-parent" data-bs-toggle="collapse" href="#navPricingCollapse" role="button" aria-expanded="true" aria-controls="navPricingCollapse"><i class="bi bi-currency-exchange"></i>报价管理<i class="bi bi-chevron-down float-end nav-parent-chevron"></i></a>
+                    <div class="collapse show nav-sub" id="navPricingCollapse">
+                        <a class="nav-link nav-sub-link" href="catalog-list.html"><i class="bi bi-collection"></i>成本报价</a>
+                        <a class="nav-link nav-sub-link" href="guide-pricing-list.html"><i class="bi bi-tags"></i>指导报价</a>
+                        <a class="nav-link nav-sub-link active" href="pricing-list.html"><i class="bi bi-currency-dollar"></i>客户报价</a>
+                    </div>
+                    <a class="nav-link" href="order-list.html"><i class="bi bi-cart-check"></i>套餐订单</a>
+                    <a class="nav-link" href="esim-list.html"><i class="bi bi-sim"></i>eSIM管理</a>
+                    <a class="nav-link" href="billing-transactions.html"><i class="bi bi-wallet2"></i>财务与结算</a>
+                    <div class="nav-section-title">开放能力</div>
+                    <a class="nav-link" href="developer-api.html"><i class="bi bi-key-fill"></i>API 管理</a>
+                </nav>
+            </div>
+            <div class="col-md-10 main-content">
+                <div class="page-header">
+                    <div>
+                        <h1><i class="bi bi-upload me-2"></i>批量导入运营商价格</h1>
+                        <small class="text-muted">先选择客户与运营商，再通过模板或 CSV 批量生成运营商指导价</small>
+                    </div>
+                    <a href="pricing-list.html#pricing-operator-pane" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>返回客户报价</a>
+                </div>
+
+                <div class="content-card mb-4">
+                    <h5 class="mb-3">第一步：选择客户</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">导入目标客户 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="importIntegrator">
+                                <option value="">请选择客户</option>
+                                <option value="环球 eSIM 科技">环球 eSIM 科技</option>
+                                <option value="旅行家 eSIM">旅行家 eSIM</option>
+                                <option value="出境游 eSIM 联盟">出境游 eSIM 联盟</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card mb-4">
+                    <h5 class="mb-3">第二步：选择运营商</h5>
+                    <div class="filter-section mb-3">
+                        <div class="row g-2">
+                            <div class="col-md-2">
+                                <label class="form-label">供应商</label>
+                                <select class="form-select form-select-sm" id="filterSupplier">
+                                    <option value="">全部</option>
+                                    <option value="eSIM 全球供">eSIM 全球供</option>
+                                    <option value="跨境 eSIM 源">跨境 eSIM 源</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">区域</label>
+                                <select class="form-select form-select-sm" id="filterRegion">
+                                    <option value="">全部</option>
+                                    <option value="欧洲">欧洲</option>
+                                    <option value="亚洲">亚洲</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">地区/国家</label>
+                                <select class="form-select form-select-sm" id="filterArea">
+                                    <option value="">全部</option>
+                                    <option value="法国">法国</option>
+                                    <option value="德国">德国</option>
+                                    <option value="泰国">泰国</option>
+                                    <option value="越南">越南</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">关键字</label>
+                                <input type="text" class="form-control form-control-sm" id="filterKeyword" placeholder="名称 / MCC / MNC / 网络">
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button type="button" class="btn btn-primary btn-sm me-1" id="btnSearch">查询</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnReset">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                        <span class="text-primary small fw-bold" id="selectedCountTip">已选 0 条</span>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSelectAllResult">全选当前结果</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSelectNone">取消全选</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width:40px;"><input type="checkbox" class="form-check-input" id="checkAll"></th>
+                                    <th>供应商</th>
+                                    <th>编码</th>
+                                    <th>名称</th>
+                                    <th>区域</th>
+                                    <th>地区/国家</th>
+                                    <th>MCC/MNC</th>
+                                    <th>网络类型</th>
+                                    <th>报价(/G)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="operatorTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="content-card mb-4">
+                    <h5 class="mb-3">第三步：设置导入</h5>
+                    <p class="text-muted small mb-3">选择以下任一方式为第二步选中的运营商设置指导价。</p>
+
+                    <div class="border rounded p-3 mb-3" id="methodTemplate">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="importMethod" id="methodTemplateRadio" value="template" checked>
+                            <label class="form-check-label fw-bold" for="methodTemplateRadio">应用定价模板</label>
+                            <span class="text-muted small ms-2">根据运营商报价按比例或固定金额自动计算</span>
+                        </div>
+                        <div id="templateOptions">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">指导价（浮动）</label>
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="guideMode" id="guideModeRatio" value="ratio" class="form-check-input" checked>
+                                            <label class="form-check-label" for="guideModeRatio">按利润率</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 +</span>
+                                            <input type="number" class="form-control form-control-sm" id="guideRatioVal" value="30" step="0.01" min="0" style="width: 5rem;">
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="guideMode" id="guideModeAmount" value="amount" class="form-check-input">
+                                            <label class="form-check-label" for="guideModeAmount">按固定金额</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 + $</span>
+                                            <input type="number" class="form-control form-control-sm" id="guideAmountVal" value="0" step="0.01" style="width: 5rem;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">建议零售价</label>
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="retailMode" id="retailModeRatio" value="ratio" class="form-check-input" checked>
+                                            <label class="form-check-label" for="retailModeRatio">按利润率</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 +</span>
+                                            <input type="number" class="form-control form-control-sm" id="retailRatioVal" value="50" step="0.01" min="0" style="width: 5rem;">
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                        <div class="form-check form-check-inline mb-0">
+                                            <input type="radio" name="retailMode" id="retailModeAmount" value="amount" class="form-check-input">
+                                            <label class="form-check-label" for="retailModeAmount">按固定金额</label>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>报价 + $</span>
+                                            <input type="number" class="form-control form-control-sm" id="retailAmountVal" value="0" step="0.01" style="width: 5rem;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                                <div class="form-check mb-0">
+                                    <input type="checkbox" class="form-check-input" id="replaceWhenExistsTemplate">
+                                    <label class="form-check-label" for="replaceWhenExistsTemplate">存在时替换</label>
+                                </div>
+                                <small class="text-muted">不勾选时将跳过已存在记录。</small>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="btnApplyTemplate"><i class="bi bi-check-lg me-1"></i>应用模板并导入</button>
+                            <span class="text-muted small ms-2" id="templateSelectedTip">已选 0 条运营商</span>
+                        </div>
+                    </div>
+
+                    <div class="border rounded p-3" id="methodCsv">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="importMethod" id="methodCsvRadio" value="csv">
+                            <label class="form-check-label fw-bold" for="methodCsvRadio">上传 CSV 文件</label>
+                            <span class="text-muted small ms-2">先导出模板，手动填写指导价后上传</span>
+                        </div>
+                        <div id="csvOptions" class="d-none">
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-outline-secondary btn-sm me-2" id="btnExportSelected"><i class="bi bi-download me-1"></i>导出已选运营商为 CSV 模板</button>
+                                <span class="text-muted small">导出后填写“指导价”“建议零售价”列，再上传。</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">选择 CSV 文件</label>
+                                <input type="file" class="form-control" id="fileInput" accept=".csv,text/csv">
+                            </div>
+                            <div id="previewSection" class="d-none">
+                                <p class="text-muted small mb-2">解析预览（最多前 20 行），确认后导入。</p>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-hover">
+                                        <thead class="table-light"><tr id="previewThead"></tr></thead>
+                                        <tbody id="previewTbody"></tbody>
+                                    </table>
+                                </div>
+                                <p class="text-muted small mb-3" id="previewSummary"></p>
+                                <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                                    <div class="form-check mb-0">
+                                        <input type="checkbox" class="form-check-input" id="replaceWhenExists">
+                                        <label class="form-check-label" for="replaceWhenExists">存在时替换</label>
+                                    </div>
+                                    <small class="text-muted">不勾选时将跳过已存在记录。</small>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="btnConfirmImport" disabled><i class="bi bi-check-lg me-1"></i>确认导入</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card d-none" id="resultSection">
+                    <h5 class="mb-3">导入结果</h5>
+                    <div id="resultContent"></div>
+                    <a href="pricing-list.html#pricing-operator-pane" class="btn btn-outline-primary mt-3">返回客户报价-运营商</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            var CSV_HEADER = '运营商编码,名称,供应商,区域,地区/国家,MCC,MNC,网络类型,成本(/G),指导价,建议零售价';
+            var sourceRows = [
+                { supplier: 'eSIM 全球供', code: 'OPR-7F3A9C1D2B', name: 'France-Orange (mcc208_mnc01)', region: '欧洲', area: '法国', mcc: '208', mnc: '01', network: '5G', cost: 43.50 },
+                { supplier: 'eSIM 全球供', code: 'OPR-9A1E4B6C8D', name: 'France-SFR (mcc208_mnc10)', region: '欧洲', area: '法国', mcc: '208', mnc: '10', network: '4G/5G', cost: 44.20 },
+                { supplier: '跨境 eSIM 源', code: 'OPR-6B4D1A8C3E', name: 'Thailand-AIS (mcc520_mnc01)', region: '亚洲', area: '泰国', mcc: '520', mnc: '01', network: '4G', cost: 16.50 },
+                { supplier: '跨境 eSIM 源', code: 'OPR-1E7C9B4A6D', name: 'Thailand-dtac (mcc520_mnc05)', region: '亚洲', area: '泰国', mcc: '520', mnc: '05', network: '4G', cost: 17.20 }
+            ];
+            var tableBody = document.getElementById('operatorTableBody');
+            var selected = new Set();
+            var filteredRows = sourceRows.slice();
+            var parsedCsvRows = [];
+
+            function num(v, d) {
+                var n = parseFloat(v);
+                return Number.isFinite(n) ? n : d;
+            }
+            function csvEscape(v) {
+                var s = String(v == null ? '' : v);
+                if (/[",\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+                return s;
+            }
+            function downloadCsv(content, filename) {
+                var blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            }
+            function calcByRule(base, byRatio, ratioVal, amountVal) {
+                if (byRatio) return base * (1 + num(ratioVal, 0) / 100);
+                return base + num(amountVal, 0);
+            }
+            function updateSelectedCount() {
+                document.getElementById('selectedCountTip').textContent = '已选 ' + selected.size + ' 条';
+                document.getElementById('templateSelectedTip').textContent = '已选 ' + selected.size + ' 条运营商';
+            }
+            function renderRows(list) {
+                filteredRows = list.slice();
+                tableBody.innerHTML = list.map(function (r) {
+                    return '<tr data-code="' + r.code + '" data-supplier="' + r.supplier + '" data-region="' + r.region + '" data-area="' + r.area + '" data-name="' + r.name + '" data-mcc="' + r.mcc + '" data-mnc="' + r.mnc + '" data-network="' + r.network + '" data-cost="' + r.cost.toFixed(2) + '">' +
+                        '<td><input type="checkbox" class="form-check-input row-check" ' + (selected.has(r.code) ? 'checked' : '') + '></td>' +
+                        '<td>' + r.supplier + '</td>' +
+                        '<td><code>' + r.code + '</code></td>' +
+                        '<td>' + r.name + '</td>' +
+                        '<td>' + r.region + '</td>' +
+                        '<td>' + r.area + '</td>' +
+                        '<td><code>' + r.mcc + '/' + r.mnc + '</code></td>' +
+                        '<td>' + r.network + '</td>' +
+                        '<td>$' + r.cost.toFixed(2) + '</td>' +
+                    '</tr>';
+                }).join('');
+                updateSelectedCount();
+            }
+            function applyFilter() {
+                var supplier = (document.getElementById('filterSupplier').value || '').trim();
+                var region = (document.getElementById('filterRegion').value || '').trim();
+                var area = (document.getElementById('filterArea').value || '').trim();
+                var kw = (document.getElementById('filterKeyword').value || '').trim().toLowerCase();
+                var list = sourceRows.filter(function (r) {
+                    if (supplier && r.supplier !== supplier) return false;
+                    if (region && r.region !== region) return false;
+                    if (area && r.area !== area) return false;
+                    if (kw) {
+                        var text = [r.name, r.mcc, r.mnc, r.network].join(' ').toLowerCase();
+                        if (text.indexOf(kw) === -1) return false;
+                    }
+                    return true;
+                });
+                renderRows(list);
+            }
+            function toggleImportMethod() {
+                var templateMode = document.getElementById('methodTemplateRadio').checked;
+                document.getElementById('templateOptions').classList.toggle('d-none', !templateMode);
+                document.getElementById('csvOptions').classList.toggle('d-none', templateMode);
+            }
+            function selectedRowsData() {
+                var map = {};
+                sourceRows.forEach(function (r) { map[r.code] = r; });
+                return Array.from(selected).map(function (code) { return map[code]; }).filter(Boolean);
+            }
+            function parseCsvText(text) {
+                var lines = text.split(/\r?\n/).filter(function (l) { return l.trim(); });
+                if (lines.length < 2) return [];
+                var rows = [];
+                for (var i = 1; i < lines.length; i += 1) {
+                    var cols = lines[i].split(',');
+                    if (cols.length < 11) continue;
+                    rows.push({
+                        code: cols[0].trim(),
+                        name: cols[1].trim(),
+                        supplier: cols[2].trim(),
+                        region: cols[3].trim(),
+                        area: cols[4].trim(),
+                        mcc: cols[5].trim(),
+                        mnc: cols[6].trim(),
+                        network: cols[7].trim(),
+                        cost: num(cols[8].trim(), 0),
+                        guide: num(cols[9].trim(), 0),
+                        retail: num(cols[10].trim(), 0)
+                    });
+                }
+                return rows;
+            }
+
+            document.getElementById('btnSearch').addEventListener('click', applyFilter);
+            document.getElementById('btnReset').addEventListener('click', function () {
+                document.getElementById('filterSupplier').value = '';
+                document.getElementById('filterRegion').value = '';
+                document.getElementById('filterArea').value = '';
+                document.getElementById('filterKeyword').value = '';
+                applyFilter();
+            });
+            document.getElementById('checkAll').addEventListener('change', function () {
+                var checked = this.checked;
+                tableBody.querySelectorAll('tr').forEach(function (tr) {
+                    var code = tr.getAttribute('data-code');
+                    var cb = tr.querySelector('.row-check');
+                    if (!cb) return;
+                    cb.checked = checked;
+                    if (checked) selected.add(code); else selected.delete(code);
+                });
+                updateSelectedCount();
+            });
+            tableBody.addEventListener('change', function (e) {
+                if (!e.target.classList.contains('row-check')) return;
+                var tr = e.target.closest('tr');
+                if (!tr) return;
+                var code = tr.getAttribute('data-code');
+                if (e.target.checked) selected.add(code); else selected.delete(code);
+                updateSelectedCount();
+            });
+            document.getElementById('btnSelectAllResult').addEventListener('click', function () {
+                filteredRows.forEach(function (r) { selected.add(r.code); });
+                renderRows(filteredRows);
+            });
+            document.getElementById('btnSelectNone').addEventListener('click', function () {
+                selected.clear();
+                renderRows(filteredRows);
+            });
+
+            document.getElementById('methodTemplateRadio').addEventListener('change', toggleImportMethod);
+            document.getElementById('methodCsvRadio').addEventListener('change', toggleImportMethod);
+
+            document.getElementById('btnApplyTemplate').addEventListener('click', function () {
+                var integrator = document.getElementById('importIntegrator').value;
+                if (!integrator) return alert('请选择导入目标客户');
+                if (!selected.size) return alert('请至少勾选一个运营商');
+                var guideByRatio = document.getElementById('guideModeRatio').checked;
+                var retailByRatio = document.getElementById('retailModeRatio').checked;
+                var guideRatioVal = document.getElementById('guideRatioVal').value;
+                var guideAmountVal = document.getElementById('guideAmountVal').value;
+                var retailRatioVal = document.getElementById('retailRatioVal').value;
+                var retailAmountVal = document.getElementById('retailAmountVal').value;
+                var replace = document.getElementById('replaceWhenExistsTemplate').checked;
+                var rows = selectedRowsData().map(function (r) {
+                    var guide = calcByRule(r.cost, guideByRatio, guideRatioVal, guideAmountVal);
+                    var retail = calcByRule(r.cost, retailByRatio, retailRatioVal, retailAmountVal);
+                    return '<tr><td><code>' + r.code + '</code></td><td>' + r.name + '</td><td>$' + r.cost.toFixed(2) + '</td><td>$' + guide.toFixed(2) + '</td><td>$' + retail.toFixed(2) + '</td></tr>';
+                }).join('');
+                document.getElementById('resultSection').classList.remove('d-none');
+                document.getElementById('resultContent').innerHTML =
+                    '<div class="alert alert-success mb-3">已为客户 <strong>' + integrator + '</strong> 导入 <strong>' + selected.size + '</strong> 条运营商价格（模板方式，原型演示）。</div>' +
+                    '<p class="mb-2">存在时替换：<strong>' + (replace ? '是' : '否（跳过已存在）') + '</strong></p>' +
+                    '<div class="table-responsive"><table class="table table-sm table-hover"><thead class="table-light"><tr><th>编码</th><th>名称</th><th>成本(/G)</th><th>指导价</th><th>建议零售价</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+            });
+
+            document.getElementById('btnExportSelected').addEventListener('click', function () {
+                if (!selected.size) return alert('请先勾选要导出的运营商');
+                var rows = selectedRowsData();
+                var csvRows = [CSV_HEADER];
+                rows.forEach(function (r) {
+                    csvRows.push([
+                        r.code, r.name, r.supplier, r.region, r.area, r.mcc, r.mnc, r.network,
+                        r.cost.toFixed(2), '', ''
+                    ].map(csvEscape).join(','));
+                });
+                downloadCsv(csvRows.join('\n'), '运营商导入模板_' + new Date().toISOString().slice(0, 10) + '.csv');
+            });
+
+            document.getElementById('fileInput').addEventListener('change', function () {
+                var file = this.files && this.files[0];
+                document.getElementById('previewSection').classList.add('d-none');
+                document.getElementById('btnConfirmImport').disabled = true;
+                parsedCsvRows = [];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function () {
+                    parsedCsvRows = parseCsvText(String(reader.result || ''));
+                    if (!parsedCsvRows.length) return alert('CSV 文件无有效数据');
+                    var head = ['运营商编码', '名称', '供应商', '区域', '地区/国家', 'MCC', 'MNC', '网络类型', '成本(/G)', '指导价', '建议零售价'];
+                    document.getElementById('previewThead').innerHTML = head.map(function (h) { return '<th>' + h + '</th>'; }).join('');
+                    document.getElementById('previewTbody').innerHTML = parsedCsvRows.slice(0, 20).map(function (r) {
+                        return '<tr><td><code>' + r.code + '</code></td><td>' + r.name + '</td><td>' + r.supplier + '</td><td>' + r.region + '</td><td>' + r.area + '</td><td>' + r.mcc + '</td><td>' + r.mnc + '</td><td>' + r.network + '</td><td>$' + r.cost.toFixed(2) + '</td><td>$' + r.guide.toFixed(2) + '</td><td>$' + r.retail.toFixed(2) + '</td></tr>';
+                    }).join('');
+                    document.getElementById('previewSummary').textContent = '共解析 ' + parsedCsvRows.length + ' 条，预览前 ' + Math.min(parsedCsvRows.length, 20) + ' 条。';
+                    document.getElementById('previewSection').classList.remove('d-none');
+                    document.getElementById('btnConfirmImport').disabled = false;
+                };
+                reader.readAsText(file, 'utf-8');
+            });
+
+            document.getElementById('btnConfirmImport').addEventListener('click', function () {
+                var integrator = document.getElementById('importIntegrator').value;
+                if (!integrator) return alert('请选择导入目标客户');
+                if (!parsedCsvRows.length) return alert('请先选择并解析 CSV 文件');
+                var replace = document.getElementById('replaceWhenExists').checked;
+                document.getElementById('resultSection').classList.remove('d-none');
+                document.getElementById('resultContent').innerHTML =
+                    '<div class="alert alert-success mb-3">已为客户 <strong>' + integrator + '</strong> 导入 <strong>' + parsedCsvRows.length + '</strong> 条运营商价格（CSV 方式，原型演示）。</div>' +
+                    '<p class="mb-2">存在时替换：<strong>' + (replace ? '是' : '否（跳过已存在）') + '</strong></p>';
+            });
+
+            toggleImportMethod();
+            applyFilter();
+        })();
+    </script>
+</body>
+</html>
