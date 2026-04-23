@@ -193,7 +193,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="pricingListBody">
-                                <tr data-pricing-status="onsale">
+                                <tr data-pricing-status="onsale" data-billing="套餐">
                                     <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>日本 7天 1GB</strong></td>
                                     <td><code>PKG-JP-7D-1G</code></td>
@@ -202,9 +202,9 @@
                                     <td>NTT Docomo</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
-                                    <td>$3.50</td>
-                                    <td><strong>$5.25</strong> <small class="text-success">(+1.75)</small></td>
-                                    <td>$8.99</td>
+                                    <td class="pricing-cost-cell">$3.50</td>
+                                    <td class="pricing-guide-cell"><strong>$5.25</strong> <small class="text-success">(+1.75)</small></td>
+                                    <td class="pricing-retail-cell">$8.99</td>
                                     <td class="pricing-status-cell"><span class="badge bg-success">在售</span></td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-info pricing-view-detail-btn" title="查看详情"><i class="bi bi-eye"></i></button>
@@ -212,7 +212,7 @@
                                         <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr data-pricing-status="onsale">
+                                <tr data-pricing-status="onsale" data-billing="套餐">
                                     <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>韩国 5天 2GB</strong></td>
                                     <td><code>PKG-KR-5D-2G</code></td>
@@ -221,9 +221,9 @@
                                     <td>SK Telecom</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
-                                    <td>$4.00</td>
-                                    <td><strong>$6.00</strong> <small class="text-success">(+2.00)</small></td>
-                                    <td>$9.99</td>
+                                    <td class="pricing-cost-cell">$4.00</td>
+                                    <td class="pricing-guide-cell"><strong>$6.00</strong> <small class="text-success">(+2.00)</small></td>
+                                    <td class="pricing-retail-cell">$9.99</td>
                                     <td class="pricing-status-cell"><span class="badge bg-success">在售</span></td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-info pricing-view-detail-btn" title="查看详情"><i class="bi bi-eye"></i></button>
@@ -231,7 +231,7 @@
                                         <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr data-pricing-status="onsale">
+                                <tr data-pricing-status="onsale" data-billing="每GB">
                                     <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>亚洲 10天 3GB</strong></td>
                                     <td><code>PKG-ASIA-10D-3G</code></td>
@@ -240,9 +240,9 @@
                                     <td>多运营商</td>
                                     <td><span class="badge bg-info">每GB</span></td>
                                     <td>USD</td>
-                                    <td>$8.00</td>
-                                    <td><strong>$12.00</strong> <small class="text-success">(+4.00)</small></td>
-                                    <td>$19.99</td>
+                                    <td class="pricing-cost-cell"></td>
+                                    <td class="pricing-guide-cell"></td>
+                                    <td class="pricing-retail-cell"></td>
                                     <td class="pricing-status-cell"><span class="badge bg-success">在售</span></td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-info pricing-view-detail-btn" title="查看详情"><i class="bi bi-eye"></i></button>
@@ -250,7 +250,7 @@
                                         <button type="button" class="btn btn-sm btn-outline-danger pricing-delete-one" title="删除该报价"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr data-pricing-status="disabled">
+                                <tr data-pricing-status="disabled" data-billing="套餐">
                                     <td><input type="checkbox" class="form-check-input pricing-row-check" aria-label="选中"></td>
                                     <td><strong>全球 30天 5GB</strong></td>
                                     <td><code>PKG-GLOBAL-30D-5G</code></td>
@@ -259,9 +259,9 @@
                                     <td>多运营商</td>
                                     <td><span class="badge bg-secondary">套餐</span></td>
                                     <td>USD</td>
-                                    <td>$25.00</td>
-                                    <td><strong>$37.50</strong> <small class="text-success">(+12.50)</small></td>
-                                    <td>$59.99</td>
+                                    <td class="pricing-cost-cell">$25.00</td>
+                                    <td class="pricing-guide-cell"><strong>$37.50</strong> <small class="text-success">(+12.50)</small></td>
+                                    <td class="pricing-retail-cell">$59.99</td>
                                     <td class="pricing-status-cell"><span class="badge bg-secondary">禁售</span></td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-info pricing-view-detail-btn" title="查看详情"><i class="bi bi-eye"></i></button>
@@ -508,8 +508,28 @@
                         <div class="info-row"><span class="info-label">建议零售价</span><span class="info-value" id="detailRetailPrice">-</span></div>
                         <div class="info-row"><span class="info-label">状态</span><span class="info-value" id="detailStatus">-</span></div>
                     </div>
-                    <h6 class="text-muted mb-2">加油包</h6>
-                    <div class="content-card">
+                    <div id="detailOperatorRatesWrap" class="d-none">
+                        <h6 class="text-muted mb-2">运营商报价列表</h6>
+                        <div class="content-card mb-3">
+                            <div class="table-responsive" style="max-width: 760px;">
+                                <table class="table table-sm table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>国家</th>
+                                            <th>运营商</th>
+                                            <th>报价(/G)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detailOperatorRatesTbody">
+                                        <tr><td colspan="3" class="text-muted text-center">暂无运营商报价</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="detailAddonWrap">
+                        <h6 class="text-muted mb-2">加油包</h6>
+                        <div class="content-card">
                         <div class="table-responsive" style="max-width: 760px;">
                             <table class="table table-sm table-hover align-middle mb-0">
                                 <thead class="table-light">
@@ -525,6 +545,7 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -602,7 +623,7 @@
                     <hr class="my-3">
                     <div class="mb-3">
                         <label class="form-label">加油包</label>
-                        <p class="text-muted small mb-2">可编辑该套餐下加油包的指导价与建议零售价，保存时与套餐定价一起提交。</p>
+                        <p class="text-muted small mb-2" id="editAddonTips">可编辑该套餐下加油包的指导价与建议零售价，保存时与套餐定价一起提交。</p>
                         <div class="table-responsive">
                             <table class="table table-sm align-middle">
                                 <thead class="table-light">
@@ -617,6 +638,23 @@
                                 </thead>
                                 <tbody id="editAddonTbody">
                                     <tr><td colspan="6" class="text-muted text-center">暂无加油包数据</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-none" id="editOperatorRatesWrap">
+                        <label class="form-label">运营商报价列表</label>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>国家</th>
+                                        <th>运营商</th>
+                                        <th>报价(/G)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="editOperatorRatesTbody">
+                                    <tr><td colspan="3" class="text-muted text-center">暂无运营商报价</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1092,6 +1130,94 @@
             if (d === 0) return ' (±0.00)';
             return d > 0 ? ' (+' + d.toFixed(2) + ')' : ' (' + d.toFixed(2) + ')';
         }
+        var perGbOperatorRatesByPkg = {
+            'PKG-ASIA-10D-3G': [
+                { country: '泰国', operator: 'AIS', price: '16.50', guide: '12.00', retail: '19.99' },
+                { country: '泰国', operator: 'dtac', price: '17.20', guide: '12.60', retail: '20.50' },
+                { country: '越南', operator: 'Viettel', price: '15.90', guide: '11.80', retail: '19.20' }
+            ]
+        };
+        function extractPkgCodeFromRow(tr) {
+            if (!tr || !tr.children[2]) return '';
+            return (tr.children[2].textContent || '').replace(/\s+/g, '').trim();
+        }
+        function isPerGbRow(tr) {
+            if (!tr) return false;
+            var billing = (tr.getAttribute('data-billing') || '').trim();
+            if (!billing && tr.children[6]) billing = (tr.children[6].textContent || '').trim();
+            return billing === '每GB';
+        }
+        function renderRateTextList(cell, lines) {
+            if (!cell) return;
+            cell.innerHTML = '';
+            if (!lines || !lines.length) {
+                cell.textContent = '暂无运营商报价';
+                return;
+            }
+            var first = document.createElement('div');
+            first.className = 'small text-truncate';
+            first.style.maxWidth = '200px';
+            first.title = lines[0];
+            first.textContent = lines[0];
+            cell.appendChild(first);
+            if (lines.length > 1) {
+                var toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'btn btn-link btn-sm p-0';
+                toggle.style.lineHeight = '1';
+                toggle.textContent = '+' + (lines.length - 1);
+                cell.appendChild(toggle);
+                var detail = document.createElement('div');
+                detail.className = 'mt-1 d-none';
+                lines.slice(1).forEach(function (lineText) {
+                    var line = document.createElement('div');
+                    line.className = 'small';
+                    line.textContent = lineText;
+                    detail.appendChild(line);
+                });
+                cell.appendChild(detail);
+                toggle.addEventListener('click', function () {
+                    var hidden = detail.classList.toggle('d-none');
+                    toggle.textContent = hidden ? '+' + (lines.length - 1) : '收起';
+                });
+            }
+        }
+        function renderPerGbRowPricing(tr) {
+            if (!tr || !isPerGbRow(tr)) return;
+            var pkgCode = extractPkgCodeFromRow(tr);
+            var rates = (perGbOperatorRatesByPkg[pkgCode] || []).slice();
+            var costLines = rates.map(function (r) {
+                return [r.country, r.operator, '$' + (r.price || '0.00')].join(' / ');
+            });
+            var guideLines = rates.map(function (r) {
+                return [r.country, r.operator, '$' + (r.guide || r.price || '0.00')].join(' / ');
+            });
+            var retailLines = rates.map(function (r) {
+                return [r.country, r.operator, '$' + (r.retail || r.price || '0.00')].join(' / ');
+            });
+            renderRateTextList(tr.querySelector('.pricing-cost-cell') || tr.children[8], costLines);
+            renderRateTextList(tr.querySelector('.pricing-guide-cell') || tr.children[9], guideLines);
+            renderRateTextList(tr.querySelector('.pricing-retail-cell') || tr.children[10], retailLines);
+        }
+        function renderPerGbRowsInList() {
+            var tbody = document.getElementById('pricingListBody');
+            if (!tbody) return;
+            tbody.querySelectorAll('tr').forEach(function (tr) {
+                if (isPerGbRow(tr)) renderPerGbRowPricing(tr);
+            });
+        }
+        function renderOperatorRateRows(tbodyId, pkgCode) {
+            var tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            var rates = (perGbOperatorRatesByPkg[pkgCode] || []).slice();
+            if (!rates.length) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-muted text-center">暂无运营商报价</td></tr>';
+                return;
+            }
+            tbody.innerHTML = rates.map(function (r) {
+                return '<tr><td>' + r.country + '</td><td>' + r.operator + '</td><td>$' + r.price + '</td></tr>';
+            }).join('');
+        }
         function renderEditAddonRows(pkgCode) {
             var tbody = document.getElementById('editAddonTbody');
             if (!tbody) return;
@@ -1113,6 +1239,8 @@
             }).join('');
         }
         var editPricingModalEl = document.getElementById('editPricingModal');
+        var editAddonTips = document.getElementById('editAddonTips');
+        var editOperatorRatesWrap = document.getElementById('editOperatorRatesWrap');
         if (editPricingModalEl) {
             editPricingModalEl.addEventListener('show.bs.modal', function (e) {
                 var btn = e.relatedTarget;
@@ -1121,6 +1249,7 @@
                     var tr = currentEditPricingBtn.closest('tr');
                     var status = currentEditPricingBtn.getAttribute('data-pricing-status') || 'onsale';
                     currentEditPkgCode = currentEditPricingBtn.getAttribute('data-pkg-code') || '';
+                    var perGbMode = tr ? isPerGbRow(tr) : false;
                     document.getElementById('editPricingStatus').value = status === 'disabled' ? 'disabled' : 'onsale';
                     if (tr) {
                         var cells = tr.children;
@@ -1132,11 +1261,25 @@
                         document.getElementById('editRetailPrice').value = cells[10] ? (toNumber(cells[10].textContent.trim()) || 0) : 0;
                     }
                     renderEditAddonRows(currentEditPkgCode);
+                    renderOperatorRateRows('editOperatorRatesTbody', currentEditPkgCode);
+                    document.getElementById('editGuidePrice').disabled = perGbMode;
+                    document.getElementById('editRetailPrice').disabled = perGbMode;
+                    document.querySelectorAll('#editAddonTbody .edit-addon-guide, #editAddonTbody .edit-addon-retail').forEach(function (el) {
+                        el.disabled = perGbMode;
+                    });
+                    document.querySelectorAll('#editAddonTbody .edit-addon-status').forEach(function (el) {
+                        el.disabled = false;
+                    });
+                    if (editAddonTips) {
+                        editAddonTips.textContent = perGbMode ? '每GB 套餐的加油包报价不可编辑；请在下方查看运营商报价。' : '可编辑该套餐下加油包的指导价与建议零售价，保存时与套餐定价一起提交。';
+                    }
+                    if (editOperatorRatesWrap) editOperatorRatesWrap.classList.toggle('d-none', !perGbMode);
                 }
             });
         }
         document.getElementById('editPricingSave').addEventListener('click', function () {
             var status = document.getElementById('editPricingStatus').value;
+            var perGbMode = document.getElementById('editSupplierBillingValue').value === '每GB';
             var guidePriceVal = parseFloat(document.getElementById('editGuidePrice').value || '0');
             var retailPriceVal = parseFloat(document.getElementById('editRetailPrice').value || '0');
             var map = window.__guideCatalogDetailMap || {};
@@ -1149,8 +1292,10 @@
                     var guideInput = row.querySelector('.edit-addon-guide');
                     var retailInput = row.querySelector('.edit-addon-retail');
                     var statusSelect = row.querySelector('.edit-addon-status');
-                    detail.addons[idx].guide = guideInput ? (guideInput.value || '').trim() : '';
-                    detail.addons[idx].retail = retailInput ? (retailInput.value || '').trim() : '';
+                    if (!perGbMode) {
+                        detail.addons[idx].guide = guideInput ? (guideInput.value || '').trim() : '';
+                        detail.addons[idx].retail = retailInput ? (retailInput.value || '').trim() : '';
+                    }
                     detail.addons[idx].status = statusSelect ? statusSelect.value : detail.addons[idx].status;
                 });
             }
@@ -1158,15 +1303,19 @@
                 var tr = currentEditPricingBtn.closest('tr');
                 if (tr) {
                     tr.setAttribute('data-pricing-status', status);
-                    var costCell = tr.children[8];
-                    var guideCell = tr.children[9];
-                    var retailCell = tr.children[10];
-                    var costNum = costCell ? toNumber(costCell.textContent.trim()) : NaN;
-                    if (guideCell) {
-                        var diff = !isNaN(costNum) ? (guidePriceVal - costNum) : 0;
-                        guideCell.innerHTML = '<strong>$' + guidePriceVal.toFixed(2) + '</strong> <small class="' + (diff >= 0 ? 'text-success' : 'text-danger') + '">(' + (diff >= 0 ? '+' : '') + diff.toFixed(2) + ')</small>';
+                    if (!perGbMode) {
+                        var costCell = tr.children[8];
+                        var guideCell = tr.children[9];
+                        var retailCell = tr.children[10];
+                        var costNum = costCell ? toNumber(costCell.textContent.trim()) : NaN;
+                        if (guideCell) {
+                            var diff = !isNaN(costNum) ? (guidePriceVal - costNum) : 0;
+                            guideCell.innerHTML = '<strong>$' + guidePriceVal.toFixed(2) + '</strong> <small class="' + (diff >= 0 ? 'text-success' : 'text-danger') + '">(' + (diff >= 0 ? '+' : '') + diff.toFixed(2) + ')</small>';
+                        }
+                        if (retailCell) retailCell.textContent = '$' + retailPriceVal.toFixed(2);
+                    } else {
+                        renderPerGbRowPricing(tr);
                     }
-                    if (retailCell) retailCell.textContent = '$' + retailPriceVal.toFixed(2);
                     var statusCell = tr.querySelector('.pricing-status-cell');
                     if (statusCell) {
                         statusCell.innerHTML = status === 'disabled' ? '<span class="badge bg-secondary">禁售</span>' : '<span class="badge bg-success">在售</span>';
@@ -1285,6 +1434,7 @@
                 if (pricingCheckAll) pricingCheckAll.checked = false;
             });
             if (pricingListBody) {
+                renderPerGbRowsInList();
                 pricingListBody.addEventListener('click', function (e) {
                     if (e.target.closest('.pricing-view-detail-btn')) {
                         var tr = e.target.closest('tr');
@@ -1292,6 +1442,7 @@
                         var cells = tr.children;
                         var pkgCode = (cells[2] ? cells[2].textContent : '').trim();
                         var detail = catalogDetailMap[pkgCode] || {};
+                        var perGbMode = isPerGbRow(tr);
                         setText('detailPackageName', cells[1] ? cells[1].textContent.trim() : '-');
                         setText('detailPackageCode', pkgCode || '-');
                         setText('detailPackageType', cells[3] ? cells[3].textContent.trim() : '-');
@@ -1300,8 +1451,8 @@
                         setText('detailSupplierBilling', cells[6] ? cells[6].textContent.trim() : '-');
                         setText('detailCurrency', cells[7] ? cells[7].textContent.trim() : '-');
                         setText('detailCost', cells[8] ? cells[8].textContent.trim() : '-');
-                        setText('detailGuidePrice', cells[9] ? cells[9].textContent.trim().replace(/\s+/g, ' ') : '-');
-                        setText('detailRetailPrice', cells[10] ? cells[10].textContent.trim() : '-');
+                        setText('detailGuidePrice', perGbMode ? '按运营商报价' : (cells[9] ? cells[9].textContent.trim().replace(/\s+/g, ' ') : '-'));
+                        setText('detailRetailPrice', perGbMode ? '按运营商报价' : (cells[10] ? cells[10].textContent.trim() : '-'));
                         setText('detailStatus', cells[11] ? cells[11].textContent.trim() : '-');
                         setText('detailSupplierPackageId', detail.supplierPackageId);
                         setText('detailSupplier', detail.supplier);
@@ -1314,6 +1465,11 @@
                         setText('detailSyncTime', detail.syncTime);
                         setText('detailCatalogStatus', detail.catalogStatus);
                         renderAddonRows(detail.addons);
+                        renderOperatorRateRows('detailOperatorRatesTbody', pkgCode);
+                        var detailOpWrap = document.getElementById('detailOperatorRatesWrap');
+                        var detailAddonWrap = document.getElementById('detailAddonWrap');
+                        if (detailOpWrap) detailOpWrap.classList.toggle('d-none', !perGbMode);
+                        if (detailAddonWrap) detailAddonWrap.classList.toggle('d-none', perGbMode);
                         bootstrap.Modal.getOrCreateInstance(document.getElementById('pricingDetailModal')).show();
                         return;
                     }

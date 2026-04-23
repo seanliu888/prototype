@@ -161,9 +161,9 @@
                                     <td><span class="badge bg-info">区域</span> 亚洲（多国）</td>
                                     <td>多运营商</td>
                                     <td>USD</td>
-                                    <td>$ 18.00</td>
-                                    <td><strong>$ 28.00</strong> <small class="text-success">(+10.00)</small><br><small class="text-muted">原：$ 30.00</small></td>
-                                    <td><strong>$ 35.00</strong><br><small class="text-muted">原：$ 38.00</small></td>
+                                    <td class="pricing-package-cost-cell">$ 18.00</td>
+                                    <td class="pricing-package-price-cell"><strong>$ 28.00</strong> <small class="text-success">(+10.00)</small><br><small class="text-muted">原：$ 30.00</small></td>
+                                    <td class="pricing-package-retail-cell"><strong>$ 35.00</strong><br><small class="text-muted">原：$ 38.00</small></td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -188,9 +188,9 @@
                                     <td><span class="badge bg-info">区域</span> 全球</td>
                                     <td>多运营商</td>
                                     <td>USD</td>
-                                    <td>$ 35.00</td>
-                                    <td>$ 52.00</td>
-                                    <td>$ 65.00</td>
+                                    <td class="pricing-package-cost-cell">$ 35.00</td>
+                                    <td class="pricing-package-price-cell">$ 52.00</td>
+                                    <td class="pricing-package-retail-cell">$ 65.00</td>
                                     <td>2025-01-10 09:00</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -214,9 +214,9 @@
                                     <td><span class="badge bg-info">区域</span> 欧洲（多国）</td>
                                     <td>Vodafone</td>
                                     <td>USD</td>
-                                    <td>$ 45.00</td>
-                                    <td><strong>$ 68.00</strong> <small class="text-success">(+23.00)</small><br><small class="text-muted">原：$ 72.00</small></td>
-                                    <td><strong>$ 88.00</strong><br><small class="text-muted">原：$ 95.00</small></td>
+                                    <td class="pricing-package-cost-cell">$ 45.00</td>
+                                    <td class="pricing-package-price-cell"><strong>$ 68.00</strong> <small class="text-success">(+23.00)</small><br><small class="text-muted">原：$ 72.00</small></td>
+                                    <td class="pricing-package-retail-cell"><strong>$ 88.00</strong><br><small class="text-muted">原：$ 95.00</small></td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -240,9 +240,9 @@
                                     <td><span class="badge bg-secondary">国家</span> 日本</td>
                                     <td>NTT Docomo</td>
                                     <td>USD</td>
-                                    <td>$ 22.00</td>
-                                    <td><strong>$ 32.00</strong> <small class="text-success">(+10.00)</small><br><small class="text-muted">原：—</small></td>
-                                    <td><strong>$ 42.00</strong><br><small class="text-muted">原：—</small></td>
+                                    <td class="pricing-package-cost-cell">$ 22.00</td>
+                                    <td class="pricing-package-price-cell"><strong>$ 32.00</strong> <small class="text-success">(+10.00)</small><br><small class="text-muted">原：—</small></td>
+                                    <td class="pricing-package-retail-cell"><strong>$ 42.00</strong><br><small class="text-muted">原：—</small></td>
                                     <td>2025-01-15 10:30</td>
                                     <td><span class="badge bg-success pricing-status-badge">在售</span></td>
                                     <td>
@@ -266,9 +266,9 @@
                                     <td><span class="badge bg-info">区域</span> 亚洲（多国）</td>
                                     <td>多运营商</td>
                                     <td>USD</td>
-                                    <td>—</td>
-                                    <td><strong>$ 30.00</strong> <small class="text-success">(+2.00)</small><br><small class="text-muted">原：$ 28.00</small></td>
-                                    <td><strong>$ 38.00</strong><br><small class="text-muted">原：$ 35.00</small></td>
+                                    <td class="pricing-package-cost-cell">—</td>
+                                    <td class="pricing-package-price-cell"><strong>$ 30.00</strong> <small class="text-success">(+2.00)</small><br><small class="text-muted">原：$ 28.00</small></td>
+                                    <td class="pricing-package-retail-cell"><strong>$ 38.00</strong><br><small class="text-muted">原：$ 35.00</small></td>
                                     <td>2025-02-01 14:20</td>
                                     <td><span class="badge bg-secondary pricing-status-badge">禁售</span></td>
                                     <td>
@@ -856,6 +856,82 @@
                 alert('已设为在售（原型演示）');
             }
         }
+
+        var perGbPackageRatesByPkg = {
+            'pkg_1002': [
+                { country: 'France', operator: 'Orange', cost: '43.50', price: '68.00', retail: '88.00' },
+                { country: 'France', operator: 'SFR', cost: '44.20', price: '69.20', retail: '89.80' },
+                { country: 'Germany', operator: 'Vodafone', cost: '45.00', price: '70.00', retail: '90.50' }
+            ],
+            'pkg_2001': [
+                { country: 'Thailand', operator: 'AIS', cost: '16.50', price: '30.00', retail: '38.00' },
+                { country: 'Thailand', operator: 'dtac', cost: '17.20', price: '30.80', retail: '38.80' },
+                { country: 'Vietnam', operator: 'Viettel', cost: '15.90', price: '29.90', retail: '37.90' }
+            ]
+        };
+
+        function renderPackageRateLines(cell, lines) {
+            if (!cell) return;
+            cell.innerHTML = '';
+            if (!lines || !lines.length) {
+                cell.textContent = '暂无运营商报价';
+                return;
+            }
+            var first = document.createElement('div');
+            first.className = 'small text-truncate';
+            first.style.maxWidth = '190px';
+            first.title = lines[0];
+            first.textContent = lines[0];
+            cell.appendChild(first);
+            if (lines.length > 1) {
+                var toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'btn btn-link btn-sm p-0';
+                toggle.style.lineHeight = '1';
+                toggle.textContent = '+' + (lines.length - 1);
+                cell.appendChild(toggle);
+                var detail = document.createElement('div');
+                detail.className = 'mt-1 d-none';
+                lines.slice(1).forEach(function (text) {
+                    var line = document.createElement('div');
+                    line.className = 'small';
+                    line.textContent = text;
+                    detail.appendChild(line);
+                });
+                cell.appendChild(detail);
+                toggle.addEventListener('click', function () {
+                    var hidden = detail.classList.toggle('d-none');
+                    toggle.textContent = hidden ? '+' + (lines.length - 1) : '收起';
+                });
+            }
+        }
+
+        function renderPerGbPackageRow(row) {
+            if (!row) return;
+            var billingCell = row.children[1];
+            var billingBadge = billingCell ? billingCell.querySelector('.badge') : null;
+            var finalBilling = billingBadge ? (billingBadge.textContent || '').trim() : '';
+            if (finalBilling !== '每GB') return;
+            var pkgCode = row.getAttribute('data-catalog-pkg') || '';
+            var rates = (perGbPackageRatesByPkg[pkgCode] || []).slice();
+            var costLines = rates.map(function (r) { return r.country + ' / ' + r.operator + ' / $' + r.cost; });
+            var priceLines = rates.map(function (r) { return r.country + ' / ' + r.operator + ' / $' + r.price; });
+            var retailLines = rates.map(function (r) { return r.country + ' / ' + r.operator + ' / $' + r.retail; });
+            var costCell = row.querySelector('.pricing-package-cost-cell');
+            var priceCell = row.querySelector('.pricing-package-price-cell');
+            var retailCell = row.querySelector('.pricing-package-retail-cell');
+            if (!costCell || !priceCell || !retailCell) return;
+            renderPackageRateLines(costCell, costLines);
+            renderPackageRateLines(priceCell, priceLines);
+            renderPackageRateLines(retailCell, retailLines);
+        }
+
+        function initPerGbPackageDisplay() {
+            document.querySelectorAll('#pricingPackageTableBody tr').forEach(function (row) {
+                renderPerGbPackageRow(row);
+            });
+        }
+        initPerGbPackageDisplay();
 
         (function () {
             var tableBody = document.getElementById('pricingOperatorTableBody');
