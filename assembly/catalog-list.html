@@ -267,7 +267,23 @@
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label">关键字</label>
-                                        <input type="text" class="form-control" id="operatorFilterKeyword" placeholder="搜索运营商名称 / MCC / MNC / 网络状态">
+                                        <input type="text" class="form-control" id="operatorFilterKeyword" placeholder="搜索运营商名称 / MCC / MNC / 网络状态 / 覆盖质量">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">覆盖质量</label>
+                                        <select class="form-select" id="operatorFilterCoverageQuality">
+                                            <option value="">全部</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label">状态</label>
@@ -312,13 +328,14 @@
                                             <th>地区/国家</th>
                                             <th>MCC/MNC</th>
                                             <th>网络类型</th>
+                                            <th>覆盖质量</th>
                                             <th>报价(/G)</th>
                                             <th>状态</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody id="operatorTableBody">
-                                        <tr data-supplier="eSIM 全球供" data-code="OPR-7F3A9C1D2B" data-name="France-Orange (mcc208_mnc01)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-price="43.50" data-status="有效" data-dict-status="已匹配" data-remark="法国 Orange 主线路，优先 5G。">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-7F3A9C1D2B" data-name="France-Orange (mcc208_mnc01)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-coverage-quality="9" data-price="43.50" data-status="有效" data-dict-status="已匹配" data-remark="法国 Orange 主线路，优先 5G。">
                                             <td>eSIM 全球供</td>
                                             <td><code>OPR-7F3A9C1D2B</code></td>
                                             <td>France-Orange (mcc208_mnc01)</td>
@@ -326,6 +343,7 @@
                                             <td>法国</td>
                                             <td><code>208/01</code></td>
                                             <td>5G</td>
+                                            <td class="operator-quality-cell">9</td>
                                             <td class="operator-price-cell">USD $ 43.50</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
@@ -335,7 +353,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="OPR-9A1E4B6C8D" data-name="France-SFR (mcc208_mnc10)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-price="44.20" data-status="有效" data-dict-status="已匹配" data-remark="SFR 备用线路。">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-9A1E4B6C8D" data-name="France-SFR (mcc208_mnc10)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-coverage-quality="8" data-price="44.20" data-status="有效" data-dict-status="已匹配" data-remark="SFR 备用线路。">
                                             <td>eSIM 全球供</td>
                                             <td><code>OPR-9A1E4B6C8D</code></td>
                                             <td>France-SFR (mcc208_mnc10)</td>
@@ -343,6 +361,7 @@
                                             <td>法国</td>
                                             <td><code>208/10</code></td>
                                             <td>4G/5G</td>
+                                            <td class="operator-quality-cell">8</td>
                                             <td class="operator-price-cell">USD $ 44.20</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
@@ -352,7 +371,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="OPR-2C8D5E1F9A" data-name="Germany-Vodafone (mcc262_mnc02)" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-price="45.00" data-status="有效" data-dict-status="已匹配" data-remark="">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-2C8D5E1F9A" data-name="Germany-Vodafone (mcc262_mnc02)" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-coverage-quality="9" data-price="45.00" data-status="有效" data-dict-status="已匹配" data-remark="">
                                             <td>eSIM 全球供</td>
                                             <td><code>OPR-2C8D5E1F9A</code></td>
                                             <td>Germany-Vodafone (mcc262_mnc02)</td>
@@ -360,6 +379,7 @@
                                             <td>德国</td>
                                             <td><code>262/02</code></td>
                                             <td>5G</td>
+                                            <td class="operator-quality-cell">9</td>
                                             <td class="operator-price-cell">USD $ 45.00</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
@@ -369,7 +389,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-6B4D1A8C3E" data-name="Thailand-AIS (mcc520_mnc01)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-price="16.50" data-status="有效" data-dict-status="已匹配" data-remark="">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-6B4D1A8C3E" data-name="Thailand-AIS (mcc520_mnc01)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-coverage-quality="7" data-price="16.50" data-status="有效" data-dict-status="已匹配" data-remark="">
                                             <td>跨境 eSIM 源</td>
                                             <td><code>OPR-6B4D1A8C3E</code></td>
                                             <td>Thailand-AIS (mcc520_mnc01)</td>
@@ -377,6 +397,7 @@
                                             <td>泰国</td>
                                             <td><code>520/01</code></td>
                                             <td>4G</td>
+                                            <td class="operator-quality-cell">7</td>
                                             <td class="operator-price-cell">USD $ 16.50</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
@@ -386,7 +407,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-1E7C9B4A6D" data-name="Thailand-dtac (mcc520_mnc05)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-price="17.20" data-status="停用" data-dict-status="已匹配" data-remark="暂停供货，待恢复。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-1E7C9B4A6D" data-name="Thailand-dtac (mcc520_mnc05)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-coverage-quality="6" data-price="17.20" data-status="停用" data-dict-status="已匹配" data-remark="暂停供货，待恢复。">
                                             <td>跨境 eSIM 源</td>
                                             <td><code>OPR-1E7C9B4A6D</code></td>
                                             <td>Thailand-dtac (mcc520_mnc05)</td>
@@ -394,6 +415,7 @@
                                             <td>泰国</td>
                                             <td><code>520/05</code></td>
                                             <td>4G</td>
+                                            <td class="operator-quality-cell">6</td>
                                             <td class="operator-price-cell">USD $ 17.20</td>
                                             <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
                                             <td>
@@ -403,7 +425,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="-Q7M2X9C4L1" data-name="Unknown-Carrier (-Z8P3N6R2T5)" data-region="-" data-area="-" data-mcc="-" data-mnc="-" data-network="4G/5G" data-price="15.80" data-status="停用" data-dict-status="未匹配" data-remark="字典待维护。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="-Q7M2X9C4L1" data-name="Unknown-Carrier (-Z8P3N6R2T5)" data-region="-" data-area="-" data-mcc="-" data-mnc="-" data-network="4G/5G" data-coverage-quality="4" data-price="15.80" data-status="停用" data-dict-status="未匹配" data-remark="字典待维护。">
                                             <td>跨境 eSIM 源</td>
                                             <td><code>-Q7M2X9C4L1</code></td>
                                             <td>Unknown-Carrier (-Z8P3N6R2T5)</td>
@@ -411,6 +433,7 @@
                                             <td>-</td>
                                             <td><code>-/-</code></td>
                                             <td>4G/5G</td>
+                                            <td class="operator-quality-cell">4</td>
                                             <td class="operator-price-cell">USD $ 15.80</td>
                                             <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
                                             <td>
@@ -553,6 +576,7 @@
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">地区/国家</label><div id="operatorDetailArea"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">MCC/MNC</label><div id="operatorDetailMccMnc"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">网络类型</label><div id="operatorDetailNetwork"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">覆盖质量</label><div id="operatorDetailCoverageQuality"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">报价(/G)</label><div id="operatorDetailPrice"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">状态</label><div id="operatorDetailStatus"></div></div>
                         <div class="col-12"><label class="form-label text-muted small mb-1">备注</label><div id="operatorDetailRemark" class="text-break"></div></div>
@@ -612,6 +636,11 @@
                     <div class="mb-3">
                         <label class="form-label">网络类型</label>
                         <input type="text" class="form-control" id="operatorEditNetwork" placeholder="例如：4G / 5G / 4G/5G">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">覆盖质量 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="operatorEditCoverageQuality" min="1" max="10" step="1" required>
+                        <small class="text-muted">整型，范围 1-10</small>
                     </div>
                     <div class="mb-0">
                         <label class="form-label">备注</label>
@@ -957,6 +986,7 @@
                         document.getElementById('operatorDetailArea').textContent = row.getAttribute('data-area') || '-';
                         document.getElementById('operatorDetailMccMnc').textContent = (row.getAttribute('data-mcc') || '-') + '/' + (row.getAttribute('data-mnc') || '-');
                         document.getElementById('operatorDetailNetwork').textContent = row.getAttribute('data-network') || '-';
+                        document.getElementById('operatorDetailCoverageQuality').textContent = row.getAttribute('data-coverage-quality') || '-';
                         document.getElementById('operatorDetailPrice').textContent = 'USD $ ' + ((row.getAttribute('data-price') || '0'));
                         document.getElementById('operatorDetailStatus').innerHTML = operatorStatusBadge(row.getAttribute('data-status') || '停用');
                         document.getElementById('operatorDetailRemark').textContent = row.getAttribute('data-remark') || '-';
@@ -985,6 +1015,7 @@
                         document.getElementById('operatorEditPrice').value = row.getAttribute('data-price') || '';
                         document.getElementById('operatorEditStatus').value = row.getAttribute('data-status') || '有效';
                         document.getElementById('operatorEditNetwork').value = row.getAttribute('data-network') || '';
+                        document.getElementById('operatorEditCoverageQuality').value = row.getAttribute('data-coverage-quality') || '';
                         document.getElementById('operatorEditRemark').value = row.getAttribute('data-remark') || '';
                         bootstrap.Modal.getOrCreateInstance(document.getElementById('operatorEditModal')).show();
                     });
@@ -997,10 +1028,15 @@
                 var priceValue = (document.getElementById('operatorEditPrice').value || '').trim();
                 var statusValue = document.getElementById('operatorEditStatus').value;
                 var networkValue = (document.getElementById('operatorEditNetwork').value || '').trim();
+                var coverageQualityValue = (document.getElementById('operatorEditCoverageQuality').value || '').trim();
                 var remarkValue = (document.getElementById('operatorEditRemark').value || '').trim();
 
                 if (!nameValue) return alert('请选择名称');
                 if (!priceValue || !normalizeQuote(priceValue)) return alert('请填写有效报价');
+                var coverageQualityNum = parseInt(coverageQualityValue, 10);
+                if (!coverageQualityValue || String(coverageQualityNum) !== coverageQualityValue || coverageQualityNum < 1 || coverageQualityNum > 10) {
+                    return alert('覆盖质量需为 1-10 的整数');
+                }
 
                 var row = document.querySelector('#operatorTableBody tr[data-code="' + code + '"]');
                 if (!row) return;
@@ -1010,6 +1046,7 @@
                 row.setAttribute('data-price', priceText);
                 row.setAttribute('data-status', statusValue);
                 row.setAttribute('data-network', networkValue);
+                row.setAttribute('data-coverage-quality', String(coverageQualityNum));
                 row.setAttribute('data-remark', remarkValue);
                 syncRowDictStatus(row);
 
@@ -1017,10 +1054,12 @@
                 var priceCell = row.querySelector('.operator-price-cell');
                 var statusCell = row.querySelector('.operator-status-cell');
                 var networkCell = row.children[6];
+                var coverageQualityCell = row.querySelector('.operator-quality-cell');
                 if (nameCell) nameCell.textContent = nameValue;
                 if (priceCell) priceCell.textContent = 'USD $ ' + priceText;
                 if (statusCell) statusCell.innerHTML = operatorStatusBadge(statusValue);
                 if (networkCell) networkCell.textContent = networkValue;
+                if (coverageQualityCell) coverageQualityCell.textContent = String(coverageQualityNum);
 
                 bootstrap.Modal.getInstance(document.getElementById('operatorEditModal')).hide();
                 applyOperatorFilter();
@@ -1031,6 +1070,7 @@
                 var region = (document.getElementById('operatorFilterRegion').value || '').trim();
                 var area = (document.getElementById('operatorFilterArea').value || '').trim();
                 var keyword = (document.getElementById('operatorFilterKeyword').value || '').trim().toLowerCase();
+                var coverageQuality = (document.getElementById('operatorFilterCoverageQuality').value || '').trim();
                 var status = (document.getElementById('operatorFilterStatus').value || '').trim();
                 var dictStatus = (document.getElementById('operatorFilterDictStatus').value || '').trim();
 
@@ -1042,6 +1082,7 @@
                     var rowMcc = (row.getAttribute('data-mcc') || '').toLowerCase();
                     var rowMnc = (row.getAttribute('data-mnc') || '').toLowerCase();
                     var rowNetwork = (row.getAttribute('data-network') || '').toLowerCase();
+                    var rowCoverageQuality = (row.getAttribute('data-coverage-quality') || '').trim();
                     var rowStatus = row.getAttribute('data-status') || '';
                     var rowDictStatus = row.getAttribute('data-dict-status') || '';
 
@@ -1049,10 +1090,11 @@
                     if (supplier && rowSupplier !== supplier) visible = false;
                     if (region && rowRegion !== region) visible = false;
                     if (area && rowArea !== area) visible = false;
+                    if (coverageQuality && rowCoverageQuality !== coverageQuality) visible = false;
                     if (status && rowStatus !== status) visible = false;
                     if (dictStatus && rowDictStatus !== dictStatus) visible = false;
                     if (keyword) {
-                        var keywordText = [rowName, rowMcc, rowMnc, rowNetwork, rowStatus.toLowerCase()].join(' ');
+                        var keywordText = [rowName, rowMcc, rowMnc, rowNetwork, rowCoverageQuality, rowStatus.toLowerCase()].join(' ');
                         if (keywordText.indexOf(keyword) === -1) visible = false;
                     }
 
@@ -1066,6 +1108,7 @@
                 document.getElementById('operatorFilterRegion').value = '';
                 document.getElementById('operatorFilterArea').value = '';
                 document.getElementById('operatorFilterKeyword').value = '';
+                document.getElementById('operatorFilterCoverageQuality').value = '';
                 document.getElementById('operatorFilterStatus').value = '';
                 document.getElementById('operatorFilterDictStatus').value = '';
                 applyOperatorFilter();

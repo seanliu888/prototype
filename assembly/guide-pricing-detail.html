@@ -286,9 +286,147 @@
                     </div>
 
                     <div class="tab-pane fade" id="guide-operator-pane" role="tabpanel" aria-labelledby="guide-operator-tab">
+                        <div class="content-card mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="text-muted mb-0">筛选条件</h6>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-2">
+                                    <label class="form-label">供应商</label>
+                                    <select class="form-select form-select-sm" id="guideOperatorFilterSupplier">
+                                        <option value="">全部</option>
+                                        <option value="eSIM 全球供">eSIM 全球供</option>
+                                        <option value="跨境 eSIM 源">跨境 eSIM 源</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">区域</label>
+                                    <select class="form-select form-select-sm" id="guideOperatorFilterRegion">
+                                        <option value="">全部</option>
+                                        <option value="欧洲">欧洲</option>
+                                        <option value="亚洲">亚洲</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">地区/国家</label>
+                                    <select class="form-select form-select-sm" id="guideOperatorFilterArea">
+                                        <option value="">全部</option>
+                                        <option value="法国">法国</option>
+                                        <option value="德国">德国</option>
+                                        <option value="泰国">泰国</option>
+                                        <option value="越南">越南</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">关键字</label>
+                                    <input type="text" class="form-control form-control-sm" id="guideOperatorFilterKeyword" placeholder="搜索运营商名称 / MCC / MNC / 网络状态 / 覆盖质量">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">覆盖质量</label>
+                                    <select class="form-select form-select-sm" id="guideOperatorFilterCoverageQuality">
+                                        <option value="">全部</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">状态</label>
+                                    <select class="form-select form-select-sm" id="guideOperatorFilterStatus">
+                                        <option value="">全部</option>
+                                        <option value="onsale">在售</option>
+                                        <option value="disabled">禁售</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 d-flex align-items-end">
+                                    <button type="button" class="btn btn-primary btn-sm me-2" id="btnGuideOperatorSearch"><i class="bi bi-search me-1"></i>查询</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnGuideOperatorReset">重置</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="content-card">
-                            <h6 class="text-muted mb-3">运营商</h6>
-                            <div class="text-muted">运营商报价内容待补充</div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="text-muted mb-0">运营商报价列表</h6>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addOperatorModal"><i class="bi bi-plus-circle me-1"></i>添加运营商</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="btnGuideOperatorExport"><i class="bi bi-download me-1"></i>导出</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" id="btnDeleteSelectedOperators"><i class="bi bi-trash me-1"></i>删除选中</button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 2.5rem;"><input type="checkbox" class="form-check-input" id="guideOperatorCheckAll"></th>
+                                            <th>供应商</th>
+                                            <th>编码</th>
+                                            <th>名称</th>
+                                            <th>区域</th>
+                                            <th>地区/国家</th>
+                                            <th>MCC/MNC</th>
+                                            <th>网络类型</th>
+                                            <th>覆盖质量</th>
+                                            <th>成本(/G)</th>
+                                            <th>指导价（浮动）(/G)</th>
+                                            <th>建议零售价(/G)</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="guideOperatorTableBody">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-7F3A9C1D2B" data-name="France-Orange (mcc208_mnc01)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-coverage-quality="9" data-price="43.50" data-cost="43.50" data-guide="56.55" data-retail="65.25" data-status="onsale">
+                                            <td><input type="checkbox" class="form-check-input guide-operator-row-check"></td>
+                                            <td>eSIM 全球供</td>
+                                            <td><code>OPR-7F3A9C1D2B</code></td>
+                                            <td>France-Orange (mcc208_mnc01)</td>
+                                            <td>欧洲</td>
+                                            <td>法国</td>
+                                            <td><code>208/01</code></td>
+                                            <td>5G</td>
+                                            <td>9</td>
+                                            <td>$43.50</td>
+                                            <td><strong>$56.55</strong> <small class="text-success">(+13.05)</small></td>
+                                            <td><strong>$65.25</strong> <small class="text-success">(+21.75)</small></td>
+                                            <td><span class="badge bg-success">在售</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary guide-operator-view-btn" title="查看详情"><i class="bi bi-eye"></i></button>
+                                                    <button type="button" class="btn btn-outline-warning guide-operator-edit-btn" title="编辑"><i class="bi bi-pencil"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-6B4D1A8C3E" data-name="Thailand-AIS (mcc520_mnc01)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-coverage-quality="7" data-price="16.50" data-cost="16.50" data-guide="21.45" data-retail="24.75" data-status="disabled">
+                                            <td><input type="checkbox" class="form-check-input guide-operator-row-check"></td>
+                                            <td>跨境 eSIM 源</td>
+                                            <td><code>OPR-6B4D1A8C3E</code></td>
+                                            <td>Thailand-AIS (mcc520_mnc01)</td>
+                                            <td>亚洲</td>
+                                            <td>泰国</td>
+                                            <td><code>520/01</code></td>
+                                            <td>4G</td>
+                                            <td>7</td>
+                                            <td>$16.50</td>
+                                            <td><strong>$21.45</strong> <small class="text-success">(+4.95)</small></td>
+                                            <td><strong>$24.75</strong> <small class="text-success">(+8.25)</small></td>
+                                            <td><span class="badge bg-secondary">禁售</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary guide-operator-view-btn" title="查看详情"><i class="bi bi-eye"></i></button>
+                                                    <button type="button" class="btn btn-outline-warning guide-operator-edit-btn" title="编辑"><i class="bi bi-pencil"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -649,6 +787,295 @@
         </div>
     </div>
 
+    <div class="modal fade" id="addOperatorModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加运营商到模板</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">通过筛选并勾选运营商添加到当前模板，添加后可在运营商报价列表中进一步编辑报价。</p>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-2">
+                            <label class="form-label">供应商</label>
+                            <select class="form-select form-select-sm" id="addOperatorFilterSupplier">
+                                <option value="">全部</option>
+                                <option value="eSIM 全球供">eSIM 全球供</option>
+                                <option value="跨境 eSIM 源">跨境 eSIM 源</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">区域</label>
+                            <select class="form-select form-select-sm" id="addOperatorFilterRegion">
+                                <option value="">全部</option>
+                                <option value="欧洲">欧洲</option>
+                                <option value="亚洲">亚洲</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">地区/国家</label>
+                            <select class="form-select form-select-sm" id="addOperatorFilterArea">
+                                <option value="">全部</option>
+                                <option value="法国">法国</option>
+                                <option value="德国">德国</option>
+                                <option value="泰国">泰国</option>
+                                <option value="越南">越南</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">关键字</label>
+                            <input type="text" class="form-control form-control-sm" id="addOperatorFilterKeyword" placeholder="名称 / MCC / MNC / 覆盖质量">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">覆盖质量</label>
+                            <select class="form-select form-select-sm" id="addOperatorFilterCoverageQuality">
+                                <option value="">全部</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button class="btn btn-primary btn-sm me-2" id="addOperatorSearch"><i class="bi bi-search me-1"></i>查询</button>
+                            <button class="btn btn-outline-secondary btn-sm" id="addOperatorReset">重置</button>
+                        </div>
+                    </div>
+                    <div class="border rounded p-3 mb-3 bg-light">
+                        <h6 class="text-muted mb-2">批量设置指导价</h6>
+                        <p class="text-muted small mb-2">添加选中运营商时，将按以下规则批量计算指导价与建议零售价（基于报价(/G)）。</p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">指导价</label>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addOperatorGuidePriceMode" id="addOperatorGuidePriceRatio" value="ratio" class="form-check-input" checked>
+                                        <label class="form-check-label" for="addOperatorGuidePriceRatio">按利润率</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 +</span>
+                                        <input type="number" class="form-control form-control-sm" id="addOperatorGuidePriceRatioVal" placeholder="30" step="0.01" min="0" style="width: 4.5rem;">
+                                        <span>%</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addOperatorGuidePriceMode" id="addOperatorGuidePriceAmount" value="amount" class="form-check-input">
+                                        <label class="form-check-label" for="addOperatorGuidePriceAmount">按固定金额</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 + $</span>
+                                        <input type="number" class="form-control form-control-sm" id="addOperatorGuidePriceAmountVal" placeholder="2" step="0.01" style="width: 4.5rem;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">建议零售价</label>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addOperatorRetailPriceMode" id="addOperatorRetailPriceRatio" value="ratio" class="form-check-input" checked>
+                                        <label class="form-check-label" for="addOperatorRetailPriceRatio">按利润率</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 +</span>
+                                        <input type="number" class="form-control form-control-sm" id="addOperatorRetailPriceRatioVal" placeholder="50" step="0.01" min="0" style="width: 4.5rem;">
+                                        <span>%</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+                                    <div class="form-check form-check-inline mb-0">
+                                        <input type="radio" name="addOperatorRetailPriceMode" id="addOperatorRetailPriceAmount" value="amount" class="form-check-input">
+                                        <label class="form-check-label" for="addOperatorRetailPriceAmount">按固定金额</label>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span>报价 + $</span>
+                                        <input type="number" class="form-control form-control-sm" id="addOperatorRetailPriceAmountVal" placeholder="5" step="0.01" style="width: 4.5rem;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 2.5rem;"><input type="checkbox" class="form-check-input" id="addOperatorCheckAll"></th>
+                                    <th>供应商</th>
+                                    <th>编码</th>
+                                    <th>名称</th>
+                                    <th>区域</th>
+                                    <th>地区/国家</th>
+                                    <th>MCC/MNC</th>
+                                    <th>网络类型</th>
+                                    <th>覆盖质量</th>
+                                    <th>报价(/G)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="addOperatorTableBody">
+                                <tr data-supplier="eSIM 全球供" data-code="OPR-9A1E4B6C8D" data-name="France-SFR (mcc208_mnc10)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-coverage-quality="8" data-price="44.20" data-status="onsale">
+                                    <td><input type="checkbox" class="form-check-input add-operator-row-check"></td>
+                                    <td>eSIM 全球供</td>
+                                    <td><code>OPR-9A1E4B6C8D</code></td>
+                                    <td>France-SFR (mcc208_mnc10)</td>
+                                    <td>欧洲</td>
+                                    <td>法国</td>
+                                    <td><code>208/10</code></td>
+                                    <td>4G/5G</td>
+                                    <td>8</td>
+                                    <td>$44.20</td>
+                                </tr>
+                                <tr data-supplier="eSIM 全球供" data-code="OPR-2C8D5E1F9A" data-name="Germany-Vodafone (mcc262_mnc02)" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-coverage-quality="9" data-price="45.00" data-status="onsale">
+                                    <td><input type="checkbox" class="form-check-input add-operator-row-check"></td>
+                                    <td>eSIM 全球供</td>
+                                    <td><code>OPR-2C8D5E1F9A</code></td>
+                                    <td>Germany-Vodafone (mcc262_mnc02)</td>
+                                    <td>欧洲</td>
+                                    <td>德国</td>
+                                    <td><code>262/02</code></td>
+                                    <td>5G</td>
+                                    <td>9</td>
+                                    <td>$45.00</td>
+                                </tr>
+                                <tr data-supplier="跨境 eSIM 源" data-code="OPR-1E7C9B4A6D" data-name="Thailand-dtac (mcc520_mnc05)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-coverage-quality="6" data-price="17.20" data-status="disabled">
+                                    <td><input type="checkbox" class="form-check-input add-operator-row-check"></td>
+                                    <td>跨境 eSIM 源</td>
+                                    <td><code>OPR-1E7C9B4A6D</code></td>
+                                    <td>Thailand-dtac (mcc520_mnc05)</td>
+                                    <td>亚洲</td>
+                                    <td>泰国</td>
+                                    <td><code>520/05</code></td>
+                                    <td>4G</td>
+                                    <td>6</td>
+                                    <td>$17.20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="addOperatorSubmit">添加选中运营商</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="guideOperatorDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">运营商详情</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">供应商</label><div id="guideOperatorDetailSupplier">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">编码</label><div><code id="guideOperatorDetailCode">-</code></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">名称</label><div id="guideOperatorDetailName">-</div></div>
+                        <div class="col-md-3"><label class="form-label text-muted small mb-1">区域</label><div id="guideOperatorDetailRegion">-</div></div>
+                        <div class="col-md-3"><label class="form-label text-muted small mb-1">地区/国家</label><div id="guideOperatorDetailArea">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">MCC/MNC</label><div><code id="guideOperatorDetailMccMnc">-</code></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">网络类型</label><div id="guideOperatorDetailNetwork">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">覆盖质量</label><div id="guideOperatorDetailCoverageQuality">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">成本(/G)</label><div id="guideOperatorDetailCost">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">指导价（浮动）(/G)</label><div id="guideOperatorDetailGuide">-</div></div>
+                        <div class="col-md-4"><label class="form-label text-muted small mb-1">建议零售价(/G)</label><div id="guideOperatorDetailRetail">-</div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">状态</label><div id="guideOperatorDetailStatus">-</div></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="guideOperatorEditModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑运营商报价</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">供应商</label>
+                            <input type="text" class="form-control" id="guideOperatorEditSupplier" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">编码</label>
+                            <input type="text" class="form-control" id="guideOperatorEditCode" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">名称</label>
+                            <input type="text" class="form-control" id="guideOperatorEditName" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">区域</label>
+                            <input type="text" class="form-control" id="guideOperatorEditRegion" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">地区/国家</label>
+                            <input type="text" class="form-control" id="guideOperatorEditArea" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">MCC/MNC</label>
+                            <input type="text" class="form-control" id="guideOperatorEditMccMnc" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">网络类型</label>
+                            <input type="text" class="form-control" id="guideOperatorEditNetwork" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">覆盖质量</label>
+                            <input type="text" class="form-control" id="guideOperatorEditCoverageQuality" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">成本(/G)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="guideOperatorEditCost" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">指导价（浮动）(/G) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="guideOperatorEditGuide" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">建议零售价(/G) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="guideOperatorEditRetail" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">状态</label>
+                            <select class="form-select" id="guideOperatorEditStatus">
+                                <option value="onsale">在售</option>
+                                <option value="disabled">禁售</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="guideOperatorEditSave">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var currentEditPricingBtn = null;
@@ -930,6 +1357,288 @@
             if (checkAll && tableBody) {
                 checkAll.addEventListener('change', function () {
                     tableBody.querySelectorAll('.add-pkg-row').forEach(function (cb) { cb.checked = checkAll.checked; });
+                });
+            }
+        })();
+
+        (function () {
+            function statusBadge(status) {
+                return status === 'disabled' ? '<span class="badge bg-secondary">禁售</span>' : '<span class="badge bg-success">在售</span>';
+            }
+            function calcByRule(base, byRatio, ratioVal, amountVal) {
+                var ratio = parseFloat(ratioVal || '0');
+                var amount = parseFloat(amountVal || '0');
+                if (isNaN(ratio)) ratio = 0;
+                if (isNaN(amount)) amount = 0;
+                return byRatio ? (base * (1 + ratio / 100)) : (base + amount);
+            }
+            function createGuideOperatorRow(item) {
+                var price = toNumber(item.price);
+                var cost = toNumber(item.cost);
+                var guide = toNumber(item.guide);
+                var retail = toNumber(item.retail);
+                var quality = parseInt(item.coverageQuality, 10);
+                if (isNaN(price)) price = 0;
+                if (isNaN(cost)) cost = price;
+                if (isNaN(guide)) guide = cost;
+                if (isNaN(retail)) retail = cost;
+                if (isNaN(quality) || quality < 1 || quality > 10) quality = 5;
+                var guideDiff = formatFloatDiff(guide, cost);
+                var retailDiff = formatFloatDiff(retail, cost);
+                var guideCls = guide >= cost ? 'text-success' : 'text-danger';
+                var retailCls = retail >= cost ? 'text-success' : 'text-danger';
+                return '<tr data-supplier="' + item.supplier + '" data-code="' + item.code + '" data-name="' + item.name + '" data-region="' + item.region + '" data-area="' + item.area + '" data-mcc="' + item.mcc + '" data-mnc="' + item.mnc + '" data-network="' + item.network + '" data-coverage-quality="' + quality + '" data-price="' + price.toFixed(2) + '" data-cost="' + cost.toFixed(2) + '" data-guide="' + guide.toFixed(2) + '" data-retail="' + retail.toFixed(2) + '" data-status="' + item.status + '">' +
+                    '<td><input type="checkbox" class="form-check-input guide-operator-row-check"></td>' +
+                    '<td>' + item.supplier + '</td>' +
+                    '<td><code>' + item.code + '</code></td>' +
+                    '<td>' + item.name + '</td>' +
+                    '<td>' + item.region + '</td>' +
+                    '<td>' + item.area + '</td>' +
+                    '<td><code>' + item.mcc + '/' + item.mnc + '</code></td>' +
+                    '<td>' + item.network + '</td>' +
+                    '<td>' + quality + '</td>' +
+                    '<td>$' + cost.toFixed(2) + '</td>' +
+                    '<td><strong>$' + guide.toFixed(2) + '</strong> <small class="' + guideCls + '">' + guideDiff + '</small></td>' +
+                    '<td><strong>$' + retail.toFixed(2) + '</strong> <small class="' + retailCls + '">' + retailDiff + '</small></td>' +
+                    '<td>' + statusBadge(item.status) + '</td>' +
+                    '<td><div class="btn-group btn-group-sm"><button type="button" class="btn btn-outline-primary guide-operator-view-btn" title="查看详情"><i class="bi bi-eye"></i></button><button type="button" class="btn btn-outline-warning guide-operator-edit-btn" title="编辑"><i class="bi bi-pencil"></i></button></div></td>' +
+                '</tr>';
+            }
+            function applyOperatorFilterToTable(tbody, filters) {
+                if (!tbody) return;
+                tbody.querySelectorAll('tr').forEach(function (row) {
+                    var supplier = row.getAttribute('data-supplier') || '';
+                    var region = row.getAttribute('data-region') || '';
+                    var area = row.getAttribute('data-area') || '';
+                    var name = (row.getAttribute('data-name') || '').toLowerCase();
+                    var mcc = (row.getAttribute('data-mcc') || '').toLowerCase();
+                    var mnc = (row.getAttribute('data-mnc') || '').toLowerCase();
+                    var network = (row.getAttribute('data-network') || '').toLowerCase();
+                    var coverageQuality = (row.getAttribute('data-coverage-quality') || '').trim();
+                    var status = row.getAttribute('data-status') || '';
+                    var visible = true;
+                    if (filters.supplier && supplier !== filters.supplier) visible = false;
+                    if (filters.region && region !== filters.region) visible = false;
+                    if (filters.area && area !== filters.area) visible = false;
+                    if (filters.coverageQuality && coverageQuality !== filters.coverageQuality) visible = false;
+                    if (filters.status && status !== filters.status) visible = false;
+                    if (filters.keyword) {
+                        var text = [name, mcc, mnc, network, coverageQuality, status.toLowerCase()].join(' ');
+                        if (text.indexOf(filters.keyword) === -1) visible = false;
+                    }
+                    row.style.display = visible ? '' : 'none';
+                });
+            }
+
+            var guideTableBody = document.getElementById('guideOperatorTableBody');
+            var addTableBody = document.getElementById('addOperatorTableBody');
+            var guideCheckAll = document.getElementById('guideOperatorCheckAll');
+            var addCheckAll = document.getElementById('addOperatorCheckAll');
+            var currentEditOperatorRow = null;
+
+            function updateOperatorPricingCells(tr, cost, guide, retail) {
+                if (!tr) return;
+                var c = isNaN(cost) ? 0 : cost;
+                var g = isNaN(guide) ? c : guide;
+                var r = isNaN(retail) ? c : retail;
+                tr.setAttribute('data-cost', c.toFixed(2));
+                tr.setAttribute('data-guide', g.toFixed(2));
+                tr.setAttribute('data-retail', r.toFixed(2));
+                var cells = tr.children;
+                if (cells[9]) cells[9].textContent = '$' + c.toFixed(2);
+                if (cells[10]) {
+                    var gd = formatFloatDiff(g, c);
+                    cells[10].innerHTML = '<strong>$' + g.toFixed(2) + '</strong> <small class="' + (g >= c ? 'text-success' : 'text-danger') + '">' + gd + '</small>';
+                }
+                if (cells[11]) {
+                    var rd = formatFloatDiff(r, c);
+                    cells[11].innerHTML = '<strong>$' + r.toFixed(2) + '</strong> <small class="' + (r >= c ? 'text-success' : 'text-danger') + '">' + rd + '</small>';
+                }
+            }
+            function updateOperatorStatusCell(tr, status) {
+                if (!tr) return;
+                var s = status === 'disabled' ? 'disabled' : 'onsale';
+                tr.setAttribute('data-status', s);
+                var cells = tr.children;
+                if (cells[12]) {
+                    cells[12].innerHTML = statusBadge(s);
+                }
+            }
+
+            function applyGuideOperatorFilter() {
+                applyOperatorFilterToTable(guideTableBody, {
+                    supplier: (document.getElementById('guideOperatorFilterSupplier').value || '').trim(),
+                    region: (document.getElementById('guideOperatorFilterRegion').value || '').trim(),
+                    area: (document.getElementById('guideOperatorFilterArea').value || '').trim(),
+                    keyword: (document.getElementById('guideOperatorFilterKeyword').value || '').trim().toLowerCase(),
+                    coverageQuality: (document.getElementById('guideOperatorFilterCoverageQuality').value || '').trim(),
+                    status: (document.getElementById('guideOperatorFilterStatus').value || '').trim()
+                });
+            }
+            function applyAddOperatorFilter() {
+                applyOperatorFilterToTable(addTableBody, {
+                    supplier: (document.getElementById('addOperatorFilterSupplier').value || '').trim(),
+                    region: (document.getElementById('addOperatorFilterRegion').value || '').trim(),
+                    area: (document.getElementById('addOperatorFilterArea').value || '').trim(),
+                    keyword: (document.getElementById('addOperatorFilterKeyword').value || '').trim().toLowerCase(),
+                    coverageQuality: (document.getElementById('addOperatorFilterCoverageQuality').value || '').trim(),
+                    status: ''
+                });
+            }
+
+            var btnGuideSearch = document.getElementById('btnGuideOperatorSearch');
+            var btnGuideReset = document.getElementById('btnGuideOperatorReset');
+            var btnGuideExport = document.getElementById('btnGuideOperatorExport');
+            var btnDeleteSelected = document.getElementById('btnDeleteSelectedOperators');
+            if (btnGuideSearch) btnGuideSearch.addEventListener('click', applyGuideOperatorFilter);
+            if (btnGuideReset) btnGuideReset.addEventListener('click', function () {
+                document.getElementById('guideOperatorFilterSupplier').value = '';
+                document.getElementById('guideOperatorFilterRegion').value = '';
+                document.getElementById('guideOperatorFilterArea').value = '';
+                document.getElementById('guideOperatorFilterKeyword').value = '';
+                document.getElementById('guideOperatorFilterCoverageQuality').value = '';
+                document.getElementById('guideOperatorFilterStatus').value = '';
+                applyGuideOperatorFilter();
+            });
+            if (btnGuideExport) btnGuideExport.addEventListener('click', function () {
+                alert('已导出运营商报价明细（原型演示）');
+            });
+            if (btnDeleteSelected && guideTableBody) btnDeleteSelected.addEventListener('click', function () {
+                var checked = guideTableBody.querySelectorAll('.guide-operator-row-check:checked');
+                if (!checked.length) { alert('请先勾选要删除的运营商'); return; }
+                if (!confirm('确定删除选中的 ' + checked.length + ' 条运营商报价？')) return;
+                checked.forEach(function (cb) { cb.closest('tr').remove(); });
+                if (guideCheckAll) guideCheckAll.checked = false;
+            });
+            if (guideCheckAll && guideTableBody) {
+                guideCheckAll.addEventListener('change', function () {
+                    guideTableBody.querySelectorAll('.guide-operator-row-check').forEach(function (cb) { cb.checked = guideCheckAll.checked; });
+                });
+            }
+            if (addCheckAll && addTableBody) {
+                addCheckAll.addEventListener('change', function () {
+                    addTableBody.querySelectorAll('.add-operator-row-check').forEach(function (cb) { cb.checked = addCheckAll.checked; });
+                });
+            }
+
+            var btnAddSearch = document.getElementById('addOperatorSearch');
+            var btnAddReset = document.getElementById('addOperatorReset');
+            var btnAddSubmit = document.getElementById('addOperatorSubmit');
+            if (btnAddSearch) btnAddSearch.addEventListener('click', applyAddOperatorFilter);
+            if (btnAddReset) btnAddReset.addEventListener('click', function () {
+                document.getElementById('addOperatorFilterSupplier').value = '';
+                document.getElementById('addOperatorFilterRegion').value = '';
+                document.getElementById('addOperatorFilterArea').value = '';
+                document.getElementById('addOperatorFilterKeyword').value = '';
+                document.getElementById('addOperatorFilterCoverageQuality').value = '';
+                applyAddOperatorFilter();
+            });
+            if (btnAddSubmit && addTableBody && guideTableBody) btnAddSubmit.addEventListener('click', function () {
+                var checked = addTableBody.querySelectorAll('.add-operator-row-check:checked');
+                if (!checked.length) { alert('请至少勾选一个运营商'); return; }
+                var guideByRatio = document.getElementById('addOperatorGuidePriceRatio').checked;
+                var guideVal = guideByRatio ? (document.getElementById('addOperatorGuidePriceRatioVal').value || '0') + '%' : '$' + (document.getElementById('addOperatorGuidePriceAmountVal').value || '0');
+                var retailByRatio = document.getElementById('addOperatorRetailPriceRatio').checked;
+                var retailVal = retailByRatio ? (document.getElementById('addOperatorRetailPriceRatioVal').value || '0') + '%' : '$' + (document.getElementById('addOperatorRetailPriceAmountVal').value || '0');
+                var added = 0;
+                checked.forEach(function (cb) {
+                    var tr = cb.closest('tr');
+                    if (!tr) return;
+                    var code = tr.getAttribute('data-code') || '';
+                    if (guideTableBody.querySelector('tr[data-code="' + code + '"]')) return;
+                    var basePrice = toNumber(tr.getAttribute('data-price'));
+                    if (isNaN(basePrice)) basePrice = 0;
+                    var guidePrice = calcByRule(
+                        basePrice,
+                        guideByRatio,
+                        document.getElementById('addOperatorGuidePriceRatioVal').value || '0',
+                        document.getElementById('addOperatorGuidePriceAmountVal').value || '0'
+                    );
+                    var retailPrice = calcByRule(
+                        basePrice,
+                        retailByRatio,
+                        document.getElementById('addOperatorRetailPriceRatioVal').value || '0',
+                        document.getElementById('addOperatorRetailPriceAmountVal').value || '0'
+                    );
+                    var item = {
+                        supplier: tr.getAttribute('data-supplier') || '',
+                        code: code,
+                        name: tr.getAttribute('data-name') || '',
+                        region: tr.getAttribute('data-region') || '',
+                        area: tr.getAttribute('data-area') || '',
+                        mcc: tr.getAttribute('data-mcc') || '-',
+                        mnc: tr.getAttribute('data-mnc') || '-',
+                        network: tr.getAttribute('data-network') || '-',
+                        coverageQuality: tr.getAttribute('data-coverage-quality') || '5',
+                        price: basePrice.toFixed(2),
+                        cost: basePrice.toFixed(2),
+                        guide: guidePrice.toFixed(2),
+                        retail: retailPrice.toFixed(2),
+                        status: tr.getAttribute('data-status') || 'onsale'
+                    };
+                    guideTableBody.insertAdjacentHTML('beforeend', createGuideOperatorRow(item));
+                    added += 1;
+                });
+                bootstrap.Modal.getInstance(document.getElementById('addOperatorModal')).hide();
+                alert('已添加 ' + added + ' 条运营商（原型演示）\n指导价规则：报价 + ' + guideVal + '\n建议零售价规则：报价 + ' + retailVal);
+                applyGuideOperatorFilter();
+            });
+
+            var operatorEditSave = document.getElementById('guideOperatorEditSave');
+            if (operatorEditSave) operatorEditSave.addEventListener('click', function () {
+                if (!currentEditOperatorRow) return;
+                var cost = toNumber(currentEditOperatorRow.getAttribute('data-cost'));
+                if (isNaN(cost)) cost = 0;
+                var guide = parseFloat(document.getElementById('guideOperatorEditGuide').value || '0');
+                var retail = parseFloat(document.getElementById('guideOperatorEditRetail').value || '0');
+                var status = document.getElementById('guideOperatorEditStatus').value || 'onsale';
+                if (isNaN(guide) || isNaN(retail)) {
+                    alert('请填写有效的指导价和建议零售价');
+                    return;
+                }
+                updateOperatorPricingCells(currentEditOperatorRow, cost, guide, retail);
+                updateOperatorStatusCell(currentEditOperatorRow, status);
+                bootstrap.Modal.getInstance(document.getElementById('guideOperatorEditModal')).hide();
+                alert('已保存运营商报价（原型演示）');
+                applyGuideOperatorFilter();
+            });
+
+            if (guideTableBody) {
+                guideTableBody.addEventListener('click', function (e) {
+                    var tr = e.target.closest('tr');
+                    if (!tr) return;
+                    if (e.target.closest('.guide-operator-view-btn')) {
+                        document.getElementById('guideOperatorDetailSupplier').textContent = tr.getAttribute('data-supplier') || '-';
+                        document.getElementById('guideOperatorDetailCode').textContent = tr.getAttribute('data-code') || '-';
+                        document.getElementById('guideOperatorDetailName').textContent = tr.getAttribute('data-name') || '-';
+                        document.getElementById('guideOperatorDetailRegion').textContent = tr.getAttribute('data-region') || '-';
+                        document.getElementById('guideOperatorDetailArea').textContent = tr.getAttribute('data-area') || '-';
+                        document.getElementById('guideOperatorDetailMccMnc').textContent = (tr.getAttribute('data-mcc') || '-') + '/' + (tr.getAttribute('data-mnc') || '-');
+                        document.getElementById('guideOperatorDetailNetwork').textContent = tr.getAttribute('data-network') || '-';
+                        document.getElementById('guideOperatorDetailCoverageQuality').textContent = tr.getAttribute('data-coverage-quality') || '-';
+                        document.getElementById('guideOperatorDetailCost').textContent = '$' + (tr.getAttribute('data-cost') || '0.00');
+                        document.getElementById('guideOperatorDetailGuide').textContent = '$' + (tr.getAttribute('data-guide') || '0.00');
+                        document.getElementById('guideOperatorDetailRetail').textContent = '$' + (tr.getAttribute('data-retail') || '0.00');
+                        document.getElementById('guideOperatorDetailStatus').textContent = (tr.getAttribute('data-status') || '') === 'disabled' ? '禁售' : '在售';
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('guideOperatorDetailModal')).show();
+                        return;
+                    }
+                    if (e.target.closest('.guide-operator-edit-btn')) {
+                        currentEditOperatorRow = tr;
+                        document.getElementById('guideOperatorEditSupplier').value = tr.getAttribute('data-supplier') || '';
+                        document.getElementById('guideOperatorEditCode').value = tr.getAttribute('data-code') || '';
+                        document.getElementById('guideOperatorEditName').value = tr.getAttribute('data-name') || '';
+                        document.getElementById('guideOperatorEditRegion').value = tr.getAttribute('data-region') || '';
+                        document.getElementById('guideOperatorEditArea').value = tr.getAttribute('data-area') || '';
+                        document.getElementById('guideOperatorEditMccMnc').value = (tr.getAttribute('data-mcc') || '-') + '/' + (tr.getAttribute('data-mnc') || '-');
+                        document.getElementById('guideOperatorEditNetwork').value = tr.getAttribute('data-network') || '';
+                        document.getElementById('guideOperatorEditCoverageQuality').value = tr.getAttribute('data-coverage-quality') || '';
+                        document.getElementById('guideOperatorEditCost').value = tr.getAttribute('data-cost') || '0.00';
+                        document.getElementById('guideOperatorEditGuide').value = tr.getAttribute('data-guide') || '0.00';
+                        document.getElementById('guideOperatorEditRetail').value = tr.getAttribute('data-retail') || '0.00';
+                        document.getElementById('guideOperatorEditStatus').value = (tr.getAttribute('data-status') || '') === 'disabled' ? 'disabled' : 'onsale';
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('guideOperatorEditModal')).show();
+                    }
                 });
             }
         })();
