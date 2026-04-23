@@ -239,7 +239,7 @@
                         <div class="content-card">
                             <div class="filter-section mb-3">
                                 <div class="row g-3">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label class="form-label">供应商</label>
                                         <select class="form-select" id="operatorFilterSupplier">
                                             <option value="">全部</option>
@@ -262,6 +262,7 @@
                                             <option value="法国">法国</option>
                                             <option value="德国">德国</option>
                                             <option value="泰国">泰国</option>
+                                            <option value="越南">越南</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
@@ -276,11 +277,20 @@
                                             <option value="停用">停用</option>
                                         </select>
                                     </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">字典匹配状态</label>
+                                        <select class="form-select" id="operatorFilterDictStatus">
+                                            <option value="">全部</option>
+                                            <option value="已匹配">已匹配</option>
+                                            <option value="未匹配">未匹配</option>
+                                        </select>
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                                             <div>
                                                 <button type="button" class="btn btn-primary me-2" id="btnOperatorSearch"><i class="bi bi-search me-1"></i>查询</button>
                                                 <button type="button" class="btn btn-outline-secondary" id="btnOperatorReset"><i class="bi bi-arrow-clockwise"></i></button>
+                                                <button type="button" class="btn btn-outline-primary ms-2" id="btnOperatorDictMatch"><i class="bi bi-diagram-3 me-1"></i>自动匹配字典</button>
                                             </div>
                                             <div class="d-flex gap-2 ms-md-auto">
                                                 <button type="button" class="btn btn-outline-secondary" id="btnOperatorExport"><i class="bi bi-download me-1"></i>导出</button>
@@ -308,10 +318,10 @@
                                         </tr>
                                     </thead>
                                     <tbody id="operatorTableBody">
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc01" data-name="France-Orange" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-price="43.50" data-status="有效" data-remark="法国 Orange 主线路，优先 5G。">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-7F3A9C1D2B" data-name="France-Orange (mcc208_mnc01)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-price="43.50" data-status="有效" data-dict-status="已匹配" data-remark="法国 Orange 主线路，优先 5G。">
                                             <td>eSIM 全球供</td>
-                                            <td><code>mcc208_mnc01</code></td>
-                                            <td>France-Orange</td>
+                                            <td><code>OPR-7F3A9C1D2B</code></td>
+                                            <td>France-Orange (mcc208_mnc01)</td>
                                             <td>欧洲</td>
                                             <td>法国</td>
                                             <td><code>208/01</code></td>
@@ -325,10 +335,10 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc208_mnc10" data-name="France-SFR" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-price="44.20" data-status="有效" data-remark="SFR 备用线路。">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-9A1E4B6C8D" data-name="France-SFR (mcc208_mnc10)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-price="44.20" data-status="有效" data-dict-status="已匹配" data-remark="SFR 备用线路。">
                                             <td>eSIM 全球供</td>
-                                            <td><code>mcc208_mnc10</code></td>
-                                            <td>France-SFR</td>
+                                            <td><code>OPR-9A1E4B6C8D</code></td>
+                                            <td>France-SFR (mcc208_mnc10)</td>
                                             <td>欧洲</td>
                                             <td>法国</td>
                                             <td><code>208/10</code></td>
@@ -342,10 +352,10 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc262_mnc02" data-name="Germany-Vodafone" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-price="45.00" data-status="有效" data-remark="">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-2C8D5E1F9A" data-name="Germany-Vodafone (mcc262_mnc02)" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-price="45.00" data-status="有效" data-dict-status="已匹配" data-remark="">
                                             <td>eSIM 全球供</td>
-                                            <td><code>mcc262_mnc02</code></td>
-                                            <td>Germany-Vodafone</td>
+                                            <td><code>OPR-2C8D5E1F9A</code></td>
+                                            <td>Germany-Vodafone (mcc262_mnc02)</td>
                                             <td>欧洲</td>
                                             <td>德国</td>
                                             <td><code>262/02</code></td>
@@ -359,10 +369,10 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc01" data-name="Thailand-AIS" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-price="16.50" data-status="有效" data-remark="">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-6B4D1A8C3E" data-name="Thailand-AIS (mcc520_mnc01)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-price="16.50" data-status="有效" data-dict-status="已匹配" data-remark="">
                                             <td>跨境 eSIM 源</td>
-                                            <td><code>mcc520_mnc01</code></td>
-                                            <td>Thailand-AIS</td>
+                                            <td><code>OPR-6B4D1A8C3E</code></td>
+                                            <td>Thailand-AIS (mcc520_mnc01)</td>
                                             <td>亚洲</td>
                                             <td>泰国</td>
                                             <td><code>520/01</code></td>
@@ -376,15 +386,32 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc520_mnc05" data-name="Thailand-dtac" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-price="17.20" data-status="停用" data-remark="暂停供货，待恢复。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-1E7C9B4A6D" data-name="Thailand-dtac (mcc520_mnc05)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-price="17.20" data-status="停用" data-dict-status="已匹配" data-remark="暂停供货，待恢复。">
                                             <td>跨境 eSIM 源</td>
-                                            <td><code>mcc520_mnc05</code></td>
-                                            <td>Thailand-dtac</td>
+                                            <td><code>OPR-1E7C9B4A6D</code></td>
+                                            <td>Thailand-dtac (mcc520_mnc05)</td>
                                             <td>亚洲</td>
                                             <td>泰国</td>
                                             <td><code>520/05</code></td>
                                             <td>4G</td>
                                             <td class="operator-price-cell">USD $ 17.20</td>
+                                            <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
+                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr data-supplier="跨境 eSIM 源" data-code="-Q7M2X9C4L1" data-name="Unknown-Carrier (-Z8P3N6R2T5)" data-region="-" data-area="-" data-mcc="-" data-mnc="-" data-network="4G/5G" data-price="15.80" data-status="停用" data-dict-status="未匹配" data-remark="字典待维护。">
+                                            <td>跨境 eSIM 源</td>
+                                            <td><code>-Q7M2X9C4L1</code></td>
+                                            <td>Unknown-Carrier (-Z8P3N6R2T5)</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td><code>-/-</code></td>
+                                            <td>4G/5G</td>
+                                            <td class="operator-price-cell">USD $ 15.80</td>
                                             <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
@@ -557,7 +584,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">名称</label>
-                            <input type="text" class="form-control bg-light" id="operatorEditName" readonly>
+                            <select class="form-select" id="operatorEditName"></select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">地区/国家</label>
@@ -617,6 +644,45 @@
                 pkg_1003: ['Japan / NTT Docomo / $22.00', 'Japan / SoftBank / $22.50'],
                 pkg_2001: ['Thailand / AIS / $16.50', 'Thailand / dtac / $17.20', 'Vietnam / Viettel / $15.90']
             };
+            var operatorDictByMccMnc = {
+                '208/01': 'France-Orange',
+                '208/10': 'France-SFR',
+                '262/02': 'Germany-Vodafone',
+                '520/01': 'Thailand-AIS',
+                '520/05': 'Thailand-dtac'
+            };
+
+            function getDisplayNameByKey(key) {
+                var label = operatorDictByMccMnc[key];
+                if (!label) return '';
+                var parts = key.split('/');
+                if (parts.length !== 2) return label;
+                return label + ' (mcc' + parts[0] + '_mnc' + parts[1] + ')';
+            }
+
+            function getExpectedDisplayNameForRow(row) {
+                if (!row) return '';
+                var key = (row.getAttribute('data-mcc') || '') + '/' + (row.getAttribute('data-mnc') || '');
+                return getDisplayNameByKey(key);
+            }
+
+            function syncRowDictStatus(row) {
+                if (!row) return;
+                var expected = getExpectedDisplayNameForRow(row);
+                var current = row.getAttribute('data-name') || '';
+                row.setAttribute('data-dict-status', (expected && current === expected) ? '已匹配' : '未匹配');
+            }
+
+            function fillOperatorNameOptions(selectEl) {
+                if (!selectEl) return;
+                var options = Object.keys(operatorDictByMccMnc).map(function (key) {
+                    return { key: key, text: getDisplayNameByKey(key) };
+                });
+                options.sort(function (a, b) { return a.text.localeCompare(b.text); });
+                selectEl.innerHTML = options.map(function (item) {
+                    return '<option value="' + escapeHtml(item.text) + '">' + escapeHtml(item.text) + '</option>';
+                }).join('');
+            }
 
             function normalizeQuote(value) {
                 var number = parseFloat(value);
@@ -848,6 +914,30 @@
                 alert('已提交运营商导入：' + fileInput.files[0].name);
                 fileInput.value = '';
             });
+            document.getElementById('btnOperatorDictMatch').addEventListener('click', function () {
+                var matched = 0;
+                [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
+                    var mcc = (row.getAttribute('data-mcc') || '').trim();
+                    var mnc = (row.getAttribute('data-mnc') || '').trim();
+                    if (!mcc || !mnc || mnc === '-') return;
+
+                    var key = mcc + '/' + mnc;
+                    var dictLabel = operatorDictByMccMnc[key];
+                    if (!dictLabel) return;
+
+                    var originCode = 'mcc' + mcc + '_mnc' + mnc;
+                    var displayName = dictLabel + ' (' + originCode + ')';
+                    row.setAttribute('data-name', displayName);
+                    row.setAttribute('data-dict-status', '已匹配');
+
+                    var nameCell = row.children[2];
+                    if (nameCell) nameCell.textContent = displayName;
+                    matched += 1;
+                });
+
+                applyOperatorFilter();
+                alert('字典匹配完成，更新 ' + matched + ' 条');
+            });
 
             function operatorStatusBadge(status) {
                 return status === '有效'
@@ -876,10 +966,20 @@
 
                 if (editBtn) {
                     editBtn.addEventListener('click', function () {
+                        var nameSelect = document.getElementById('operatorEditName');
+                        fillOperatorNameOptions(nameSelect);
                         document.getElementById('operatorEditCode').value = row.getAttribute('data-code') || '';
                         document.getElementById('operatorEditSupplier').value = row.getAttribute('data-supplier') || '';
                         document.getElementById('operatorEditCodeView').value = row.getAttribute('data-code') || '';
-                        document.getElementById('operatorEditName').value = row.getAttribute('data-name') || '';
+                        var currentName = row.getAttribute('data-name') || '';
+                        var exists = [].slice.call(nameSelect.options).some(function (opt) { return opt.value === currentName; });
+                        if (!exists && currentName) {
+                            var opt = document.createElement('option');
+                            opt.value = currentName;
+                            opt.textContent = currentName;
+                            nameSelect.appendChild(opt);
+                        }
+                        nameSelect.value = currentName;
                         document.getElementById('operatorEditArea').value = row.getAttribute('data-area') || '';
                         document.getElementById('operatorEditMccMnc').value = (row.getAttribute('data-mcc') || '-') + '/' + (row.getAttribute('data-mnc') || '-');
                         document.getElementById('operatorEditPrice').value = row.getAttribute('data-price') || '';
@@ -893,25 +993,31 @@
 
             document.getElementById('operatorEditSave').addEventListener('click', function () {
                 var code = document.getElementById('operatorEditCode').value;
+                var nameValue = (document.getElementById('operatorEditName').value || '').trim();
                 var priceValue = (document.getElementById('operatorEditPrice').value || '').trim();
                 var statusValue = document.getElementById('operatorEditStatus').value;
                 var networkValue = (document.getElementById('operatorEditNetwork').value || '').trim();
                 var remarkValue = (document.getElementById('operatorEditRemark').value || '').trim();
 
+                if (!nameValue) return alert('请选择名称');
                 if (!priceValue || !normalizeQuote(priceValue)) return alert('请填写有效报价');
 
                 var row = document.querySelector('#operatorTableBody tr[data-code="' + code + '"]');
                 if (!row) return;
 
+                row.setAttribute('data-name', nameValue);
                 var priceText = normalizeQuote(priceValue);
                 row.setAttribute('data-price', priceText);
                 row.setAttribute('data-status', statusValue);
                 row.setAttribute('data-network', networkValue);
                 row.setAttribute('data-remark', remarkValue);
+                syncRowDictStatus(row);
 
+                var nameCell = row.children[2];
                 var priceCell = row.querySelector('.operator-price-cell');
                 var statusCell = row.querySelector('.operator-status-cell');
                 var networkCell = row.children[6];
+                if (nameCell) nameCell.textContent = nameValue;
                 if (priceCell) priceCell.textContent = 'USD $ ' + priceText;
                 if (statusCell) statusCell.innerHTML = operatorStatusBadge(statusValue);
                 if (networkCell) networkCell.textContent = networkValue;
@@ -926,6 +1032,7 @@
                 var area = (document.getElementById('operatorFilterArea').value || '').trim();
                 var keyword = (document.getElementById('operatorFilterKeyword').value || '').trim().toLowerCase();
                 var status = (document.getElementById('operatorFilterStatus').value || '').trim();
+                var dictStatus = (document.getElementById('operatorFilterDictStatus').value || '').trim();
 
                 [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
                     var rowSupplier = row.getAttribute('data-supplier') || '';
@@ -936,12 +1043,14 @@
                     var rowMnc = (row.getAttribute('data-mnc') || '').toLowerCase();
                     var rowNetwork = (row.getAttribute('data-network') || '').toLowerCase();
                     var rowStatus = row.getAttribute('data-status') || '';
+                    var rowDictStatus = row.getAttribute('data-dict-status') || '';
 
                     var visible = true;
                     if (supplier && rowSupplier !== supplier) visible = false;
                     if (region && rowRegion !== region) visible = false;
                     if (area && rowArea !== area) visible = false;
                     if (status && rowStatus !== status) visible = false;
+                    if (dictStatus && rowDictStatus !== dictStatus) visible = false;
                     if (keyword) {
                         var keywordText = [rowName, rowMcc, rowMnc, rowNetwork, rowStatus.toLowerCase()].join(' ');
                         if (keywordText.indexOf(keyword) === -1) visible = false;
@@ -958,7 +1067,12 @@
                 document.getElementById('operatorFilterArea').value = '';
                 document.getElementById('operatorFilterKeyword').value = '';
                 document.getElementById('operatorFilterStatus').value = '';
+                document.getElementById('operatorFilterDictStatus').value = '';
                 applyOperatorFilter();
+            });
+
+            [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
+                syncRowDictStatus(row);
             });
 
             initPerGbDisplay();
