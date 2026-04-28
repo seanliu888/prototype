@@ -288,14 +288,6 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <label class="form-label">区域</label>
-                                        <select class="form-select" id="operatorFilterRegion">
-                                            <option value="">全部</option>
-                                            <option value="欧洲">欧洲</option>
-                                            <option value="亚洲">亚洲</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
                                         <label class="form-label">地区/国家</label>
                                         <select class="form-select" id="operatorFilterArea">
                                             <option value="">全部</option>
@@ -346,178 +338,233 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>名称</th>
-                                            <th>区域</th>
                                             <th>地区/国家</th>
                                             <th>MCC/MNC</th>
                                             <th>网络类型</th>
-                                            <th>报价($/G)</th>
+                                            <th>当前成本价($/G)</th>
+                                            <th>下期成本价($/G)</th>
                                             <th>状态</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody id="operatorTableBody">
-                                        <tr data-supplier="eSIM 全球供" data-code="OPR-7F3A9C1D2B" data-name="France-Orange (mcc208_mnc01)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-coverage-quality="9" data-price="43.50" data-status="有效" data-dict-status="已匹配" data-remark="法国 Orange 主线路，优先 5G。">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-7F3A9C1D2B" data-name="France-Orange (mcc208_mnc01)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="01" data-network="5G" data-coverage-quality="9" data-price="43.50" data-next-price="44.10" data-status="有效" data-dict-status="已匹配" data-remark="法国 Orange 主线路，优先 5G。">
                                             <td>France-Orange (mcc208_mnc01)</td>
-                                            <td>欧洲</td>
                                             <td>法国</td>
                                             <td><code>208/01</code></td>
                                             <td>5G</td>
                                             <td class="operator-price-cell">USD $ 43.50</td>
+                                            <td class="operator-next-price-cell">USD $ 44.10</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="OPR-9A1E4B6C8D" data-name="France-SFR (mcc208_mnc10)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-coverage-quality="8" data-price="44.20" data-status="有效" data-dict-status="已匹配" data-remark="SFR 备用线路。">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-9A1E4B6C8D" data-name="France-SFR (mcc208_mnc10)" data-region="欧洲" data-area="法国" data-mcc="208" data-mnc="10" data-network="4G/5G" data-coverage-quality="8" data-price="44.20" data-next-price="44.80" data-status="有效" data-dict-status="已匹配" data-remark="SFR 备用线路。">
                                             <td>France-SFR (mcc208_mnc10)</td>
-                                            <td>欧洲</td>
                                             <td>法国</td>
                                             <td><code>208/10</code></td>
                                             <td>4G/5G</td>
                                             <td class="operator-price-cell">USD $ 44.20</td>
+                                            <td class="operator-next-price-cell">USD $ 44.80</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="OPR-2C8D5E1F9A" data-name="Germany-Vodafone (mcc262_mnc02)" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-coverage-quality="9" data-price="45.00" data-status="有效" data-dict-status="已匹配" data-remark="">
+                                        <tr data-supplier="eSIM 全球供" data-code="OPR-2C8D5E1F9A" data-name="Germany-Vodafone (mcc262_mnc02)" data-region="欧洲" data-area="德国" data-mcc="262" data-mnc="02" data-network="5G" data-coverage-quality="9" data-price="45.00" data-next-price="-" data-status="有效" data-dict-status="已匹配" data-remark="">
                                             <td>Germany-Vodafone (mcc262_mnc02)</td>
-                                            <td>欧洲</td>
                                             <td>德国</td>
                                             <td><code>262/02</code></td>
                                             <td>5G</td>
                                             <td class="operator-price-cell">USD $ 45.00</td>
+                                            <td class="operator-next-price-cell">-</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-6B4D1A8C3E" data-name="Thailand-AIS (mcc520_mnc01)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-coverage-quality="7" data-price="16.50" data-status="有效" data-dict-status="已匹配" data-remark="">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-6B4D1A8C3E" data-name="Thailand-AIS (mcc520_mnc01)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="01" data-network="4G" data-coverage-quality="7" data-price="16.50" data-next-price="16.90" data-status="有效" data-dict-status="已匹配" data-remark="">
                                             <td>Thailand-AIS (mcc520_mnc01)</td>
-                                            <td>亚洲</td>
                                             <td>泰国</td>
                                             <td><code>520/01</code></td>
                                             <td>4G</td>
                                             <td class="operator-price-cell">USD $ 16.50</td>
+                                            <td class="operator-next-price-cell">USD $ 16.90</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-1E7C9B4A6D" data-name="Thailand-dtac (mcc520_mnc05)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-coverage-quality="6" data-price="17.20" data-status="停用" data-dict-status="已匹配" data-remark="暂停供货，待恢复。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="OPR-1E7C9B4A6D" data-name="Thailand-dtac (mcc520_mnc05)" data-region="亚洲" data-area="泰国" data-mcc="520" data-mnc="05" data-network="4G" data-coverage-quality="6" data-price="17.20" data-next-price="17.80" data-status="停用" data-dict-status="已匹配" data-remark="暂停供货，待恢复。">
                                             <td>Thailand-dtac (mcc520_mnc05)</td>
-                                            <td>亚洲</td>
                                             <td>泰国</td>
                                             <td><code>520/05</code></td>
                                             <td>4G</td>
                                             <td class="operator-price-cell">USD $ 17.20</td>
+                                            <td class="operator-next-price-cell">USD $ 17.80</td>
                                             <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc202" data-name="希腊（mcc202）" data-region="欧洲" data-area="希腊" data-mcc="202" data-mnc="-" data-network="4G/5G" data-coverage-quality="7" data-price="18.20" data-status="有效" data-dict-status="未匹配" data-remark="仅下发 MCC，无 MNC。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc202" data-name="希腊（mcc202）" data-region="欧洲" data-area="希腊" data-mcc="202" data-mnc="-" data-network="4G/5G" data-coverage-quality="7" data-price="18.20" data-next-price="-" data-status="有效" data-dict-status="未匹配" data-remark="仅下发 MCC，无 MNC。">
                                             <td>希腊（mcc202）</td>
-                                            <td>欧洲</td>
                                             <td>希腊</td>
                                             <td><code>202/-</code></td>
                                             <td>4G/5G</td>
                                             <td class="operator-price-cell">USD $ 18.20</td>
+                                            <td class="operator-next-price-cell">-</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc204" data-name="荷兰（mcc204）" data-region="欧洲" data-area="荷兰" data-mcc="204" data-mnc="-" data-network="4G" data-coverage-quality="6" data-price="19.10" data-status="有效" data-dict-status="未匹配" data-remark="仅下发 MCC，无 MNC。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc204" data-name="荷兰（mcc204）" data-region="欧洲" data-area="荷兰" data-mcc="204" data-mnc="-" data-network="4G" data-coverage-quality="6" data-price="19.10" data-next-price="19.60" data-status="有效" data-dict-status="未匹配" data-remark="仅下发 MCC，无 MNC。">
                                             <td>荷兰（mcc204）</td>
-                                            <td>欧洲</td>
                                             <td>荷兰</td>
                                             <td><code>204/-</code></td>
                                             <td>4G</td>
                                             <td class="operator-price-cell">USD $ 19.10</td>
+                                            <td class="operator-next-price-cell">USD $ 19.60</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc340" data-name="马提尼岛（mcc340）" data-region="美洲" data-area="马提尼岛" data-mcc="340" data-mnc="-" data-network="4G" data-coverage-quality="5" data-price="20.00" data-status="停用" data-dict-status="未匹配" data-remark="仅下发 MCC，无 MNC。">
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc340" data-name="马提尼岛（mcc340）" data-region="美洲" data-area="马提尼岛" data-mcc="340" data-mnc="-" data-network="4G" data-coverage-quality="5" data-price="20.00" data-next-price="-" data-status="停用" data-dict-status="未匹配" data-remark="仅下发 MCC，无 MNC。">
                                             <td>马提尼岛（mcc340）</td>
-                                            <td>美洲</td>
                                             <td>马提尼岛</td>
                                             <td><code>340/-</code></td>
                                             <td>4G</td>
                                             <td class="operator-price-cell">USD $ 20.00</td>
+                                            <td class="operator-next-price-cell">-</td>
                                             <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="eSIM 全球供" data-code="mcc340gf" data-name="法属圭亚那（mcc340gf）" data-region="美洲" data-area="法属圭亚那" data-mcc="340" data-mnc="-" data-network="4G" data-coverage-quality="6" data-price="20.60" data-status="有效" data-dict-status="未匹配" data-remark="与 mcc340 同 MCC，区域不同。">
+                                        <tr data-supplier="eSIM 全球供" data-code="mcc340gf" data-name="法属圭亚那（mcc340gf）" data-region="美洲" data-area="法属圭亚那" data-mcc="340" data-mnc="-" data-network="4G" data-coverage-quality="6" data-price="20.60" data-next-price="21.00" data-status="有效" data-dict-status="未匹配" data-remark="与 mcc340 同 MCC，区域不同。">
                                             <td>法属圭亚那（mcc340gf）</td>
-                                            <td>美洲</td>
                                             <td>法属圭亚那</td>
                                             <td><code>340/-</code></td>
                                             <td>4G</td>
                                             <td class="operator-price-cell">USD $ 20.60</td>
+                                            <td class="operator-next-price-cell">USD $ 21.00</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc340gp" data-name="瓜德罗普（mcc340gp）" data-region="美洲" data-area="瓜德罗普" data-mcc="340" data-mnc="-" data-network="4G/5G" data-coverage-quality="7" data-price="21.40" data-status="有效" data-dict-status="未匹配" data-remark="与 mcc340 同 MCC，字典待完善。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="mcc340gp" data-name="瓜德罗普（mcc340gp）" data-region="美洲" data-area="瓜德罗普" data-mcc="340" data-mnc="-" data-network="4G/5G" data-coverage-quality="7" data-price="21.40" data-next-price="21.90" data-status="有效" data-dict-status="未匹配" data-remark="与 mcc340 同 MCC，字典待完善。">
                                             <td>瓜德罗普（mcc340gp）</td>
-                                            <td>美洲</td>
                                             <td>瓜德罗普</td>
                                             <td><code>340/-</code></td>
                                             <td>4G/5G</td>
                                             <td class="operator-price-cell">USD $ 21.40</td>
+                                            <td class="operator-next-price-cell">USD $ 21.90</td>
                                             <td class="operator-status-cell"><span class="badge bg-success">有效</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr data-supplier="跨境 eSIM 源" data-code="-Q7M2X9C4L1" data-name="Unknown-Carrier (-Z8P3N6R2T5)" data-region="-" data-area="-" data-mcc="-" data-mnc="-" data-network="4G/5G" data-coverage-quality="4" data-price="15.80" data-status="停用" data-dict-status="未匹配" data-remark="字典待维护。">
+                                        <tr data-supplier="跨境 eSIM 源" data-code="-Q7M2X9C4L1" data-name="Unknown-Carrier (-Z8P3N6R2T5)" data-region="-" data-area="-" data-mcc="-" data-mnc="-" data-network="4G/5G" data-coverage-quality="4" data-price="15.80" data-next-price="-" data-status="停用" data-dict-status="未匹配" data-remark="字典待维护。">
                                             <td>Unknown-Carrier (-Z8P3N6R2T5)</td>
-                                            <td>-</td>
                                             <td>-</td>
                                             <td><code>-/-</code></td>
                                             <td>4G/5G</td>
                                             <td class="operator-price-cell">USD $ 15.80</td>
+                                            <td class="operator-next-price-cell">-</td>
                                             <td class="operator-status-cell"><span class="badge bg-secondary">停用</span></td>
                                             <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-primary operator-detail-btn">详情</button>
-                                                    <button type="button" class="btn btn-outline-warning operator-edit-btn">编辑</button>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item operator-detail-btn" href="#" onclick="return false;"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item operator-edit-btn" href="#" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                        <li><a class="dropdown-item operator-plan-btn" href="#" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item operator-revoke-plan-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>
@@ -673,13 +720,22 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">运营商批量更新</h5>
+                    <h5 class="modal-title">成本/GB批量更新</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">CSV 文件</label>
                         <input type="file" class="form-control" id="operatorImportFile" accept=".csv">
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="operatorImportAsNextCost">
+                        <label class="form-check-label" for="operatorImportAsNextCost">导入为下期成本价</label>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label">生效时间</label>
+                        <input type="datetime-local" class="form-control" id="operatorImportEffectiveAt" disabled>
+                        <small class="text-muted">勾选“导入为下期成本价”后可选择生效时间。</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -705,7 +761,7 @@
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">MCC/MNC</label><div id="operatorDetailMccMnc"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">网络类型</label><div id="operatorDetailNetwork"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">覆盖质量</label><div id="operatorDetailCoverageQuality"></div></div>
-                        <div class="col-md-6"><label class="form-label text-muted small mb-1">报价($/G)</label><div id="operatorDetailPrice"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">当前成本价($/G)</label><div id="operatorDetailPrice"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">状态</label><div id="operatorDetailStatus"></div></div>
                         <div class="col-12"><label class="form-label text-muted small mb-1">备注</label><div id="operatorDetailRemark" class="text-break"></div></div>
                     </div>
@@ -717,7 +773,7 @@
         </div>
     </div>
     <div class="modal fade" id="operatorEditModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">编辑运营商</h5>
@@ -748,7 +804,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">报价($/G) <span class="text-danger">*</span></label>
+                        <label class="form-label">当前成本价($/G) <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">USD $</span>
                             <input type="number" class="form-control" id="operatorEditPrice" min="0" step="0.01" required>
@@ -765,11 +821,6 @@
                         <label class="form-label">网络类型</label>
                         <input type="text" class="form-control" id="operatorEditNetwork" placeholder="例如：4G / 5G / 4G/5G">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">覆盖质量 <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="operatorEditCoverageQuality" min="1" max="10" step="1" required>
-                        <small class="text-muted">整型，范围 1-10</small>
-                    </div>
                     <div class="mb-0">
                         <label class="form-label">备注</label>
                         <textarea class="form-control" id="operatorEditRemark" rows="3" placeholder="请输入备注"></textarea>
@@ -778,6 +829,42 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" id="operatorEditSave"><i class="bi bi-check-lg me-1"></i>保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="operatorPlanModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">价格计划</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="operatorPlanCode">
+                    <div class="mb-3">
+                        <label class="form-label">运营商</label>
+                        <input type="text" class="form-control bg-light" id="operatorPlanName" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">当前成本价($/G)</label>
+                        <input type="text" class="form-control bg-light" id="operatorPlanCurrentPrice" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">下期成本价($/G)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">USD $</span>
+                            <input type="number" class="form-control" id="operatorPlanNextPrice" min="0" step="0.01" placeholder="请输入下期成本价">
+                        </div>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label">生效时间</label>
+                        <input type="datetime-local" class="form-control" id="operatorPlanEffectiveAt">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="operatorPlanSave">保存</button>
                 </div>
             </div>
         </div>
@@ -1200,11 +1287,33 @@
             });
             document.getElementById('operatorImportConfirm').addEventListener('click', function () {
                 var fileInput = document.getElementById('operatorImportFile');
+                var asNextCost = document.getElementById('operatorImportAsNextCost');
+                var effectiveAt = document.getElementById('operatorImportEffectiveAt');
                 if (!fileInput.files || !fileInput.files.length) return alert('请选择 CSV 文件');
+                if (asNextCost && asNextCost.checked && (!effectiveAt || !effectiveAt.value)) return alert('请选择生效时间');
                 bootstrap.Modal.getInstance(document.getElementById('catalogOperatorBatchImportModal')).hide();
-                alert('已提交运营商导入：' + fileInput.files[0].name);
+                var msg = '已提交运营商导入：' + fileInput.files[0].name;
+                if (asNextCost && asNextCost.checked) {
+                    msg += '\n导入类型：下期成本价';
+                    msg += '\n生效时间：' + effectiveAt.value.replace('T', ' ');
+                }
+                alert(msg);
                 fileInput.value = '';
+                if (asNextCost) asNextCost.checked = false;
+                if (effectiveAt) {
+                    effectiveAt.value = '';
+                    effectiveAt.disabled = true;
+                }
             });
+            (function () {
+                var asNextCost = document.getElementById('operatorImportAsNextCost');
+                var effectiveAt = document.getElementById('operatorImportEffectiveAt');
+                if (!asNextCost || !effectiveAt) return;
+                asNextCost.addEventListener('change', function () {
+                    effectiveAt.disabled = !this.checked;
+                    if (!this.checked) effectiveAt.value = '';
+                });
+            })();
             document.getElementById('btnOperatorDictMatch').addEventListener('click', function () {
                 var matched = 0;
                 [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
@@ -1244,10 +1353,29 @@
                 var p = s + '-';
                 return n.indexOf(p) === 0 ? n : (p + n);
             }
+            function renderOperatorNextPriceCell(row) {
+                if (!row) return;
+                var cell = row.querySelector('.operator-next-price-cell');
+                if (!cell) return;
+                var nextPrice = (row.getAttribute('data-next-price') || '').trim();
+                var effectiveAt = (row.getAttribute('data-next-effective-at') || '').trim();
+                if (!nextPrice || nextPrice === '-') {
+                    cell.textContent = '-';
+                    return;
+                }
+                var normalized = normalizeQuote(nextPrice) || nextPrice;
+                if (effectiveAt) {
+                    cell.innerHTML = '<div>USD $ ' + escapeHtml(normalized) + '</div><div class="small text-muted">' + escapeHtml(effectiveAt.replace('T', ' ')) + '</div>';
+                } else {
+                    cell.textContent = 'USD $ ' + normalized;
+                }
+            }
 
             [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
                 var detailBtn = row.querySelector('.operator-detail-btn');
                 var editBtn = row.querySelector('.operator-edit-btn');
+                var planBtn = row.querySelector('.operator-plan-btn');
+                var revokePlanBtn = row.querySelector('.operator-revoke-plan-btn');
 
                 if (detailBtn) {
                     detailBtn.addEventListener('click', function () {
@@ -1286,9 +1414,25 @@
                         document.getElementById('operatorEditPrice').value = row.getAttribute('data-price') || '';
                         document.getElementById('operatorEditStatus').value = row.getAttribute('data-status') || '有效';
                         document.getElementById('operatorEditNetwork').value = row.getAttribute('data-network') || '';
-                        document.getElementById('operatorEditCoverageQuality').value = row.getAttribute('data-coverage-quality') || '';
                         document.getElementById('operatorEditRemark').value = row.getAttribute('data-remark') || '';
                         bootstrap.Modal.getOrCreateInstance(document.getElementById('operatorEditModal')).show();
+                    });
+                }
+                if (planBtn) {
+                    planBtn.addEventListener('click', function () {
+                        document.getElementById('operatorPlanCode').value = row.getAttribute('data-code') || '';
+                        document.getElementById('operatorPlanName').value = row.getAttribute('data-name') || '';
+                        document.getElementById('operatorPlanCurrentPrice').value = 'USD $ ' + (row.getAttribute('data-price') || '-');
+                        document.getElementById('operatorPlanNextPrice').value = (row.getAttribute('data-next-price') || '').replace('-', '');
+                        document.getElementById('operatorPlanEffectiveAt').value = row.getAttribute('data-next-effective-at') || '';
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('operatorPlanModal')).show();
+                    });
+                }
+                if (revokePlanBtn) {
+                    revokePlanBtn.addEventListener('click', function () {
+                        row.setAttribute('data-next-price', '-');
+                        row.removeAttribute('data-next-effective-at');
+                        renderOperatorNextPriceCell(row);
                     });
                 }
             });
@@ -1302,7 +1446,7 @@
                 var remarkValue = (document.getElementById('operatorEditRemark').value || '').trim();
 
                 if (!nameValue) return alert('请选择名称');
-                if (!priceValue || !normalizeQuote(priceValue)) return alert('请填写有效报价');
+                if (!priceValue || !normalizeQuote(priceValue)) return alert('请填写有效成本价');
 
                 var row = document.querySelector('#operatorTableBody tr[data-code="' + code + '"]');
                 if (!row) return;
@@ -1320,7 +1464,7 @@
                 var nameCell = row.children[0];
                 var priceCell = row.querySelector('.operator-price-cell');
                 var statusCell = row.querySelector('.operator-status-cell');
-                var networkCell = row.children[4];
+                var networkCell = row.children[3];
                 if (nameCell) nameCell.textContent = displayNameValue;
                 if (priceCell) priceCell.textContent = 'USD $ ' + priceText;
                 if (statusCell) statusCell.innerHTML = operatorStatusBadge(statusValue);
@@ -1329,10 +1473,23 @@
                 bootstrap.Modal.getInstance(document.getElementById('operatorEditModal')).hide();
                 applyOperatorFilter();
             });
+            document.getElementById('operatorPlanSave').addEventListener('click', function () {
+                var code = (document.getElementById('operatorPlanCode').value || '').trim();
+                var nextPrice = (document.getElementById('operatorPlanNextPrice').value || '').trim();
+                var effectiveAt = (document.getElementById('operatorPlanEffectiveAt').value || '').trim();
+                if (!code) return;
+                if (!nextPrice || !normalizeQuote(nextPrice)) return alert('请填写有效的下期成本价');
+                if (!effectiveAt) return alert('请选择生效时间');
+                var row = document.querySelector('#operatorTableBody tr[data-code="' + code + '"]');
+                if (!row) return;
+                row.setAttribute('data-next-price', normalizeQuote(nextPrice));
+                row.setAttribute('data-next-effective-at', effectiveAt);
+                renderOperatorNextPriceCell(row);
+                bootstrap.Modal.getInstance(document.getElementById('operatorPlanModal')).hide();
+            });
 
             function applyOperatorFilter() {
                 var supplier = (document.getElementById('operatorFilterSupplier').value || '').trim();
-                var region = (document.getElementById('operatorFilterRegion').value || '').trim();
                 var area = (document.getElementById('operatorFilterArea').value || '').trim();
                 var keyword = (document.getElementById('operatorFilterKeyword').value || '').trim().toLowerCase();
                 var status = (document.getElementById('operatorFilterStatus').value || '').trim();
@@ -1340,7 +1497,6 @@
 
                 [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (row) {
                     var rowSupplier = row.getAttribute('data-supplier') || '';
-                    var rowRegion = row.getAttribute('data-region') || '';
                     var rowArea = row.getAttribute('data-area') || '';
                     var rowName = (row.getAttribute('data-name') || '').toLowerCase();
                     var rowMcc = (row.getAttribute('data-mcc') || '').toLowerCase();
@@ -1351,7 +1507,6 @@
 
                     var visible = true;
                     if (supplier && rowSupplier !== supplier) visible = false;
-                    if (region && rowRegion !== region) visible = false;
                     if (area && rowArea !== area) visible = false;
                     if (status && rowStatus !== status) visible = false;
                     if (dictStatus && rowDictStatus !== dictStatus) visible = false;
@@ -1367,7 +1522,6 @@
             document.getElementById('btnOperatorSearch').addEventListener('click', applyOperatorFilter);
             document.getElementById('btnOperatorReset').addEventListener('click', function () {
                 document.getElementById('operatorFilterSupplier').value = '';
-                document.getElementById('operatorFilterRegion').value = '';
                 document.getElementById('operatorFilterArea').value = '';
                 document.getElementById('operatorFilterKeyword').value = '';
                 document.getElementById('operatorFilterStatus').value = '';
@@ -1382,6 +1536,7 @@
                 row.setAttribute('data-name', showName);
                 var nameCell = row.children[0];
                 if (nameCell) nameCell.textContent = showName;
+                renderOperatorNextPriceCell(row);
                 syncRowDictStatus(row);
             });
 
@@ -1392,5 +1547,7 @@
     </script>
 </body>
 </html>
+
+
 
 
