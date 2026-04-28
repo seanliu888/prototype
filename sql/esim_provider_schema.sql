@@ -49,7 +49,19 @@ create table if not exists esim_provider_operator (
   provider_id   bigint not null,
   code_raw      varchar(64) not null,
   code          varchar(64) not null,
-  name          varchar(128),
+  slug          varchar(128) not null,
+  name          varchar(256),
+  dict_code     varchar(64),
+  price         numeric(18, 6),
+  country_iso2  varchar(8) not null,
+  regions       text[],
+  network_type  varchar(64),
+  mcc           varchar(8),
+  mnc           varchar(8),
+  coverage_tier integer,
+  status        varchar(16) not null,
+  search_text   text,
+  remark        text,
   create_time   timestamp not null default now(),
   update_time   timestamp not null default now(),
   unique(provider_id, code_raw)
@@ -62,6 +74,53 @@ comment on column esim_provider_operator.code is '业务编码，运营商标准
 comment on column esim_provider_operator.name is '运营商展示名称';
 comment on column esim_provider_operator.create_time is '创建时间';
 comment on column esim_provider_operator.update_time is '更新时间';
+comment on column esim_provider_operator.slug is '运营商slug';
+comment on column esim_provider_operator.dict_code is '字典编码';
+comment on column esim_provider_operator.price is '价格';
+comment on column esim_provider_operator.country_iso2 is '国家ISO2编码';
+comment on column esim_provider_operator.regions is '所属区域数组';
+comment on column esim_provider_operator.network_type is '网络类型';
+comment on column esim_provider_operator.mcc is 'MCC';
+comment on column esim_provider_operator.mnc is 'MNC';
+comment on column esim_provider_operator.coverage_tier is '覆盖质量';
+comment on column esim_provider_operator.status is '状态';
+comment on column esim_provider_operator.search_text is '搜索文本';
+comment on column esim_provider_operator.remark is '备注';
+
+create index if not exists idx_provider_operator_slug
+  on esim_provider_operator(slug);
+create unique index if not exists uq_provider_operator_provider_id_dict_code
+  on esim_provider_operator(provider_id, dict_code);
+
+create table if not exists esim_operator_price_item (
+  id                bigserial primary key,
+  owner_type        varchar(16) not null,
+  owner_id          bigint not null,
+  provider_id       bigint not null,
+  operator_id       bigint not null,
+  operator_code     varchar(64) not null,
+  slug              varchar(128) not null,
+  name              varchar(256),
+  dict_code         varchar(64),
+  country_iso2      varchar(8),
+  regions           text[],
+  network_type      varchar(64),
+  mcc               varchar(8),
+  mnc               varchar(8),
+  coverage_tier     integer,
+  currency          varchar(8) not null,
+  cost_price        numeric(18, 6),
+  sale_price_strategy   varchar(32),
+  sale_price        numeric(18, 6) not null,
+  retail_price_strategy     varchar(32),
+  retail_price      numeric(18, 6) not null,
+  status            varchar(16) not null,
+  search_text       text,
+  remark            text,
+  create_time       timestamp not null default now(),
+  update_time       timestamp not null default now(),
+  unique(owner_type, owner_id, operator_id)
+);
 
 create table if not exists esim_provider_esim (
   id                bigserial primary key,

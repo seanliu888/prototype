@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -152,23 +152,22 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>供应商</th>
-                                            <th>套餐 Code</th>
-                                            <th>供应商套餐ID</th>
+                                            <th>套餐编码</th>
                                             <th>套餐名称</th>
                                             <th>类型/覆盖范围</th>
                                             <th>运营商</th>
                                             <th>流量/有效期</th>
                                             <th>计费方式</th>
-                                            <th>币种/成本</th>
+                                            <th>当前成本价</th>
+                                            <th>下期成本价</th>
                                             <th>状态</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody id="catalogTableBody">
-                                        <tr data-type="PACKAGE" data-pkg-code="pkg_1001" data-quote="18.00">
+                                        <tr data-type="PACKAGE" data-pkg-code="pkg_1001" data-quote="18.00" data-adjusted-quote="19.50" data-adjust-effective-at="2026-05-01T00:00">
                                             <td>eSIM 全球供</td>
-                                            <td><code>pkg_1001</code></td>
-                                            <td><code>PKG-AS-7D-1G</code></td>
+                                            <td><span class="text-muted small">平台：</span><code>pkg_1001</code><br><span class="text-muted small">供应商：</span><code>PKG-AS-7D-1G</code></td>
                                             <td class="catalog-name-cell">
                                                 <div class="catalog-name-display">亚洲7天1G（主推）</div>
                                                 <div class="catalog-supplier-sub text-muted small">供应商：亚洲 7 天 1GB</div>
@@ -178,13 +177,23 @@
                                             <td>1GB/7天</td>
                                             <td class="catalog-billing-cell"><span class="badge bg-secondary">套餐</span></td>
                                             <td class="catalog-quote-cell">USD $ 18.00</td>
+                                            <td class="catalog-adjust-info-cell">USD $ 19.50（2026-05-01 00:00）</td>
                                             <td><span class="badge bg-success">有效</span></td>
-                                            <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_1001" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1001" data-pkg-supplier-name="亚洲 7 天 1GB" data-pkg-custom-name="亚洲7天1G（主推）" data-price="18.00" data-billing="套餐"><i class="bi bi-pencil"></i></button></div></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item" href="catalog-detail.html?id=pkg_1001"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogAdjustPriceModal" data-pkg-code="pkg_1001" data-pkg-name="亚洲7天1G（主推）" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-cancel-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                        <li><a class="dropdown-item catalog-edit-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1001" data-pkg-supplier-name="亚洲 7 天 1GB" data-pkg-custom-name="亚洲7天1G（主推）" data-price="18.00" data-billing="套餐" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr data-type="PER_GB" data-pkg-code="pkg_1002">
                                             <td>eSIM 全球供</td>
-                                            <td><code>pkg_1002</code></td>
-                                            <td><code>PKG-EU-15D-3G</code></td>
+                                            <td><span class="text-muted small">平台：</span><code>pkg_1002</code><br><span class="text-muted small">供应商：</span><code>PKG-EU-15D-3G</code></td>
                                             <td class="catalog-name-cell">
                                                 <div class="catalog-name-display">欧洲 15 天 3GB</div>
                                                 <div class="catalog-supplier-sub text-muted small">供应商：欧洲 15 天 3GB</div>
@@ -194,13 +203,23 @@
                                             <td>3GB/15天</td>
                                             <td class="catalog-billing-cell"><span class="badge bg-info">每GB</span></td>
                                             <td class="catalog-quote-cell"></td>
+                                            <td class="catalog-adjust-info-cell">-</td>
                                             <td><span class="badge bg-success">有效</span></td>
-                                            <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_1002" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1002" data-pkg-supplier-name="欧洲 15 天 3GB" data-pkg-custom-name="欧洲 15 天 3GB" data-price="45.00" data-billing="每GB"><i class="bi bi-pencil"></i></button></div></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item" href="catalog-detail.html?id=pkg_1002"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogAdjustPriceModal" data-pkg-code="pkg_1002" data-pkg-name="欧洲 15 天 3GB" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-cancel-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                        <li><a class="dropdown-item catalog-edit-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1002" data-pkg-supplier-name="欧洲 15 天 3GB" data-pkg-custom-name="欧洲 15 天 3GB" data-price="45.00" data-billing="每GB" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>
-                                        <tr data-type="PACKAGE" data-pkg-code="pkg_1003" data-quote="22.00">
+                                        <tr data-type="PACKAGE" data-pkg-code="pkg_1003" data-quote="22.00" data-adjusted-quote="23.80" data-adjust-effective-at="2026-05-03T09:30">
                                             <td>eSIM 全球供</td>
-                                            <td><code>pkg_1003</code></td>
-                                            <td><code>PKG-JP-7D-1G</code></td>
+                                            <td><span class="text-muted small">平台：</span><code>pkg_1003</code><br><span class="text-muted small">供应商：</span><code>PKG-JP-7D-1G</code></td>
                                             <td class="catalog-name-cell">
                                                 <div class="catalog-name-display">日本 7 天 1GB</div>
                                                 <div class="catalog-supplier-sub text-muted small">供应商：日本 7 天 1GB</div>
@@ -210,13 +229,23 @@
                                             <td>1GB/7天</td>
                                             <td class="catalog-billing-cell"><span class="badge bg-secondary">套餐</span></td>
                                             <td class="catalog-quote-cell">USD $ 22.00</td>
+                                            <td class="catalog-adjust-info-cell">USD $ 23.80（2026-05-03 09:30）</td>
                                             <td><span class="badge bg-success">有效</span></td>
-                                            <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_1003" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1003" data-pkg-supplier-name="日本 7 天 1GB" data-pkg-custom-name="日本 7 天 1GB" data-price="22.00" data-billing="套餐"><i class="bi bi-pencil"></i></button></div></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item" href="catalog-detail.html?id=pkg_1003"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogAdjustPriceModal" data-pkg-code="pkg_1003" data-pkg-name="日本 7 天 1GB" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-cancel-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                        <li><a class="dropdown-item catalog-edit-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_1003" data-pkg-supplier-name="日本 7 天 1GB" data-pkg-custom-name="日本 7 天 1GB" data-price="22.00" data-billing="套餐" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr data-type="PER_GB" data-pkg-code="pkg_2001">
                                             <td>跨境 eSIM 源</td>
-                                            <td><code>pkg_2001</code></td>
-                                            <td><code>PLAN-AS-7D-1G</code></td>
+                                            <td><span class="text-muted small">平台：</span><code>pkg_2001</code><br><span class="text-muted small">供应商：</span><code>PLAN-AS-7D-1G</code></td>
                                             <td class="catalog-name-cell">
                                                 <div class="catalog-name-display">亚洲 7 日 1G 流量</div>
                                                 <div class="catalog-supplier-sub text-muted small">供应商：亚洲 7 日 1G 流量</div>
@@ -226,8 +255,19 @@
                                             <td>1GB/7天</td>
                                             <td class="catalog-billing-cell"><span class="badge bg-info">每GB</span></td>
                                             <td class="catalog-quote-cell"></td>
+                                            <td class="catalog-adjust-info-cell">-</td>
                                             <td><span class="badge bg-success">有效</span></td>
-                                            <td><div class="btn-group btn-group-sm"><a href="catalog-detail.html?id=pkg_2001" class="btn btn-outline-primary">详情</a><button type="button" class="btn btn-outline-warning catalog-edit-btn" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_2001" data-pkg-supplier-name="亚洲 7 日 1G 流量" data-pkg-custom-name="亚洲 7 日 1G 流量" data-price="16.50" data-billing="每GB"><i class="bi bi-pencil"></i></button></div></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="操作"><i class="bi bi-three-dots-vertical"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li><a class="dropdown-item" href="catalog-detail.html?id=pkg_2001"><i class="bi bi-eye me-2"></i>详情</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogAdjustPriceModal" data-pkg-code="pkg_2001" data-pkg-name="亚洲 7 日 1G 流量" onclick="return false;"><i class="bi bi-sliders me-2"></i>价格计划</a></li>
+                                                        <li><a class="dropdown-item catalog-adjust-cancel-btn" href="#" onclick="return false;"><i class="bi bi-arrow-counterclockwise me-2"></i>撤销计划</a></li>
+                                                        <li><a class="dropdown-item catalog-edit-btn" href="#" data-bs-toggle="modal" data-bs-target="#catalogEditModal" data-pkg-code="pkg_2001" data-pkg-supplier-name="亚洲 7 日 1G 流量" data-pkg-custom-name="亚洲 7 日 1G 流量" data-price="16.50" data-billing="每GB" onclick="return false;"><i class="bi bi-pencil me-2"></i>编辑</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -310,7 +350,7 @@
                                             <th>地区/国家</th>
                                             <th>MCC/MNC</th>
                                             <th>网络类型</th>
-                                            <th>报价(/G)</th>
+                                            <th>报价($/G)</th>
                                             <th>状态</th>
                                             <th>操作</th>
                                         </tr>
@@ -559,6 +599,47 @@
         </div>
     </div>
 
+    <div class="modal fade" id="catalogAdjustPriceModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="catalogAdjustModalTitle">价格计划</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="catalogAdjustPkgCode">
+                    <input type="hidden" id="catalogAdjustRowType">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">当前成本价（USD）</label>
+                            <input type="text" class="form-control" id="catalogAdjustCurrentPrice" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">新成本（USD）</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="catalogAdjustNewPrice" step="0.01" min="0" placeholder="请输入新成本">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">生效时间</label>
+                            <input type="datetime-local" class="form-control" id="catalogAdjustEffectiveAt">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">流量包成本 <span class="badge text-bg-primary">可编辑</span></label>
+                            <div id="catalogAdjustRefills" class="d-grid gap-2"></div>
+                            <small class="text-muted">可在此维护各流量包的成本。</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="catalogAdjustApply">应用</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="catalogBatchImportModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -570,6 +651,15 @@
                     <div class="mb-3">
                         <label class="form-label">CSV 文件</label>
                         <input type="file" class="form-control" id="catalogImportFile" accept=".csv">
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="catalogImportAsNextCost">
+                        <label class="form-check-label" for="catalogImportAsNextCost">导入为下期成本价</label>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label">生效时间</label>
+                        <input type="datetime-local" class="form-control" id="catalogImportEffectiveAt" disabled>
+                        <small class="text-muted">勾选“导入为下期成本价”后可选择生效时间。</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -615,7 +705,7 @@
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">MCC/MNC</label><div id="operatorDetailMccMnc"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">网络类型</label><div id="operatorDetailNetwork"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">覆盖质量</label><div id="operatorDetailCoverageQuality"></div></div>
-                        <div class="col-md-6"><label class="form-label text-muted small mb-1">报价(/G)</label><div id="operatorDetailPrice"></div></div>
+                        <div class="col-md-6"><label class="form-label text-muted small mb-1">报价($/G)</label><div id="operatorDetailPrice"></div></div>
                         <div class="col-md-6"><label class="form-label text-muted small mb-1">状态</label><div id="operatorDetailStatus"></div></div>
                         <div class="col-12"><label class="form-label text-muted small mb-1">备注</label><div id="operatorDetailRemark" class="text-break"></div></div>
                     </div>
@@ -658,7 +748,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">报价(/G) <span class="text-danger">*</span></label>
+                        <label class="form-label">报价($/G) <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">USD $</span>
                             <input type="number" class="form-control" id="operatorEditPrice" min="0" step="0.01" required>
@@ -769,7 +859,7 @@
             function collectOperatorRatesForPackage(row) {
                 if (!row) return [];
                 var supplier = row.children[0] ? row.children[0].textContent.trim() : '';
-                var areaText = row.children[4] ? row.children[4].textContent.replace(/\s+/g, ' ').trim() : '';
+                var areaText = row.children[3] ? row.children[3].textContent.replace(/\s+/g, ' ').trim() : '';
                 var rates = [];
 
                 [].slice.call(document.querySelectorAll('#operatorTableBody tr')).forEach(function (opRow) {
@@ -792,7 +882,9 @@
                 var pkgCode = tr.getAttribute('data-pkg-code') || '';
                 var rates = (perGbRatesByPkg[pkgCode] || []).slice();
                 var quoteCell = tr.querySelector('.catalog-quote-cell');
+                var adjustInfoCell = tr.querySelector('.catalog-adjust-info-cell');
                 if (!quoteCell) return;
+                if (adjustInfoCell) adjustInfoCell.textContent = '-';
 
                 quoteCell.innerHTML = '';
                 if (!rates.length) {
@@ -837,6 +929,33 @@
                     renderPerGbQuoteCell(tr);
                 });
             }
+            function renderPackageQuoteCell(row) {
+                if (!row) return;
+                var quoteCell = row.querySelector('.catalog-quote-cell');
+                var adjustInfoCell = row.querySelector('.catalog-adjust-info-cell');
+                if (!quoteCell) return;
+                var adjustedQuote = row.getAttribute('data-adjusted-quote') || '';
+                var effectiveAt = row.getAttribute('data-adjust-effective-at') || '';
+                var baseQuote = row.getAttribute('data-quote') || '';
+                var topPrice = adjustedQuote || baseQuote;
+                quoteCell.textContent = topPrice ? ('USD $ ' + topPrice) : '-';
+                if (adjustInfoCell) {
+                    adjustInfoCell.innerHTML = (adjustedQuote && effectiveAt)
+                        ? ('<div>USD $ ' + escapeHtml(adjustedQuote) + '</div><div class="small text-muted">' + escapeHtml(effectiveAt.replace('T', ' ')) + '</div>')
+                        : '-';
+                }
+            }
+            function syncAdjustButtons(row) {
+                if (!row) return;
+                var isPerGb = (row.getAttribute('data-type') || '') === 'PER_GB';
+                var adjustBtn = row.querySelector('.catalog-adjust-btn');
+                var cancelBtn = row.querySelector('.catalog-adjust-cancel-btn');
+                if (adjustBtn) adjustBtn.classList.toggle('d-none', isPerGb);
+                if (cancelBtn) cancelBtn.classList.toggle('d-none', isPerGb);
+            }
+            function syncAllAdjustButtons() {
+                [].slice.call(document.querySelectorAll('#catalogTableBody tr')).forEach(syncAdjustButtons);
+            }
 
             var editModal = document.getElementById('catalogEditModal');
             var refillContainer = document.getElementById('catalogEditRefills');
@@ -860,6 +979,25 @@
                                 '<div class="col-md-4"><label class="form-label">加油包编码</label><input type="text" class="form-control" value="' + escapeHtml(item.code) + '" readonly></div>' +
                                 '<div class="col-md-2"><label class="form-label">流量</label><input type="text" class="form-control" value="' + escapeHtml(item.cap) + '" readonly></div>' +
                                 '<div class="col-md-6"><label class="form-label">成本（USD）</label><div class="input-group"><span class="input-group-text">$</span><input type="number" class="form-control catalog-refill-quote" data-refill-index="' + index + '" min="0" step="0.01" value="' + escapeHtml(item.quote) + '" placeholder="选填"></div></div>' +
+                            '</div>' +
+                        '</div>';
+                }).join('');
+            }
+            function renderAdjustRefills(pkgCode) {
+                var container = document.getElementById('catalogAdjustRefills');
+                if (!container) return;
+                var refills = catalogRefillsByPkg[pkgCode] || [];
+                if (!refills.length) {
+                    container.innerHTML = '<div class="border rounded p-3 bg-light text-muted small">当前套餐未配置流量包。</div>';
+                    return;
+                }
+                container.innerHTML = refills.map(function (item, index) {
+                    return '' +
+                        '<div class="border rounded p-3">' +
+                            '<div class="row g-2 align-items-end">' +
+                                '<div class="col-md-4"><label class="form-label">流量包编码</label><input type="text" class="form-control" value="' + escapeHtml(item.code) + '" readonly></div>' +
+                                '<div class="col-md-2"><label class="form-label">流量</label><input type="text" class="form-control" value="' + escapeHtml(item.cap) + '" readonly></div>' +
+                                '<div class="col-md-6"><label class="form-label">成本（USD）</label><div class="input-group"><span class="input-group-text">$</span><input type="number" class="form-control catalog-adjust-refill-quote" data-refill-index="' + index + '" min="0" step="0.01" value="' + escapeHtml(item.quote) + '" placeholder="选填"></div></div>' +
                             '</div>' +
                         '</div>';
                 }).join('');
@@ -931,11 +1069,14 @@
 
                 if (billing === '每GB') {
                     row.setAttribute('data-type', 'PER_GB');
+                    row.removeAttribute('data-adjusted-quote');
+                    row.removeAttribute('data-adjust-effective-at');
                     row.querySelector('.catalog-billing-cell').innerHTML = '<span class="badge bg-info">每GB</span>';
                     if (editBtn) editBtn.setAttribute('data-billing', '每GB');
                     var dynamicRates = collectOperatorRatesForPackage(row);
                     if (dynamicRates.length) perGbRatesByPkg[code] = dynamicRates;
                     renderPerGbQuoteCell(row);
+                    syncAdjustButtons(row);
                     bootstrap.Modal.getInstance(editModal).hide();
                     return;
                 }
@@ -944,12 +1085,15 @@
                 var quoteText = normalizeQuote(price);
                 row.setAttribute('data-type', 'PACKAGE');
                 row.setAttribute('data-quote', quoteText);
-                row.querySelector('.catalog-quote-cell').textContent = 'USD $ ' + quoteText;
+                row.removeAttribute('data-adjusted-quote');
+                row.removeAttribute('data-adjust-effective-at');
+                renderPackageQuoteCell(row);
                 row.querySelector('.catalog-billing-cell').innerHTML = '<span class="badge bg-secondary">套餐</span>';
                 if (editBtn) {
                     editBtn.setAttribute('data-price', quoteText);
                     editBtn.setAttribute('data-billing', '套餐');
                 }
+                syncAdjustButtons(row);
 
                 var refills = catalogRefillsByPkg[code] || [];
                 [].slice.call(document.querySelectorAll('#catalogEditRefills .catalog-refill-quote')).forEach(function (input) {
@@ -964,14 +1108,93 @@
             document.getElementById('btnExportCatalog').addEventListener('click', function () {
                 alert('导出功能演示');
             });
+            var catalogAdjustModal = document.getElementById('catalogAdjustPriceModal');
+            if (catalogAdjustModal) {
+                catalogAdjustModal.addEventListener('show.bs.modal', function (event) {
+                    var btn = event.relatedTarget;
+                    if (!btn || !btn.classList.contains('catalog-adjust-btn')) return;
+                    var pkgCode = btn.getAttribute('data-pkg-code') || '';
+                    var pkgName = btn.getAttribute('data-pkg-name') || '';
+                    var row = pkgCode ? document.querySelector('#catalogTableBody tr[data-pkg-code="' + pkgCode + '"]') : null;
+                    var rowType = row ? (row.getAttribute('data-type') || '') : '';
+                    var currentPrice = row ? (row.getAttribute('data-adjusted-quote') || row.getAttribute('data-quote') || '') : '';
+                    document.getElementById('catalogAdjustPkgCode').value = pkgCode;
+                    document.getElementById('catalogAdjustRowType').value = rowType;
+                    document.getElementById('catalogAdjustCurrentPrice').value = currentPrice || '';
+                    document.getElementById('catalogAdjustNewPrice').value = currentPrice || '';
+                    document.getElementById('catalogAdjustEffectiveAt').value = '';
+                    document.getElementById('catalogAdjustModalTitle').textContent = pkgName
+                        ? ('价格计划 - ' + pkgName + (pkgCode ? '（' + pkgCode + '）' : ''))
+                        : '价格计划';
+                    renderAdjustRefills(pkgCode);
+                });
+            }
+            document.getElementById('catalogAdjustApply').addEventListener('click', function () {
+                var pkgCode = document.getElementById('catalogAdjustPkgCode').value || '';
+                var rowType = document.getElementById('catalogAdjustRowType').value || '';
+                var newPriceValue = (document.getElementById('catalogAdjustNewPrice').value || '').trim();
+                var effectiveAtValue = (document.getElementById('catalogAdjustEffectiveAt').value || '').trim();
+                if (!newPriceValue || !normalizeQuote(newPriceValue)) return alert('请填写有效的新成本');
+                if (!effectiveAtValue) return alert('请选择生效时间');
+                var row = pkgCode ? document.querySelector('#catalogTableBody tr[data-pkg-code="' + pkgCode + '"]') : null;
+                if (!row) return alert('未找到对应套餐');
+                if (rowType === 'PER_GB') return alert('每GB 类型不支持价格计划');
+                var normalizedPrice = normalizeQuote(newPriceValue);
+                row.setAttribute('data-adjusted-quote', normalizedPrice);
+                row.setAttribute('data-adjust-effective-at', effectiveAtValue);
+                renderPackageQuoteCell(row);
+                var editBtn = row.querySelector('.catalog-edit-btn');
+                if (editBtn) editBtn.setAttribute('data-price', normalizedPrice);
+                var refills = catalogRefillsByPkg[pkgCode] || [];
+                [].slice.call(document.querySelectorAll('#catalogAdjustRefills .catalog-adjust-refill-quote')).forEach(function (input) {
+                    var index = parseInt(input.getAttribute('data-refill-index'), 10);
+                    if (!Number.isInteger(index) || !refills[index]) return;
+                    var v = input.value.trim();
+                    refills[index].quote = v ? normalizeQuote(v) : '';
+                });
+                syncAdjustButtons(row);
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('catalogAdjustPriceModal')).hide();
+            });
+            [].slice.call(document.querySelectorAll('#catalogTableBody .catalog-adjust-cancel-btn')).forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var row = this.closest('tr');
+                    if (!row) return;
+                    row.removeAttribute('data-adjusted-quote');
+                    row.removeAttribute('data-adjust-effective-at');
+                    renderPackageQuoteCell(row);
+                    syncAdjustButtons(row);
+                });
+            });
 
             document.getElementById('catalogImportConfirm').addEventListener('click', function () {
                 var fileInput = document.getElementById('catalogImportFile');
+                var asNextCost = document.getElementById('catalogImportAsNextCost');
+                var effectiveAt = document.getElementById('catalogImportEffectiveAt');
                 if (!fileInput.files || !fileInput.files.length) return alert('请选择 CSV 文件');
+                if (asNextCost && asNextCost.checked && (!effectiveAt || !effectiveAt.value)) return alert('请选择生效时间');
                 bootstrap.Modal.getInstance(document.getElementById('catalogBatchImportModal')).hide();
-                alert('已提交导入：' + fileInput.files[0].name);
+                var msg = '已提交导入：' + fileInput.files[0].name;
+                if (asNextCost && asNextCost.checked) {
+                    msg += '\n导入类型：下期成本价';
+                    msg += '\n生效时间：' + effectiveAt.value.replace('T', ' ');
+                }
+                alert(msg);
                 fileInput.value = '';
+                if (asNextCost) asNextCost.checked = false;
+                if (effectiveAt) {
+                    effectiveAt.value = '';
+                    effectiveAt.disabled = true;
+                }
             });
+            (function () {
+                var asNextCost = document.getElementById('catalogImportAsNextCost');
+                var effectiveAt = document.getElementById('catalogImportEffectiveAt');
+                if (!asNextCost || !effectiveAt) return;
+                asNextCost.addEventListener('change', function () {
+                    effectiveAt.disabled = !this.checked;
+                    if (!this.checked) effectiveAt.value = '';
+                });
+            })();
             document.getElementById('btnOperatorExport').addEventListener('click', function () {
                 alert('运营商导出功能演示');
             });
@@ -1163,8 +1386,11 @@
             });
 
             initPerGbDisplay();
+            [].slice.call(document.querySelectorAll('#catalogTableBody tr[data-type="PACKAGE"]')).forEach(renderPackageQuoteCell);
+            syncAllAdjustButtons();
         })();
     </script>
 </body>
 </html>
+
 
