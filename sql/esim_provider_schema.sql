@@ -49,16 +49,18 @@ create table if not exists esim_provider_operator (
   provider_id   bigint not null,
   code_raw      varchar(64) not null,
   code          varchar(64) not null,
+  code_match    integer not null default 0,
   slug          varchar(128) not null,
   name          varchar(256),
-  dict_code     varchar(64),
+  currency      varchar(8) not null,
   price         numeric(18, 6),
+  price_plan_time timestamp,
+  price_plan_value numeric(18, 6),
   country_iso2  varchar(8) not null,
   regions       text[],
   network_type  varchar(64),
   mcc           varchar(8),
   mnc           varchar(8),
-  coverage_tier integer,
   status        varchar(16) not null,
   search_text   text,
   remark        text,
@@ -71,56 +73,27 @@ comment on column esim_provider_operator.id is '主键ID';
 comment on column esim_provider_operator.provider_id is '关联ID，供应商ID';
 comment on column esim_provider_operator.code_raw is '业务编码，运营商原始编码';
 comment on column esim_provider_operator.code is '业务编码，运营商标准编码';
+comment on column esim_provider_operator.code_match is '是否已配置code';
 comment on column esim_provider_operator.name is '运营商展示名称';
 comment on column esim_provider_operator.create_time is '创建时间';
 comment on column esim_provider_operator.update_time is '更新时间';
 comment on column esim_provider_operator.slug is '运营商slug';
-comment on column esim_provider_operator.dict_code is '字典编码';
 comment on column esim_provider_operator.price is '价格';
+comment on column esim_provider_operator.price_plan_time is '价格计划时间';
+comment on column esim_provider_operator.price_plan_value is '价格计划值（最终价格）';
 comment on column esim_provider_operator.country_iso2 is '国家ISO2编码';
 comment on column esim_provider_operator.regions is '所属区域数组';
 comment on column esim_provider_operator.network_type is '网络类型';
 comment on column esim_provider_operator.mcc is 'MCC';
 comment on column esim_provider_operator.mnc is 'MNC';
-comment on column esim_provider_operator.coverage_tier is '覆盖质量';
 comment on column esim_provider_operator.status is '状态';
 comment on column esim_provider_operator.search_text is '搜索文本';
 comment on column esim_provider_operator.remark is '备注';
 
 create index if not exists idx_provider_operator_slug
   on esim_provider_operator(slug);
-create unique index if not exists uq_provider_operator_provider_id_dict_code
-  on esim_provider_operator(provider_id, dict_code);
-
-create table if not exists esim_operator_price_item (
-  id                bigserial primary key,
-  owner_type        varchar(16) not null,
-  owner_id          bigint not null,
-  provider_id       bigint not null,
-  operator_id       bigint not null,
-  operator_code     varchar(64) not null,
-  slug              varchar(128) not null,
-  name              varchar(256),
-  dict_code         varchar(64),
-  country_iso2      varchar(8),
-  regions           text[],
-  network_type      varchar(64),
-  mcc               varchar(8),
-  mnc               varchar(8),
-  coverage_tier     integer,
-  currency          varchar(8) not null,
-  cost_price        numeric(18, 6),
-  sale_price_strategy   varchar(32),
-  sale_price        numeric(18, 6) not null,
-  retail_price_strategy     varchar(32),
-  retail_price      numeric(18, 6) not null,
-  status            varchar(16) not null,
-  search_text       text,
-  remark            text,
-  create_time       timestamp not null default now(),
-  update_time       timestamp not null default now(),
-  unique(owner_type, owner_id, operator_id)
-);
+create index if not exists idx_provider_operator_price_plan_time
+  on esim_provider_operator(price_plan_time);
 
 create table if not exists esim_provider_esim (
   id                bigserial primary key,
@@ -214,41 +187,45 @@ comment on column esim_partner.update_time is '更新时间';
 create index if not exists idx_partner_status on esim_partner(status);
 
 create table if not exists esim_package (
-  id                   bigserial primary key,
-  code                 varchar(64) not null unique,
-  slug                 varchar(128) not null,
-  provider_id          bigint not null,
-  code_raw             varchar(128) not null,
-  name_raw             varchar(256),
-  name                 varchar(256) not null,
-  type                 varchar(16) not null,
-  data                 bigint,
-  data_unit            varchar(16),
-  data_raw             bigint,
-  data_unit_raw        varchar(16),
-  limit_type           varchar(32),
-  limit_control        varchar(32),
-  duration             integer,
-  duration_unit        varchar(16),
-  speed                varchar(16),
-  billing_mode         varchar(16) not null,
-  currency             varchar(8) not null,
-  price_raw            numeric(18, 6),
-  price                numeric(18, 6),
-  version              integer not null default 0,
-  support_top_up       integer not null default 0,
-  source_status        varchar(16),
-  status               varchar(16) not null,
-  last_sync_time       timestamp,
-  coverage             text[],
-  regions              text[],
-  create_time          timestamp not null default now(),
-  update_time          timestamp not null default now(),
+  id                    bigserial primary key,
+  code                  varchar(64) not null unique,
+  slug                  varchar(128) not null,
+  tag                   varchar(128) not null,
+  provider_id           bigint not null,
+  code_raw              varchar(128) not null,
+  name_raw              varchar(256),
+  name                  varchar(256) not null,
+  type                  varchar(16) not null,
+  data                  bigint,
+  data_unit             varchar(16),
+  data_raw              bigint,
+  data_unit_raw         varchar(16),
+  limit_type            varchar(32),
+  limit_control         varchar(32),
+  duration              integer,
+  duration_unit         varchar(16),
+  speed                 varchar(16),
+  billing_mode          varchar(16) not null,
+  currency              varchar(8) not null,
+  price_raw             numeric(18, 6),
+  price                 numeric(18, 6),
+  price_plan_time       timestamp,
+  price_plan_value      numeric(18, 6),
+  version               integer not null default 0,
+  support_top_up        integer not null default 0,
+  source_status         varchar(16),
+  status                varchar(16) not null,
+  last_sync_time        timestamp,
+  coverage              text[],
+  regions               text[],
+  create_time           timestamp not null default now(),
+  update_time           timestamp not null default now(),
   unique(provider_id, code_raw)
 );
 comment on table esim_package is '套餐目录';
 comment on column esim_package.id is '主键ID';
 comment on column esim_package.code is '业务编码 套餐编码';
+comment on column esim_package.tag is '标签';
 comment on column esim_package.slug is '由关键信息拼接生成，可用于排序、搜索';
 comment on column esim_package.provider_id is '关联ID 供应商ID';
 comment on column esim_package.code_raw is '关联ID 供应商原始套餐ID';
@@ -267,6 +244,8 @@ comment on column esim_package.speed is '速率等级';
 comment on column esim_package.billing_mode is '计费模式：PACKAGE=按套餐，PER_GB=按GB';
 comment on column esim_package.currency is '币种';
 comment on column esim_package.price is '价格';
+comment on column esim_package.price_plan_time is '价格计划时间';
+comment on column esim_package.price_plan_value is '价格计划值（最终价格）';
 comment on column esim_package.support_top_up is '是否支持加油包：1=支持，0=不支持';
 comment on column esim_package.source_status is '源状态：状态：ENABLED=启用，DISABLED=禁用。供应商套餐是否存在、可用等原始状态';
 comment on column esim_package.status is '状态：ON_SALE=在售，OFF_SALE=停售';
@@ -279,7 +258,76 @@ comment on column esim_package.limit_control is '限速控制逻辑';
 comment on column esim_package.price_raw is '同步原始价格';
 create index if not exists idx_package_slug
   on esim_package(slug);
+create index if not exists idx_package_tag
+  on esim_package(tag);
+create index if not exists idx_package_price_plan_time
+  on esim_package(price_plan_time);
 
+create table if not exists esim_gb_price_item (
+  id                bigserial primary key,
+  owner_type        varchar(16) not null,
+  owner_id          bigint not null,
+  provider_id       bigint not null,
+  operator_id       bigint not null,
+  operator_code     varchar(64) not null,
+  slug              varchar(128) not null,
+  name              varchar(256),
+  country_iso2      varchar(8),
+  regions           text[],
+  network_type      varchar(64),
+  mcc               varchar(8),
+  mnc               varchar(8),
+  currency          varchar(8) not null,
+  cost_price        numeric(18, 6),
+  cost_price_plan_time timestamp,
+  cost_price_plan_value numeric(18, 6),
+  sale_price_strategy   varchar(32),
+  sale_price        numeric(18, 6) not null,
+  price_plan_time   timestamp,
+  sale_price_plan_value numeric(18, 6),
+  retail_price_strategy     varchar(32),
+  retail_price      numeric(18, 6) not null,
+  retail_price_plan_value numeric(18, 6),
+  status            varchar(16) not null,
+  search_text       text,
+  remark            text,
+  create_time       timestamp not null default now(),
+  update_time       timestamp not null default now(),
+  unique(owner_type, owner_id, operator_id)
+);
+comment on table esim_gb_price_item is 'GB价格项';
+comment on column esim_gb_price_item.id is '主键ID';
+comment on column esim_gb_price_item.owner_type is '归属类型：GUIDE=指导价，SPECIAL=特殊价';
+comment on column esim_gb_price_item.owner_id is '关联ID 归属对象ID';
+comment on column esim_gb_price_item.provider_id is '关联ID 供应商ID';
+comment on column esim_gb_price_item.operator_id is '关联ID 运营商ID';
+comment on column esim_gb_price_item.operator_code is '运营商标准编码';
+comment on column esim_gb_price_item.slug is '排序/搜索slug';
+comment on column esim_gb_price_item.name is '名称';
+comment on column esim_gb_price_item.country_iso2 is '国家ISO2编码';
+comment on column esim_gb_price_item.regions is '覆盖区域数组';
+comment on column esim_gb_price_item.network_type is '网络类型';
+comment on column esim_gb_price_item.mcc is 'MCC';
+comment on column esim_gb_price_item.mnc is 'MNC';
+comment on column esim_gb_price_item.currency is '币种';
+comment on column esim_gb_price_item.cost_price is '成本单价(每GB)';
+comment on column esim_gb_price_item.cost_price_plan_time is '成本计划时间';
+comment on column esim_gb_price_item.cost_price_plan_value is '成本计划价格';
+comment on column esim_gb_price_item.sale_price_strategy is '销售价定价策略';
+comment on column esim_gb_price_item.sale_price is '销售价';
+comment on column esim_gb_price_item.price_plan_time is '销售/零售计划时间';
+comment on column esim_gb_price_item.sale_price_plan_value is '销售计划价格';
+comment on column esim_gb_price_item.retail_price_strategy is '零售价定价策略';
+comment on column esim_gb_price_item.retail_price is '零售价';
+comment on column esim_gb_price_item.retail_price_plan_value is '零售计划价格';
+comment on column esim_gb_price_item.status is '状态：ON_SALE=在售，OFF_SALE=下架';
+comment on column esim_gb_price_item.search_text is '搜索文本';
+comment on column esim_gb_price_item.remark is '备注';
+comment on column esim_gb_price_item.create_time is '创建时间';
+comment on column esim_gb_price_item.update_time is '更新时间';
+
+create index if not exists idx_gb_price_item_price_plan_time
+  on esim_gb_price_item(price_plan_time);
 
 create table if not exists esim_package_country_operator (
   id                   bigserial primary key,
@@ -331,6 +379,8 @@ create table if not exists esim_top_up (
   currency          varchar(8) not null,
   price_raw         numeric(18, 6),
   price             numeric(18, 6),
+  price_plan_time   timestamp,
+  price_plan_value  numeric(18, 6),
   source_status     varchar(16),
   last_sync_time      timestamp,
   create_time        timestamp not null default now(),
@@ -347,6 +397,8 @@ comment on column esim_top_up.data_unit is '流量单位';
 comment on column esim_top_up.data_raw is '原始流量值';
 comment on column esim_top_up.currency is '币种';
 comment on column esim_top_up.price is '价格';
+comment on column esim_top_up.price_plan_time is '价格计划时间';
+comment on column esim_top_up.price_plan_value is '价格计划值（最终价格）';
 comment on column esim_top_up.last_sync_time is '最近同步时间';
 comment on column esim_top_up.create_time is '创建时间';
 comment on column esim_top_up.update_time is '更新时间';
@@ -361,6 +413,8 @@ create index if not exists idx_top_up_package_code_code
 
 create index if not exists idx_top_up_slug
   on esim_top_up(slug);
+create index if not exists idx_top_up_price_plan_time
+  on esim_top_up(price_plan_time);
 
 
 create table if not exists esim_guide_price_plan (
@@ -398,11 +452,16 @@ create table if not exists esim_price_item (
   billing_mode      varchar(16),
   currency          varchar(8) not null,
   cost_price        numeric(18, 6),
+  cost_price_plan_time timestamp,
+  cost_price_plan_value numeric(18, 6),
   support_top_up    integer not null,
   sale_price_strategy varchar(32),
   sale_price        numeric(18, 6) not null,
+  price_plan_time   timestamp,
+  sale_price_plan_value numeric(18, 6),
   retail_price_strategy varchar(32),
   retail_price      numeric(18, 6) not null,
+  retail_price_plan_value numeric(18, 6),
   status            varchar(16) not null,
   coverage          text[],
   regions           text[],
@@ -428,11 +487,16 @@ comment on column esim_price_item.speed is '速率等级';
 comment on column esim_price_item.billing_mode is '计费模式：PACKAGE=按套餐，PER_GB=按GB';
 comment on column esim_price_item.currency is '币种';
 comment on column esim_price_item.cost_price is '成本价格';
+comment on column esim_price_item.cost_price_plan_time is '成本计划时间';
+comment on column esim_price_item.cost_price_plan_value is '成本计划价格';
 comment on column esim_price_item.support_top_up is '是否支持加油包：1=支持，0=不支持';
 comment on column esim_price_item.sale_price_strategy is '销售价定价策略值，如固定额20或利率120%';
 comment on column esim_price_item.sale_price is '销售价';
+comment on column esim_price_item.price_plan_time is '销售/零售计划时间';
+comment on column esim_price_item.sale_price_plan_value is '销售计划价格';
 comment on column esim_price_item.retail_price_strategy is '零售价定价策略值，如固定额20或利率120%';
 comment on column esim_price_item.retail_price is '建议零售价';
+comment on column esim_price_item.retail_price_plan_value is '零售计划价格';
 comment on column esim_price_item.status is '状态：ON_SALE=在售，OFF_SALE=下架';
 comment on column esim_price_item.coverage is '覆盖范围数组';
 comment on column esim_price_item.regions is '覆盖区域数组';
@@ -447,6 +511,28 @@ create index if not exists idx_price_item_parent_id
 
 create index if not exists idx_price_item_slug
   on esim_price_item(slug);
+create index if not exists idx_price_item_price_plan_time
+  on esim_price_item(price_plan_time);
+
+create table if not exists esim_partner_api (
+  id                bigserial primary key,
+  partner_id        bigint not null unique,
+  access_key        varchar(128) not null unique,
+  access_secret     text not null,
+  status            varchar(16) not null,
+  webhook_url       text,
+  ip_whitelist      text,
+  update_time       timestamp not null default now()
+);
+
+comment on table esim_partner_api is '客户API配置';
+comment on column esim_partner_api.partner_id is '关联ID 客户ID';
+comment on column esim_partner_api.access_key is 'Access Key';
+comment on column esim_partner_api.access_secret is 'Access Secret';
+comment on column esim_partner_api.status is 'API状态：ENABLED=启用，DISABLED=禁用';
+comment on column esim_partner_api.webhook_url is 'Webhook地址';
+comment on column esim_partner_api.ip_whitelist is 'IP白名单';
+comment on column esim_partner_api.update_time is '更新时间';
 
 create table if not exists esim_price_effective_cache (
   partner_id          bigint not null,
@@ -619,29 +705,6 @@ comment on column esim_provider_webhook_event.payload is '事件或请求载荷(
 comment on column esim_provider_webhook_event.process_status is '处理状态：PENDING=待处理，DONE=已完成，FAILED=失败，IGNORED=忽略';
 comment on column esim_provider_webhook_event.received_time is '接收时间';
 comment on column esim_provider_webhook_event.processed_time is '处理时间';
-
-
-create table if not exists esim_partner_api_config (
-  partner_id         bigint primary key,
-  access_code        varchar(128) not null unique,
-  secret_key_enc     text not null,
-  api_status         varchar(16) not null,
-  webhook_url        text,
-  webhook_enabled    boolean not null default false,
-  ip_whitelist       jsonb not null default '[]'::jsonb,
-  version            integer not null default 1,
-  update_time         timestamp not null default now()
-);
-comment on table esim_partner_api_config is '合作方API配置';
-comment on column esim_partner_api_config.partner_id is '关联ID 合作方ID';
-comment on column esim_partner_api_config.access_code is '业务编码 访问凭证';
-comment on column esim_partner_api_config.secret_key_enc is '加密密钥';
-comment on column esim_partner_api_config.api_status is 'API状态：ENABLED=启用，DISABLED=禁用';
-comment on column esim_partner_api_config.webhook_url is 'Webhook地址';
-comment on column esim_partner_api_config.webhook_enabled is '是否启用Webhook';
-comment on column esim_partner_api_config.ip_whitelist is 'IP白名单(JSON数组)';
-comment on column esim_partner_api_config.version is '配置版本号';
-comment on column esim_partner_api_config.update_time is '更新时间';
 
 create table if not exists esim_partner_webhook_delivery (
   id                bigserial primary key,
