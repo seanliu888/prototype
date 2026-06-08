@@ -33,7 +33,9 @@ while IFS= read -r line || [ -n "$line" ]; do
   # Skip blank lines and comments.
   domain=$(echo "$line" | xargs)
   [ -z "$domain" ] && continue
-  [[ "$domain" =~ ^# ]] && continue
+  case "$domain" in
+    \#*) continue ;;
+  esac
 
   host="${domain%%:*}"
   port="${domain##*:}"
