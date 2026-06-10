@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open API 加油包管理</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; color: #1f2937; background: #f4f6f8; }
+        .page { max-width: 1180px; margin: 0 auto; padding: 28px 20px 40px; }
+        .header { margin-bottom: 20px; }
+        h1 { margin: 0 0 8px; font-size: 24px; line-height: 1.3; }
+        h2 { margin: 0; font-size: 18px; line-height: 1.4; }
+        .subtle { color: #6b7280; font-size: 14px; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .tab-link { display: inline-flex; align-items: center; min-height: 38px; padding: 8px 14px; border: 1px solid #d1d5db; border-radius: 6px; color: #374151; background: #fff; font-weight: 700; text-decoration: none; }
+        .tab-link.active { border-color: #2563eb; color: #fff; background: #2563eb; }
+        .panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(15,23,42,0.05); }
+        .panel-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+        .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        label { font-size: 13px; font-weight: 700; color: #374151; }
+        input, select { width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px 12px; font: inherit; color: #111827; background: #fff; }
+        input:focus, select:focus { outline: 2px solid #bfdbfe; border-color: #2563eb; }
+        textarea { min-height: 160px; resize: vertical; font-family: Consolas, "Courier New", monospace; font-size: 13px; line-height: 1.5; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 10px 12px; }
+        .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        button { border: 0; border-radius: 6px; padding: 10px 16px; font-weight: 700; cursor: pointer; background: #2563eb; color: #fff; min-height: 40px; }
+        button.secondary { background: #e5e7eb; color: #111827; }
+        button.danger { background: #dc2626; color: #fff; }
+        button.success { background: #16a34a; }
+        button.info { background: #0891b2; }
+        button:disabled { opacity: 0.65; cursor: not-allowed; }
+        .status { margin-top: 12px; padding: 10px 12px; border-radius: 6px; font-size: 14px; background: #f3f4f6; color: #374151; }
+        .status.ok { background: #ecfdf5; color: #047857; }
+        .status.error { background: #fef2f2; color: #b91c1c; }
+        .status.info { background: #eff6ff; color: #1d4ed8; }
+        .table-wrap { overflow: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; font-size: 13px; }
+        th, td { border-bottom: 1px solid #e5e7eb; padding: 10px; text-align: left; vertical-align: middle; }
+        th { color: #374151; background: #f9fafb; white-space: nowrap; }
+        .empty { padding: 28px; text-align: center; color: #6b7280; }
+        .link-button { background: #eef2ff; color: #1d4ed8; min-height: 32px; padding: 6px 10px; font-size: 13px; border: 0; border-radius: 6px; cursor: pointer; font-weight: 700; }
+        .link-button.select-btn { background: #fef3c7; color: #92400e; }
+        .link-button.success { background: #d1fae5; color: #065f46; }
+        .detail-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+        .detail-card { border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px; background: #f9fafb; }
+        .detail-label { margin-bottom: 4px; color: #6b7280; font-size: 12px; }
+        .detail-value { word-break: break-word; color: #111827; font-size: 13px; font-weight: 700; }
+        .order-item { border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px; margin-bottom: 10px; background: #f9fafb; }
+        .target-unit { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 16px; border: 2px solid #16a34a; border-radius: 8px; background: #f0fdf4; margin-top: 12px; }
+        .selected-card { border-color: #0891b2; background: #eff6ff; }
+        .modal-mask { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(15,23,42,0.55); }
+        .modal-mask.show { display: flex; }
+        .modal { width: min(900px, 100%); max-height: min(680px, calc(100vh - 40px)); overflow: auto; background: #fff; border-radius: 8px; box-shadow: 0 18px 50px rgba(15,23,42,0.28); }
+        .modal-header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-bottom: 1px solid #e5e7eb; background: #fff; }
+        .modal-body { padding: 18px; }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 18px; border-top: 1px solid #e5e7eb; }
+        @media (max-width: 760px) { .grid, .grid-3, .grid-4 { grid-template-columns: 1fr; } .panel-title { align-items: stretch; flex-direction: column; } .detail-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<main class="page">
+    <section class="header">
+        <h1>Open API 加油包管理</h1>
+        <div class="subtle">查询可用加油包并下单充值，支持充值加油包。</div>
+        <nav class="tabs" aria-label="Open API 功能切换">
+            <a class="tab-link" href="order-search.html">订单查询</a>
+            <a class="tab-link" href="esim-search.html">eSIM 查询</a>
+            <a class="tab-link" href="package-search.html">套餐查询</a>
+            <a class="tab-link" href="order-create.html">订购套餐</a>
+            <a class="tab-link active" href="topup-search.html">订购加油包</a>
+        </nav>
+    </section>
+
+    <!-- 接口配置 -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>接口配置</h2>
+            <button id="resetConfigBtn" class="secondary" type="button">重置配置</button>
+        </div>
+        <div class="grid">
+            <div class="field">
+                <label for="baseUrl">服务地址</label>
+                <input id="baseUrl" value="https://esimapi.esimtours.com" placeholder="例如：https://esimapi.esimtours.com">
+            </div>
+            <div class="field">
+                <label for="accessKey">AccessKey</label>
+                <input id="accessKey" placeholder="请输入 X-Access-Key">
+            </div>
+            <div class="field">
+                <label for="accessSecret">AccessSecret</label>
+                <input id="accessSecret" type="password" placeholder="请输入 AccessSecret">
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 1：查找 eSIM -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>Step 1 — 查找目标 eSIM</h2>
+            <div class="subtle">查询 eSIM 后，从套餐明细中选择已交付或已完成的订单单元作为加油目标。</div>
+        </div>
+        <div class="grid grid-3">
+            <div class="field">
+                <label for="step1Iccid">ICCID</label>
+                <input id="step1Iccid" placeholder="可选">
+            </div>
+            <div class="field">
+                <label>查询接口</label>
+                <input value="/api/open/v1/esim/search" readonly>
+            </div>
+            <div class="field">
+                <label for="step1Page">页码</label>
+                <input id="step1Page" type="number" min="1" value="1">
+            </div>
+        </div>
+        <div class="actions">
+            <button id="step1SearchBtn" type="button">查询 eSIM</button>
+            <button id="step1PrevBtn" class="secondary" type="button">上一页</button>
+            <button id="step1NextBtn" class="secondary" type="button">下一页</button>
+        </div>
+        <div id="step1Status" class="status" style="margin-top:12px;">请查询 eSIM</div>
+        <div id="step1Summary" class="subtle" style="margin-top:6px;"></div>
+        <div id="step1Results" style="margin-top:10px;"></div>
+    </section>
+
+    <!-- Step 2：查询可用加油包 -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>Step 2 — 查询可用加油包</h2>
+            <div class="subtle">根据 eSIM 的 ICCID 查询可购买的加油包列表。</div>
+        </div>
+        <div class="grid">
+            <div class="field">
+                <label for="step2Iccid">ICCID</label>
+                <input id="step2Iccid" placeholder="从上方选择订单单元后自动填入，或手动输入">
+            </div>
+            <div class="field">
+                <label for="step2TopUpCode">加油包编码过滤（可选）</label>
+                <input id="step2TopUpCode" placeholder="仅在当前结果中过滤显示">
+            </div>
+        </div>
+        <div class="actions">
+            <button id="step2SearchBtn" type="button">查询加油包</button>
+            <button id="step2ClearBtn" class="secondary" type="button">清空结果</button>
+        </div>
+        <div id="step2Status" class="status" style="margin-top:12px;">请先在 Step 1 选择订单单元，或手动输入 ICCID</div>
+        <div id="step2Results" style="margin-top:12px;"></div>
+    </section>
+
+    <!-- Step 3：确认并下单 -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>Step 3 — 创建加油包订单</h2>
+            <div class="subtle">选择加油包后填写数量并提交。</div>
+        </div>
+        <div id="selectedTopUpInfo" style="margin-top:0;"></div>
+        <div class="grid grid-3">
+            <div class="field">
+                <label for="step3OrderUnitCode">订单单元编号</label>
+                <input id="step3OrderUnitCode" placeholder="从上方选择，或手动输入">
+            </div>
+            <div class="field">
+                <label for="step3TopUpCode">加油包编码</label>
+                <input id="step3TopUpCode" placeholder="从上方加油包列表选择，或手动输入">
+            </div>
+            <div class="field">
+                <label for="step3Quantity">购买数量</label>
+                <input id="step3Quantity" type="number" min="1" value="1" placeholder="默认 1">
+            </div>
+            <div class="field">
+                <label for="step3TransactionId">交易编号（可选）</label>
+                <input id="step3TransactionId" placeholder="不填则由系统生成">
+            </div>
+            <div class="field">
+                <label for="step3Amount">订单金额（可选）</label>
+                <input id="step3Amount" type="number" min="0" step="0.000001" placeholder="用于校验系统计算金额">
+            </div>
+        </div>
+        <div class="actions">
+            <button id="step3SubmitBtn" class="success" type="button" disabled>提交加油包订单</button>
+        </div>
+        <div id="step3Status" class="status" style="margin-top:12px;">请先在 Step 2 选择加油包</div>
+    </section>
+
+    <!-- 请求/响应 -->
+    <section class="panel">
+        <div class="panel-title"><h2>请求 Body</h2></div>
+        <textarea id="requestBody" readonly></textarea>
+    </section>
+    <section class="panel">
+        <div class="panel-title"><h2>响应结果</h2></div>
+        <textarea id="responseText" readonly></textarea>
+    </section>
+
+    <!-- 订单结果 -->
+    <section class="panel" id="orderResultPanel" style="display:none;">
+        <div class="panel-title"><h2>加油包订单创建成功</h2></div>
+        <div id="orderResult"></div>
+    </section>
+</main>
+
+<!-- eSIM 详情模态框 -->
+<div id="detailModal" class="modal-mask" role="dialog" aria-modal="true">
+    <div class="modal">
+        <div class="modal-header">
+            <div>
+                <h2>eSIM 详情</h2>
+                <div id="modalSubTitle" class="subtle"></div>
+            </div>
+            <button id="closeModalBtn" class="secondary" type="button">关闭</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer">
+            <button id="closeModalBtn2" class="secondary" type="button">关闭</button>
+        </div>
+    </div>
+</div>
+
+<script src="common.js"></script>
+<script>
+(function() {
+    var esimSearchPath = "/api/open/v1/esim/search";
+    var topupSearchPath = "/api/open/v1/esim/topup/search";
+    var topupOrderPath  = "/api/open/v1/order/topup";
+    var successCode     = "000000";
+    var configStorageKey = "esimOpenApiClientConfig";
+    window.configStorageKey = configStorageKey;
+
+    var esimList    = [];
+    var esimPageData = null;
+    var topupList    = [];
+    var selectedTopUp = null;
+    var selectedOrderUnit = null;
+    var selectedPackageCode = "";
+
+    // ============================================================
+    // Step 1：查询 eSIM
+    // ============================================================
+    function getStep1Body() {
+        var body = { page: normInt($("step1Page").value, 1), limit: 10 };
+        var iccid = $("step1Iccid").value.trim();
+        if (iccid) body.iccid = iccid;
+        return body;
+    }
+
+    async function searchEsims() {
+        saveConfig();
+        var baseUrl = trimTrailingSlash($("baseUrl").value);
+        var ak = $("accessKey").value.trim();
+        var as = $("accessSecret").value;
+        if (!baseUrl || !ak || !as) { setSt("step1Status", "请先填写服务地址、AccessKey、AccessSecret。", "error"); return; }
+
+        var btn = $("step1SearchBtn");
+        btn.disabled = true;
+        setSt("step1Status", "查询中...");
+        var body = getStep1Body();
+
+        try {
+            var headers = await buildHeaders(ak, as);
+            var resp = await fetch(baseUrl + esimSearchPath, { method: "POST", headers: headers, body: JSON.stringify(body) });
+            var text = await resp.text();
+            var json = text ? JSON.parse(text) : null;
+            if (!resp.ok || !json || json.code !== successCode) { setSt("step1Status", "查询失败：" + (json && json.message || ""), "error"); return; }
+            esimPageData = json.data || null;
+            esimList = (json.data && Array.isArray(json.data.data)) ? json.data.data : [];
+            renderEsimList();
+            var pd = esimPageData;
+            var summary = pd ? "第 " + pd.page + " 页，共 " + pd.total + " 条 / " + pd.pages + " 页" : "";
+            $("step1Summary").textContent = summary;
+            setSt("step1Status", "找到 " + esimList.length + " 个 eSIM" + (pd && pd.total ? "（共 " + pd.total + " 条）" : ""), "ok");
+        } catch(e) {
+            setSt("step1Status", "查询异常：" + e.message, "error");
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function renderEsimList() {
+        var c = $("step1Results");
+        if (!esimList.length) { c.innerHTML = '<div class="empty">暂无数据</div>'; return; }
+        var html = '<div class="table-wrap"><table><thead><tr>' +
+            '<th>ICCID</th><th>MSISDN</th><th>IMSI</th><th>SMDP 状态</th><th>状态</th><th>激活时间</th><th>过期时间</th><th>操作</th>' +
+            '</tr></thead><tbody>';
+        html += esimList.map(function(item, i) {
+            return '<tr>' +
+                '<td>' + esc(item.iccid) + '</td>' +
+                '<td>' + esc(item.msisdn) + '</td>' +
+                '<td>' + esc(item.imsi) + '</td>' +
+                '<td>' + esc(item.smdpStatus) + '</td>' +
+                '<td>' + esc(item.status) + '</td>' +
+                '<td>' + esc(item.activatedTime) + '</td>' +
+                '<td>' + esc(item.expiredTime) + '</td>' +
+                '<td><button class="link-button" data-act="detail" data-i="' + i + '">选择套餐单元</button></td>' +
+                '</tr>';
+        }).join('') + '</tbody></table></div>';
+        c.innerHTML = html;
+    }
+
+    function changeOrderPage(delta) {
+        $("step1Page").value = Math.max(1, normInt($("step1Page").value, 1) + delta);
+        searchEsims();
+    }
+
+    // ============================================================
+    // eSIM 详情模态框
+    // ============================================================
+    function openDetailModal(esim) {
+        $("modalSubTitle").textContent = "ICCID：" + (esim.iccid || "-");
+        $("modalBody").innerHTML = buildDetailHtml(esim);
+        $("detailModal").classList.add("show");
+    }
+
+    function closeDetailModal() {
+        $("detailModal").classList.remove("show");
+    }
+
+    function buildDetailHtml(esim) {
+        var packages = Array.isArray(esim.packages) ? esim.packages : [];
+        var html = '<div class="detail-grid">' +
+            dc("ICCID", esim.iccid) +
+            dc("MSISDN", esim.msisdn) +
+            dc("IMSI", esim.imsi) +
+            dc("EID", esim.eid) +
+            dc("SMDP 状态", esim.smdpStatus) +
+            dc("安装次数", esim.installCount) +
+            dc("安装设备", esim.installDevice) +
+            dc("状态", esim.status) +
+            '</div>';
+
+        if (!packages.length) return html + '<div class="empty">该 eSIM 没有套餐明细</div>';
+
+        var rows = packages.map(function(pkg) {
+            var selectable = pkg.status === "DELIVERED" || pkg.status === "COMPLETED";
+            var selBtn = selectable
+                ? '<button class="link-button select-btn" data-act="select-unit" data-uc="' + esc(pkg.orderUnitCode) + '" data-iccid="' + esc(esim.iccid) + '" data-package-code="' + esc(pkg.packageCode) + '">选择此单元</button>'
+                : "";
+            return "<tr>" +
+                "<td>" + esc(pkg.orderUnitCode) + "</td>" +
+                "<td>" + esc(pkg.packageCode) + "</td>" +
+                "<td>" + esc(pkg.packageName) + "</td>" +
+                "<td>" + esc(formatData(pkg.data, pkg.dataUnit)) + "</td>" +
+                "<td>" + esc(pkg.totalData) + "</td>" +
+                "<td>" + esc(pkg.balanceData) + "</td>" +
+                "<td>" + esc(pkg.status) + "</td>" +
+                "<td>" + esc(pkg.createTime) + "</td>" +
+                "<td>" + selBtn + "</td>" +
+                "</tr>";
+        }).join("");
+
+        html += '<div class="order-item" style="margin-top:14px;">' +
+                '<h3 style="margin:0 0 8px;font-size:14px;">套餐明细</h3>' +
+                '<div class="table-wrap"><table><thead><tr>' +
+                '<th>订单单元编号</th><th>套餐编码</th><th>套餐名称</th><th>基础流量</th><th>总流量</th><th>剩余流量</th><th>状态</th><th>创建时间</th><th>操作</th>' +
+                '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
+                '</div>';
+
+        return html;
+    }
+
+    function selectOrderUnit(code, iccid, packageCode) {
+        selectedOrderUnit = { orderUnitCode: code, iccid: iccid };
+        selectedPackageCode = packageCode || "";
+        $("step2Iccid").value = iccid || "";
+        $("step3OrderUnitCode").value = code;
+        closeDetailModal();
+        setSt("step2Status", "已选择订单单元：" + code + "，套餐编码：" + (selectedPackageCode || "-") + "，请查询加油包。", "info");
+        syncTopUpOrderBody();
+        searchTopUps();
+    }
+
+
+
+    // ============================================================
+    // Step 2：查询可用加油包
+    // ============================================================
+    async function searchTopUps() {
+        saveConfig();
+        var baseUrl = trimTrailingSlash($("baseUrl").value);
+        var ak = $("accessKey").value.trim();
+        var as = $("accessSecret").value;
+        if (!baseUrl || !ak || !as) { setSt("step2Status", "请先填写服务地址、AccessKey、AccessSecret。", "error"); return; }
+
+        var iccid = $("step2Iccid").value.trim();
+        if (!iccid) { setSt("step2Status", "请输入 ICCID。", "error"); return; }
+
+        var body = { iccid: iccid, page: 1, limit: 50 };
+        var tcode = $("step2TopUpCode").value.trim();
+
+        var btn = $("step2SearchBtn");
+        btn.disabled = true;
+        setSt("step2Status", "查询中...");
+        selectedTopUp = null;
+        $("step3TopUpCode").value = "";
+        $("step3SubmitBtn").disabled = true;
+        $("selectedTopUpInfo").innerHTML = "";
+        syncTopUpOrderBody();
+
+        try {
+            var headers = await buildHeaders(ak, as);
+            var resp = await fetch(baseUrl + topupSearchPath, { method: "POST", headers: headers, body: JSON.stringify(body) });
+            var text = await resp.text();
+            var json = text ? JSON.parse(text) : null;
+            if (!resp.ok || !json || json.code !== successCode) { setSt("step2Status", "查询失败：" + (json && json.message || ""), "error"); return; }
+            topupList = (json.data && Array.isArray(json.data.data)) ? json.data.data : [];
+            if (selectedPackageCode) {
+                topupList = topupList.filter(function(item) { return item.packageCode === selectedPackageCode; });
+            }
+            if (tcode) {
+                topupList = topupList.filter(function(item) { return item.topUpCode === tcode; });
+            }
+            renderTopUpList();
+            setSt("step2Status", "找到 " + topupList.length + " 个加油包" + (selectedPackageCode ? "（套餐：" + selectedPackageCode + "）" : "") + (tcode ? "（编码：" + tcode + "）" : ""), "ok");
+        } catch(e) {
+            setSt("step2Status", "查询异常：" + e.message, "error");
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function renderTopUpList() {
+        var c = $("step2Results");
+        if (!topupList.length) { c.innerHTML = '<div class="empty">暂无可用加油包</div>'; return; }
+        var html = '<div class="table-wrap"><table><thead><tr>' +
+            '<th>加油包编码</th><th>套餐编码</th><th>流量</th><th>币种</th><th>售价</th><th>操作</th>' +
+            '</tr></thead><tbody>';
+        html += topupList.map(function(pkg, i) {
+            return '<tr>' +
+                '<td>' + esc(pkg.topUpCode) + '</td>' +
+                '<td>' + esc(pkg.packageCode) + '</td>' +
+                '<td>' + esc(formatData(pkg.data, pkg.dataUnit)) + '</td>' +
+                '<td>' + esc(pkg.currency) + '</td>' +
+                '<td>' + esc(pkg.price) + ' ' + esc(pkg.currency) + '</td>' +
+                '<td><button class="link-button select-btn" data-act="select-topup" data-i="' + i + '">选择</button></td>' +
+                '</tr>';
+        }).join('') + '</tbody></table></div>';
+        c.innerHTML = html;
+    }
+
+    function selectTopUp(pkg) {
+        selectedTopUp = pkg;
+        $("step3TopUpCode").value = pkg.topUpCode;
+        updateAmountFromSelection();
+        syncTopUpOrderBody();
+        $("step3SubmitBtn").disabled = false;
+        $("selectedTopUpInfo").innerHTML =
+            '<div class="target-unit selected-card" style="border-color:#0891b2;background:#eff6ff;margin-bottom:16px;">' +
+            '<span style="font-weight:700;color:#1d4ed8;">已选加油包：</span>' +
+            '<span style="font-weight:700;font-size:15px;">' + esc(pkg.topUpCode) + '</span>' +
+            '<span style="color:#6b7280;font-size:13px;">' + esc(formatData(pkg.data, pkg.dataUnit)) + ' · </span>' +
+            '<span style="color:#dc2626;font-weight:700;font-size:16px;">' + esc(pkg.price) + ' ' + esc(pkg.currency) + '</span>' +
+            '</div>';
+        setSt("step2Status", "已选择加油包：" + pkg.topUpCode + "，请在 Step 3 确认下单。", "ok");
+    }
+
+    function updateAmountFromSelection() {
+        if (!selectedTopUp || selectedTopUp.price == null) return;
+        var quantity = normInt($("step3Quantity").value, 1);
+        var price = Number(selectedTopUp.price);
+        if (!Number.isFinite(price)) return;
+        $("step3Amount").value = (price * quantity).toFixed(6).replace(/\.?0+$/, "");
+    }
+
+    function formatData(data, unit) {
+        if (data == null && !unit) return "";
+        return [data, unit].filter(function(v) { return v != null && v !== ""; }).join(" ");
+    }
+
+    // ============================================================
+    // Step 3：提交加油包订单
+    // ============================================================
+    async function submitTopUpOrder() {
+        saveConfig();
+        var baseUrl = trimTrailingSlash($("baseUrl").value);
+        var ak = $("accessKey").value.trim();
+        var as = $("accessSecret").value;
+        if (!baseUrl || !ak || !as) { setSt("step3Status", "请先填写服务地址、AccessKey、AccessSecret。", "error"); return; }
+
+        var orderUnitCode = $("step3OrderUnitCode").value.trim();
+        var topUpCode = $("step3TopUpCode").value.trim();
+        var quantity = normInt($("step3Quantity").value, 1);
+        var transactionId = $("step3TransactionId").value.trim();
+        var amount = $("step3Amount").value.trim();
+        if (!orderUnitCode) { setSt("step3Status", "请输入订单单元编号。", "error"); return; }
+        if (!topUpCode) { setSt("step3Status", "请输入加油包编码。", "error"); return; }
+
+        var body = { orderUnitCode: orderUnitCode, topUpCode: topUpCode, quantity: quantity };
+        if (transactionId) body.transactionId = transactionId;
+        if (amount) body.amount = Number(amount);
+        $("requestBody").value = JSON.stringify(body, null, 2);
+
+        var btn = $("step3SubmitBtn");
+        btn.disabled = true;
+        setSt("step3Status", "提交中...");
+
+        try {
+            var headers = await buildHeaders(ak, as);
+            var resp = await fetch(baseUrl + topupOrderPath, { method: "POST", headers: headers, body: JSON.stringify(body) });
+            var text = await resp.text();
+            $("responseText").value = text;
+            var json = text ? JSON.parse(text) : null;
+            if (!resp.ok || !json || json.code !== successCode) { setSt("step3Status", "下单失败：" + (json && json.message || ""), "error"); return; }
+            setSt("step3Status", "加油包订单创建成功！订单号：" + json.data.orderCode, "ok");
+            renderOrderResult(json.data);
+        selectedTopUp = null;
+        $("step3TopUpCode").value = "";
+        $("step3Amount").value = "";
+            updateSubmitAvailability();
+            $("selectedTopUpInfo").innerHTML = "";
+            topupList = [];
+            $("step2Results").innerHTML = "";
+        } catch(e) {
+            setSt("step3Status", "提交异常：" + e.message, "error");
+        } finally {
+            updateSubmitAvailability();
+        }
+    }
+
+    function renderOrderResult(data) {
+        var panel = $("orderResultPanel");
+        var c = $("orderResult");
+        panel.style.display = "";
+        var html = '<div class="detail-grid">' +
+            dc("订单号", data.orderCode) +
+            dc("交易ID", data.transactionId) +
+            '</div>';
+        var items = Array.isArray(data.items) ? data.items : [];
+        if (items.length) {
+            html += '<div>';
+            items.forEach(function(item) {
+                html += '<div class="order-item">' +
+                    '<h3 style="margin:0 0 8px;font-size:14px;">' + esc(item.packageName || item.topUpCode || item.packageCode) + '</h3>' +
+                    '<div class="detail-grid" style="margin-bottom:8px;">' +
+                    dc("套餐编码", item.packageCode) +
+                    dc("加油包编码", item.topUpCode) +
+                    '</div>';
+                var units = Array.isArray(item.units) ? item.units : [];
+                if (units.length) {
+                    html += '<div class="table-wrap"><table><thead><tr>' +
+                        '<th>单元编码</th><th>ICCID</th><th>数量</th><th>单价</th><th>状态</th>' +
+                        '</tr></thead><tbody>' +
+                        units.map(function(u) {
+                            return '<tr>' +
+                                '<td>' + esc(u.orderUnitCode) + '</td>' +
+                                '<td>' + esc(u.iccid) + '</td>' +
+                                '<td>' + esc(u.quantity) + '</td>' +
+                                '<td>' + esc(u.unitPrice) + '</td>' +
+                                '<td>' + esc(u.status) + '</td>' +
+                                '</tr>';
+                        }).join("") +
+                        '</tbody></table></div>';
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+        }
+        c.innerHTML = html;
+        panel.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function syncTopUpOrderBody() {
+        var body = {
+            orderUnitCode: $("step3OrderUnitCode").value.trim(),
+            topUpCode: $("step3TopUpCode").value.trim(),
+            quantity: normInt($("step3Quantity").value, 1)
+        };
+        var transactionId = $("step3TransactionId").value.trim();
+        var amount = $("step3Amount").value.trim();
+        if (transactionId) body.transactionId = transactionId;
+        if (amount) body.amount = Number(amount);
+        $("requestBody").value = JSON.stringify(body, null, 2);
+        updateSubmitAvailability();
+    }
+
+    function updateSubmitAvailability() {
+        var orderUnitCode = $("step3OrderUnitCode").value.trim();
+        var topUpCode = $("step3TopUpCode").value.trim();
+        var quantity = normInt($("step3Quantity").value, 1);
+        $("step3SubmitBtn").disabled = !(orderUnitCode && topUpCode && quantity > 0);
+    }
+
+    // ============================================================
+    // 工具函数
+    // ============================================================
+    function $(id) { return document.getElementById(id); }
+
+
+
+    function normInt(val, def) {
+        var n = parseInt(val, 10);
+        return isNaN(n) || n < 1 ? (def || 1) : n;
+    }
+
+    function setSt(id, text, type) {
+        var el = $(id);
+        if (!el) return;
+        el.textContent = text;
+        el.className = "status" + (type ? " " + type : "");
+    }
+
+    function dc(label, value) {
+        return '<div class="detail-card"><div class="detail-label">' + label + '</div><div class="detail-value">' + (value != null ? esc(value) : "-") + '</div></div>';
+    }
+
+    function esc(str) {
+        if (str == null) return "";
+        var div = document.createElement("div");
+        div.textContent = String(str);
+        return div.innerHTML;
+    }
+
+
+
+    // ============================================================
+    // 事件绑定
+    // ============================================================
+    $("step1SearchBtn").addEventListener("click", searchEsims);
+    $("step1PrevBtn").addEventListener("click", function() { changeOrderPage(-1); });
+    $("step1NextBtn").addEventListener("click", function() { changeOrderPage(1); });
+
+    $("step1Results").addEventListener("click", function(e) {
+        var btn = e.target.closest("[data-act]");
+        if (!btn) return;
+        var act = btn.getAttribute("data-act");
+        if (act === "detail") {
+            var idx = parseInt(btn.getAttribute("data-i"), 10);
+            if (esimList[idx]) openDetailModal(esimList[idx]);
+        }
+    });
+
+    $("step2SearchBtn").addEventListener("click", searchTopUps);
+    $("step2ClearBtn").addEventListener("click", function() {
+        topupList = [];
+        selectedTopUp = null;
+        selectedPackageCode = "";
+        $("step2Results").innerHTML = "";
+        $("step3TopUpCode").value = "";
+        $("step3Amount").value = "";
+        $("step3SubmitBtn").disabled = true;
+        $("selectedTopUpInfo").innerHTML = "";
+        syncTopUpOrderBody();
+        setSt("step2Status", "已清空加油包选择。", "");
+    });
+
+    $("step2Results").addEventListener("click", function(e) {
+        var btn = e.target.closest("[data-act]");
+        if (!btn) return;
+        var act = btn.getAttribute("data-act");
+        if (act === "select-topup") {
+            var idx = parseInt(btn.getAttribute("data-i"), 10);
+            if (topupList[idx]) selectTopUp(topupList[idx]);
+        }
+    });
+
+    $("step3SubmitBtn").addEventListener("click", submitTopUpOrder);
+    $("resetConfigBtn").addEventListener("click", function() {
+        resetConfig();
+        setSt("step1Status", "接口配置已重置。", "");
+    });
+
+    // 模态框事件
+    $("modalBody").addEventListener("click", function(e) {
+        var btn = e.target.closest("[data-act]");
+        if (!btn) return;
+        var act = btn.getAttribute("data-act");
+        if (act === "select-unit") {
+            selectOrderUnit(btn.getAttribute("data-uc"), btn.getAttribute("data-iccid"), btn.getAttribute("data-package-code"));
+        }
+    });
+    $("closeModalBtn").addEventListener("click", closeDetailModal);
+    $("closeModalBtn2").addEventListener("click", closeDetailModal);
+    $("detailModal").addEventListener("click", function(e) {
+        if (e.target === $("detailModal")) closeDetailModal();
+    });
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") closeDetailModal();
+    });
+
+    bindConfigInputs();
+    loadSavedConfig();
+    ["step3OrderUnitCode", "step3TopUpCode", "step3TransactionId", "step3Amount"].forEach(function(id) {
+        $(id).addEventListener("input", syncTopUpOrderBody);
+    });
+    $("step3Quantity").addEventListener("input", function() {
+        updateAmountFromSelection();
+        syncTopUpOrderBody();
+    });
+    syncTopUpOrderBody();
+})();
+</script>
+</body>
+</html>
