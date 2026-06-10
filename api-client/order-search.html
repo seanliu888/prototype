@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open API 订单查询</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            color: #1f2937;
+            background: #f4f6f8;
+        }
+
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 20px 40px;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.4;
+        }
+
+        .subtle {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font: inherit;
+            color: #111827;
+            background: #fff;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #2563eb;
+        }
+
+        textarea {
+            min-height: 190px;
+            resize: vertical;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #2563eb;
+            color: #fff;
+            min-height: 40px;
+        }
+
+        button.secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .link-button {
+            background: #eef2ff;
+            color: #1d4ed8;
+            min-height: 32px;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
+        .status {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .status.ok {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status.error {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .list-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .pager {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            gap: 10px;
+        }
+
+        .pager .field {
+            width: 92px;
+        }
+
+        .table-wrap {
+            overflow: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+            font-size: 13px;
+        }
+
+        th, td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            color: #374151;
+            background: #f9fafb;
+            white-space: nowrap;
+        }
+
+        .empty {
+            padding: 28px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .modal-mask {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.55);
+        }
+
+        .modal-mask.show {
+            display: flex;
+        }
+
+        .modal {
+            width: min(1080px, 100%);
+            max-height: min(760px, calc(100vh - 40px));
+            overflow: auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.28);
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 18px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fff;
+        }
+
+        .modal-body {
+            padding: 18px;
+        }
+
+        .detail-section {
+            margin-bottom: 18px;
+        }
+
+        .detail-section h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .detail-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px;
+            background: #f9fafb;
+        }
+
+        .detail-label {
+            margin-bottom: 4px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .detail-value {
+            word-break: break-word;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 760px) {
+            .grid,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-title,
+            .list-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .pager .field {
+                width: calc(50% - 5px);
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <section class="header">
+        <h1>Open API 订单查询</h1>
+        <div class="subtle">调用 POST /api/open/v1/order/search，按当前项目签名规则自动生成请求头。</div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-title">
+            <h2>接口配置</h2>
+        </div>
+        <div class="grid">
+            <div class="field">
+                <label for="baseUrl">服务地址</label>
+                <input id="baseUrl" value="http://localhost:8090" placeholder="例如：http://localhost:8090">
+            </div>
+            <div class="field">
+                <label for="accessKey">AccessKey</label>
+                <input id="accessKey" placeholder="请输入 X-Access-Key">
+            </div>
+            <div class="field">
+                <label for="accessSecret">AccessSecret</label>
+                <input id="accessSecret" type="password" placeholder="请输入 AccessSecret">
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-title">
+            <h2>筛选条件</h2>
+            <div class="subtle">未填写的条件不会传入请求。</div>
+        </div>
+        <div class="grid grid-3">
+            <div class="field">
+                <label for="orderCode">订单编号</label>
+                <input id="orderCode" placeholder="可选">
+            </div>
+            <div class="field">
+                <label for="transactionId">交易编号</label>
+                <input id="transactionId" placeholder="可选">
+            </div>
+            <div class="field">
+                <label for="productType">产品类型</label>
+                <select id="productType">
+                    <option value="">全部类型</option>
+                    <option value="PACKAGE">套餐订单</option>
+                    <option value="TOP_UP">加油包订单</option>
+                </select>
+            </div>
+        </div>
+        <div class="actions">
+            <button id="searchBtn" type="button">查询订单</button>
+            <button id="sampleBtn" class="secondary" type="button">刷新请求 Body</button>
+            <button id="clearBtn" class="secondary" type="button">清空结果</button>
+        </div>
+        <div id="status" class="status">待请求</div>
+    </section>
+
+    <section class="panel">
+        <div class="field">
+            <label for="requestBody">请求 Body</label>
+            <textarea id="requestBody"></textarea>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="list-toolbar">
+            <div>
+                <h2>订单列表</h2>
+                <div id="summary" class="subtle" style="margin-top: 6px;"></div>
+            </div>
+            <div class="pager">
+                <div class="field">
+                    <label for="page">页码</label>
+                    <input id="page" type="number" min="1" value="1">
+                </div>
+                <div class="field">
+                    <label for="limit">每页条数</label>
+                    <input id="limit" type="number" min="1" value="10">
+                </div>
+                <button id="prevBtn" class="secondary" type="button">上一页</button>
+                <button id="nextBtn" class="secondary" type="button">下一页</button>
+            </div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>订单编号</th>
+                    <th>交易编号</th>
+                    <th>产品类型</th>
+                    <th>币种</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+                <tbody id="ordersBody">
+                <tr><td class="empty" colspan="9">暂无数据</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="field">
+            <label for="responseText">原始响应</label>
+            <textarea id="responseText" readonly></textarea>
+        </div>
+    </section>
+</main>
+
+<div id="detailModal" class="modal-mask" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="modal">
+        <div class="modal-header">
+            <div>
+                <h2 id="detailTitle">订单详情</h2>
+                <div id="detailSubTitle" class="subtle"></div>
+            </div>
+            <button id="closeDetailBtn" class="secondary" type="button">关闭</button>
+        </div>
+        <div id="detailBody" class="modal-body"></div>
+    </div>
+</div>
+
+<script>
+    var apiPath = "/api/open/v1/order/search";
+    var successCode = "000000";
+    var currentOrders = [];
+    var productTypeText = {
+        PACKAGE: "套餐订单",
+        TOP_UP: "加油包订单"
+    };
+
+    function byId(id) {
+        return document.getElementById(id);
+    }
+
+    function setStatus(text, type) {
+        var status = byId("status");
+        status.textContent = text;
+        status.className = "status" + (type ? " " + type : "");
+    }
+
+    function trimTrailingSlash(text) {
+        return String(text || "").replace(/\/+$/, "");
+    }
+
+    function randomNonce(length) {
+        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var result = "";
+        var values = new Uint32Array(length);
+        crypto.getRandomValues(values);
+        for (var i = 0; i < length; i++) {
+            result += chars[values[i] % chars.length];
+        }
+        return result;
+    }
+
+    function bytesToHex(buffer) {
+        var bytes = new Uint8Array(buffer);
+        var hex = "";
+        for (var i = 0; i < bytes.length; i++) {
+            hex += bytes[i].toString(16).padStart(2, "0");
+        }
+        return hex;
+    }
+
+    async function hmacSha256Hex(text, secret) {
+        var encoder = new TextEncoder();
+        var key = await crypto.subtle.importKey(
+            "raw",
+            encoder.encode(secret || ""),
+            { name: "HMAC", hash: "SHA-256" },
+            false,
+            ["sign"]
+        );
+        var signature = await crypto.subtle.sign("HMAC", key, encoder.encode(text || ""));
+        return bytesToHex(signature);
+    }
+
+    async function buildHeaders(accessKey, accessSecret) {
+        var timestamp = Math.floor(Date.now() / 1000);
+        var nonce = randomNonce(16);
+        var canonicalText = [timestamp, nonce, accessKey || ""].join("|");
+        var signature = await hmacSha256Hex(canonicalText, accessSecret);
+        return {
+            "Content-Type": "application/json",
+            "X-Access-Key": accessKey,
+            "X-Timestamp": String(timestamp),
+            "X-Nonce": nonce,
+            "X-Signature": signature
+        };
+    }
+
+    function normalizePositiveNumber(value, fallback) {
+        var number = Number(value || fallback);
+        if (!Number.isFinite(number) || number < 1) {
+            return fallback;
+        }
+        return Math.floor(number);
+    }
+
+    function buildBodyFromFields() {
+        var body = {
+            page: normalizePositiveNumber(byId("page").value, 1),
+            limit: normalizePositiveNumber(byId("limit").value, 10)
+        };
+        var orderCode = byId("orderCode").value.trim();
+        var transactionId = byId("transactionId").value.trim();
+        var productType = byId("productType").value;
+        if (orderCode) body.orderCode = orderCode;
+        if (transactionId) body.transactionId = transactionId;
+        if (productType) body.productType = productType;
+        return body;
+    }
+
+    function syncBodyTextarea() {
+        byId("requestBody").value = JSON.stringify(buildBodyFromFields(), null, 2);
+    }
+
+    function renderOrders(pageData) {
+        var tbody = byId("ordersBody");
+        var rows = pageData && Array.isArray(pageData.data) ? pageData.data : [];
+        currentOrders = rows;
+        byId("summary").textContent = pageData
+            ? "第 " + pageData.page + " 页，每页 " + pageData.limit + " 条，共 " + pageData.total + " 条 / " + pageData.pages + " 页"
+            : "";
+
+        if (!rows.length) {
+            tbody.innerHTML = '<tr><td class="empty" colspan="9">暂无数据</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = rows.map(function (item, index) {
+            return "<tr>" +
+                "<td>" + escapeHtml(item.orderCode) + "</td>" +
+                "<td>" + escapeHtml(item.transactionId) + "</td>" +
+                "<td>" + escapeHtml(productTypeText[item.productType] || item.productType) + "</td>" +
+                "<td>" + escapeHtml(item.currency) + "</td>" +
+                "<td>" + escapeHtml(item.quantity) + "</td>" +
+                "<td>" + escapeHtml(item.amount) + "</td>" +
+                "<td>" + escapeHtml(item.status) + "</td>" +
+                "<td>" + escapeHtml(item.createTime) + "</td>" +
+                '<td><button class="link-button" type="button" data-detail-index="' + index + '">查看</button></td>' +
+                "</tr>";
+        }).join("");
+    }
+
+    function showOrderDetail(index) {
+        var order = currentOrders[index];
+        if (!order) {
+            return;
+        }
+
+        byId("detailSubTitle").textContent = "订单编号：" + (order.orderCode || "-") + "，交易编号：" + (order.transactionId || "-");
+        byId("detailBody").innerHTML = buildDetailHtml(order);
+        byId("detailModal").classList.add("show");
+    }
+
+    function closeOrderDetail() {
+        byId("detailModal").classList.remove("show");
+    }
+
+    function buildDetailHtml(order) {
+        var items = Array.isArray(order.items) ? order.items : [];
+        var html = '<div class="detail-section">' +
+            '<h3>订单信息</h3>' +
+            '<div class="detail-grid">' +
+            detailCard("产品类型", productTypeText[order.productType] || order.productType) +
+            detailCard("币种", order.currency) +
+            detailCard("数量", order.quantity) +
+            detailCard("金额", order.amount) +
+            detailCard("订单状态", order.status) +
+            detailCard("创建时间", order.createTime) +
+            '</div></div>';
+
+        if (!items.length) {
+            return html + '<div class="empty">该订单没有 items 明细</div>';
+        }
+
+        html += items.map(function (item, itemIndex) {
+            var units = Array.isArray(item.units) ? item.units : [];
+            var unitRows = units.length ? units.map(function (unit) {
+                return "<tr>" +
+                    "<td>" + escapeHtml(unit.orderUnitCode) + "</td>" +
+                    "<td>" + escapeHtml(unit.iccid) + "</td>" +
+                    "<td>" + escapeHtml(unit.quantity) + "</td>" +
+                    "<td>" + escapeHtml(unit.unitPrice) + "</td>" +
+                    "<td>" + escapeHtml(unit.totalData) + "</td>" +
+                    "<td>" + escapeHtml(unit.totalUsedData) + "</td>" +
+                    "<td>" + escapeHtml(unit.balanceData) + "</td>" +
+                    "<td>" + escapeHtml(unit.productStatus) + "</td>" +
+                    "<td>" + escapeHtml(unit.status) + "</td>" +
+                    "<td>" + escapeHtml(unit.activeTime) + "</td>" +
+                    "<td>" + escapeHtml(unit.expireTime) + "</td>" +
+                    "<td>" + escapeHtml(unit.deliveryTime) + "</td>" +
+                    "<td>" + escapeHtml(unit.receiveTime) + "</td>" +
+                    "<td>" + escapeHtml(unit.refundTime) + "</td>" +
+                    "</tr>";
+            }).join("") : '<tr><td class="empty" colspan="14">暂无 unit 明细</td></tr>';
+
+            return '<div class="detail-section">' +
+                '<h3>Item ' + (itemIndex + 1) + '</h3>' +
+                '<div class="detail-grid">' +
+                detailCard("套餐编码", item.packageCode) +
+                detailCard("套餐名称", item.packageName) +
+                detailCard("加油包编码", item.topUpCode) +
+                '</div>' +
+                '<div class="table-wrap">' +
+                '<table><thead><tr>' +
+                '<th>订单单元编号</th><th>ICCID</th><th>数量</th><th>单价</th>' +
+                '<th>总流量</th><th>已用流量</th><th>剩余流量</th>' +
+                '<th>产品状态</th><th>订单状态</th><th>激活时间</th><th>过期时间</th>' +
+                '<th>发货时间</th><th>接收时间</th><th>退款时间</th>' +
+                '</tr></thead><tbody>' + unitRows + '</tbody></table>' +
+                '</div></div>';
+        }).join("");
+
+        return html;
+    }
+
+    function detailCard(label, value) {
+        return '<div class="detail-card">' +
+            '<div class="detail-label">' + escapeHtml(label) + '</div>' +
+            '<div class="detail-value">' + escapeHtml(value || "-") + '</div>' +
+            '</div>';
+    }
+
+    function escapeHtml(value) {
+        return String(value == null ? "" : value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    async function searchOrders() {
+        syncBodyTextarea();
+
+        var baseUrl = trimTrailingSlash(byId("baseUrl").value);
+        var accessKey = byId("accessKey").value.trim();
+        var accessSecret = byId("accessSecret").value;
+        if (!baseUrl || !accessKey || !accessSecret) {
+            setStatus("请先填写服务地址、AccessKey、AccessSecret。", "error");
+            return;
+        }
+
+        var body;
+        try {
+            body = JSON.parse(byId("requestBody").value);
+        } catch (error) {
+            setStatus("请求 Body 不是合法 JSON：" + error.message, "error");
+            return;
+        }
+
+        var btn = byId("searchBtn");
+        btn.disabled = true;
+        setStatus("请求中...");
+
+        try {
+            var headers = await buildHeaders(accessKey, accessSecret);
+            var response = await fetch(baseUrl + apiPath, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body)
+            });
+            var text = await response.text();
+            byId("responseText").value = text;
+
+            var json;
+            try {
+                json = text ? JSON.parse(text) : null;
+            } catch (parseError) {
+                setStatus("HTTP " + response.status + "，响应不是 JSON。", "error");
+                renderOrders(null);
+                return;
+            }
+
+            if (!response.ok) {
+                setStatus("HTTP " + response.status + " 请求失败。", "error");
+                renderOrders(null);
+                return;
+            }
+
+            if (!json || json.code !== successCode) {
+                var code = json && json.code ? json.code : "无 code";
+                var message = json && json.message ? json.message : "接口未返回成功码";
+                setStatus("接口返回错误：" + code + " " + message, "error");
+                renderOrders(json ? json.data : null);
+                return;
+            }
+
+            setStatus("查询成功：" + successCode, "ok");
+            renderOrders(json.data);
+        } catch (error) {
+            setStatus("请求异常：" + error.message, "error");
+            renderOrders(null);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function changePage(delta) {
+        var current = normalizePositiveNumber(byId("page").value, 1);
+        byId("page").value = Math.max(1, current + delta);
+        searchOrders();
+    }
+
+    byId("sampleBtn").addEventListener("click", syncBodyTextarea);
+    byId("clearBtn").addEventListener("click", function () {
+        byId("responseText").value = "";
+        byId("summary").textContent = "";
+        renderOrders(null);
+        setStatus("已清空结果。");
+    });
+    byId("searchBtn").addEventListener("click", searchOrders);
+    byId("prevBtn").addEventListener("click", function () {
+        changePage(-1);
+    });
+    byId("nextBtn").addEventListener("click", function () {
+        changePage(1);
+    });
+    byId("ordersBody").addEventListener("click", function (event) {
+        var button = event.target.closest("[data-detail-index]");
+        if (!button) {
+            return;
+        }
+        showOrderDetail(Number(button.getAttribute("data-detail-index")));
+    });
+    byId("closeDetailBtn").addEventListener("click", closeOrderDetail);
+    byId("detailModal").addEventListener("click", function (event) {
+        if (event.target === byId("detailModal")) {
+            closeOrderDetail();
+        }
+    });
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeOrderDetail();
+        }
+    });
+
+    ["orderCode", "transactionId", "productType", "page", "limit"].forEach(function (id) {
+        byId(id).addEventListener("change", syncBodyTextarea);
+    });
+    syncBodyTextarea();
+</script>
+</body>
+</html>
