@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open API 创建订单</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            color: #1f2937;
+            background: #f4f6f8;
+        }
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 20px 40px;
+        }
+        .header { margin-bottom: 20px; }
+        h1 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            line-height: 1.3;
+        }
+        h2 {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        .subtle {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .tab-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 8px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #374151;
+            background: #fff;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .tab-link.active {
+            border-color: #2563eb;
+            color: #fff;
+            background: #2563eb;
+        }
+        .panel {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .grid-4 {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+        }
+        input, select, textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font: inherit;
+            color: #111827;
+            background: #fff;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #2563eb;
+        }
+        textarea {
+            min-height: 160px;
+            resize: vertical;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        button {
+            border: 0;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #2563eb;
+            color: #fff;
+            min-height: 40px;
+        }
+        button.secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
+        button.danger {
+            background: #dc2626;
+            color: #fff;
+        }
+        button.success {
+            background: #16a34a;
+        }
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #f3f4f6;
+            color: #374151;
+        }
+        .status.ok {
+            background: #ecfdf5;
+            color: #047857;
+        }
+        .status.error {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+        /* 表格通用 */
+        .table-wrap { overflow: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+            font-size: 13px;
+        }
+        th, td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            color: #374151;
+            background: #f9fafb;
+            white-space: nowrap;
+        }
+        .empty {
+            padding: 28px;
+            text-align: center;
+            color: #6b7280;
+        }
+        /* 购物车表格 */
+        .cart-table { min-width: 1100px; }
+        .cart-table input[type="number"] { width: 70px; padding: 6px 8px; }
+        .cart-table input[type="text"] { width: 170px; padding: 6px 8px; }
+        .cart-summary {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .cart-total {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .cart-total span {
+            color: #dc2626;
+            font-size: 20px;
+        }
+        /* 搜索结果表格 */
+        .result-table { min-width: 800px; }
+        .result-table th, .result-table td { vertical-align: top; }
+        /* 按钮 */
+        .link-button {
+            background: #eef2ff;
+            color: #1d4ed8;
+            min-height: 32px;
+            padding: 6px 10px;
+            font-size: 13px;
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .link-button.added {
+            background: #d1fae5;
+            color: #065f46;
+            cursor: default;
+        }
+        .link-button.select-btn {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        /* 订单结果 */
+        .order-result { margin-top: 12px; }
+        .order-result .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .order-result .detail-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px;
+            background: #f9fafb;
+        }
+        .order-result .detail-label {
+            margin-bottom: 4px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+        .order-result .detail-value {
+            word-break: break-word;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .order-items { margin-top: 14px; }
+        .order-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 14px;
+            margin-bottom: 10px;
+            background: #f9fafb;
+        }
+        .order-item h3 { margin: 0 0 8px; font-size: 14px; }
+        .order-item-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .order-item-table th, .order-item-table td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 8px;
+            text-align: left;
+        }
+        /* eSIM 选择模态框 */
+        .modal-mask {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.55);
+        }
+        .modal-mask.show { display: flex; }
+        .modal {
+            width: min(900px, 100%);
+            max-height: min(680px, calc(100vh - 40px));
+            overflow: auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.28);
+        }
+        .modal-header {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 18px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fff;
+        }
+        .modal-body { padding: 18px; }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 14px 18px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .esim-pager {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .esim-pager .field { width: 92px; }
+        .esim-table th, .esim-table td { vertical-align: middle; }
+        .esim-table .selectable-row:hover { background: #eff6ff; cursor: pointer; }
+        .esim-table .selected-row { background: #dbeafe; }
+        /* eSIM 列表区域 */
+        .esim-list-area { margin-top: 10px; }
+        .esim-list-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        @media (max-width: 760px) {
+            .grid, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .panel-title {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .order-result .detail-grid { grid-template-columns: 1fr; }
+            .esim-pager .field { width: calc(50% - 5px); }
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <section class="header">
+        <h1>Open API 创建订单</h1>
+        <div class="subtle">调用 POST /api/open/v1/order/package，支持购物车批量下单。</div>
+        <nav class="tabs" aria-label="Open API 功能切换">
+            <a class="tab-link" href="order-search.html">订单查询</a>
+            <a class="tab-link" href="esim-search.html">eSIM 查询</a>
+            <a class="tab-link" href="package-search.html">套餐查询</a>
+            <a class="tab-link active" href="order-create.html">创建订单</a>
+        </nav>
+    </section>
+
+    <!-- 接口配置 -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>接口配置</h2>
+            <button id="resetConfigBtn" class="secondary" type="button">重置配置</button>
+        </div>
+        <div class="grid">
+            <div class="field">
+                <label for="baseUrl">服务地址</label>
+                <input id="baseUrl" value="https://esimapi.esimtours.com" placeholder="例如：https://esimapi.esimtours.com">
+            </div>
+            <div class="field">
+                <label for="accessKey">AccessKey</label>
+                <input id="accessKey" placeholder="请输入 X-Access-Key">
+            </div>
+            <div class="field">
+                <label for="accessSecret">AccessSecret</label>
+                <input id="accessSecret" type="password" placeholder="请输入 AccessSecret">
+            </div>
+        </div>
+    </section>
+
+    <!-- 我的 eSIM 列表 -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>我的 eSIM</h2>
+            <div class="subtle">加载您当前已有的 eSIM 列表，便于下单时选择绑定。</div>
+        </div>
+        <div class="esim-list-toolbar">
+            <div class="esim-pager">
+                <div class="field">
+                    <label for="esimPage">页码</label>
+                    <input id="esimPage" type="number" min="1" value="1">
+                </div>
+                <div class="field">
+                    <label for="esimLimit">每页条数</label>
+                    <input id="esimLimit" type="number" min="1" value="20">
+                </div>
+                <button id="loadEsimBtn" type="button">加载 eSIM</button>
+                <button id="esimPrevBtn" class="secondary" type="button">上一页</button>
+                <button id="esimNextBtn" class="secondary" type="button">下一页</button>
+            </div>
+        </div>
+        <div id="esimStatus" class="status">请点击「加载 eSIM」获取列表</div>
+        <div id="esimSummary" class="subtle" style="margin-top:6px;"></div>
+        <div class="table-wrap esim-list-area">
+            <table class="result-table esim-table">
+                <thead>
+                <tr>
+                    <th>ICCID</th>
+                    <th>MSISDN</th>
+                    <th>EID</th>
+                    <th>状态</th>
+                    <th>过期时间</th>
+                </tr>
+                </thead>
+                <tbody id="esimBody">
+                <tr><td class="empty" colspan="5">暂无数据，请先点击「加载 eSIM」</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 搜索套餐 -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>搜索套餐并添加到购物车</h2>
+            <div class="subtle">支持分页，每页最多 50 条。</div>
+        </div>
+        <div class="grid grid-4">
+            <div class="field">
+                <label for="searchPackageCode">套餐编码</label>
+                <input id="searchPackageCode" placeholder="可选">
+            </div>
+            <div class="field">
+                <label for="searchType">套餐类型</label>
+                <select id="searchType">
+                    <option value="">全部类型</option>
+                    <option value="COUNTRY">国家套餐</option>
+                    <option value="REGION">区域套餐</option>
+                    <option value="GLOBAL">全球套餐</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="searchLocationCode">覆盖地区</label>
+                <input id="searchLocationCode" placeholder="可选，例如 CN">
+            </div>
+            <div class="field">
+                <label for="pkgPage">页码</label>
+                <input id="pkgPage" type="number" min="1" value="1">
+            </div>
+        </div>
+        <div class="actions">
+            <button id="searchBtn" type="button">搜索套餐</button>
+            <button id="pkgPrevBtn" class="secondary" type="button">上一页</button>
+            <button id="pkgNextBtn" class="secondary" type="button">下一页</button>
+            <button id="clearSearchBtn" class="secondary" type="button">清空结果</button>
+        </div>
+        <div id="pkgSummary" class="subtle" style="margin-top:8px;"></div>
+        <div id="searchStatus" class="status" style="margin-top:8px;">请输入条件后搜索</div>
+        <div id="searchResults" style="margin-top:10px;"></div>
+    </section>
+
+    <!-- 购物车 -->
+    <section class="panel">
+        <div class="panel-title">
+            <h2>购物车</h2>
+            <div class="subtle" id="cartCount">0 个商品</div>
+        </div>
+        <div class="table-wrap">
+            <table class="cart-table">
+                <thead>
+                <tr>
+                    <th>套餐编码</th>
+                    <th>套餐名称</th>
+                    <th>类型</th>
+                    <th>流量</th>
+                    <th>售价</th>
+                    <th>数量</th>
+                    <th>绑定 ICCID（可选）</th>
+                    <th>小计</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="cartBody">
+                <tr><td class="empty" colspan="9">购物车为空，请先从上方搜索并添加套餐。</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="cart-summary">
+            <div class="cart-total">合计：<span id="cartTotal">0.00</span> <span id="cartCurrency"></span></div>
+            <div class="actions" style="margin-top:0;">
+                <button id="submitOrderBtn" class="success" type="button">提交订单</button>
+                <button id="clearCartBtn" class="danger" type="button">清空购物车</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 请求/响应 -->
+    <section class="panel">
+        <div class="panel-title"><h2>请求 Body</h2></div>
+        <textarea id="requestBody" readonly></textarea>
+    </section>
+    <section class="panel">
+        <div class="panel-title"><h2>响应结果</h2></div>
+        <textarea id="responseText" readonly></textarea>
+    </section>
+
+    <!-- 订单结果 -->
+    <section class="panel" id="orderResultPanel" style="display:none;">
+        <div class="panel-title"><h2>订单创建成功</h2></div>
+        <div class="order-result" id="orderResult"></div>
+    </section>
+</main>
+
+<!-- eSIM 选择模态框 -->
+<div id="esimSelectModal" class="modal-mask" role="dialog" aria-modal="true">
+    <div class="modal">
+        <div class="modal-header">
+            <div>
+                <h2>选择 eSIM</h2>
+                <div class="subtle">点击行即可选择 ICCID，已绑定到购物车行 #<span id="modalCartIndex">-</span></div>
+            </div>
+            <button id="closeEsimModalBtn" class="secondary" type="button">关闭</button>
+        </div>
+        <div class="modal-body">
+            <div id="modalEsimSummary" class="subtle" style="margin-bottom:10px;"></div>
+            <div class="table-wrap">
+                <table class="result-table esim-table" id="modalEsimTable">
+                    <thead>
+                    <tr>
+                        <th>ICCID</th>
+                        <th>MSISDN</th>
+                        <th>EID</th>
+                        <th>状态</th>
+                        <th>过期时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="modalEsimBody">
+                    <tr><td class="empty" colspan="5">加载中...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="clearEsimBtn" class="secondary" type="button">清除 ICCID</button>
+            <button id="closeEsimBtn2" class="secondary" type="button">关闭</button>
+        </div>
+    </div>
+</div>
+
+<script src="common.js"></script>
+<script>
+    var apiPath = "/api/open/v1/order/package";
+    var packageSearchPath = "/api/open/v1/package/search";
+    var esimSearchPath = "/api/open/v1/esim/search";
+    var successCode = "000000";
+    var configStorageKey = "esimOpenApiClientConfig";
+    var cart = [];  // { packageCode, packageName, type, data, dataUnit, price, currency, quantity, iccid }
+    var packageResults = [];
+    var pkgPageData = null;  // { page, limit, total, pages }
+    var esimList = [];  // 当前 eSIM 列表
+    var esimPageData = null;
+    var modalCartIndex = -1;  // 当前正在选择 eSIM 的购物车行索引
+
+    var packageTypeText = {
+        COUNTRY: "国家套餐",
+        REGION: "区域套餐",
+        GLOBAL: "全球套餐"
+    };
+
+    // ============================================================
+    // eSIM 列表
+    // ============================================================
+    async function loadEsims() {
+        saveConfig();
+        var baseUrl = trimTrailingSlash(byId("baseUrl").value);
+        var accessKey = byId("accessKey").value.trim();
+        var accessSecret = byId("accessSecret").value;
+        if (!baseUrl || !accessKey || !accessSecret) {
+            setStatusEl("esimStatus", "请先填写服务地址、AccessKey、AccessSecret。", "error");
+            return;
+        }
+
+        var body = {
+            page: normalizePositiveNumber(byId("esimPage").value, 1),
+            limit: normalizePositiveNumber(byId("esimLimit").value, 20)
+        };
+
+        var btn = byId("loadEsimBtn");
+        btn.disabled = true;
+        setStatusEl("esimStatus", "加载中...");
+
+        try {
+            var headers = await buildHeaders(accessKey, accessSecret);
+            var response = await fetch(baseUrl + esimSearchPath, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body)
+            });
+            var text = await response.text();
+            var json;
+            try { json = text ? JSON.parse(text) : null; } catch (e) {
+                setStatusEl("esimStatus", "响应不是 JSON。", "error");
+                return;
+            }
+            if (!response.ok || !json || json.code !== successCode) {
+                setStatusEl("esimStatus", "加载失败：" + (json && json.message ? json.message : ""), "error");
+                return;
+            }
+            esimPageData = json.data;
+            esimList = (json.data && Array.isArray(json.data.data)) ? json.data.data : [];
+            renderEsimTable("esimBody", esimList, "esimSummary", "esimStatus", "找到");
+            renderEsimTable("modalEsimBody", esimList, "modalEsimSummary", null, "共");
+        } catch (error) {
+            setStatusEl("esimStatus", "加载异常：" + error.message, "error");
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function renderEsimTable(tbodyId, rows, summaryId, statusId, label) {
+        var tbody = byId(tbodyId);
+        if (summaryId) {
+            var summary = esimPageData
+                ? "第 " + esimPageData.page + " 页，每页 " + esimPageData.limit + " 条，共 " + esimPageData.total + " 条 / " + esimPageData.pages + " 页"
+                : "";
+            if (summaryId) byId(summaryId).textContent = summary;
+        }
+
+        if (!rows.length) {
+            tbody.innerHTML = '<tr><td class="empty" colspan="5">暂无数据</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = rows.map(function (esim, idx) {
+            return '<tr class="selectable-row" data-esim-idx="' + idx + '">' +
+                '<td>' + escapeHtml(esim.iccid) + '</td>' +
+                '<td>' + escapeHtml(esim.msisdn) + '</td>' +
+                '<td>' + escapeHtml(esim.eid) + '</td>' +
+                '<td>' + escapeHtml(esim.status) + '</td>' +
+                '<td>' + escapeHtml(esim.expiredTime) + '</td>' +
+                '</tr>';
+        }).join('');
+    }
+
+    function changeEsimPage(delta) {
+        var current = normalizePositiveNumber(byId("esimPage").value, 1);
+        byId("esimPage").value = Math.max(1, current + delta);
+        loadEsims();
+    }
+
+    // ============================================================
+    // eSIM 选择模态框
+    // ============================================================
+    function openEsimSelectModal(cartIndex) {
+        modalCartIndex = cartIndex;
+        byId("modalCartIndex").textContent = (cartIndex + 1);
+        byId("esimSelectModal").classList.add("show");
+        // 已选中行高亮
+        highlightModalSelected();
+    }
+
+    function closeEsimSelectModal() {
+        byId("esimSelectModal").classList.remove("show");
+        modalCartIndex = -1;
+    }
+
+    function highlightModalSelected() {
+        var tbody = byId("modalEsimBody");
+        var rows = tbody.querySelectorAll("tr");
+        rows.forEach(function (row) { row.classList.remove("selected-row"); });
+        if (modalCartIndex < 0 || !cart[modalCartIndex]) return;
+        var targetIccid = cart[modalCartIndex].iccid;
+        if (!targetIccid) return;
+        rows.forEach(function (row) {
+            var cells = row.querySelectorAll("td");
+            if (cells.length > 0 && cells[0].textContent.trim() === targetIccid.trim()) {
+                row.classList.add("selected-row");
+            }
+        });
+    }
+
+    function selectEsimFromModal(idx) {
+        var esim = esimList[idx];
+        if (!esim || modalCartIndex < 0) return;
+        cart[modalCartIndex].iccid = esim.iccid;
+        renderCart();
+        closeEsimSelectModal();
+    }
+
+    function clearEsimFromModal() {
+        if (modalCartIndex < 0) return;
+        cart[modalCartIndex].iccid = "";
+        renderCart();
+        closeEsimSelectModal();
+    }
+
+    // ============================================================
+    // 搜索套餐
+    // ============================================================
+    async function searchPackages() {
+        saveConfig();
+        var baseUrl = trimTrailingSlash(byId("baseUrl").value);
+        var accessKey = byId("accessKey").value.trim();
+        var accessSecret = byId("accessSecret").value;
+        if (!baseUrl || !accessKey || !accessSecret) {
+            setStatusEl("searchStatus", "请先填写服务地址、AccessKey、AccessSecret。", "error");
+            return;
+        }
+
+        var body = {
+            page: normalizePositiveNumber(byId("pkgPage").value, 1),
+            limit: normalizePositiveNumber(byId("esimLimit").value, 20)
+        };
+        var packageCode = byId("searchPackageCode").value.trim();
+        var type = byId("searchType").value;
+        var locationCode = byId("searchLocationCode").value.trim();
+        if (packageCode) body.packageCode = packageCode;
+        if (type) body.type = type;
+        if (locationCode) body.locationCode = locationCode;
+
+        var btn = byId("searchBtn");
+        btn.disabled = true;
+        setStatusEl("searchStatus", "搜索中...");
+
+        try {
+            var headers = await buildHeaders(accessKey, accessSecret);
+            var response = await fetch(baseUrl + packageSearchPath, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body)
+            });
+            var text = await response.text();
+            var json;
+            try { json = text ? JSON.parse(text) : null; } catch (e) {
+                setStatusEl("searchStatus", "搜索响应不是 JSON。", "error");
+                return;
+            }
+            if (!response.ok || !json || json.code !== successCode) {
+                setStatusEl("searchStatus", "搜索失败：" + (json && json.message ? json.message : ""), "error");
+                return;
+            }
+            pkgPageData = json.data || null;
+            packageResults = (json.data && Array.isArray(json.data.data)) ? json.data.data : [];
+            renderPackageResults();
+            var count = packageResults.length;
+            if (pkgPageData) {
+                setStatusEl("searchStatus", "找到 " + pkgPageData.total + " 条，当前第 " + pkgPageData.page + " / " + pkgPageData.pages + " 页", "ok");
+            } else {
+                setStatusEl("searchStatus", "找到 " + count + " 个套餐", "ok");
+            }
+        } catch (error) {
+            setStatusEl("searchStatus", "搜索异常：" + error.message, "error");
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function renderPackageResults() {
+        var container = byId("searchResults");
+        if (!packageResults.length) {
+            container.innerHTML = '<div class="empty" style="padding:20px;color:#6b7280;">暂无数据</div>';
+            byId("pkgSummary").textContent = '';
+            return;
+        }
+        var summary = pkgPageData
+            ? "第 " + pkgPageData.page + " 页，每页 " + pkgPageData.limit + " 条，共 " + pkgPageData.total + " 条 / " + pkgPageData.pages + " 页"
+            : "共 " + packageResults.length + " 条";
+        byId("pkgSummary").textContent = summary;
+        var html = '<div class="table-wrap"><table class="result-table"><thead><tr>' +
+            '<th>套餐编码</th><th>套餐名称</th><th>类型</th><th>流量</th><th>有效期</th><th>售价</th><th>操作</th>' +
+            '</tr></thead><tbody>';
+        html += packageResults.map(function (pkg, idx) {
+            var inCart = cart.find(function (c) { return c.packageCode === pkg.packageCode; });
+            return '<tr>' +
+                '<td>' + escapeHtml(pkg.packageCode) + '</td>' +
+                '<td>' + escapeHtml(pkg.packageName) + '</td>' +
+                '<td>' + escapeHtml(packageTypeText[pkg.type] || pkg.type) + '</td>' +
+                '<td>' + escapeHtml(formatData(pkg.data, pkg.dataUnit)) + '</td>' +
+                '<td>' + escapeHtml(formatDuration(pkg.duration, pkg.durationUnit)) + '</td>' +
+                '<td>' + escapeHtml(pkg.price) + ' ' + escapeHtml(pkg.currency) + '</td>' +
+                '<td><button class="link-button" data-action="add" data-index="' + idx + '">' +
+                (inCart ? '已添加' : '加入购物车') + '</button></td>' +
+                '</tr>';
+        }).join('') + '</tbody></table></div>';
+        container.innerHTML = html;
+    }
+
+    function formatData(data, unit) {
+        if (data == null && !unit) return "";
+        return [data, unit].filter(function (v) { return v != null && v !== ""; }).join(" ");
+    }
+
+    function formatDuration(duration, unit) {
+        if (duration == null && !unit) return "";
+        return [duration, unit].filter(function (v) { return v != null && v !== ""; }).join(" ");
+    }
+
+    // ============================================================
+    // 购物车
+    // ============================================================
+    function addToCart(pkg) {
+        var existing = cart.find(function (c) { return c.packageCode === pkg.packageCode; });
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push({
+                packageCode: pkg.packageCode,
+                packageName: pkg.packageName,
+                type: pkg.type,
+                data: pkg.data,
+                dataUnit: pkg.dataUnit,
+                price: pkg.price,
+                currency: pkg.currency,
+                quantity: 1,
+                iccid: ""
+            });
+        }
+        renderCart();
+        renderPackageResults();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        renderCart();
+        renderPackageResults();
+    }
+
+    function updateCartField(index, field, value) {
+        if (field === 'quantity') {
+            var q = parseInt(value, 10);
+            cart[index].quantity = isNaN(q) || q < 1 ? 1 : q;
+        } else if (field === 'iccid') {
+            cart[index].iccid = value;
+        }
+        renderCart();
+    }
+
+    function renderCart() {
+        var tbody = byId("cartBody");
+        byId("cartCount").textContent = cart.length + " 个商品";
+
+        if (!cart.length) {
+            tbody.innerHTML = '<tr><td class="empty" colspan="9">购物车为空，请先从上方搜索并添加套餐。</td></tr>';
+            byId("cartTotal").textContent = "0.00";
+            byId("cartCurrency").textContent = "";
+            return;
+        }
+
+        var total = 0;
+        var currency = cart.length ? cart[0].currency : "";
+        tbody.innerHTML = cart.map(function (item, idx) {
+            var subtotal = (item.price || 0) * item.quantity;
+            total += subtotal;
+            return '<tr>' +
+                '<td>' + escapeHtml(item.packageCode) + '</td>' +
+                '<td>' + escapeHtml(item.packageName) + '</td>' +
+                '<td>' + escapeHtml(packageTypeText[item.type] || item.type) + '</td>' +
+                '<td>' + escapeHtml(formatData(item.data, item.dataUnit)) + '</td>' +
+                '<td>' + escapeHtml(item.price) + ' ' + escapeHtml(item.currency) + '</td>' +
+                '<td><input type="number" min="1" value="' + item.quantity + '" data-action="update-qty" data-index="' + idx + '"></td>' +
+                '<td>' +
+                    '<input type="text" placeholder="手动输入 ICCID" value="' + escapeHtml(item.iccid) + '" data-action="update-iccid" data-index="' + idx + '" style="width:140px;margin-right:4px;">' +
+                    '<button class="link-button select-btn" data-action="select-esim" data-index="' + idx + '">选择 eSIM</button>' +
+                '</td>' +
+                '<td>' + subtotal.toFixed(2) + ' ' + escapeHtml(item.currency) + '</td>' +
+                '<td><button class="link-button" style="background:#fee2e2;color:#991b1b;" data-action="remove" data-index="' + idx + '">移除</button></td>' +
+                '</tr>';
+        }).join('');
+
+        byId("cartTotal").textContent = total.toFixed(2);
+        byId("cartCurrency").textContent = currency;
+    }
+
+    function clearCart() {
+        cart = [];
+        renderCart();
+        renderPackageResults();
+    }
+
+    // ============================================================
+    // 提交订单
+    // ============================================================
+    async function submitOrder() {
+        if (!cart.length) {
+            setStatusEl("searchStatus", "购物车为空，无法提交订单。", "error");
+            return;
+        }
+        saveConfig();
+        var baseUrl = trimTrailingSlash(byId("baseUrl").value);
+        var accessKey = byId("accessKey").value.trim();
+        var accessSecret = byId("accessSecret").value;
+        if (!baseUrl || !accessKey || !accessSecret) {
+            setStatusEl("searchStatus", "请先填写服务地址、AccessKey、AccessSecret。", "error");
+            return;
+        }
+
+        var body = {
+            packageList: cart.map(function (item) {
+                var unit = { packageCode: item.packageCode, quantity: item.quantity };
+                if (item.iccid) unit.iccid = item.iccid;
+                if (item.price != null) unit.price = item.price;
+                return unit;
+            })
+        };
+
+        var totalAmount = cart.reduce(function (sum, item) {
+            return sum + (item.price || 0) * item.quantity;
+        }, 0);
+        body.amount = totalAmount;
+
+        byId("requestBody").value = JSON.stringify(body, null, 2);
+
+        var btn = byId("submitOrderBtn");
+        btn.disabled = true;
+        setStatusEl("searchStatus", "提交订单中...");
+
+        try {
+            var headers = await buildHeaders(accessKey, accessSecret);
+            var response = await fetch(baseUrl + apiPath, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body)
+            });
+            var text = await response.text();
+            byId("responseText").value = text;
+
+            var json;
+            try { json = text ? JSON.parse(text) : null; } catch (e) {
+                setStatusEl("searchStatus", "HTTP " + response.status + "，响应不是 JSON。", "error");
+                return;
+            }
+            if (!response.ok || !json || json.code !== successCode) {
+                setStatusEl("searchStatus", "下单失败：" + (json && json.message ? json.message : ""), "error");
+                return;
+            }
+            setStatusEl("searchStatus", "订单创建成功！订单号：" + json.data.orderCode, "ok");
+            renderOrderResult(json.data);
+            clearCart();
+        } catch (error) {
+            setStatusEl("searchStatus", "提交异常：" + error.message, "error");
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function renderOrderResult(data) {
+        var panel = byId("orderResultPanel");
+        var container = byId("orderResult");
+        panel.style.display = "";
+        var html = '<div class="detail-grid">' +
+            detailCard("订单号", data.orderCode) +
+            detailCard("交易ID", data.transactionId) +
+            '</div>';
+
+        var items = Array.isArray(data.items) ? data.items : [];
+        if (items.length) {
+            html += '<div class="order-items">';
+            items.forEach(function (item) {
+                html += '<div class="order-item">' +
+                    '<h3>' + escapeHtml(item.packageName || item.packageCode) + '</h3>' +
+                    '<div class="detail-grid" style="margin-bottom:8px;">' +
+                    detailCard("套餐编码", item.packageCode) +
+                    (item.topUpCode ? detailCard("加油包编码", item.topUpCode) : '') +
+                    '</div>';
+                var units = Array.isArray(item.units) ? item.units : [];
+                if (units.length) {
+                    html += '<table class="order-item-table"><thead><tr>' +
+                        '<th>单元编码</th><th>ICCID</th><th>数量</th><th>单价</th><th>状态</th>' +
+                        '</tr></thead><tbody>' +
+                        units.map(function (u) {
+                            return '<tr>' +
+                                '<td>' + escapeHtml(u.orderUnitCode) + '</td>' +
+                                '<td>' + escapeHtml(u.iccid) + '</td>' +
+                                '<td>' + escapeHtml(u.quantity) + '</td>' +
+                                '<td>' + escapeHtml(u.unitPrice) + '</td>' +
+                                '<td>' + escapeHtml(u.status) + '</td>' +
+                                '</tr>';
+                        }).join('') +
+                        '</tbody></table>';
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+        }
+        container.innerHTML = html;
+        panel.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // ============================================================
+    // 工具函数
+    // ============================================================
+    function setStatusEl(id, text, type) {
+        var el = byId(id);
+        if (!el) return;
+        el.textContent = text;
+        el.className = "status" + (type ? " " + type : "");
+    }
+
+    // ============================================================
+    // 事件绑定
+    // ============================================================
+    // eSIM 列表
+    byId("loadEsimBtn").addEventListener("click", loadEsims);
+    byId("esimPrevBtn").addEventListener("click", function () { changeEsimPage(-1); });
+    byId("esimNextBtn").addEventListener("click", function () { changeEsimPage(1); });
+
+    function changePkgPage(delta) {
+        var current = normalizePositiveNumber(byId("pkgPage").value, 1);
+        byId("pkgPage").value = Math.max(1, current + delta);
+        searchPackages();
+    }
+
+    // 搜索套餐
+    byId("searchBtn").addEventListener("click", searchPackages);
+    byId("pkgPrevBtn").addEventListener("click", function () { changePkgPage(-1); });
+    byId("pkgNextBtn").addEventListener("click", function () { changePkgPage(1); });
+    byId("clearSearchBtn").addEventListener("click", function () {
+        packageResults = [];
+        pkgPageData = null;
+        byId("searchResults").innerHTML = '';
+        byId("pkgSummary").textContent = '';
+        setStatusEl("searchStatus", "已清空搜索结果。", "");
+    });
+
+    // 提交/清空
+    byId("submitOrderBtn").addEventListener("click", submitOrder);
+    byId("clearCartBtn").addEventListener("click", clearCart);
+    byId("resetConfigBtn").addEventListener("click", function () {
+        resetConfig();
+        setStatusEl("searchStatus", "接口配置已重置。", "");
+    });
+
+    // 套餐搜索结果 — 加入购物车
+    byId("searchResults").addEventListener("click", function (e) {
+        var btn = e.target.closest('[data-action="add"]');
+        if (!btn) return;
+        var idx = parseInt(btn.getAttribute("data-index"), 10);
+        if (packageResults[idx]) addToCart(packageResults[idx]);
+    });
+
+    // 购物车 — 数量、ICCID 输入、选择 eSIM、移除
+    byId("cartBody").addEventListener("click", function (e) {
+        var btn = e.target.closest('[data-action="remove"]');
+        if (btn) {
+            removeFromCart(parseInt(btn.getAttribute("data-index"), 10));
+            return;
+        }
+        var btn2 = e.target.closest('[data-action="select-esim"]');
+        if (btn2) {
+            openEsimSelectModal(parseInt(btn2.getAttribute("data-index"), 10));
+            return;
+        }
+    });
+    byId("cartBody").addEventListener("input", function (e) {
+        var input = e.target;
+        var idx = parseInt(input.getAttribute("data-index"), 10);
+        if (isNaN(idx)) return;
+        var action = input.getAttribute("data-action");
+        if (action === "update-qty") {
+            updateCartField(idx, "quantity", input.value);
+        } else if (action === "update-iccid") {
+            updateCartField(idx, "iccid", input.value);
+        }
+    });
+
+    // 模态框 — 选择 eSIM
+    byId("modalEsimBody").addEventListener("click", function (e) {
+        var row = e.target.closest("tr.selectable-row");
+        if (!row) return;
+        var idx = parseInt(row.getAttribute("data-esim-idx"), 10);
+        selectEsimFromModal(idx);
+    });
+    byId("closeEsimModalBtn").addEventListener("click", closeEsimSelectModal);
+    byId("closeEsimBtn2").addEventListener("click", closeEsimSelectModal);
+    byId("clearEsimBtn").addEventListener("click", clearEsimFromModal);
+    byId("esimSelectModal").addEventListener("click", function (e) {
+        if (e.target === byId("esimSelectModal")) closeEsimSelectModal();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeEsimSelectModal();
+    });
+
+    // 初始化
+    bindConfigInputs();
+    loadSavedConfig();
+    renderCart();
+</script>
+</body>
+</html>

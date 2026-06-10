@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open API eSIM 查询</title>
+    <title>Open API 套餐查询</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -75,9 +75,7 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 16px;
         }
-        .grid-3 {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
+        .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .field {
             display: flex;
             flex-direction: column;
@@ -88,7 +86,7 @@
             font-weight: 700;
             color: #374151;
         }
-        input, textarea {
+        input, select, textarea {
             width: 100%;
             border: 1px solid #d1d5db;
             border-radius: 6px;
@@ -97,7 +95,7 @@
             color: #111827;
             background: #fff;
         }
-        input:focus, textarea:focus {
+        input:focus, select:focus, textarea:focus {
             outline: 2px solid #bfdbfe;
             border-color: #2563eb;
         }
@@ -267,12 +265,12 @@
 <body>
 <main class="page">
     <section class="header">
-        <h1>Open API eSIM 查询</h1>
-        <div class="subtle">调用 POST /api/open/v1/esim/search，按当前项目签名规则自动生成请求头。</div>
+        <h1>Open API 套餐查询</h1>
+        <div class="subtle">调用 POST /api/open/v1/package/search，按当前项目签名规则自动生成请求头。</div>
         <nav class="tabs" aria-label="Open API 功能切换">
             <a class="tab-link" href="order-search.html">订单查询</a>
-            <a class="tab-link active" href="esim-search.html">eSIM 查询</a>
-            <a class="tab-link" href="package-search.html">套餐查询</a>
+            <a class="tab-link" href="esim-search.html">eSIM 查询</a>
+            <a class="tab-link active" href="package-search.html">套餐查询</a>
             <a class="tab-link" href="order-create.html">创建订单</a>
         </nav>
     </section>
@@ -301,16 +299,29 @@
     <section class="panel">
         <div class="panel-title">
             <h2>筛选条件</h2>
-            <div class="subtle">ICCID 未填写时查询当前客户下的 eSIM 列表。</div>
+            <div class="subtle">未填写的条件不会传入请求。</div>
         </div>
         <div class="grid grid-3">
             <div class="field">
-                <label for="iccid">ICCID</label>
-                <input id="iccid" placeholder="可选">
+                <label for="packageCode">套餐编码</label>
+                <input id="packageCode" placeholder="可选">
+            </div>
+            <div class="field">
+                <label for="type">套餐类型</label>
+                <select id="type">
+                    <option value="">全部类型</option>
+                    <option value="COUNTRY">国家套餐</option>
+                    <option value="REGION">区域套餐</option>
+                    <option value="GLOBAL">全球套餐</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="locationCode">覆盖地区</label>
+                <input id="locationCode" placeholder="可选，例如 CN">
             </div>
         </div>
         <div class="actions">
-            <button id="searchBtn" type="button">查询 eSIM</button>
+            <button id="searchBtn" type="button">查询套餐</button>
             <button id="sampleBtn" class="secondary" type="button">刷新请求 Body</button>
             <button id="clearBtn" class="secondary" type="button">清空结果</button>
         </div>
@@ -327,7 +338,7 @@
     <section class="panel">
         <div class="list-toolbar">
             <div>
-                <h2>eSIM 列表</h2>
+                <h2>套餐列表</h2>
                 <div id="summary" class="subtle" style="margin-top: 6px;"></div>
             </div>
             <div class="pager">
@@ -347,21 +358,20 @@
             <table>
                 <thead>
                 <tr>
-                    <th>ICCID</th>
-                    <th>MSISDN</th>
-                    <th>IMSI</th>
-                    <th>EID</th>
-                    <th>SMDP 状态</th>
-                    <th>安装次数</th>
-                    <th>安装设备</th>
-                    <th>状态</th>
-                    <th>激活时间</th>
-                    <th>过期时间</th>
+                    <th>套餐编码</th>
+                    <th>套餐名称</th>
+                    <th>类型</th>
+                    <th>流量</th>
+                    <th>有效期</th>
+                    <th>币种</th>
+                    <th>售价</th>
+                    <th>建议零售价</th>
+                    <th>支持加油包</th>
                     <th>详情</th>
                 </tr>
                 </thead>
-                <tbody id="esimsBody">
-                <tr><td class="empty" colspan="11">暂无数据</td></tr>
+                <tbody id="packagesBody">
+                <tr><td class="empty" colspan="10">暂无数据</td></tr>
                 </tbody>
             </table>
         </div>
@@ -379,7 +389,7 @@
     <div class="modal">
         <div class="modal-header">
             <div>
-                <h2 id="detailTitle">eSIM 详情</h2>
+                <h2 id="detailTitle">套餐详情</h2>
                 <div id="detailSubTitle" class="subtle"></div>
             </div>
             <button id="closeDetailBtn" class="secondary" type="button">关闭</button>
@@ -390,18 +400,27 @@
 
 <script src="common.js"></script>
 <script>
-    var apiPath = "/api/open/v1/esim/search";
+    var apiPath = "/api/open/v1/package/search";
     var successCode = "000000";
     var configStorageKey = "esimOpenApiClientConfig";
-    var currentEsims = [];
+    var currentPackages = [];
+    var packageTypeText = {
+        COUNTRY: "国家套餐",
+        REGION: "区域套餐",
+        GLOBAL: "全球套餐"
+    };
 
     function buildBodyFromFields() {
         var body = {
             page: normalizePositiveNumber(byId("page").value, 1),
             limit: normalizePositiveNumber(byId("limit").value, 10)
         };
-        var iccid = byId("iccid").value.trim();
-        if (iccid) body.iccid = iccid;
+        var packageCode = byId("packageCode").value.trim();
+        var type = byId("type").value;
+        var locationCode = byId("locationCode").value.trim();
+        if (packageCode) body.packageCode = packageCode;
+        if (type) body.type = type;
+        if (locationCode) body.locationCode = locationCode;
         return body;
     }
 
@@ -409,101 +428,147 @@
         byId("requestBody").value = JSON.stringify(buildBodyFromFields(), null, 2);
     }
 
-    function renderEsims(pageData) {
-        var tbody = byId("esimsBody");
+    function renderPackages(pageData) {
+        var tbody = byId("packagesBody");
         var rows = pageData && Array.isArray(pageData.data) ? pageData.data : [];
-        currentEsims = rows;
+        currentPackages = rows;
         byId("summary").textContent = pageData
             ? "第 " + pageData.page + " 页，每页 " + pageData.limit + " 条，共 " + pageData.total + " 条 / " + pageData.pages + " 页"
             : "";
 
         if (!rows.length) {
-            tbody.innerHTML = '<tr><td class="empty" colspan="11">暂无数据</td></tr>';
+            tbody.innerHTML = '<tr><td class="empty" colspan="10">暂无数据</td></tr>';
             return;
         }
 
         tbody.innerHTML = rows.map(function (item, index) {
             return "<tr>" +
-                "<td>" + escapeHtml(item.iccid) + "</td>" +
-                "<td>" + escapeHtml(item.msisdn) + "</td>" +
-                "<td>" + escapeHtml(item.imsi) + "</td>" +
-                "<td>" + escapeHtml(item.eid) + "</td>" +
-                "<td>" + escapeHtml(item.smdpStatus) + "</td>" +
-                "<td>" + escapeHtml(item.installCount) + "</td>" +
-                "<td>" + escapeHtml(item.installDevice) + "</td>" +
-                "<td>" + escapeHtml(item.status) + "</td>" +
-                "<td>" + escapeHtml(item.activatedTime) + "</td>" +
-                "<td>" + escapeHtml(item.expiredTime) + "</td>" +
+                "<td>" + escapeHtml(item.packageCode) + "</td>" +
+                "<td>" + escapeHtml(item.packageName) + "</td>" +
+                "<td>" + escapeHtml(packageTypeText[item.type] || item.type) + "</td>" +
+                "<td>" + escapeHtml(formatData(item.data, item.dataUnit)) + "</td>" +
+                "<td>" + escapeHtml(formatDuration(item.duration, item.durationUnit)) + "</td>" +
+                "<td>" + escapeHtml(item.currency) + "</td>" +
+                "<td>" + escapeHtml(item.price) + "</td>" +
+                "<td>" + escapeHtml(item.retailPrice) + "</td>" +
+                "<td>" + escapeHtml(item.supportTopUp ? "支持" : "不支持") + "</td>" +
                 '<td><button class="link-button" type="button" data-detail-index="' + index + '">查看</button></td>' +
                 "</tr>";
         }).join("");
     }
 
-    function showEsimDetail(index) {
-        var esim = currentEsims[index];
-        if (!esim) {
+    function showPackageDetail(index) {
+        var pkg = currentPackages[index];
+        if (!pkg) {
             return;
         }
-        byId("detailSubTitle").textContent = "ICCID：" + (esim.iccid || "-");
-        byId("detailBody").innerHTML = buildDetailHtml(esim);
+        byId("detailSubTitle").textContent = "套餐编码：" + (pkg.packageCode || "-");
+        byId("detailBody").innerHTML = buildDetailHtml(pkg);
         byId("detailModal").classList.add("show");
     }
 
-    function closeEsimDetail() {
+    function closePackageDetail() {
         byId("detailModal").classList.remove("show");
     }
 
-    function buildDetailHtml(esim) {
-        var packages = Array.isArray(esim.packages) ? esim.packages : [];
-        var html = '<div class="detail-section">' +
-            '<h3>eSIM 信息</h3>' +
+    function buildDetailHtml(pkg) {
+        return '<div class="detail-section">' +
+            '<h3>套餐信息</h3>' +
             '<div class="detail-grid">' +
-            detailCard("ICCID", esim.iccid) +
-            detailCard("MSISDN", esim.msisdn) +
-            detailCard("IMSI", esim.imsi) +
-            detailCard("EID", esim.eid) +
-            detailCard("SMDP 状态", esim.smdpStatus) +
-            detailCard("安装次数", esim.installCount) +
-            detailCard("安装设备", esim.installDevice) +
-            detailCard("安装时间", esim.installTime) +
-            detailCard("激活时间", esim.activatedTime) +
-            detailCard("过期时间", esim.expiredTime) +
-            detailCard("状态", esim.status) +
-            detailCard("PIN", esim.pin) +
-            detailCard("PUK", esim.puk) +
-            detailCard("激活码", esim.activationCode) +
-            '</div></div>';
+            detailCard("套餐编码", pkg.packageCode) +
+            detailCard("套餐名称", pkg.packageName) +
+            detailCard("类型", packageTypeText[pkg.type] || pkg.type) +
+            detailCard("支持加油包", pkg.supportTopUp ? "支持" : "不支持") +
+            detailCard("流量", formatData(pkg.data, pkg.dataUnit)) +
+            detailCard("有效期", formatDuration(pkg.duration, pkg.durationUnit)) +
+            detailCard("币种", pkg.currency) +
+            detailCard("售价", pkg.price) +
+            detailCard("建议零售价", pkg.retailPrice) +
+            '</div></div>' +
+            buildLocationsHtml(pkg.locations) +
+            buildTopUpsHtml(pkg.topUps);
+    }
 
-        if (!packages.length) {
-            return html + '<div class="empty">该 eSIM 没有 packages 明细</div>';
+    function buildLocationsHtml(locations) {
+        var rows = [];
+        (Array.isArray(locations) ? locations : []).forEach(function (location) {
+            var operators = Array.isArray(location.operators) ? location.operators : [];
+            if (!operators.length) {
+                rows.push("<tr>" +
+                    "<td>" + escapeHtml(location.iso2) + "</td>" +
+                    "<td>" + escapeHtml(location.name) + "</td>" +
+                    "<td>-</td><td>-</td><td>-</td><td>-</td>" +
+                    "</tr>");
+                return;
+            }
+            operators.forEach(function (operator) {
+                rows.push("<tr>" +
+                    "<td>" + escapeHtml(location.iso2) + "</td>" +
+                    "<td>" + escapeHtml(location.name) + "</td>" +
+                    "<td>" + escapeHtml(operator.code) + "</td>" +
+                    "<td>" + escapeHtml(operator.name) + "</td>" +
+                    "<td>" + escapeHtml(operator.mcc) + "</td>" +
+                    "<td>" + escapeHtml(operator.mnc) + "</td>" +
+                    "</tr>");
+            });
+        });
+
+        if (!rows.length) {
+            return '<div class="detail-section"><h3>覆盖地区</h3><div class="empty">暂无覆盖地区明细</div></div>';
         }
 
-        var rows = packages.map(function (pkg) {
-            return "<tr>" +
-                "<td>" + escapeHtml(pkg.orderUnitCode) + "</td>" +
-                "<td>" + escapeHtml(pkg.packageCode) + "</td>" +
-                "<td>" + escapeHtml(pkg.packageName) + "</td>" +
-                "<td>" + escapeHtml(pkg.data) + "</td>" +
-                "<td>" + escapeHtml(pkg.dataUnit) + "</td>" +
-                "<td>" + escapeHtml(pkg.totalData) + "</td>" +
-                "<td>" + escapeHtml(pkg.totalUsedData) + "</td>" +
-                "<td>" + escapeHtml(pkg.balanceData) + "</td>" +
-                "<td>" + escapeHtml(pkg.status) + "</td>" +
-                "<td>" + escapeHtml(pkg.createTime) + "</td>" +
-                "</tr>";
-        }).join("");
-
-        return html + '<div class="detail-section">' +
-            '<h3>套餐明细</h3>' +
+        return '<div class="detail-section">' +
+            '<h3>覆盖地区</h3>' +
             '<div class="table-wrap">' +
             '<table><thead><tr>' +
-            '<th>订单单元编号</th><th>套餐编码</th><th>套餐名称</th><th>流量</th><th>单位</th>' +
-            '<th>总流量</th><th>已用流量</th><th>剩余流量</th><th>状态</th><th>创建时间</th>' +
-            '</tr></thead><tbody>' + rows + '</tbody></table>' +
+            '<th>国家/地区编码</th><th>国家/地区名称</th><th>运营商编码</th><th>运营商名称</th><th>MCC</th><th>MNC</th>' +
+            '</tr></thead><tbody>' + rows.join("") + '</tbody></table>' +
             '</div></div>';
     }
 
-    async function searchEsims() {
+    function buildTopUpsHtml(topUps) {
+        var rows = (Array.isArray(topUps) ? topUps : []).map(function (topUp) {
+            return "<tr>" +
+                "<td>" + escapeHtml(topUp.packageCode) + "</td>" +
+                "<td>" + escapeHtml(topUp.topUpCode) + "</td>" +
+                "<td>" + escapeHtml(formatData(topUp.data, topUp.dataUnit)) + "</td>" +
+                "<td>" + escapeHtml(topUp.currency) + "</td>" +
+                "<td>" + escapeHtml(topUp.price) + "</td>" +
+                "</tr>";
+        });
+
+        if (!rows.length) {
+            return '<div class="detail-section"><h3>加油包</h3><div class="empty">暂无加油包明细</div></div>';
+        }
+
+        return '<div class="detail-section">' +
+            '<h3>加油包</h3>' +
+            '<div class="table-wrap">' +
+            '<table><thead><tr>' +
+            '<th>所属套餐编码</th><th>加油包编码</th><th>流量</th><th>币种</th><th>售价</th>' +
+            '</tr></thead><tbody>' + rows.join("") + '</tbody></table>' +
+            '</div></div>';
+    }
+
+    function formatData(data, unit) {
+        if (data == null && !unit) {
+            return "";
+        }
+        return [data, unit].filter(function (value) {
+            return value != null && value !== "";
+        }).join(" ");
+    }
+
+    function formatDuration(duration, unit) {
+        if (duration == null && !unit) {
+            return "";
+        }
+        return [duration, unit].filter(function (value) {
+            return value != null && value !== "";
+        }).join(" ");
+    }
+
+    async function searchPackages() {
         syncBodyTextarea();
         saveConfig();
 
@@ -542,13 +607,13 @@
                 json = text ? JSON.parse(text) : null;
             } catch (parseError) {
                 setStatus("HTTP " + response.status + "，响应不是 JSON。", "error");
-                renderEsims(null);
+                renderPackages(null);
                 return;
             }
 
             if (!response.ok) {
                 setStatus("HTTP " + response.status + " 请求失败。", "error");
-                renderEsims(null);
+                renderPackages(null);
                 return;
             }
 
@@ -556,15 +621,15 @@
                 var code = json && json.code ? json.code : "无 code";
                 var message = json && json.message ? json.message : "接口未返回成功码";
                 setStatus("接口返回错误：" + code + " " + message, "error");
-                renderEsims(json ? json.data : null);
+                renderPackages(json ? json.data : null);
                 return;
             }
 
             setStatus("查询成功：" + successCode, "ok");
-            renderEsims(json.data);
+            renderPackages(json.data);
         } catch (error) {
             setStatus("请求异常：" + error.message, "error");
-            renderEsims(null);
+            renderPackages(null);
         } finally {
             btn.disabled = false;
         }
@@ -573,47 +638,47 @@
     function changePage(delta) {
         var current = normalizePositiveNumber(byId("page").value, 1);
         byId("page").value = Math.max(1, current + delta);
-        searchEsims();
+        searchPackages();
     }
 
     byId("sampleBtn").addEventListener("click", syncBodyTextarea);
     byId("clearBtn").addEventListener("click", function () {
         byId("responseText").value = "";
         byId("summary").textContent = "";
-        renderEsims(null);
+        renderPackages(null);
         setStatus("已清空结果。");
     });
     byId("resetConfigBtn").addEventListener("click", function () {
         resetConfig();
         setStatus("接口配置已重置。");
     });
-    byId("searchBtn").addEventListener("click", searchEsims);
+    byId("searchBtn").addEventListener("click", searchPackages);
     byId("prevBtn").addEventListener("click", function () {
         changePage(-1);
     });
     byId("nextBtn").addEventListener("click", function () {
         changePage(1);
     });
-    byId("esimsBody").addEventListener("click", function (event) {
+    byId("packagesBody").addEventListener("click", function (event) {
         var button = event.target.closest("[data-detail-index]");
         if (!button) {
             return;
         }
-        showEsimDetail(Number(button.getAttribute("data-detail-index")));
+        showPackageDetail(Number(button.getAttribute("data-detail-index")));
     });
-    byId("closeDetailBtn").addEventListener("click", closeEsimDetail);
+    byId("closeDetailBtn").addEventListener("click", closePackageDetail);
     byId("detailModal").addEventListener("click", function (event) {
         if (event.target === byId("detailModal")) {
-            closeEsimDetail();
+            closePackageDetail();
         }
     });
     document.addEventListener("keydown", function (event) {
         if (event.key === "Escape") {
-            closeEsimDetail();
+            closePackageDetail();
         }
     });
 
-    ["iccid", "page", "limit"].forEach(function (id) {
+    ["packageCode", "type", "locationCode", "page", "limit"].forEach(function (id) {
         byId(id).addEventListener("change", syncBodyTextarea);
     });
     bindConfigInputs();
