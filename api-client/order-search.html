@@ -344,7 +344,8 @@
             <a class="tab-link active" href="order-search.html">订单查询</a>
             <a class="tab-link" href="esim-search.html">eSIM 查询</a>
             <a class="tab-link" href="package-search.html">套餐查询</a>
-            <a class="tab-link" href="order-create.html">创建订单</a>
+            <a class="tab-link" href="order-create.html">订购套餐</a>
+            <a class="tab-link" href="topup-search.html">订购加油包</a>
         </nav>
     </section>
 
@@ -466,6 +467,7 @@
             <button id="closeDetailBtn" class="secondary" type="button">关闭</button>
         </div>
         <div id="detailBody" class="modal-body"></div>
+        <div id="detailFooter" class="modal-footer"></div>
     </div>
 </div>
 
@@ -473,6 +475,10 @@
 <script>
     var apiPath = "/api/open/v1/order/search";
     var successCode = "000000";
+
+    function trim(str) {
+        return String(str || "").replace(/^\s+|\s+$/g, "");
+    }
     var configStorageKey = "esimOpenApiClientConfig";
     var currentOrders = [];
     var productTypeText = {
@@ -561,8 +567,14 @@
         html += items.map(function (item, itemIndex) {
             var units = Array.isArray(item.units) ? item.units : [];
             var unitRows = units.length ? units.map(function (unit) {
+                var refundBtn = (unit.status === "DELIVERED" && !unit.refundTime)
+                    ? '<button class="link-button danger" data-act="refund" data-uc="' + escapeHtml(unit.orderUnitCode) + '">退款</button>'
+                    : "";
+                var refundStatus = unit.refundStatus
+                    ? '<span style="color:#b91c1c;font-size:12px;margin-left:4px;" data-refund-status="' + escapeHtml(unit.orderUnitCode) + '">(' + escapeHtml(unit.refundStatus) + ')</span>'
+                    : "";
                 return "<tr>" +
-                    "<td>" + escapeHtml(unit.orderUnitCode) + "</td>" +
+                    "<td>" + escapeHtml(unit.orderUnitCode) + refundStatus + "</td>" +
                     "<td>" + escapeHtml(unit.iccid) + "</td>" +
                     "<td>" + escapeHtml(unit.quantity) + "</td>" +
                     "<td>" + escapeHtml(unit.unitPrice) + "</td>" +
@@ -576,8 +588,9 @@
                     "<td>" + escapeHtml(unit.deliveryTime) + "</td>" +
                     "<td>" + escapeHtml(unit.receiveTime) + "</td>" +
                     "<td>" + escapeHtml(unit.refundTime) + "</td>" +
+                    "<td>" + refundBtn + "</td>" +
                     "</tr>";
-            }).join("") : '<tr><td class="empty" colspan="14">暂无 unit 明细</td></tr>';
+            }).join("") : '<tr><td class="empty" colspan="15">暂无 unit 明细</td></tr>';
 
             return '<div class="detail-section">' +
                 '<h3>Item ' + (itemIndex + 1) + '</h3>' +
@@ -591,12 +604,50 @@
                 '<th>订单单元编号</th><th>ICCID</th><th>数量</th><th>单价</th>' +
                 '<th>总流量</th><th>已用流量</th><th>剩余流量</th>' +
                 '<th>产品状态</th><th>订单状态</th><th>激活时间</th><th>过期时间</th>' +
-                '<th>发货时间</th><th>接收时间</th><th>退款时间</th>' +
+                '<th>发货时间</th><th>接收时间</th><th>退款时间</th><th>操作</th>' +
                 '</tr></thead><tbody>' + unitRows + '</tbody></table>' +
                 '</div></div>';
         }).join("");
 
         return html;
+    }
+
+    async function refundUnit(orderUnitCode) {
+        if (!confirm("确定要为订单单元「" + orderUnitCode + "」申请退款吗？")) return;
+        var baseUrl = trim(byId("baseUrl").value);
+        var ak = byId("accessKey").value.trim();
+        var as = byId("accessSecret").value;
+        if (!baseUrl || !ak || !as) { setStatus("请先填写服务地址、AccessKey、AccessSecret。", "error"); return; }
+        var body = { orderUnitCode: orderUnitCode };
+        byId("requestBody").value = JSON.stringify(body, null, 2);
+        setRefundStatus(orderUnitCode, "退款中...");
+        var footer = byId("detailFooter");
+        footer.innerHTML = '<div style="color:#374151;font-size:13px;padding:10px 0;">退款中...</div>';
+        try {
+            var headers = await buildHeaders(ak, as);
+            var resp = await fetch(baseUrl + "/api/open/v1/order/refund", { method: "POST", headers: headers, body: JSON.stringify(body) });
+            var text = await resp.text();
+            byId("responseText").value = text;
+            var json = text ? JSON.parse(text) : null;
+            if (!resp.ok || !json || json.code !== successCode) {
+                var errMsg = "退款失败：" + (json && json.message || "");
+                setRefundStatus(orderUnitCode, errMsg);
+                footer.innerHTML = '<div class="status error">' + escapeHtml(errMsg) + '</div>';
+                return;
+            }
+            setRefundStatus(orderUnitCode, "已退款");
+            footer.innerHTML = '<div class="status ok">✅ 退款成功！订单单元：' + escapeHtml(orderUnitCode) + '</div>';
+            searchOrders();
+        } catch (e) {
+            var excMsg = "退款异常：" + e.message;
+            setRefundStatus(orderUnitCode, excMsg);
+            footer.innerHTML = '<div class="status error">' + escapeHtml(excMsg) + '</div>';
+        }
+    }
+
+    function setRefundStatus(orderUnitCode, text) {
+        var el = document.querySelector("[data-refund-status=\"" + orderUnitCode + "\"]");
+        if (el) el.textContent = "(" + text + ")";
     }
 
     async function searchOrders() {
@@ -701,6 +752,11 @@
     byId("detailModal").addEventListener("click", function (event) {
         if (event.target === byId("detailModal")) {
             closeOrderDetail();
+            return;
+        }
+        var btn = event.target.closest("[data-act]");
+        if (btn && btn.getAttribute("data-act") === "refund") {
+            refundUnit(btn.getAttribute("data-uc"));
         }
     });
     document.addEventListener("keydown", function (event) {
