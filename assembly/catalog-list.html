@@ -754,10 +754,28 @@
                                     <option value="禁售">禁售</option>
                                 </select>
                             </div>
+                            <div class="col-md-4">
+                                <label class="form-label">数据起始行号</label>
+                                <input type="number" class="form-control" id="catalogSupplierQuoteStartRow" min="2" step="1" value="2">
+                                <small class="text-muted">请输入大于等于 2 的整数。</small>
+                            </div>
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="catalogSupplierQuoteSyncAddonCost">
                                     <label class="form-check-label" for="catalogSupplierQuoteSyncAddonCost">按供应商套餐流量均价同步加油包成本价</label>
+                                </div>
+                            </div>
+                            <div class="col-12 d-none" id="catalogSupplierQuoteTrafficUnitPanel">
+                                <label class="form-label">流量单位换算规则</label>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="catalogSupplierQuoteTrafficUnit" id="catalogSupplierQuoteTrafficUnitBinary" value="1024" checked>
+                                        <label class="form-check-label" for="catalogSupplierQuoteTrafficUnitBinary">1GB = 1024MB</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="catalogSupplierQuoteTrafficUnit" id="catalogSupplierQuoteTrafficUnitDecimal" value="1000">
+                                        <label class="form-check-label" for="catalogSupplierQuoteTrafficUnitDecimal">1GB = 1000MB</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -779,17 +797,62 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">CSV 文件</label>
-                        <input type="file" class="form-control" id="operatorImportFile" accept=".csv">
+                        <label class="form-label">导入类型</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="operatorImportType" id="operatorImportTypeTemplate" value="template" checked>
+                                <label class="form-check-label" for="operatorImportTypeTemplate">系统模板文件导入</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="operatorImportType" id="operatorImportTypeSupplierCountryQuote" value="supplierCountryQuote">
+                                <label class="form-check-label" for="operatorImportTypeSupplierCountryQuote">供应商国家每GB报价表导入</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="operatorImportAsNextCost">
-                        <label class="form-check-label" for="operatorImportAsNextCost">导入为下期成本价</label>
+                    <div id="operatorTemplateImportPanel">
+                        <div class="mb-3">
+                            <label class="form-label">系统模板 CSV 文件</label>
+                            <input type="file" class="form-control" id="operatorImportFile" accept=".csv">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="operatorImportAsNextCost">
+                            <label class="form-check-label" for="operatorImportAsNextCost">导入为下期成本价</label>
+                        </div>
+                        <div class="mb-0">
+                            <label class="form-label">生效时间</label>
+                            <input type="datetime-local" class="form-control" id="operatorImportEffectiveAt" disabled>
+                            <small class="text-muted">勾选“导入为下期成本价”后可选择生效时间。</small>
+                        </div>
                     </div>
-                    <div class="mb-0">
-                        <label class="form-label">生效时间</label>
-                        <input type="datetime-local" class="form-control" id="operatorImportEffectiveAt" disabled>
-                        <small class="text-muted">勾选“导入为下期成本价”后可选择生效时间。</small>
+                    <div id="operatorSupplierCountryQuoteImportPanel" class="d-none">
+                        <div class="mb-3">
+                            <label class="form-label">供应商国家每GB报价表文件</label>
+                            <input type="file" class="form-control" id="operatorSupplierCountryQuoteImportFile" accept=".csv,.xls,.xlsx">
+                            <small class="text-muted">导入前请在报价表表头中标注字段用途：国家或地区名称列的表头末尾追加 <code>[country_name]</code>，价格列的表头末尾追加 <code>[provider_per_gb_price]</code>，例如 <code>Country or region[country_name]</code>、<code>Special Price[provider_per_gb_price]</code>。</small>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">供应商 <span class="text-danger">*</span></label>
+                                <select class="form-select" id="operatorSupplierCountryQuoteSupplier">
+                                    <option value="">请选择</option>
+                                    <option value="eSIM 全球供">eSIM 全球供</option>
+                                    <option value="跨境 eSIM 源">跨境 eSIM 源</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">状态</label>
+                                <select class="form-select" id="operatorSupplierCountryQuoteStatus">
+                                    <option value="">不指定</option>
+                                    <option value="在售">在售</option>
+                                    <option value="禁售">禁售</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">数据起始行号</label>
+                                <input type="number" class="form-control" id="operatorSupplierCountryQuoteStartRow" min="2" step="1" value="2">
+                                <small class="text-muted">请输入大于等于 2 的整数。</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1317,16 +1380,24 @@
                 var supplierQuoteSupplier = document.getElementById('catalogSupplierQuoteSupplier');
                 var supplierQuoteBilling = document.getElementById('catalogSupplierQuoteBilling');
                 var supplierQuoteStatus = document.getElementById('catalogSupplierQuoteStatus');
+                var supplierQuoteStartRow = document.getElementById('catalogSupplierQuoteStartRow');
                 var supplierQuoteSyncAddonCost = document.getElementById('catalogSupplierQuoteSyncAddonCost');
+                var supplierQuoteTrafficUnitInput = document.querySelector('input[name="catalogSupplierQuoteTrafficUnit"]:checked');
                 var msg = '';
                 if (importType === 'supplierQuote') {
+                    var startRow = parseInt(supplierQuoteStartRow.value, 10);
                     if (!supplierQuoteFileInput.files || !supplierQuoteFileInput.files.length) return alert('请选择供应商报价表文件');
                     if (!supplierQuoteSupplier.value) return alert('请选择供应商');
+                    if (!Number.isInteger(startRow) || startRow < 2) return alert('数据起始行号必须为大于等于 2 的整数');
                     msg = '已提交供应商报价表导入：' + supplierQuoteFileInput.files[0].name;
                     msg += '\n供应商：' + supplierQuoteSupplier.value;
                     msg += '\n计费方式：' + (supplierQuoteBilling.value || '不指定');
                     msg += '\n状态：' + (supplierQuoteStatus.value || '不指定');
+                    msg += '\n数据起始行号：' + startRow;
                     msg += '\n同步加油包成本价：' + (supplierQuoteSyncAddonCost.checked ? '是' : '否');
+                    if (supplierQuoteSyncAddonCost.checked) {
+                        msg += '\n流量单位换算：1GB = ' + ((supplierQuoteTrafficUnitInput && supplierQuoteTrafficUnitInput.value) || '1024') + 'MB';
+                    }
                 } else {
                     if (!fileInput.files || !fileInput.files.length) return alert('请选择系统模板 CSV 文件');
                     if (asNextCost && asNextCost.checked && (!effectiveAt || !effectiveAt.value)) return alert('请选择生效时间');
@@ -1348,7 +1419,10 @@
                 supplierQuoteSupplier.value = '';
                 supplierQuoteBilling.value = '';
                 supplierQuoteStatus.value = '';
+                supplierQuoteStartRow.value = '2';
                 supplierQuoteSyncAddonCost.checked = false;
+                document.getElementById('catalogSupplierQuoteTrafficUnitBinary').checked = true;
+                document.getElementById('catalogSupplierQuoteTrafficUnitPanel').classList.add('d-none');
             });
             (function () {
                 var asNextCost = document.getElementById('catalogImportAsNextCost');
@@ -1374,21 +1448,48 @@
                 });
                 syncCatalogImportType();
             })();
+            (function () {
+                var syncAddonCost = document.getElementById('catalogSupplierQuoteSyncAddonCost');
+                var trafficUnitPanel = document.getElementById('catalogSupplierQuoteTrafficUnitPanel');
+                if (!syncAddonCost || !trafficUnitPanel) return;
+                syncAddonCost.addEventListener('change', function () {
+                    trafficUnitPanel.classList.toggle('d-none', !this.checked);
+                    if (!this.checked) document.getElementById('catalogSupplierQuoteTrafficUnitBinary').checked = true;
+                });
+            })();
             document.getElementById('btnOperatorExport').addEventListener('click', function () {
                 alert('运营商导出功能演示');
             });
             document.getElementById('operatorImportConfirm').addEventListener('click', function () {
+                var importTypeInput = document.querySelector('input[name="operatorImportType"]:checked');
+                var importType = importTypeInput ? importTypeInput.value : 'template';
                 var fileInput = document.getElementById('operatorImportFile');
                 var asNextCost = document.getElementById('operatorImportAsNextCost');
                 var effectiveAt = document.getElementById('operatorImportEffectiveAt');
-                if (!fileInput.files || !fileInput.files.length) return alert('请选择 CSV 文件');
-                if (asNextCost && asNextCost.checked && (!effectiveAt || !effectiveAt.value)) return alert('请选择生效时间');
-                bootstrap.Modal.getInstance(document.getElementById('catalogOperatorBatchImportModal')).hide();
-                var msg = '已提交运营商导入：' + fileInput.files[0].name;
-                if (asNextCost && asNextCost.checked) {
-                    msg += '\n导入类型：下期成本价';
-                    msg += '\n生效时间：' + effectiveAt.value.replace('T', ' ');
+                var supplierCountryQuoteFileInput = document.getElementById('operatorSupplierCountryQuoteImportFile');
+                var supplierCountryQuoteSupplier = document.getElementById('operatorSupplierCountryQuoteSupplier');
+                var supplierCountryQuoteStatus = document.getElementById('operatorSupplierCountryQuoteStatus');
+                var supplierCountryQuoteStartRow = document.getElementById('operatorSupplierCountryQuoteStartRow');
+                var msg = '';
+                if (importType === 'supplierCountryQuote') {
+                    var startRow = parseInt(supplierCountryQuoteStartRow.value, 10);
+                    if (!supplierCountryQuoteFileInput.files || !supplierCountryQuoteFileInput.files.length) return alert('请选择供应商国家每GB报价表文件');
+                    if (!supplierCountryQuoteSupplier.value) return alert('请选择供应商');
+                    if (!Number.isInteger(startRow) || startRow < 2) return alert('数据起始行号必须为大于等于 2 的整数');
+                    msg = '已提交供应商国家每GB报价表导入：' + supplierCountryQuoteFileInput.files[0].name;
+                    msg += '\n供应商：' + supplierCountryQuoteSupplier.value;
+                    msg += '\n状态：' + (supplierCountryQuoteStatus.value || '不指定');
+                    msg += '\n数据起始行号：' + startRow;
+                } else {
+                    if (!fileInput.files || !fileInput.files.length) return alert('请选择系统模板 CSV 文件');
+                    if (asNextCost && asNextCost.checked && (!effectiveAt || !effectiveAt.value)) return alert('请选择生效时间');
+                    msg = '已提交运营商系统模板导入：' + fileInput.files[0].name;
+                    if (asNextCost && asNextCost.checked) {
+                        msg += '\n导入类型：下期成本价';
+                        msg += '\n生效时间：' + effectiveAt.value.replace('T', ' ');
+                    }
                 }
+                bootstrap.Modal.getInstance(document.getElementById('catalogOperatorBatchImportModal')).hide();
                 alert(msg);
                 fileInput.value = '';
                 if (asNextCost) asNextCost.checked = false;
@@ -1396,6 +1497,10 @@
                     effectiveAt.value = '';
                     effectiveAt.disabled = true;
                 }
+                supplierCountryQuoteFileInput.value = '';
+                supplierCountryQuoteSupplier.value = '';
+                supplierCountryQuoteStatus.value = '';
+                supplierCountryQuoteStartRow.value = '2';
             });
             (function () {
                 var asNextCost = document.getElementById('operatorImportAsNextCost');
@@ -1405,6 +1510,21 @@
                     effectiveAt.disabled = !this.checked;
                     if (!this.checked) effectiveAt.value = '';
                 });
+            })();
+            (function () {
+                var templatePanel = document.getElementById('operatorTemplateImportPanel');
+                var supplierCountryQuotePanel = document.getElementById('operatorSupplierCountryQuoteImportPanel');
+                var typeInputs = [].slice.call(document.querySelectorAll('input[name="operatorImportType"]'));
+                function syncOperatorImportType() {
+                    var selected = document.querySelector('input[name="operatorImportType"]:checked');
+                    var isSupplierCountryQuote = selected && selected.value === 'supplierCountryQuote';
+                    templatePanel.classList.toggle('d-none', isSupplierCountryQuote);
+                    supplierCountryQuotePanel.classList.toggle('d-none', !isSupplierCountryQuote);
+                }
+                typeInputs.forEach(function (input) {
+                    input.addEventListener('change', syncOperatorImportType);
+                });
+                syncOperatorImportType();
             })();
             document.getElementById('btnOperatorDictMatch').addEventListener('click', function () {
                 var matched = 0;
