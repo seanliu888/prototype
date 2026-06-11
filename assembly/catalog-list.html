@@ -696,17 +696,71 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">CSV 文件</label>
-                        <input type="file" class="form-control" id="catalogImportFile" accept=".csv">
+                        <label class="form-label">导入类型</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="catalogImportType" id="catalogImportTypeTemplate" value="template" checked>
+                                <label class="form-check-label" for="catalogImportTypeTemplate">系统模板文件导入</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="catalogImportType" id="catalogImportTypeSupplierQuote" value="supplierQuote">
+                                <label class="form-check-label" for="catalogImportTypeSupplierQuote">供应商报价表导入</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="catalogImportAsNextCost">
-                        <label class="form-check-label" for="catalogImportAsNextCost">导入为下期成本价</label>
+                    <div id="catalogTemplateImportPanel">
+                        <div class="mb-3">
+                            <label class="form-label">系统模板 CSV 文件</label>
+                            <input type="file" class="form-control" id="catalogImportFile" accept=".csv">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="catalogImportAsNextCost">
+                            <label class="form-check-label" for="catalogImportAsNextCost">导入为下期成本价</label>
+                        </div>
+                        <div class="mb-0">
+                            <label class="form-label">生效时间</label>
+                            <input type="datetime-local" class="form-control" id="catalogImportEffectiveAt" disabled>
+                            <small class="text-muted">勾选“导入为下期成本价”后可选择生效时间。</small>
+                        </div>
                     </div>
-                    <div class="mb-0">
-                        <label class="form-label">生效时间</label>
-                        <input type="datetime-local" class="form-control" id="catalogImportEffectiveAt" disabled>
-                        <small class="text-muted">勾选“导入为下期成本价”后可选择生效时间。</small>
+                    <div id="catalogSupplierQuoteImportPanel" class="d-none">
+                        <div class="mb-3">
+                            <label class="form-label">供应商报价表文件</label>
+                            <input type="file" class="form-control" id="catalogSupplierQuoteImportFile" accept=".csv,.xls,.xlsx">
+                            <small class="text-muted">导入前请在报价表表头中标注字段用途：供应商套餐 ID 或编码列的表头末尾追加 <code>[provider_package_code]</code>，价格列的表头末尾追加 <code>[provider_package_price]</code>，例如 <code>data_bundle_id[provider_package_code]</code>、<code>channel_price[provider_package_price]</code>。</small>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">供应商 <span class="text-danger">*</span></label>
+                                <select class="form-select" id="catalogSupplierQuoteSupplier">
+                                    <option value="">请选择</option>
+                                    <option value="eSIM 全球供">eSIM 全球供</option>
+                                    <option value="跨境 eSIM 源">跨境 eSIM 源</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">计费方式</label>
+                                <select class="form-select" id="catalogSupplierQuoteBilling">
+                                    <option value="">不指定</option>
+                                    <option value="套餐">套餐</option>
+                                    <option value="每GB">每GB</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">状态</label>
+                                <select class="form-select" id="catalogSupplierQuoteStatus">
+                                    <option value="">不指定</option>
+                                    <option value="在售">在售</option>
+                                    <option value="禁售">禁售</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="catalogSupplierQuoteSyncAddonCost">
+                                    <label class="form-check-label" for="catalogSupplierQuoteSyncAddonCost">按供应商套餐流量均价同步加油包成本价</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1254,17 +1308,35 @@
             });
 
             document.getElementById('catalogImportConfirm').addEventListener('click', function () {
+                var importTypeInput = document.querySelector('input[name="catalogImportType"]:checked');
+                var importType = importTypeInput ? importTypeInput.value : 'template';
                 var fileInput = document.getElementById('catalogImportFile');
                 var asNextCost = document.getElementById('catalogImportAsNextCost');
                 var effectiveAt = document.getElementById('catalogImportEffectiveAt');
-                if (!fileInput.files || !fileInput.files.length) return alert('请选择 CSV 文件');
-                if (asNextCost && asNextCost.checked && (!effectiveAt || !effectiveAt.value)) return alert('请选择生效时间');
-                bootstrap.Modal.getInstance(document.getElementById('catalogBatchImportModal')).hide();
-                var msg = '已提交导入：' + fileInput.files[0].name;
-                if (asNextCost && asNextCost.checked) {
-                    msg += '\n导入类型：下期成本价';
-                    msg += '\n生效时间：' + effectiveAt.value.replace('T', ' ');
+                var supplierQuoteFileInput = document.getElementById('catalogSupplierQuoteImportFile');
+                var supplierQuoteSupplier = document.getElementById('catalogSupplierQuoteSupplier');
+                var supplierQuoteBilling = document.getElementById('catalogSupplierQuoteBilling');
+                var supplierQuoteStatus = document.getElementById('catalogSupplierQuoteStatus');
+                var supplierQuoteSyncAddonCost = document.getElementById('catalogSupplierQuoteSyncAddonCost');
+                var msg = '';
+                if (importType === 'supplierQuote') {
+                    if (!supplierQuoteFileInput.files || !supplierQuoteFileInput.files.length) return alert('请选择供应商报价表文件');
+                    if (!supplierQuoteSupplier.value) return alert('请选择供应商');
+                    msg = '已提交供应商报价表导入：' + supplierQuoteFileInput.files[0].name;
+                    msg += '\n供应商：' + supplierQuoteSupplier.value;
+                    msg += '\n计费方式：' + (supplierQuoteBilling.value || '不指定');
+                    msg += '\n状态：' + (supplierQuoteStatus.value || '不指定');
+                    msg += '\n同步加油包成本价：' + (supplierQuoteSyncAddonCost.checked ? '是' : '否');
+                } else {
+                    if (!fileInput.files || !fileInput.files.length) return alert('请选择系统模板 CSV 文件');
+                    if (asNextCost && asNextCost.checked && (!effectiveAt || !effectiveAt.value)) return alert('请选择生效时间');
+                    msg = '已提交系统模板文件导入：' + fileInput.files[0].name;
+                    if (asNextCost && asNextCost.checked) {
+                        msg += '\n导入类型：下期成本价';
+                        msg += '\n生效时间：' + effectiveAt.value.replace('T', ' ');
+                    }
                 }
+                bootstrap.Modal.getInstance(document.getElementById('catalogBatchImportModal')).hide();
                 alert(msg);
                 fileInput.value = '';
                 if (asNextCost) asNextCost.checked = false;
@@ -1272,6 +1344,11 @@
                     effectiveAt.value = '';
                     effectiveAt.disabled = true;
                 }
+                supplierQuoteFileInput.value = '';
+                supplierQuoteSupplier.value = '';
+                supplierQuoteBilling.value = '';
+                supplierQuoteStatus.value = '';
+                supplierQuoteSyncAddonCost.checked = false;
             });
             (function () {
                 var asNextCost = document.getElementById('catalogImportAsNextCost');
@@ -1281,6 +1358,21 @@
                     effectiveAt.disabled = !this.checked;
                     if (!this.checked) effectiveAt.value = '';
                 });
+            })();
+            (function () {
+                var templatePanel = document.getElementById('catalogTemplateImportPanel');
+                var supplierQuotePanel = document.getElementById('catalogSupplierQuoteImportPanel');
+                var typeInputs = [].slice.call(document.querySelectorAll('input[name="catalogImportType"]'));
+                function syncCatalogImportType() {
+                    var selected = document.querySelector('input[name="catalogImportType"]:checked');
+                    var isSupplierQuote = selected && selected.value === 'supplierQuote';
+                    templatePanel.classList.toggle('d-none', isSupplierQuote);
+                    supplierQuotePanel.classList.toggle('d-none', !isSupplierQuote);
+                }
+                typeInputs.forEach(function (input) {
+                    input.addEventListener('change', syncCatalogImportType);
+                });
+                syncCatalogImportType();
             })();
             document.getElementById('btnOperatorExport').addEventListener('click', function () {
                 alert('运营商导出功能演示');
