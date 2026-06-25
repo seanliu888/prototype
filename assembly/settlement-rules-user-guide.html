@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>客户及供应商结算规则说明 - 使用说明</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../chrome-compatibility.css">
+    <link rel="stylesheet" href="assembly-common.css">
+    <style>
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 20px 0 10px;
+        }
+        .summary-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .summary-card h6 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .summary-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+        .formula-box {
+            background: #f6f8fa;
+            border: 1px solid #dfe4ea;
+            border-radius: 8px;
+            color: #1f2933;
+            font-family: Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 12px 0 18px;
+            padding: 12px 16px;
+            white-space: normal;
+        }
+        .status-code {
+            background: #eef5ff;
+            border-radius: 4px;
+            color: #0d6efd;
+            font-family: Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 13px;
+            padding: 2px 6px;
+        }
+        .anchor-list {
+            columns: 2;
+            padding-left: 18px;
+        }
+        .anchor-list a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .anchor-list a:hover {
+            text-decoration: underline;
+        }
+        .table {
+            font-size: 14px;
+        }
+        .table th {
+            white-space: nowrap;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #1a4a8c;
+        }
+        .help-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+        .tip-box {
+            background: linear-gradient(135deg, #eaf3ff 0%, #d7e9ff 100%);
+            border-left: 4px solid #1a4a8c;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        .tip-box.warning {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left-color: #ff9800;
+        }
+        .tip-box.success {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left-color: #4caf50;
+        }
+        .tip-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .tip-title i {
+            margin-right: 8px;
+        }
+        .tip-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin: 0;
+        }
+        .breadcrumb-item a {
+            color: #1a4a8c;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .anchor-list {
+                columns: 1;
+            }
+            .main-content {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 px-0 sidebar">
+                <div class="brand-logo">
+                    <i class="bi bi-building-gear me-2"></i>
+                    集成商管理
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="../index.html">
+                        <i class="bi bi-house-door-fill"></i>系统首页
+                    </a>
+
+                    <div class="nav-section-title">结算文档</div>
+                    <a class="nav-link active" href="settlement-rules-user-guide.html">
+                        <i class="bi bi-receipt-cutoff"></i>结算规则说明
+                    </a>
+                </nav>
+            </div>
+
+            <div class="col-md-10 main-content">
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">集成商管理</a></li>
+                        <li class="breadcrumb-item"><a href="settlement-rules-user-guide.html">结算文档</a></li>
+                        <li class="breadcrumb-item active">客户及供应商结算规则说明</li>
+                    </ol>
+                </nav>
+
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                        <div>
+                            <h1><i class="bi bi-receipt-cutoff me-2"></i>客户及供应商结算规则说明</h1>
+                            <small class="text-muted">说明自动结算、手动结算、账期归属、金额口径和异常处理规则</small>
+                        </div>
+                        <a href="index.html" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>返回集成商管理
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="help-text">
+                        <div class="section-title" id="scope">
+                            <i class="bi bi-compass-fill"></i>
+                            适用范围
+                        </div>
+                        <p>本文说明系统自动结算任务生成客户账单和供应商账单的业务规则，面向运营、财务和业务使用者。文中不展开代码实现，只解释结算对象、触发时机、金额计算、账单状态和异常处理口径。</p>
+
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <h6><i class="bi bi-person-check text-primary me-2"></i>客户销售结算</h6>
+                                <p>面向客户，账单归属客户，结算方向为 <span class="status-code">SALE</span>。</p>
+                            </div>
+                            <div class="summary-card">
+                                <h6><i class="bi bi-building-check text-success me-2"></i>供应商成本结算</h6>
+                                <p>面向供应商，账单归属供应商，结算方向为 <span class="status-code">COST</span>。</p>
+                            </div>
+                            <div class="summary-card">
+                                <h6><i class="bi bi-box-seam text-warning me-2"></i>套餐计费</h6>
+                                <p>按订单单元和购买数量一次性结算。</p>
+                            </div>
+                            <div class="summary-card">
+                                <h6><i class="bi bi-speedometer2 text-info me-2"></i>流量计费</h6>
+                                <p>按实际用量结算，默认以 MB 记录用量，按 1024 MB = 1 GB 折算金额。</p>
+                            </div>
+                        </div>
+
+                        <div class="tip-box">
+                            <div class="tip-title"><i class="bi bi-list-check"></i>目录</div>
+                            <div class="tip-content">
+                                <ul class="anchor-list mb-0">
+                                    <li><a href="#schedule">自动结算时间</a></li>
+                                    <li><a href="#manual-settlement">手动结算</a></li>
+                                    <li><a href="#period">账期归属规则</a></li>
+                                    <li><a href="#package">套餐结算规则</a></li>
+                                    <li><a href="#traffic">流量结算规则</a></li>
+                                    <li><a href="#missing-price">价格快照缺失处理</a></li>
+                                    <li><a href="#status">状态说明</a></li>
+                                    <li><a href="#summary">账期汇总规则</a></li>
+                                    <li><a href="#manual-payment">手动扣款说明</a></li>
+                                    <li><a href="#reconciliation">对账使用建议</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="section-title mt-4" id="schedule">
+                            <i class="bi bi-alarm-fill"></i>
+                            自动结算时间
+                        </div>
+                        <p>系统每天凌晨自动执行三类结算任务：</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>任务</th>
+                                        <th>默认执行时间</th>
+                                        <th>处理内容</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>套餐订单结算</td>
+                                        <td>凌晨</td>
+                                        <td>同时处理客户套餐销售结算和供应商套餐成本结算</td>
+                                    </tr>
+                                    <tr>
+                                        <td>客户流量销售结算</td>
+                                        <td>凌晨</td>
+                                        <td>处理客户侧按流量计费的销售账单</td>
+                                    </tr>
+                                    <tr>
+                                        <td>供应商流量成本结算</td>
+                                        <td>凌晨</td>
+                                        <td>处理供应商侧按流量计费的成本账单</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p>如果业务需要，也可以通过管理接口手动触发结算，并可按客户或供应商过滤处理范围。</p>
+
+                        <div class="section-title mt-4" id="manual-settlement">
+                            <i class="bi bi-play-circle-fill"></i>
+                            手动结算
+                        </div>
+                        <p>除凌晨自动结算外，使用者也可以手动触发订单结算。手动结算会按相同规则依次处理套餐订单结算、客户流量销售结算和供应商流量成本结算。</p>
+                        <p>手动结算不是重新计算所有历史账单，而是继续处理当前仍处于待结算状态的订单单元和用量记录。已经成功结算的记录不会重复生成账单。</p>
+                        <div class="tip-box success">
+                            <div class="tip-title"><i class="bi bi-check-circle"></i>适用场景</div>
+                            <div class="tip-content">
+                                <ul class="mb-0">
+                                    <li>价格快照、用量或订单状态修复后，需要尽快重新处理。</li>
+                                    <li>运营或财务需要在自动任务前提前生成账单。</li>
+                                    <li>只想处理某个客户或某个供应商范围内的待结算数据。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p>手动结算完成后，系统会刷新受影响账期的汇总金额。返回的处理数量表示本次成功进入结算处理的记录数，不等同于账单总条数或总金额。</p>
+
+                        <div class="section-title mt-4" id="period">
+                            <i class="bi bi-calendar-month-fill"></i>
+                            账期归属规则
+                        </div>
+                        <p>结算账单按月归集。系统会按“账单归属对象 + 结算方向 + 币种 + 结算月份”生成结算周期。</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>结算对象</th>
+                                        <th>账单归属</th>
+                                        <th>结算方向</th>
+                                        <th>账期日期来源</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>客户套餐销售</td>
+                                        <td>客户</td>
+                                        <td><span class="status-code">SALE</span></td>
+                                        <td>订单单元创建时间；如果为空，依次使用更新时间、接收时间、当前时间</td>
+                                    </tr>
+                                    <tr>
+                                        <td>供应商套餐成本</td>
+                                        <td>供应商</td>
+                                        <td><span class="status-code">COST</span></td>
+                                        <td>订单单元创建时间；如果为空，依次使用更新时间、接收时间、当前时间</td>
+                                    </tr>
+                                    <tr>
+                                        <td>客户流量销售</td>
+                                        <td>客户</td>
+                                        <td><span class="status-code">SALE</span></td>
+                                        <td>用量日期</td>
+                                    </tr>
+                                    <tr>
+                                        <td>供应商流量成本</td>
+                                        <td>供应商</td>
+                                        <td><span class="status-code">COST</span></td>
+                                        <td>用量日期</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tip-box">
+                            <div class="tip-title"><i class="bi bi-lightbulb"></i>示例</div>
+                            <div class="tip-content">某客户在 2026-06-10 产生一笔客户套餐销售结算，币种为 USD，则该明细进入该客户 2026-06 的 USD 销售账期。</div>
+                        </div>
+
+                        <div class="section-title mt-4" id="package">
+                            <i class="bi bi-box-fill"></i>
+                            套餐结算规则
+                        </div>
+                        <p>套餐结算只处理已经完成的订单单元。这里的“完成”指套餐已使用、已激活或超时未使用等情况，本质上是供应商侧订单已经进入不可退订状态。订单未完成、已结算或不是套餐计费的记录不会进入套餐结算。</p>
+
+                        <h5 class="mt-3">客户套餐销售</h5>
+                        <p>客户套餐销售满足以下条件时会生成结算明细：</p>
+                        <ul>
+                            <li>订单单元状态为已完成。</li>
+                            <li>客户侧计费方式为套餐计费。</li>
+                            <li>客户侧套餐结算状态为待结算。</li>
+                            <li>存在该订单单元的客户销售价格快照。</li>
+                        </ul>
+                        <div class="formula-box">结算金额 = 客户销售单价 * 数量</div>
+                        <p>数量为空时按 1 处理。价格使用下单时保存的价格快照，不读取当前价格配置，因此后续价格调整不会影响历史订单结算。</p>
+                        <ul>
+                            <li>预付客户：<span class="status-code">NOT_REQUIRED</span>。套餐销售通常已在订单流程中完成冻结或扣款，结算明细只作为账单记录。</li>
+                            <li>后付客户：<span class="status-code">UNPAID</span>。表示已入账但尚未收款，后续由收款或账期结算流程处理。</li>
+                        </ul>
+
+                        <h5 class="mt-4">供应商套餐成本</h5>
+                        <p>供应商套餐成本满足以下条件时会生成结算明细：</p>
+                        <ul>
+                            <li>订单单元状态为已完成。</li>
+                            <li>供应商侧计费方式为套餐计费。</li>
+                            <li>供应商侧套餐结算状态为待结算。</li>
+                            <li>存在该订单单元的供应商成本价格快照。</li>
+                        </ul>
+                        <div class="formula-box">结算金额 = 供应商成本单价 * 数量</div>
+                        <p>供应商侧账单付款状态统一为 <span class="status-code">UNPAID</span>，表示待付款。系统当前不为供应商维护余额账户，实际付款完成后再由后续财务流程更新付款状态。</p>
+
+                        <div class="section-title mt-4" id="traffic">
+                            <i class="bi bi-activity"></i>
+                            流量结算规则
+                        </div>
+                        <p>流量结算基于每日用量记录。系统只处理结算状态为待结算的用量记录，并要求对应订单单元已经完成且计费方式为按流量计费。</p>
+                        <div class="formula-box">金额 = 用量(MB) / 1024 * 每 GB 单价</div>
+                        <p>客户销售价和供应商成本价都来自订单价格快照，并按供应商运营商维度匹配。也就是说，同一个订单单元在不同运营商下可以使用不同的流量单价。</p>
+
+                        <h5 class="mt-3">客户流量销售</h5>
+                        <p>客户流量销售生成的是“增量明细”。系统会记录该订单用量之前已经结算到的水位，只对新增用量入账。</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>用量快照</th>
+                                        <th>已结算水位</th>
+                                        <th>本次结算用量</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>500 MB</td>
+                                        <td>0 MB</td>
+                                        <td>500 MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>800 MB</td>
+                                        <td>500 MB</td>
+                                        <td>300 MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>800 MB</td>
+                                        <td>800 MB</td>
+                                        <td>不再生成新明细</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p>金额口径为：先按当前累计用量计算应收总额，再扣减历史已确认的客户流量销售金额；差额大于 0 时，生成本次增量结算明细。这样可以减少多次小额增量分别四舍五入带来的尾差问题。</p>
+                        <ul>
+                            <li>预付客户：如果本次增量金额大于 0，系统会立即调用支付服务确认扣款；扣款成功后明细为 <span class="status-code">PAID</span>。如果没有发生实际扣款，则为 <span class="status-code">NOT_REQUIRED</span>。</li>
+                            <li>后付客户：不立即扣款，明细为 <span class="status-code">UNPAID</span>，后续由收款或账期结算流程处理。</li>
+                        </ul>
+
+                        <h5 class="mt-4">供应商流量成本</h5>
+                        <p>供应商流量成本维护的是“累计明细”。同一供应商、同一订单单元、同一运营商、同一用量日期只保留一条成本明细；当用量增加时，系统更新这条明细为最新累计用量和最新累计成本。</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>用量快照</th>
+                                        <th>成本明细表现</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>500 MB</td>
+                                        <td>创建一条 500 MB 的成本明细</td>
+                                    </tr>
+                                    <tr>
+                                        <td>800 MB</td>
+                                        <td>更新同一条成本明细为 800 MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>800 MB</td>
+                                        <td>不产生变化</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="formula-box">供应商成本金额 = 当前累计用量(MB) / 1024 * 每 GB 成本价</div>
+                        <p>付款状态统一为 <span class="status-code">UNPAID</span>，表示待付款。</p>
+
+                        <div class="section-title mt-4" id="missing-price">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            价格快照缺失时的处理
+                        </div>
+                        <p>如果流量结算时找不到对应价格快照，系统不会直接把用量标记为已结算，而是生成或更新一条异常结算明细，方便运营或财务发现问题。</p>
+                        <div class="tip-box warning">
+                            <div class="tip-title"><i class="bi bi-exclamation-circle"></i>异常明细特点</div>
+                            <div class="tip-content">
+                                <ul class="mb-0">
+                                    <li>账单状态为 <span class="status-code">PENDING</span>。</li>
+                                    <li>付款状态为 <span class="status-code">FAILED</span>。</li>
+                                    <li>单价和金额为 0。</li>
+                                    <li>备注会标明缺少客户销售价格快照或供应商成本价格快照，并记录运营商信息。</li>
+                                    <li>原用量仍保持待结算，价格修复后可在下一轮结算继续处理。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p>套餐结算如果缺少价格快照，则不会生成明细，也不会把订单单元标记为已结算，需要补齐价格快照后重新结算。</p>
+
+                        <div class="section-title mt-4" id="status">
+                            <i class="bi bi-tags-fill"></i>
+                            状态说明
+                        </div>
+                        <h5>订单或用量结算状态</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>状态</th>
+                                        <th>含义</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="status-code">PENDING</span></td>
+                                        <td>待结算，后续自动任务或手动触发会继续处理</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-code">SETTLED</span></td>
+                                        <td>当前订单单元或用量快照已完成结算处理</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-code">NOT_REQUIRED</span></td>
+                                        <td>该方向不需要进行流量结算，例如套餐计费方向不需要按流量入账</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5 class="mt-3">账单状态</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>状态</th>
+                                        <th>含义</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="status-code">PENDING</span></td>
+                                        <td>待确认或异常明细，常见于价格快照缺失</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-code">CONFIRMED</span></td>
+                                        <td>已确认入账，可参与账期汇总</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-code">REVERSED</span></td>
+                                        <td>已冲销</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5 class="mt-3">付款状态</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>状态</th>
+                                        <th>含义</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="status-code">NOT_REQUIRED</span></td>
+                                        <td>无需后续付款动作，常见于预付套餐或无实际扣款的预付流量记录</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-code">UNPAID</span></td>
+                                        <td>待收款、待扣款或待付款</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-code">PAID</span></td>
+                                        <td>已完成资金动作</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="status-code">FAILED</span></td>
+                                        <td>付款或账单异常，需要人工处理或补充数据</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="section-title mt-4" id="summary">
+                            <i class="bi bi-calculator-fill"></i>
+                            账期汇总规则
+                        </div>
+                        <p>每轮结算完成后，系统会刷新受影响账期的汇总金额。汇总字段包括总金额、套餐金额、流量金额和已结算流量。</p>
+                        <p>账期汇总以结算明细为准，只统计有效明细。使用者查看账期金额时，应以账期汇总和明细列表共同核对；如果出现 <span class="status-code">PENDING</span> 或 <span class="status-code">FAILED</span> 明细，应先处理异常再确认账期。</p>
+
+                        <div class="section-title mt-4" id="manual-payment">
+                            <i class="bi bi-credit-card-2-front-fill"></i>
+                            手动扣款说明
+                        </div>
+                        <p>手动扣款用于处理客户侧已经入账但尚未收款的结算明细。它只支持客户账单，不处理供应商成本账单。</p>
+
+                        <h5>账期级扣款</h5>
+                        <p>账期级扣款会处理指定客户账期下所有付款状态为 <span class="status-code">UNPAID</span> 的结算明细。系统会分批查找未支付明细，并逐条执行扣款或标记已支付。</p>
+                        <ul>
+                            <li>只支持客户账期，即账单归属为客户的账期。</li>
+                            <li>只处理付款状态为 <span class="status-code">UNPAID</span> 的明细。</li>
+                            <li>金额大于 0 的明细，会从客户余额账户扣款，并生成余额交易流水。</li>
+                            <li>金额小于或等于 0 的明细，不生成扣款流水，但会直接标记为 <span class="status-code">PAID</span>。</li>
+                            <li>已经是 <span class="status-code">PAID</span>、<span class="status-code">NOT_REQUIRED</span> 或 <span class="status-code">FAILED</span> 的明细不会被账期级扣款处理。</li>
+                            <li>如果客户余额账户不可用，或扣款后余额会超过允许的信用额度，扣款会失败，明细不会被标记为已支付。</li>
+                        </ul>
+                        <p>账期级扣款结果通常关注本次处理的未支付明细数、实际生成扣款流水的明细数、零金额或非正金额直接标记已支付的明细数，以及本次实际扣款总金额。</p>
+
+                        <h5 class="mt-3">明细级扣款</h5>
+                        <p>明细级扣款用于对单条结算明细执行扣款。它适用于只想处理某一笔客户应收明细的场景。</p>
+                        <ul>
+                            <li>只支持客户结算明细。</li>
+                            <li>明细必须归属于对应客户账期。</li>
+                            <li>明细付款状态必须为 <span class="status-code">UNPAID</span>。</li>
+                            <li>金额大于 0 时生成余额交易流水。</li>
+                            <li>金额小于或等于 0 时直接标记为 <span class="status-code">PAID</span>，不生成扣款流水。</li>
+                        </ul>
+                        <p>如果明细不存在、不是客户明细、已经支付、无需支付、支付失败或归属账期不匹配，系统会拒绝本次扣款。</p>
+
+                        <h5 class="mt-3">扣款与付款状态</h5>
+                        <p>手动扣款成功后，结算明细付款状态会更新为 <span class="status-code">PAID</span>。金额大于 0 的明细会记录余额交易流水号，方便后续与客户余额流水对账。</p>
+                        <p>扣款按结算明细维度保持幂等。同一笔明细如果已经生成过扣款流水，再次触发时不会重复扣款。</p>
+                        <p>供应商侧账单的 <span class="status-code">UNPAID</span> 表示待付款，但不通过这里的扣款能力处理。供应商付款仍由线下或独立财务流程完成，完成后再更新付款状态。</p>
+
+                        <div class="section-title mt-4" id="reconciliation">
+                            <i class="bi bi-clipboard-check-fill"></i>
+                            对账使用建议
+                        </div>
+                        <ul>
+                            <li>客户侧对账时，优先按客户、月份、币种、<span class="status-code">SALE</span> 方向查看账期。</li>
+                            <li>供应商侧对账时，优先按供应商、月份、币种、<span class="status-code">COST</span> 方向查看账期。</li>
+                            <li>套餐类账单按订单单元核对数量和单价。</li>
+                            <li>客户流量类账单按增量明细核对，每条明细代表某次新增用量产生的应收金额。</li>
+                            <li>供应商流量类账单按累计明细核对，同一日期同一运营商通常只看最新一条明细金额。</li>
+                            <li>发现价格快照缺失时，先补齐价格快照，再重新触发结算。</li>
+                            <li>后付客户和供应商的 <span class="status-code">UNPAID</span> 不代表结算失败，只表示资金动作尚未完成。</li>
+                            <li>客户手动扣款后，应同时核对结算明细付款状态和客户余额交易流水。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="index.html" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>返回集成商管理
+                    </a>
+                    <a href="#scope" class="btn btn-primary">
+                        回到顶部 <i class="bi bi-arrow-up ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
