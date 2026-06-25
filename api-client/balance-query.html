@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open API 余额查询</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            color: #1f2937;
+            background: #f4f6f8;
+        }
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 20px 40px;
+        }
+        .header { margin-bottom: 20px; }
+        h1 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            line-height: 1.3;
+        }
+        h2 {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        .subtle {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .tab-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 8px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #374151;
+            background: #fff;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .tab-link.active {
+            border-color: #2563eb;
+            color: #fff;
+            background: #2563eb;
+        }
+        .panel {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+        }
+        input, textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font: inherit;
+            color: #111827;
+            background: #fff;
+        }
+        input:focus, textarea:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #2563eb;
+        }
+        textarea {
+            min-height: 190px;
+            resize: vertical;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        button {
+            border: 0;
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #2563eb;
+            color: #fff;
+            min-height: 40px;
+        }
+        button.secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #f3f4f6;
+            color: #374151;
+        }
+        .status.ok {
+            background: #ecfdf5;
+            color: #047857;
+        }
+        .status.error {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+        .balance-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 16px;
+            align-items: center;
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+            padding: 20px;
+            background: #eff6ff;
+        }
+        .balance-label {
+            margin-bottom: 6px;
+            color: #1d4ed8;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .balance-value {
+            color: #111827;
+            font-size: 34px;
+            line-height: 1.2;
+            font-weight: 700;
+            word-break: break-word;
+        }
+        .balance-meta {
+            color: #6b7280;
+            font-size: 13px;
+            text-align: right;
+        }
+        @media (max-width: 760px) {
+            .grid { grid-template-columns: 1fr; }
+            .panel-title, .balance-card {
+                align-items: stretch;
+                grid-template-columns: 1fr;
+            }
+            .balance-meta { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <section class="header">
+        <h1>Open API 余额查询</h1>
+        <div class="subtle">调用 POST /api/open/v1/balance/query，按当前项目签名规则自动生成请求头。</div>
+        <nav class="tabs" aria-label="Open API 功能切换">
+            <a class="tab-link" href="order-search.html">订单查询</a>
+            <a class="tab-link" href="esim-search.html">eSIM 查询</a>
+            <a class="tab-link" href="package-search.html">套餐查询</a>
+            <a class="tab-link" href="order-create.html">订购套餐</a>
+            <a class="tab-link" href="topup-create.html">订购加油包</a>
+            <a class="tab-link active" href="balance-query.html">余额查询</a>
+        </nav>
+    </section>
+
+    <section class="panel">
+        <div class="panel-title">
+            <h2>接口配置</h2>
+            <button id="resetConfigBtn" class="secondary" type="button">重置配置</button>
+        </div>
+        <div class="grid">
+            <div class="field">
+                <label for="baseUrl">服务地址</label>
+                <input id="baseUrl" value="https://esimapi.esimtours.com" placeholder="例如：https://esimapi.esimtours.com">
+            </div>
+            <div class="field">
+                <label for="accessKey">AccessKey</label>
+                <input id="accessKey" placeholder="请输入 X-Access-Key">
+            </div>
+            <div class="field">
+                <label for="accessSecret">AccessSecret</label>
+                <input id="accessSecret" type="password" placeholder="请输入 AccessSecret">
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-title">
+            <h2>查询余额</h2>
+            <div class="subtle">该接口无需请求 Body。</div>
+        </div>
+        <div class="actions">
+            <button id="queryBtn" type="button">查询余额</button>
+            <button id="clearBtn" class="secondary" type="button">清空结果</button>
+        </div>
+        <div id="status" class="status">待请求</div>
+    </section>
+
+    <section class="panel">
+        <div class="balance-card">
+            <div>
+                <div class="balance-label">合作伙伴账户余额</div>
+                <div id="balanceValue" class="balance-value">-</div>
+            </div>
+            <div id="balanceMeta" class="balance-meta">暂无查询结果</div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="field">
+            <label for="responseText">原始响应</label>
+            <textarea id="responseText" readonly></textarea>
+        </div>
+    </section>
+</main>
+
+<script src="common.js"></script>
+<script>
+    var apiPath = "/api/open/v1/balance/query";
+    var successCode = "000000";
+    var configStorageKey = "esimOpenApiClientConfig";
+
+    function renderBalance(data) {
+        var balance = data && data.balance != null ? data.balance : "-";
+        byId("balanceValue").textContent = balance;
+        byId("balanceMeta").textContent = data && data.balance != null
+            ? "更新时间：" + new Date().toLocaleString()
+            : "暂无查询结果";
+    }
+
+    async function queryBalance() {
+        saveConfig();
+
+        var baseUrl = trimTrailingSlash(byId("baseUrl").value);
+        var accessKey = byId("accessKey").value.trim();
+        var accessSecret = byId("accessSecret").value;
+        if (!baseUrl || !accessKey || !accessSecret) {
+            setStatus("请先填写服务地址、AccessKey、AccessSecret。", "error");
+            return;
+        }
+
+        var btn = byId("queryBtn");
+        btn.disabled = true;
+        setStatus("请求中...");
+
+        try {
+            var headers = await buildHeaders(accessKey, accessSecret);
+            var response = await fetch(baseUrl + apiPath, {
+                method: "POST",
+                headers: headers
+            });
+            var text = await response.text();
+            byId("responseText").value = text;
+
+            var json;
+            try {
+                json = text ? JSON.parse(text) : null;
+            } catch (parseError) {
+                setStatus("HTTP " + response.status + "，响应不是 JSON。", "error");
+                renderBalance(null);
+                return;
+            }
+
+            if (!response.ok) {
+                setStatus("HTTP " + response.status + " 请求失败。", "error");
+                renderBalance(null);
+                return;
+            }
+
+            if (!json || json.code !== successCode) {
+                var code = json && json.code ? json.code : "无 code";
+                var message = json && json.message ? json.message : "接口未返回成功码";
+                setStatus("接口返回错误：" + code + " " + message, "error");
+                renderBalance(json ? json.data : null);
+                return;
+            }
+
+            setStatus("查询成功：" + successCode, "ok");
+            renderBalance(json.data);
+        } catch (error) {
+            setStatus("请求异常：" + error.message, "error");
+            renderBalance(null);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    byId("queryBtn").addEventListener("click", queryBalance);
+    byId("clearBtn").addEventListener("click", function () {
+        byId("responseText").value = "";
+        renderBalance(null);
+        setStatus("已清空结果。");
+    });
+    byId("resetConfigBtn").addEventListener("click", function () {
+        resetConfig();
+        setStatus("接口配置已重置。");
+    });
+
+    bindConfigInputs();
+    loadSavedConfig();
+    renderBalance(null);
+</script>
+</body>
+</html>
