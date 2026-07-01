@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSIM 商店 - eSIM TOURS Business</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">
+                    <i class="bi bi-buildings"></i>
+                </div>
+                <div>
+                    <div class="brand-name">eSIM TOURS</div>
+                    <div class="brand-subtitle">Business</div>
+                </div>
+            </div>
+
+            <nav class="nav" aria-label="主菜单">
+                <a class="nav-item" href="index.html">
+                    <i class="bi bi-house-door nav-icon"></i>
+                    <span>首页</span>
+                </a>
+                <a class="nav-item active" href="esim-store.html">
+                    <i class="bi bi-shop nav-icon"></i>
+                    <span>eSIM 商店</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="bi bi-sim nav-icon"></i>
+                    <span>eSIM 管理</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="bi bi-receipt nav-icon"></i>
+                    <span>订单</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="bi bi-key nav-icon"></i>
+                    <span>API 集成</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="bi bi-people nav-icon"></i>
+                    <span>用户</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="bi bi-wallet2 nav-icon"></i>
+                    <span>余额</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <i class="bi bi-file-earmark-text nav-icon"></i>
+                    <span>账单</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div>
+                    <h1>eSIM 商店</h1>
+                    <p>搜索目的地，选择套餐并加入购物车</p>
+                </div>
+                <div class="account">
+                    <span class="account-name">Admin</span>
+                    <span class="account-role">管理员</span>
+                </div>
+            </header>
+
+            <section class="store-layout">
+                <div class="store-main">
+                    <div class="search-bar">
+                        <i class="bi bi-search"></i>
+                        <input id="packageSearch" type="text" value="Mamma Mia" aria-label="按套餐名称搜索">
+                        <button id="clearSearch" type="button" aria-label="清空搜索">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="filter-panel" aria-label="套餐筛选条件">
+                        <label class="filter-field">
+                            <span>类型</span>
+                            <select id="typeFilter">
+                                <option value="">不限</option>
+                                <option>国家</option>
+                                <option>区域</option>
+                            </select>
+                        </label>
+                        <label class="filter-field">
+                            <span>覆盖范围</span>
+                            <select id="coverageFilter">
+                                <option>意大利</option>
+                                <option>澳大利亚</option>
+                                <option>巴西</option>
+                                <option>加拿大</option>
+                                <option>德国</option>
+                                <option>法国</option>
+                                <option>日本</option>
+                                <option>新加坡</option>
+                                <option>英国</option>
+                                <option>美国</option>
+                            </select>
+                        </label>
+                        <div class="filter-field">
+                            <span>流量</span>
+                            <div class="traffic-control">
+                                <input id="trafficValue" type="number" min="0" value="" placeholder="不限" aria-label="流量值">
+                                <select id="trafficUnit" aria-label="流量单位">
+                                    <option>GB</option>
+                                    <option>MB</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="filter-field">
+                            <span>有效期（天）</span>
+                            <input id="validityDays" type="number" min="0" value="" placeholder="不限">
+                        </label>
+                        <div class="filter-actions">
+                            <button id="searchPlans" type="button" class="primary-btn">搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-heading">
+                            <div id="packageFlag" class="flag-card">
+                                <span class="flag-green"></span>
+                                <span class="flag-white"></span>
+                                <span class="flag-red"></span>
+                            </div>
+                            <div>
+                                <h2 id="packageTitle">Mamma Mia <span>意大利</span></h2>
+                                <p id="packageDescription">覆盖意大利主要运营商网络，适合商务差旅与短期出行。</p>
+                            </div>
+                        </div>
+
+                        <div id="planList" class="plan-list"></div>
+                    </div>
+                </div>
+
+                <aside class="bag-panel">
+                    <div class="bag-header">
+                        <h2>购物车</h2>
+                        <span>eSIM 数量：<strong id="cartCount">0</strong></span>
+                    </div>
+
+                    <div id="cartList" class="bag-list"></div>
+
+                    <div class="compat-tip">
+                        <i class="bi bi-info-circle"></i>
+                        <span>请在购买前确认设备支持 eSIM。</span>
+                    </div>
+
+                    <div class="summary">
+                        <div>
+                            <span>净价合计</span>
+                            <strong id="netTotal">USD $0.00</strong>
+                        </div>
+                        <div>
+                            <span>预计利润</span>
+                            <span id="marginTotal">USD $0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="credit-box">
+                        <span>账户余额</span>
+                        <strong>USD $125.00</strong>
+                    </div>
+
+                    <button type="button" class="primary-btn">提交订单</button>
+                </aside>
+            </section>
+        </main>
+    </div>
+    <script>
+        const plans = [
+            { id: "it-1gb-7", name: "Mamma Mia", type: "国家", coverage: "意大利", data: 1, unit: "GB", days: 7, price: 3, retail: 4.5, flag: "italy", description: "覆盖意大利主要运营商网络，适合商务差旅与短期出行。" },
+            { id: "it-2gb-15", name: "Mamma Mia", type: "国家", coverage: "意大利", data: 2, unit: "GB", days: 15, price: 7.5, retail: 9, flag: "italy", description: "覆盖意大利主要运营商网络，适合商务差旅与短期出行。" },
+            { id: "it-3gb-30", name: "Mamma Mia", type: "国家", coverage: "意大利", data: 3, unit: "GB", days: 30, price: 10, retail: 12, flag: "italy", description: "覆盖意大利主要运营商网络，适合商务差旅与短期出行。" },
+            { id: "it-5gb-30", name: "Mamma Mia", type: "国家", coverage: "意大利", data: 5, unit: "GB", days: 30, price: 13, retail: 15, flag: "italy", description: "覆盖意大利主要运营商网络，适合商务差旅与短期出行。" },
+            { id: "jp-1gb-7", name: "Sakura Go", type: "国家", coverage: "日本", data: 1, unit: "GB", days: 7, price: 4, retail: 6, flag: "japan", description: "覆盖日本主要城市，适合短期出差和旅游。" },
+            { id: "us-5gb-30", name: "Freedom Data", type: "国家", coverage: "美国", data: 5, unit: "GB", days: 30, price: 15, retail: 22, flag: "usa", description: "覆盖美国多州网络，适合商务行程和长期停留。" },
+            { id: "eu-10gb-30", name: "Euro Connect", type: "区域", coverage: "欧洲", data: 10, unit: "GB", days: 30, price: 28, retail: 39, flag: "europe", description: "覆盖欧洲多国，适合跨国差旅。" },
+            { id: "asia-500mb-3", name: "Asia Lite", type: "区域", coverage: "亚洲", data: 500, unit: "MB", days: 3, price: 2, retail: 4, flag: "asia", description: "覆盖亚洲热门目的地，适合临时联网。" }
+        ];
+
+        const cart = new Map([
+            ["it-3gb-30", 2],
+            ["it-5gb-30", 1]
+        ]);
+        const planQty = new Map();
+
+        const coverageOptions = {
+            "": ["不限", "意大利", "澳大利亚", "巴西", "加拿大", "德国", "法国", "日本", "新加坡", "英国", "美国", "亚洲", "欧洲", "北美", "南美", "中东", "全球"],
+            "国家": ["意大利", "澳大利亚", "巴西", "加拿大", "德国", "法国", "日本", "新加坡", "英国", "美国"],
+            "区域": ["亚洲", "欧洲", "北美", "南美", "中东", "全球"]
+        };
+
+        const searchInput = document.getElementById("packageSearch");
+        const clearSearch = document.getElementById("clearSearch");
+        const typeFilter = document.getElementById("typeFilter");
+        const coverageFilter = document.getElementById("coverageFilter");
+        const trafficValue = document.getElementById("trafficValue");
+        const trafficUnit = document.getElementById("trafficUnit");
+        const validityDays = document.getElementById("validityDays");
+        const planList = document.getElementById("planList");
+        const cartList = document.getElementById("cartList");
+        const cartCount = document.getElementById("cartCount");
+        const netTotal = document.getElementById("netTotal");
+        const marginTotal = document.getElementById("marginTotal");
+        const packageTitle = document.getElementById("packageTitle");
+        const packageDescription = document.getElementById("packageDescription");
+        const packageFlag = document.getElementById("packageFlag");
+
+        function money(value) {
+            return `USD $${value.toFixed(2)}`;
+        }
+
+        function flagMarkup() {
+            return '<span class="flag-green"></span><span class="flag-white"></span><span class="flag-red"></span>';
+        }
+
+        function getPlan(id) {
+            return plans.find((plan) => plan.id === id);
+        }
+
+        function updateCoverageOptions() {
+            const current = coverageFilter.value;
+            coverageFilter.innerHTML = coverageOptions[typeFilter.value]
+                .map((item) => `<option value="${item === "不限" ? "" : item}"${item === current ? " selected" : ""}>${item}</option>`)
+                .join("");
+        }
+
+        function filteredPlans() {
+            const keyword = searchInput.value.trim().toLowerCase();
+            const traffic = Number(trafficValue.value);
+            const days = Number(validityDays.value);
+            return plans.filter((plan) => {
+                const matchKeyword = !keyword || plan.name.toLowerCase().includes(keyword);
+                const matchType = !typeFilter.value || plan.type === typeFilter.value;
+                const matchCoverage = !coverageFilter.value || plan.coverage === coverageFilter.value;
+                const matchTraffic = !traffic || (plan.data === traffic && plan.unit === trafficUnit.value);
+                const matchDays = !days || plan.days === days;
+                return matchKeyword && matchType && matchCoverage && matchTraffic && matchDays;
+            });
+        }
+
+        function renderPackageHeading(items) {
+            const first = items[0] || plans.find((plan) => plan.coverage === coverageFilter.value) || plans[0];
+            packageTitle.innerHTML = `${first.name} <span>${first.coverage}</span>`;
+            packageDescription.textContent = first.description;
+            packageFlag.innerHTML = flagMarkup();
+        }
+
+        function renderPlans() {
+            const items = filteredPlans();
+            renderPackageHeading(items);
+
+            if (!items.length) {
+                planList.innerHTML = '<div class="empty-state">没有找到符合条件的套餐</div>';
+                return;
+            }
+
+            planList.innerHTML = items.map((plan) => {
+                const qty = planQty.get(plan.id) || 0;
+                return `
+                    <article class="plan-item">
+                        <div class="plan-info">
+                            <h3>${plan.name} <span>${plan.coverage}</span></h3>
+                            <p>${plan.data} ${plan.unit} · ${plan.days} 天 | <strong>${money(plan.price)}</strong></p>
+                            <small>零售价：${money(plan.retail)}</small>
+                        </div>
+                        <div class="plan-actions">
+                            <button type="button" class="qty-btn" data-plan-minus="${plan.id}">−</button>
+                            <span class="qty-box">${qty}</span>
+                            <button type="button" class="qty-btn" data-plan-plus="${plan.id}">＋</button>
+                            <button type="button" class="outline-btn" data-add-cart="${plan.id}">加入购物车</button>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderCart() {
+            const entries = Array.from(cart.entries())
+                .map(([id, qty]) => ({ plan: getPlan(id), qty }))
+                .filter((item) => item.plan && item.qty > 0);
+
+            const count = entries.reduce((sum, item) => sum + item.qty, 0);
+            const net = entries.reduce((sum, item) => sum + item.plan.price * item.qty, 0);
+            const margin = entries.reduce((sum, item) => sum + (item.plan.retail - item.plan.price) * item.qty, 0);
+
+            cartCount.textContent = count;
+            netTotal.textContent = money(net);
+            marginTotal.textContent = money(margin);
+
+            if (!entries.length) {
+                cartList.innerHTML = '<div class="empty-state">购物车暂无套餐</div>';
+                return;
+            }
+
+            cartList.innerHTML = entries.map(({ plan, qty }) => `
+                <article class="bag-item">
+                    <div class="bag-plan">
+                        <div class="mini-flag">${flagMarkup()}</div>
+                        <div>
+                            <h3>${plan.name} <span>${plan.coverage}</span></h3>
+                            <p>${plan.data} ${plan.unit} · ${plan.days} 天</p>
+                            <strong>${money(plan.price)}</strong>
+                        </div>
+                        <button type="button" class="trash-btn" data-remove-cart="${plan.id}" aria-label="删除">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                    <div class="bag-actions">
+                        <button type="button" class="qty-btn" data-cart-minus="${plan.id}">−</button>
+                        <span class="qty-box">${qty}</span>
+                        <button type="button" class="qty-btn" data-cart-plus="${plan.id}">＋</button>
+                        <strong>${money(plan.price * qty)}</strong>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function renderAll() {
+            renderPlans();
+            renderCart();
+        }
+
+        function changePlanQty(id, delta) {
+            const next = Math.max(0, (planQty.get(id) || 0) + delta);
+            planQty.set(id, next);
+            renderPlans();
+        }
+
+        function changeCartQty(id, delta) {
+            const next = Math.max(0, (cart.get(id) || 0) + delta);
+            if (next === 0) {
+                cart.delete(id);
+            } else {
+                cart.set(id, next);
+            }
+            renderCart();
+        }
+
+        function addToCart(id) {
+            const qty = planQty.get(id) || 1;
+            cart.set(id, (cart.get(id) || 0) + qty);
+            planQty.set(id, 0);
+            renderAll();
+        }
+
+        typeFilter.addEventListener("change", () => {
+            updateCoverageOptions();
+        });
+
+        clearSearch.addEventListener("click", () => {
+            searchInput.value = "";
+        });
+
+        document.getElementById("searchPlans").addEventListener("click", renderPlans);
+
+        document.addEventListener("click", (event) => {
+            const target = event.target.closest("[data-plan-minus], [data-plan-plus], [data-add-cart], [data-cart-minus], [data-cart-plus], [data-remove-cart]");
+            if (!target) return;
+
+            if (target.dataset.planMinus) changePlanQty(target.dataset.planMinus, -1);
+            if (target.dataset.planPlus) changePlanQty(target.dataset.planPlus, 1);
+            if (target.dataset.addCart) addToCart(target.dataset.addCart);
+            if (target.dataset.cartMinus) changeCartQty(target.dataset.cartMinus, -1);
+            if (target.dataset.cartPlus) changeCartQty(target.dataset.cartPlus, 1);
+            if (target.dataset.removeCart) {
+                cart.delete(target.dataset.removeCart);
+                renderCart();
+            }
+        });
+
+        updateCoverageOptions();
+        renderAll();
+    </script>
+</body>
+</html>
