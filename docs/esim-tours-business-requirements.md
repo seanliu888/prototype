@@ -1,19 +1,19 @@
-# eSIM TOURS Partners 功能需求文档
+# eSIM TOURS Business 功能需求文档
 
 ## 一、需求背景
 
-左侧菜单面向可登录 eSIM TOURS Partners 平台的企业成员，承载 eSIM 采购、资产管理、订单管理、API 对接、团队用户、额度账务和账单等核心业务模块。
+面向可登录 eSIM TOURS Business 平台的企业成员，承载 eSIM 采购、资产管理、订单管理、API 对接、团队用户、额度账务和账单等核心业务模块。
 
 ## 二、角色定义
 
-eSIM TOURS Partners 平台主要包含以下 4 类角色：
+eSIM TOURS Business 平台主要包含以下 4 类角色：
 
 | 角色 | 定义 | 平台访问范围 |
 | --- | --- | --- |
-| 管理员（Admin） | 拥有 eSIM TOURS Partners 平台全部功能权限，可管理业务、财务、用户和 API 相关能力 | 全量访问 |
+| 管理员（Admin） | 拥有 eSIM TOURS Business 平台全部功能权限，可管理业务、财务、用户和 API 相关能力 | 全量访问 |
 | 运营（Operations） | 拥有核心运营功能权限，可进行 eSIM 采购、订单处理、eSIM 管理、用户分配和用量监控 | 运营访问 |
 | 财务（Finance） | 拥有财务相关功能权限，可查看订单、额度、账单和套餐相关信息 | 财务访问 |
-| 员工（Employee） | 只能访问组织分配或共享给自己的 eSIM，不具备 eSIM TOURS Partners 平台后台访问权限 | 不访问平台后台 |
+| 员工（Employee） | 只能访问组织分配或共享给自己的 eSIM，不具备 eSIM TOURS Business 平台后台访问权限 | 不访问平台后台 |
 
 说明：
 
@@ -33,8 +33,6 @@ eSIM TOURS Partners 平台主要包含以下 4 类角色：
 | Users | 可访问 | 可访问用户分配相关功能 | 不可访问 | 不可访问平台后台 |
 | Credits | 可访问 | 不可访问 | 可访问 | 不可访问平台后台 |
 | Billing | 可访问 | 不可访问 | 可访问 | 不可访问平台后台 |
-
-说明：矩阵以角色说明为基准。`Top-up`、`Monitor usage`、`Package offering` 未作为独立左侧菜单出现，当前分别归入 Credits、eSIMs/Orders、eSIMs store。
 
 ## 三、菜单信息架构
 
